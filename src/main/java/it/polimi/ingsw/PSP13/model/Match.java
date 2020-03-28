@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.model;
 
+import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Coords;
@@ -78,6 +79,13 @@ public class Match {
     public void setCell(Coords coords, Level level)
     {
         map.setCell(coords, level);
+    }
+
+    public Cell getCell(Coords coords) { return this.map.getCell(coords); }
+
+    public int getHeight(Coords coords)
+    {
+        return map.getCell(coords).getLevel().getHeight();
     }
 
     public List<Player> getPlayers() {

@@ -30,7 +30,7 @@ public class Map {
      * @param coords
      * @return false if coords' attributes break the matrix boundaries, true if coords is a legal object
      */
-    public boolean isLegal(Coords coords)
+    public static boolean isLegal(Coords coords)
     {
         if(coords.getX()>=5 || coords.getX()<0)
             return false;

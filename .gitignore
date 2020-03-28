@@ -25,4 +25,4 @@ hs_err_pid*
 #Intellij and Maven config files
 target
 .idea
-
+*.iml

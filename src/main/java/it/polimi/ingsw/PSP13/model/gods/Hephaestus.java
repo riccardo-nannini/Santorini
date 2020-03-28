@@ -13,4 +13,9 @@ public class Hephaestus extends Turn {
     public void checkBuild() {
         super.checkBuild();
     }
+
+    public Hephaestus()
+    {
+        super();
+    }
 }

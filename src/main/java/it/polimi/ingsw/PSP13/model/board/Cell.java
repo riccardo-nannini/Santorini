@@ -12,4 +12,9 @@ public class Cell {
         this.level = level;
     }
 
+    public Cell()
+    {
+        level = Level.Floor;
+    }
+
 }

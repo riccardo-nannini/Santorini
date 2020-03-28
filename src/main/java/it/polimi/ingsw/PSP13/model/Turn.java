@@ -2,6 +2,19 @@ package it.polimi.ingsw.PSP13.model;
 
 public class Turn {
 
+    protected Match match;
+
+    public Turn(Match match)
+    {
+        this.match = match;
+    }
+
+    public Turn()
+    {
+
+    }
+
+
     public void move()
     {}
 

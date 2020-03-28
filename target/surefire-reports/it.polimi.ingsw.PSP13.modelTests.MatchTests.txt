@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: it.polimi.ingsw.PSP13.modelTests.MatchTests
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in it.polimi.ingsw.PSP13.modelTests.MatchTests

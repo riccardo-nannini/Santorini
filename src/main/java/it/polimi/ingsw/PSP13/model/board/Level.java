@@ -4,17 +4,17 @@ public enum Level {
 
     Floor(0), Base(1), Medium(2), Top(3), Dome(4);
 
-    private int level;
+    private int height;
 
 
-    public int getLevel() {
-        return level;
+    public int getHeight() {
+        return height;
     }
 
 
-    Level(int level)
+    Level(int height)
     {
-        this.level = level;
+        this.height = height;
     }
 
 }

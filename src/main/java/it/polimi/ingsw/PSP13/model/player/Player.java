@@ -5,23 +5,46 @@ import it.polimi.ingsw.PSP13.model.Turn;
 public class Player {
 
     private Color color;
-    private Builder[] builders = new Builder[2];
+    private Builder[] builders;
     private Turn god;
     private int age;
     private String username;
 
 
     public void move()
-    {}
+    {
+        god.move();
+    }
 
     public void build()
-    {}
+    {
+        god.build();
+    }
 
     public void setup()
-    {}
+    {
+        god.setup();
+    }
 
     public void win()
-    {}
+    {
+        god.checkWin();
+    }
+
+    /**
+     * @param color
+     * @param age
+     * @param username
+     * initializes a new instance with the basic attributes
+     */
+    public Player(Color color, int age, String username)
+    {
+        this.color = color;
+        this.age = age;
+        this.username = username;
+
+        builders = new Builder[2];
+    }
 
 
 

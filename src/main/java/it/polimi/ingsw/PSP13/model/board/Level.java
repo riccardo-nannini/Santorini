@@ -17,4 +17,24 @@ public enum Level {
         this.height = height;
     }
 
+    /**
+     *
+     * @param height
+     * @return the level value related to the height as param
+     * @throws IllegalArgumentException if height is not a valid height
+     */
+    public static Level findLevelByHeight(int height) throws IllegalArgumentException
+    {
+        if(height<0 || height>4)
+            throw new IllegalArgumentException();
+
+        for(Level lvl : values())
+        {
+            if(lvl.getHeight() == height)
+                return lvl;
+        }
+
+        throw new IllegalArgumentException();
+    }
+
 }

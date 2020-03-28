@@ -14,6 +14,10 @@ public class Turn {
         this.match = match;
     }
 
+    public Turn()
+    {
+
+    }
     /**
      * Sets the position of builder1 to coords1 and builder2 to coords2
      * @param builder1

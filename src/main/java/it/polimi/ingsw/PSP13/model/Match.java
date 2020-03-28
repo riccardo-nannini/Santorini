@@ -39,7 +39,7 @@ public class Match {
 
     /**
      * @param coords
-     * @return true if the cell related to the coordinates has a building on it or
+     * @return true if the cell related to the coordinates has a dome on it or
      * at least a player has got a worker which coordinates are equal to coords, false otherwise
      * @throws IllegalArgumentException if coords is not a legal object
      */
@@ -48,7 +48,7 @@ public class Match {
         if(coords == null || !map.isLegal(coords))
             throw new IllegalArgumentException();
 
-        if(map.getCell(coords).getLevel().getHeight()>0)
+        if(map.getCell(coords).getLevel().getHeight()==4)
         {
             return true;
         }

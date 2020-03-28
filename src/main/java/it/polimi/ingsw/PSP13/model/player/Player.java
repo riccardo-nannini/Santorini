@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
+import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
 
 public class Player {
 
@@ -16,9 +17,9 @@ public class Player {
         god.move();
     }
 
-    public void build()
+    public void build(Builder builder, Coords buildingPosition) throws IllegalBuildException
     {
-        god.build();
+        god.build(builder, buildingPosition);
     }
 
     public void setup()
@@ -26,9 +27,9 @@ public class Player {
         god.setup();
     }
 
-    public void win()
+    public boolean win(Builder builder, Coords precedentPosition, Coords currentPosition)
     {
-        god.checkWin();
+        return god.checkWin(builder, precedentPosition, currentPosition);
     }
 
     /**

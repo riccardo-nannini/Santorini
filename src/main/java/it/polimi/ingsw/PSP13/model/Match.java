@@ -81,7 +81,7 @@ public class Match {
         map.setCell(coords, level);
     }
 
-    public Cell getCell(Coords coords) { return this.map.getCell(coords); }
+    public Cell getCell(Coords coords) { return map.getCell(coords); }
 
     public int getHeight(Coords coords)
     {
@@ -91,5 +91,4 @@ public class Match {
     public List<Player> getPlayers() {
         return players;
     }
-
 }

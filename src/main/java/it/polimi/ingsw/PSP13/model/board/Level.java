@@ -11,6 +11,7 @@ public enum Level {
         return height;
     }
 
+    public static Level findLevelByHeight(int height) throws IllegalArgumentException{}
 
     Level(int height)
     {

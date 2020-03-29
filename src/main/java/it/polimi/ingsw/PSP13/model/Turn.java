@@ -30,7 +30,7 @@ public class Turn {
      * @throws IllegalArgumentException if params aren't legal
      */
     public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException {
-        if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || coords1 == null || coords2 == null || builder1 ==  null || builder1 == null) {
+        if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || coords1 == null || coords2 == null || builder1 ==  null || builder2 == null) {
             throw new IllegalArgumentException();
         } else {
             builder1.setCoords(coords1);

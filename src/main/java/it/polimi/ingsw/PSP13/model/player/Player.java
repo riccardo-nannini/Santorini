@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
+import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
+import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 
 public class Player {
 
@@ -11,24 +13,24 @@ public class Player {
     private String username;
 
 
-    public void move()
+    public void move(Builder builder, Coords coords) throws IllegalMoveException
     {
-        god.move();
+        god.move(builder, coords);
     }
 
-    public void build()
+    public void build(Builder builder, Coords coords) throws IllegalBuildException
     {
-        god.build();
+        god.build(builder, coords);
     }
 
-    public void setup()
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2)
     {
-        god.setup();
+        god.setup(builder1, builder2, coords1, coords2);
     }
 
-    public void win()
+    public void win(Builder builder, Coords precedentPosition, Coords currentPosition)
     {
-        god.checkWin();
+        god.checkWin(builder, precedentPosition, currentPosition);
     }
 
     /**

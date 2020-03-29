@@ -4,6 +4,12 @@ public class Builder {
 
     private Coords coords;
 
+    private Player player;
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public Coords getCoords() {
         return coords;
     }
@@ -12,4 +18,11 @@ public class Builder {
         this.coords = coords;
     }
 
+    public Builder(Player player) {
+        this.player = player;
+    }
+    public Builder() {
+        coords = null;
+        player = null;
+    }
 }

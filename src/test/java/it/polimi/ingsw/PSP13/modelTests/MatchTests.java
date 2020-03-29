@@ -42,7 +42,7 @@ public class MatchTests {
     {
         boolean result;
 
-        match.setCell(new Coords(3,2), Level.Base);
+        match.setCell(new Coords(3,2), Level.Dome);
         result = match.isOccupied(new Coords(3,2));
         assertTrue(result);
 

@@ -45,7 +45,7 @@ public class Match {
      */
     public boolean isOccupied(Coords coords) throws IllegalArgumentException
     {
-        if(coords == null || !map.isLegal(coords))
+        if(coords == null || !Map.isLegal(coords))
             throw new IllegalArgumentException();
 
         if(map.getCell(coords).getLevel().getHeight()==4)

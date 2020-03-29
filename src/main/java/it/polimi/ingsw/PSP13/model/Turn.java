@@ -39,7 +39,7 @@ public class Turn {
     }
 
     /**
-     * moves builder into the coords' cell
+     * Moves builder into the cell's coordinates
      * @param builder
      * @param coords
      * @throws IllegalMoveException if checkMove(builder, coords) return false
@@ -63,7 +63,7 @@ public class Turn {
             throw new IllegalArgumentException();
         } else {
             int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
-            if (match.getAdjacent(coords).contains(coords) && !match.isOccupied(coords) && diff <= 1) {
+            if (match.getAdjacent(builder.getCoords()).contains(coords) && !match.isOccupied(coords) && diff <= 1) {
                 return true;
             } else {
                 return false;
@@ -80,6 +80,12 @@ public class Turn {
         builder.setCoords(coords);
     }
 
+    /**
+     * Builds a level in the specified position
+     * @param builder builder that is currently building
+     * @param buildingPosition coordinates of the cell where the builder wants to build
+     * @throws IllegalBuildException if buildingPosition is not legal
+     */
     public void build(Builder builder, Coords buildingPosition) throws IllegalBuildException
     {
         if(!checkBuild(builder, buildingPosition)) {
@@ -89,6 +95,12 @@ public class Turn {
         match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+1));
     }
 
+    /**
+     * Checks if the building position is legal.
+     * @param builder builder that is currently building
+     * @param buildingPosition coordinates of the cell where the builder wants to build
+     * @return true if it is possible to build in the specified position, false otherwise.
+     */
     public boolean checkBuild(Builder builder, Coords buildingPosition)
     {
         if (!Map.isLegal(buildingPosition)) return false;
@@ -99,7 +111,12 @@ public class Turn {
         return true;
     }
 
-
+    /**
+     * @param builder builder that was involved in the current turn
+     * @param precedentPosition position occupied by the builder before moving
+     * @param currentPosition position currently occupied by the builder
+     * @return true if the player did win in this turn, false otherwise.
+     */
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition)
     {
         if (match.getCell(precedentPosition).getLevel() == Level.Medium
@@ -110,7 +127,9 @@ public class Turn {
     }
 
 
-
+    /**
+     * Method the manages tasks in the end of the turn.
+     */
     public void end()
     {}
 

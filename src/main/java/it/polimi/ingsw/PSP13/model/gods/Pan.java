@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP13.model.gods;
 
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
@@ -19,6 +18,7 @@ public class Pan extends Turn {
      * @param currentPosition position currently occupied by the builder
      * @return true if the player did win in this turn, false otherwise.
      */
+    @Override
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition)
     {
         int levelDiff = match.getHeight(precedentPosition) - match.getHeight(currentPosition);

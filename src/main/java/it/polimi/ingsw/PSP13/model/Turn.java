@@ -30,7 +30,7 @@ public class Turn {
      * @throws IllegalArgumentException if params aren't legal
      */
     public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException {
-        if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || coords1 == null || coords2 == null || builder1 ==  null || builder2 == null) {
+        if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || builder1 ==  null || builder2 == null) {
             throw new IllegalArgumentException();
         } else {
             builder1.setCoords(coords1);
@@ -40,8 +40,8 @@ public class Turn {
 
     /**
      * Moves builder into the cell's coordinates
-     * @param builder
-     * @param coords
+     * @param builder builder that is currently moving
+     * @param coords coordinates of the cell where the builder wants to move
      * @throws IllegalMoveException if checkMove(builder, coords) return false
      */
     public void move(Builder builder, Coords coords) throws IllegalMoveException {
@@ -53,13 +53,13 @@ public class Turn {
     }
 
     /**
-     * @param builder
-     * @param coords coordinates of the cell where the builder wants to move to
+     * @param builder builder that is currently moving
+     * @param coords coordinates of the cell where the builder wants to move
      * @return true if builder can move into coords' cell, else return false
      * @throws IllegalArgumentException if params aren't legal
      */
     public boolean checkMove(Builder builder, Coords coords) throws IllegalArgumentException {
-        if (!Map.isLegal(coords) || coords == null || builder == null) {
+        if (!Map.isLegal(coords) || builder == null) {
             throw new IllegalArgumentException();
         } else {
             int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
@@ -73,8 +73,8 @@ public class Turn {
 
     /**
      * Sets the forced position of builder
-     * @param builder
-     * @param coords
+     * @param builder forced builder
+     * @param coords coordinates of the cell where the builder is forced to move
      */
     public void force(Builder builder, Coords coords) {
         builder.setCoords(coords);

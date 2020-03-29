@@ -33,6 +33,8 @@ public class Player {
         return god.checkWin(builder, precedentPosition, currentPosition);
     }
 
+    public void end() { god.end(); }
+
     /**
      * @param color
      * @param age

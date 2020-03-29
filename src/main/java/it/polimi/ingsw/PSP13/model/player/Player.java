@@ -28,9 +28,9 @@ public class Player {
         god.setup(builder1, builder2, coords1, coords2);
     }
 
-    public void win(Builder builder, Coords precedentPosition, Coords currentPosition)
+    public boolean win(Builder builder, Coords precedentPosition, Coords currentPosition)
     {
-        god.checkWin(builder, precedentPosition, currentPosition);
+        return god.checkWin(builder, precedentPosition, currentPosition);
     }
 
     /**

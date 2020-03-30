@@ -9,11 +9,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Zeus extends Turn {
 
-    public Zeus()
-    {
-
-    }
-
     /**
      * a Builder can build on his own block
      * @param builder builder that is currently building
@@ -21,16 +16,13 @@ public class Zeus extends Turn {
      * @throws IllegalBuildException
      */
     @Override
-    public void build(Builder builder, Coords buildingPosition) throws IllegalBuildException
+    public boolean checkBuild(Builder builder, Coords buildingPosition)
     {
-        if(!checkBuild(builder, buildingPosition))
-        {
-            if(!builder.getCoords().equals(buildingPosition))
-                throw new IllegalBuildException();
-        }
-        int currentLevel = match.getHeight(buildingPosition);
-        match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+1));
+        if (!super.checkBuild(builder, buildingPosition)) {
+            if (builder.getCoords().equals(buildingPosition)) {
+                if (match.getHeight(buildingPosition) < 3 ) return true;
+            }
+        } return super.checkBuild(builder, buildingPosition);
     }
-
 
 }

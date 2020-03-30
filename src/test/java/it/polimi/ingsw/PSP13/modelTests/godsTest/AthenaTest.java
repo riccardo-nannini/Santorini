@@ -33,17 +33,18 @@ public class AthenaTest {
         match.start();
         player = new Player(Color.Blue, 21, "Mario");
         opponentPlayer = new Player(Color.Brown, 21, "Diego");
+        new Turn(match);
 
         match.addPlayer(player);
         match.addPlayer(opponentPlayer);
 
-        builder1 = new Builder(player);
-        builder2 = new Builder(player);
+        builder1 = new Builder();
+        builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
-        player.setGod(new Athena(match));
+        player.setGod(new Athena());
 
-        opponentsbuilder1 = new Builder(opponentPlayer);
-        opponentsbuilder2 = new Builder(opponentPlayer);
+        opponentsbuilder1 = new Builder();
+        opponentsbuilder2 = new Builder();
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1 ,opponentsbuilder2});
         opponentPlayer.setGod(new Turn());
     }
@@ -62,13 +63,14 @@ public class AthenaTest {
     }
 
     @Test
-    public void AppliedDebuffTest() throws IllegalMoveException {
+    public void AppliedDebuff_OpponentTest() throws IllegalMoveException {
         match.setCell(new Coords(1,0), Level.Base);
         match.setCell(new Coords(0,0), Level.Floor);
         player.getBuilders()[0].setCoords(new Coords(0,0));
 
         player.move(player.getBuilders()[0], new Coords(1,0));
         assertTrue(opponentPlayer.getGod() instanceof AthenaDebuff);
+        assertFalse(player.getGod() instanceof AthenaDebuff);
     }
 
     @Test

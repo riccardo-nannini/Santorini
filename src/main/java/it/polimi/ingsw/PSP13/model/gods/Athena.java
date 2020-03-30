@@ -10,9 +10,6 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 
 public class Athena extends Turn {
 
-    public Athena (Match match) {
-        super(match);
-    }
     /**
      * In addition to calling the player's god move the method checks if the builder is
      * moving up.
@@ -27,7 +24,7 @@ public class Athena extends Turn {
         super.move(builder, coords);
         if (match.getHeight(precedentPosition) < match.getHeight(builder.getCoords())) {
             for (Player player : match.getPlayers()) {
-                if (player != builder.getPlayer()) {
+                if (player != match.getPlayerByBuilder(builder)) {
                     AthenaDebuff debuff = new AthenaDebuff(player.getGod());
                     player.setGod(debuff);
                 }

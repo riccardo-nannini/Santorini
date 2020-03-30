@@ -1,0 +1,143 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Minotaur</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Minotaur (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Minotaur</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.2%
+  </span>
+  <span class="absValue">
+    (20/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Minotaur extends Turn {
+<i>10</i>&nbsp;
+<b class="fc"><i>11</i>&nbsp;    public Minotaur() { }</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Adds to the turn&#39;s move Minotaur&#39;s effect:
+<i>15</i>&nbsp;     * the builder can move into an opponent builder&#39;s cell, if the next space in the same
+<i>16</i>&nbsp;     * direction is unoccupied. Their builder is forced into that space.
+<i>17</i>&nbsp;     * @param builder builder that is currently moving
+<i>18</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>19</i>&nbsp;     * @throws IllegalMoveException if checkMove(builder, coords) returns false or if coords&#39; cell
+<i>20</i>&nbsp;     * is occupied by a dome or by a player&#39;s builder or if the next space in the same direction is occupied
+<i>21</i>&nbsp;     *
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void move(Builder builder, Coords coords) throws IllegalMoveException {
+<b class="fc"><i>25</i>&nbsp;        if (checkMove(builder, coords)) {</b>
+<b class="fc"><i>26</i>&nbsp;            if (match.isOccupied(coords)) {</b>
+<b class="fc"><i>27</i>&nbsp;                if (match.getHeight(coords) &lt; 4) {</b>
+<b class="fc"><i>28</i>&nbsp;                    int x = (coords.getX() - builder.getCoords().getX()) + coords.getX();</b>
+<b class="fc"><i>29</i>&nbsp;                    int y = (coords.getY() - builder.getCoords().getY()) + coords.getY();</b>
+<b class="fc"><i>30</i>&nbsp;                    Coords forcedPos = new Coords(x,y);</b>
+<b class="fc"><i>31</i>&nbsp;                    if (!match.isOccupied(forcedPos)) {</b>
+<b class="fc"><i>32</i>&nbsp;                        if (!(match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))) {</b>
+<b class="fc"><i>33</i>&nbsp;                            match.getBuilderByCoords(coords).setCoords(forcedPos);</b>
+<b class="fc"><i>34</i>&nbsp;                            builder.setCoords(coords);</b>
+<b class="fc"><i>35</i>&nbsp;                        } else { throw new IllegalMoveException(); }</b>
+<b class="fc"><i>36</i>&nbsp;                    } else { throw new IllegalMoveException(); }</b>
+<b class="fc"><i>37</i>&nbsp;                } else { throw new IllegalMoveException(); }</b>
+<i>38</i>&nbsp;            } else {
+<b class="fc"><i>39</i>&nbsp;                builder.setCoords(coords);</b>
+<i>40</i>&nbsp;            }
+<b class="fc"><i>41</i>&nbsp;        } else { throw new IllegalMoveException();}</b>
+<b class="fc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Unlike turn&#39;s checkmove, doesn&#39;t check if coords&#39; cell is occupied
+<i>47</i>&nbsp;     * @param builder builder that is currently moving
+<i>48</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>49</i>&nbsp;     * @return
+<i>50</i>&nbsp;     * @throws IllegalArgumentException if params aren&#39;t legal
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords) throws IllegalArgumentException {
+<b class="fc"><i>53</i>&nbsp;        if (!Map.isLegal(coords) || builder == null) {</b>
+<b class="nc"><i>54</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>55</i>&nbsp;        } else {
+<b class="fc"><i>56</i>&nbsp;            int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());</b>
+<b class="fc"><i>57</i>&nbsp;            return match.getAdjacent(builder.getCoords()).contains(coords) &amp;&amp; diff &lt;= 1;</b>
+<i>58</i>&nbsp;        }
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-30 21:35</div>
+</div>
+</body>
+</html>

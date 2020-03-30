@@ -10,11 +10,11 @@ import java.util.List;
 
 public class Turn {
 
-    protected Match match;
+    protected static Match match;
 
     public Turn(Match match)
     {
-        this.match = match;
+        Turn.match = match;
     }
 
     public Turn()

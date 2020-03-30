@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class ZeusTest {
     private static Match match;
     private static Player player, opponentPlayer;
     private static Builder builder1, builder2, opponentsbuilder1, opponentsbuilder2;
-
+    private static Turn turn,zeus;
 
     @BeforeClass
     public static void init()
@@ -36,7 +37,9 @@ public class ZeusTest {
         builder1 = new Builder(player);
         builder2 = new Builder(player);
         player.setBuilders(new Builder[]{builder1, builder2});
-        player.setGod(new Zeus());
+        turn = new Turn(match);
+        zeus = new Zeus();
+        player.setGod(zeus);
 
         opponentsbuilder1 = new Builder(opponentPlayer);
         opponentsbuilder2 = new Builder(opponentPlayer);
@@ -56,38 +59,29 @@ public class ZeusTest {
         match.setCell(new Coords(2, 2), Level.Medium);
         match.setCell(new Coords(1, 3), Level.Top);
         match.setCell(new Coords(3, 3), Level.Dome);
-        match.setCell(new Coords(3, 0), Level.Floor);
         match.setCell(new Coords(1, 2), Level.Base);
     }
 
-    @Test(expected = IllegalBuildException.class)
-    public void buildException() throws IllegalBuildException
+    @Test
+    public void checkBuildTrue()
     {
-        player.build(builder1,new Coords(5,5));
+        boolean result;
+        match.setCell(new Coords(3, 0), Level.Floor);
+        result = zeus.checkBuild(builder1,new Coords(3,0));
+        assertTrue(result);
+
+        result = zeus.checkBuild(builder1,new Coords(2,0));
+        assertTrue(result);
+
     }
 
     @Test
-    public void buildTest()
+    public void checkBuildFalse()
     {
-        try
-        {
-            player.build(player.getBuilders()[0],new Coords(2,0));
-            assertEquals(Level.Base,match.getCell(new Coords(2,0)).getLevel());
-        }
-        catch(Exception e)
-        {
-
-        }
-
-        try
-        {
-            player.build(player.getBuilders()[0],new Coords(3,0));
-            assertEquals(Level.Base,match.getCell(new Coords(3,0)).getLevel());
-        }
-        catch(Exception e)
-        {
-
-        }
+        boolean result;
+        match.setCell(new Coords(3, 0), Level.Top);
+        result = zeus.checkBuild(builder1,new Coords(3,0));
+        assertFalse(result);
 
     }
 

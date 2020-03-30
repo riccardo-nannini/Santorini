@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP13.model;
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
+import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
@@ -90,6 +91,42 @@ public class Match {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    /**
+     *
+     * @param coords
+     * @return the builder which coordinates are param
+     * @throws IllegalArgumentException if there is not builder is coords
+     */
+    public Builder getBuilderByCoords(Coords coords) throws IllegalArgumentException
+    {
+        for(Player p : players)
+        {
+            if(p.getBuilders()[0].getCoords().equals(coords))
+                return p.getBuilders()[0];
+            if(p.getBuilders()[1].getCoords().equals(coords))
+                return p.getBuilders()[1];
+        }
+
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     *
+     * @param builder
+     * @return the player owning builder by param
+     * @throws IllegalArgumentException if param is not a valid builder
+     */
+    public Player getPlayerByBuilder(Builder builder) throws IllegalArgumentException
+    {
+        for(Player p : players)
+        {
+            if(p.getBuilders()[0].equals(builder) || p.getBuilders()[1].equals(builder))
+                return p;
+        }
+
+        throw new IllegalArgumentException();
     }
 
 }

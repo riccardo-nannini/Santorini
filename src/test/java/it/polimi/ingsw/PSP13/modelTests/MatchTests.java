@@ -9,8 +9,7 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MatchTests {
 
@@ -46,8 +45,7 @@ public class MatchTests {
         result = match.isOccupied(new Coords(3,2));
         assertTrue(result);
 
-        //match.getPlayers().get(0).getBuilders()[0].setCoords(new Coords(4,4));
-       // match.getPlayers().get(0).getBuilders()[1].setCoords(new Coords(5,5));
+
         result = match.isOccupied(new Coords(4,4));
         assertTrue(result);
     }
@@ -60,5 +58,34 @@ public class MatchTests {
         result = match.isOccupied(new Coords(1,3));
         assertFalse(result);
 
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getBuilderByCoordsException()
+    {
+        match.getBuilderByCoords(new Coords(1,4));
+    }
+
+    @Test
+    public void getBuilderByCoordsTest()
+    {
+        Builder test;
+        test = match.getBuilderByCoords(new Coords(4,4));
+        assertEquals(match.getPlayers().get(0).getBuilders()[0],test);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getPlayerByBuilderException()
+    {
+        Player test;
+        test = match.getPlayerByBuilder(new Builder());
+    }
+
+    @Test
+    public void getPlayerByBuilderTest()
+    {
+        Player test;
+        test = match.getPlayerByBuilder(match.getPlayers().get(0).getBuilders()[1]);
+        assertEquals(match.getPlayers().get(0),test);
     }
 }

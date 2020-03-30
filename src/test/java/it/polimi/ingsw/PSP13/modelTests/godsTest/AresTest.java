@@ -38,12 +38,13 @@ public class AresTest {
         builder1 = new Builder(player);
         builder2 = new Builder(player);
         player.setBuilders(new Builder[]{builder1, builder2});
-        player.setGod(new Ares(match));
+
+        player.setGod(new Ares());
 
         opponentsbuilder1 = new Builder(opponentPlayer);
         opponentsbuilder2 = new Builder(opponentPlayer);
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1, opponentsbuilder2});
-        opponentPlayer.setGod(new Turn());
+        opponentPlayer.setGod(new Turn(match));
 
         opponentPlayer.getBuilders()[0].setCoords(new Coords(0, 0));
         opponentPlayer.getBuilders()[1].setCoords(new Coords(0, 1));
@@ -66,7 +67,7 @@ public class AresTest {
     @Test
     public void RemoveBlock_CorrectInput_CorrectBehaviour() throws IllegalMoveException {
         Coords removeCoords = new Coords(1,3);
-        player.setGod(new Ares(match, removeCoords, true));
+        player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(3, 2);
         player.move(builder1, movedTo);
         player.end();
@@ -76,7 +77,7 @@ public class AresTest {
     @Test
     public void RemoveBlock2_CorrectInput_CorrectBehaviour() throws IllegalMoveException {
         Coords removeCoords = new Coords(2,2);
-        player.setGod(new Ares(match, removeCoords, true));
+        player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(3, 2);
         player.move(builder1, movedTo);
         player.end();
@@ -86,7 +87,7 @@ public class AresTest {
     @Test
     public void RemoveBlock3_WrongInput_CorrectBehaviour() throws IllegalMoveException {
         Coords removeCoords = new Coords(1,2);
-        player.setGod(new Ares(match, removeCoords, true));
+        player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(2, 4);
         player.move(builder2, movedTo);
         player.end();
@@ -96,7 +97,7 @@ public class AresTest {
     @Test
     public void RemoveBlock_WrongInput_NothingRemoved() throws IllegalMoveException {
         Coords removeCoords = new Coords(3,3);
-        player.setGod(new Ares(match, removeCoords, true));
+        player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(3, 2);
         player.move(builder1, movedTo);
         player.end();

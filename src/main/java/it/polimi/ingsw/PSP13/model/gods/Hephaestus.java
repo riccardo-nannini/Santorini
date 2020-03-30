@@ -14,17 +14,15 @@ import java.util.List;
 public class Hephaestus extends Turn {
 
     //momentaneamente pubblico per i test
-    public boolean useEffect;
+    private boolean useEffect;
     //useEffect potrà essere settato a 1 soltanto se il giocatore vuole costruire in una cella a livello max = 1
 
-    public Hephaestus(Match match) {
-        super(match);
+    public Hephaestus() {
         useEffect = false;
     }
 
     //momentaneo per test
-    public Hephaestus(Match match, Boolean useEffect) {
-        super(match);
+    public Hephaestus(Boolean useEffect) {
         this.useEffect = useEffect;
     }
 

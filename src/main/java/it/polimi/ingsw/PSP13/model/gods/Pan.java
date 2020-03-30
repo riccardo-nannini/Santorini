@@ -7,9 +7,7 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Pan extends Turn {
 
-    public Pan (Match match) {
-        super(match);
-    }
+    public Pan () { }
 
     /**
      * adds to the standard win condition: win also if the builder moves down 2 or more levels

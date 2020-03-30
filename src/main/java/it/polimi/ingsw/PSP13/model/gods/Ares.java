@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
@@ -13,16 +12,14 @@ public class Ares extends Turn {
     private Coords removeCoords;
     private Boolean useEffect;
 
-    public Ares (Match match) {
-        super(match);
+    public Ares () {
         unmovedBuilder = null;
         removeCoords = null;
         useEffect = null;
     }
 
     //momentaneo per testing
-    public Ares (Match match, Coords coords, Boolean useEffect) {
-        super(match);
+    public Ares (Coords coords, Boolean useEffect) {
         this.useEffect = useEffect;
         this.removeCoords = coords;
     }
@@ -35,9 +32,9 @@ public class Ares extends Turn {
     public void move(Builder builder, Coords coords) throws IllegalMoveException {
         if (checkMove(builder, coords)) {
             if (builder.getPlayer().getBuilders()[0] == builder) {
-                unmovedBuilder = builder.getPlayer().getBuilders()[1];
+                unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
             } else {
-                unmovedBuilder = builder.getPlayer().getBuilders()[0];
+                unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
             }
             builder.setCoords(coords);
         } else {

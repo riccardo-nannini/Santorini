@@ -49,7 +49,7 @@ public class Match {
         if(coords == null || !Map.isLegal(coords))
             throw new IllegalArgumentException();
 
-        if(map.getCell(coords).getLevel().getHeight()==4)
+        if(map.getCell(coords).getDome())
         {
             return true;
         }
@@ -122,7 +122,7 @@ public class Match {
     {
         for(Player p : players)
         {
-            if(p.getBuilders()[0].equals(builder) || p.getBuilders()[1].equals(builder))
+            if(p.getBuilders()[0]==(builder) || p.getBuilders()[1]==(builder))
                 return p;
         }
 

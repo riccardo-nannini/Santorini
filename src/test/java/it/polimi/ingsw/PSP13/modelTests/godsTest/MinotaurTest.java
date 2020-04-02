@@ -42,18 +42,18 @@ public class MinotaurTest {
         match.addPlayer(opponentPlayer2);
 
 
-        builder1 = new Builder(player);
-        builder2 = new Builder(player);
+        builder1 = new Builder();
+        builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
         player.setGod(new Minotaur());
 
-        opponentsbuilder1_1 = new Builder(opponentPlayer1);
-        opponentsbuilder1_2 = new Builder(opponentPlayer1);
+        opponentsbuilder1_1 = new Builder();
+        opponentsbuilder1_2 = new Builder();
         opponentPlayer1.setBuilders(new Builder[]{opponentsbuilder1_1 ,opponentsbuilder1_2});
         opponentPlayer1.setGod(new Turn(match));
 
-        opponentsbuilder2_1 = new Builder(opponentPlayer2);
-        opponentsbuilder2_2 = new Builder(opponentPlayer2);
+        opponentsbuilder2_1 = new Builder();
+        opponentsbuilder2_2 = new Builder();
         opponentPlayer2.setBuilders(new Builder[]{opponentsbuilder2_1 ,opponentsbuilder2_2});
         opponentPlayer2.setGod(new Turn(match));
 
@@ -62,7 +62,8 @@ public class MinotaurTest {
         match.setCell(new Coords(2,2), Level.Base);
         match.setCell(new Coords(3,3), Level.Medium);
         match.setCell(new Coords(4,4), Level.Top);
-        match.setCell(new Coords(2,4), Level.Dome);
+        match.setCell(new Coords(2,4), Level.Top);
+        match.getCell(new Coords(2,4)).setDome(true);
         match.setCell(new Coords(1,1), Level.Floor);
         match.setCell(new Coords(0,0), Level.Floor);
         match.setCell(new Coords(2,1), Level.Floor);
@@ -71,7 +72,8 @@ public class MinotaurTest {
     @Before
     public void setUp() {
         match.setCell(new Coords(2,1), Level.Floor);
-        match.setCell(new Coords(2,4), Level.Dome);
+        match.setCell(new Coords(2,4), Level.Top);
+        match.getCell(new Coords(2,4)).setDome(true);
 
         opponentPlayer1.getBuilders()[0].setCoords(new Coords(3,3));
         opponentPlayer1.getBuilders()[1].setCoords(new Coords(3, 2));
@@ -106,6 +108,7 @@ public class MinotaurTest {
     @Test
     public void MoveWithEffect3_CorrectInput_CorrectBehaviour() throws IllegalMoveException {
         match.setCell(new Coords(2,4), Level.Floor);
+        match.getCell(new Coords(2,4)).setDome(false);
         player.move(builder2, new Coords(2,3));
         assertEquals(builder2.getCoords(),new Coords(2,3));
         assertEquals(opponentsbuilder2_2.getCoords(),new Coords(2,4));
@@ -124,7 +127,8 @@ public class MinotaurTest {
 
     @Test (expected = IllegalMoveException.class)
     public void MoveNoEffect_WrongInput_ShouldThrowException() throws IllegalMoveException {
-        match.setCell(new Coords(2,1), Level.Dome);
+        match.setCell(new Coords(2,1), Level.Top);
+        match.getCell(new Coords(2,1)).setDome(true);
         player.move(builder2, new Coords(2,1));
     }
 

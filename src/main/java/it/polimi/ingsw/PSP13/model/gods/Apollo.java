@@ -19,7 +19,7 @@ public class Apollo extends Turn {
      *
      * @param apollo
      * @param coords
-     * @return true if coords' cell is occupied by a player instead of a dome
+     * @return true if coords' cell is occupied by a player instead of a dome or it's not occupied
      */
     private boolean apolloCheck(Builder apollo, Coords coords)
     {
@@ -27,7 +27,7 @@ public class Apollo extends Turn {
             return true;
         else
         {
-            if(match.getCell(coords).getLevel()!=Level.Dome)
+            if(!match.getCell(coords).getDome())
                 return true;
             else
                 return false;

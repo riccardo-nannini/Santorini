@@ -20,7 +20,7 @@ public class Zeus extends Turn {
     {
         if (!super.checkBuild(builder, buildingPosition)) {
             if (builder.getCoords().equals(buildingPosition)) {
-                if (match.getHeight(buildingPosition) < 3 ) return true;
+                if (match.getHeight(buildingPosition) < 3 && !match.getCell(buildingPosition).getDome()) return true;
             }
         } return super.checkBuild(builder, buildingPosition);
     }

@@ -41,7 +41,8 @@ public class MatchTests {
     {
         boolean result;
 
-        match.setCell(new Coords(3,2), Level.Dome);
+        match.setCell(new Coords(3,2),Level.Top);
+        match.getCell(new Coords(3,2)).setDome(true);
         result = match.isOccupied(new Coords(3,2));
         assertTrue(result);
 

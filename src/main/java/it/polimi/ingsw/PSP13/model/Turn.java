@@ -92,7 +92,10 @@ public class Turn {
             throw new IllegalBuildException();
         }
         int currentLevel = match.getHeight(buildingPosition);
-        match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+1));
+        if(currentLevel==Level.Top.getHeight())
+            match.getCell(buildingPosition).setDome(true);
+        else
+            match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+1));
     }
 
     /**

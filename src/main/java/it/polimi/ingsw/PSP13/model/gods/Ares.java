@@ -31,7 +31,7 @@ public class Ares extends Turn {
     @Override
     public void move(Builder builder, Coords coords) throws IllegalMoveException {
         if (checkMove(builder, coords)) {
-            if (builder.getPlayer().getBuilders()[0] == builder) {
+            if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {
                 unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
             } else {
                 unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];

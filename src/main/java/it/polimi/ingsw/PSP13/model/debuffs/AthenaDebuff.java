@@ -36,7 +36,7 @@ public class AthenaDebuff extends Decorator{
      */
     @Override
     public void end() {
-        super.end();
+        god.end();
         removeDecorator(player);
     }
 }

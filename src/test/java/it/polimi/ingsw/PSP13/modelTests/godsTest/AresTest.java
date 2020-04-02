@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class AresTest {
 
@@ -35,14 +36,14 @@ public class AresTest {
         match.addPlayer(player);
         match.addPlayer(opponentPlayer);
 
-        builder1 = new Builder(player);
-        builder2 = new Builder(player);
+        builder1 = new Builder();
+        builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
 
         player.setGod(new Ares());
 
-        opponentsbuilder1 = new Builder(opponentPlayer);
-        opponentsbuilder2 = new Builder(opponentPlayer);
+        opponentsbuilder1 = new Builder();
+        opponentsbuilder2 = new Builder();
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1, opponentsbuilder2});
         opponentPlayer.setGod(new Turn(match));
 
@@ -54,7 +55,8 @@ public class AresTest {
         match.setCell(new Coords(1, 2), Level.Base);
         match.setCell(new Coords(2, 2), Level.Medium);
         match.setCell(new Coords(1, 3), Level.Top);
-        match.setCell(new Coords(3, 3), Level.Dome);
+        match.setCell(new Coords(3, 3), Level.Top);
+        match.getCell(new Coords(3,3)).setDome(true);
     }
 
     @Before
@@ -101,6 +103,7 @@ public class AresTest {
         Coords movedTo = new Coords(3, 2);
         player.move(builder1, movedTo);
         player.end();
-        assertSame(match.getHeight(removeCoords), 4);
+        assertSame(match.getHeight(removeCoords), 3);
+        assertTrue(match.getCell(removeCoords).getDome());
     }
 }

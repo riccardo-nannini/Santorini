@@ -33,7 +33,7 @@ public class Atlas extends Turn {
             throw new IllegalBuildException();
         }
         if (useEffect) {
-            match.setCell(buildingPosition, Level.findLevelByHeight(4));
+            match.getCell(buildingPosition).setDome(true);
         } else {
             match.setCell(buildingPosition, Level.findLevelByHeight(match.getHeight(buildingPosition)+1));
         }

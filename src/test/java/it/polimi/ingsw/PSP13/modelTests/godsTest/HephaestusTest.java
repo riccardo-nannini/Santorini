@@ -37,13 +37,13 @@ public class HephaestusTest {
         match.addPlayer(player);
         match.addPlayer(opponentPlayer);
 
-        builder1 = new Builder(player);
-        builder2 = new Builder(player);
+        builder1 = new Builder();
+        builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
         player.setGod(new Hephaestus());
 
-        opponentsbuilder1 = new Builder(opponentPlayer);
-        opponentsbuilder2 = new Builder(opponentPlayer);
+        opponentsbuilder1 = new Builder();
+        opponentsbuilder2 = new Builder();
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1 ,opponentsbuilder2});
         opponentPlayer.setGod(new Turn(match));
 
@@ -57,6 +57,7 @@ public class HephaestusTest {
         player.setGod(new Hephaestus());
         player.getBuilders()[0].setCoords(new Coords(2,2));
         match.setCell(new Coords(3,2), Level.Floor);
+        match.getCell(new Coords(3,2)).setDome(false);
     }
 
 
@@ -82,7 +83,8 @@ public class HephaestusTest {
 
     @Test (expected = IllegalBuildException.class)
     public void BuildNoEffect_WrongInput_ShouldThrowException() throws IllegalBuildException {
-        match.setCell(new Coords(3,2), Level.Dome);
+        match.setCell(new Coords(3,2), Level.Top);
+        match.getCell(new Coords(3,2)).setDome(true);
         player.build(builder1,new Coords(3,2));
     }
 

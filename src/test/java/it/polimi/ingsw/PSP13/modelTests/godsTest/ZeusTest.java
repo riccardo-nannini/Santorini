@@ -34,15 +34,15 @@ public class ZeusTest {
         match.addPlayer(player);
         match.addPlayer(opponentPlayer);
 
-        builder1 = new Builder(player);
-        builder2 = new Builder(player);
+        builder1 = new Builder();
+        builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
         turn = new Turn(match);
         zeus = new Zeus();
         player.setGod(zeus);
 
-        opponentsbuilder1 = new Builder(opponentPlayer);
-        opponentsbuilder2 = new Builder(opponentPlayer);
+        opponentsbuilder1 = new Builder();
+        opponentsbuilder2 = new Builder();
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1, opponentsbuilder2});
         opponentPlayer.setGod(new Turn());
 
@@ -58,7 +58,8 @@ public class ZeusTest {
         match.setCell(new Coords(1, 2), Level.Base);
         match.setCell(new Coords(2, 2), Level.Medium);
         match.setCell(new Coords(1, 3), Level.Top);
-        match.setCell(new Coords(3, 3), Level.Dome);
+        match.setCell(new Coords(3, 3), Level.Top);
+        match.getCell(new Coords(3,3)).setDome(true);
         match.setCell(new Coords(1, 2), Level.Base);
     }
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP13.model.board;
 
 public enum Level {
 
-    Floor(0), Base(1), Medium(2), Top(3), Dome(4);
+    Floor(0), Base(1), Medium(2), Top(3);
 
     private int height;
 
@@ -25,7 +25,7 @@ public enum Level {
      */
     public static Level findLevelByHeight(int height) throws IllegalArgumentException
     {
-        if(height<0 || height>4)
+        if(height<0 || height>3)
             throw new IllegalArgumentException();
 
         for(Level lvl : values())

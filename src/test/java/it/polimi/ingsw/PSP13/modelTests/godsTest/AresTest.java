@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP13.modelTests.godsTest;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.gods.Ares;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -61,13 +60,14 @@ public class AresTest {
 
     @Before
     public void setUp() {
+        player.setGod(new Ares());
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 1)));
         player.getBuilders()[1].setCell(match.getCell(new Coords(2, 3)));
     }
 
 
     @Test
-    public void RemoveBlock_CorrectInput_CorrectBehaviour() throws IllegalMoveException {
+    public void RemoveBlock_CorrectInput_CorrectBehaviour() {
         Coords removeCoords = new Coords(1,3);
         player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(3, 2);
@@ -77,7 +77,7 @@ public class AresTest {
     }
 
     @Test
-    public void RemoveBlock2_CorrectInput_CorrectBehaviour() throws IllegalMoveException {
+    public void RemoveBlock2_CorrectInput_CorrectBehaviour() {
         Coords removeCoords = new Coords(2,2);
         player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(3, 2);
@@ -87,7 +87,7 @@ public class AresTest {
     }
 
     @Test
-    public void RemoveBlock3_WrongInput_CorrectBehaviour() throws IllegalMoveException {
+    public void RemoveBlock3_WrongInput_CorrectBehaviour() {
         Coords removeCoords = new Coords(1,2);
         player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(2, 4);
@@ -97,7 +97,7 @@ public class AresTest {
     }
 
     @Test
-    public void RemoveBlock_WrongInput_NothingRemoved() throws IllegalMoveException {
+    public void RemoveBlock_WrongInput_NothingRemoved() {
         Coords removeCoords = new Coords(3,3);
         player.setGod(new Ares(removeCoords, true));
         Coords movedTo = new Coords(3, 2);

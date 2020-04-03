@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP13.modelTests.godsTest;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
 import it.polimi.ingsw.PSP13.model.gods.Hephaestus;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -62,16 +61,20 @@ public class HephaestusTest {
 
 
     @Test
-    public void BuildNoEffect_CorrectInput_CorrectBuilding() throws IllegalBuildException {
-        player.build(builder1,new Coords(3,2));
-        assertSame(match.getHeight(new Coords(3,2)),1);
+    public void BuildNoEffect_CorrectInput_CorrectBuilding() {
+        Coords buildTo = new Coords(3,2);
+        player.checkBuild(builder1,buildTo);
+        player.build(builder1, buildTo);
+        assertSame(match.getHeight(buildTo),1);
     }
 
     @Test
-    public void BuildWithEffect_CorrectInput_CorrectBuilding() throws IllegalBuildException {
+    public void BuildWithEffect_CorrectInput_CorrectBuilding() {
         player.setGod(new Hephaestus(true));
-        player.build(builder1,new Coords(3,2));
-        assertSame(match.getHeight(new Coords(3,2)),2);
+        Coords buildTo = new Coords(3,2);
+        player.checkBuild(builder1,buildTo);
+        player.build(builder1, buildTo);
+        assertSame(match.getHeight(buildTo),2);
     }
 
 }

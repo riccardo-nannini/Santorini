@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP13.model.gods;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
@@ -31,11 +30,9 @@ public class Hephaestus extends Turn {
      * 2 level otherwise
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
-     * @throws IllegalBuildException if buildingPosition is not legal
      */
     @Override
     public void build(Builder builder, Coords buildingPosition){
-
         int currentLevel = match.getHeight(buildingPosition);
         if (useEffect) {
             match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+2));
@@ -54,20 +51,16 @@ public class Hephaestus extends Turn {
      */
     @Override
     public boolean checkBuild(Builder builder, Coords buildingPosition) {
-
         if (!Map.isLegal(buildingPosition)) return false;
         if (match.isOccupied(buildingPosition)) return false;
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
-        if(!adjacents.contains(buildingPosition)) return false;
+        if (!adjacents.contains(buildingPosition)) return false;
         if (useEffect) {
             return match.getHeight(buildingPosition) <= 1;
         }
-
         return true;
-
-
-
     }
+
 
 
 

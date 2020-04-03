@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP13.modelTests.godsTest;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.gods.Pan;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -63,26 +62,26 @@ public class PanTest {
 
 
     @Test
-    public void WinWithEffect_CorrectInput_PlayerWin() throws IllegalMoveException {
+    public void WinWithEffect_CorrectInput_PlayerWin() {
         Coords movedTo = new Coords(3,2);
         Coords movedFrom = builder1.getCoords();
-        player.move(builder1, movedTo);
+        if (player.getGod().checkMove(builder1,movedTo)) { player.move(builder1, movedTo); }
         assertSame(player.win(builder1, movedFrom, movedTo), true);
     }
 
     @Test
-    public void Win_CorrectInput_PlayerNotWin() throws IllegalMoveException {
+    public void Win_CorrectInput_PlayerNotWin() {
         Coords movedTo = new Coords(1,2);
         Coords movedFrom = builder1.getCoords();
-        player.move(builder1, movedTo);
+        if (player.getGod().checkMove(builder1,movedTo)) { player.move(builder1, movedTo);}
         assertSame(player.win(builder1, movedFrom, movedTo), false);
     }
 
     @Test
-    public void WinNoEffect_CorrectInput_PlayerWin() throws IllegalMoveException {
+    public void WinNoEffect_CorrectInput_PlayerWin() {
         Coords movedTo = new Coords(1,3);
         Coords movedFrom = builder1.getCoords();
-        player.move(builder1, movedTo);
+        if (player.getGod().checkMove(builder1,movedTo)) {player.move(builder1, movedTo); }
         assertSame(player.win(builder1, movedFrom, movedTo), true);
     }
 

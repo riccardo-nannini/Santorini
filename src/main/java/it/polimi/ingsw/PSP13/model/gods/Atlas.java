@@ -20,7 +20,7 @@ public class Atlas extends Turn {
     }
 
     /**
-     * adds to the standard build Atlas' effect:
+     * Adds to the standard build Atlas' effect:
      * the builder can build a dome at any level
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
@@ -29,7 +29,6 @@ public class Atlas extends Turn {
     @Override
     public void build(Builder builder, Coords buildingPosition)
     {
-
         if (useEffect) {
             match.getCell(buildingPosition).setDome(true);
         } else {

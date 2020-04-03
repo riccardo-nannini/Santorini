@@ -33,9 +33,9 @@ public class HeraDebuffTest {
         HeraDebuff debuff = new HeraDebuff(new Turn());
         player.setGod(debuff);
 
-        match.setCell(new Coords(2,3), Level.Medium);
-        match.setCell(new Coords(2,4), Level.Top);
-        match.setCell(new Coords(2, 2), Level.Top);
+        match.setCellLevel(new Coords(2,3), Level.Medium);
+        match.setCellLevel(new Coords(2,4), Level.Top);
+        match.setCellLevel(new Coords(2, 2), Level.Top);
     }
 
     @Test

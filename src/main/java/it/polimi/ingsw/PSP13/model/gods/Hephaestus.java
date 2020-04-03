@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
@@ -35,15 +34,13 @@ public class Hephaestus extends Turn {
      * @throws IllegalBuildException if buildingPosition is not legal
      */
     @Override
-    public void build(Builder builder, Coords buildingPosition) throws IllegalBuildException{
-        if(!checkBuild(builder, buildingPosition)) {
-            throw new IllegalBuildException();
-        }
+    public void build(Builder builder, Coords buildingPosition){
+
         int currentLevel = match.getHeight(buildingPosition);
         if (useEffect) {
-            match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+2));
+            match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+2));
         } else {
-            match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+1));
+            match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+1));
         }
     }
 

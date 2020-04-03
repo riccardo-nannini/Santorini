@@ -19,10 +19,10 @@ public class Athena extends Turn {
      * @throws IllegalMoveException if params aren't legal
      */
     @Override
-    public void move(Builder builder, Coords coords) throws IllegalMoveException {
+    public void move(Builder builder, Coords coords){
         Coords precedentPosition = builder.getCoords();
         super.move(builder, coords);
-        if (match.getHeight(precedentPosition) < match.getHeight(builder.getCoords())) {
+        if (match.getHeight(precedentPosition) < builder.getHeight()) {
             for (Player player : match.getPlayers()) {
                 if (player != match.getPlayerByBuilder(builder)) {
                     AthenaDebuff debuff = new AthenaDebuff(player.getGod());

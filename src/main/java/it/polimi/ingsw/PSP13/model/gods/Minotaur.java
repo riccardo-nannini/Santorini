@@ -10,6 +10,14 @@ public class Minotaur extends Turn {
 
     public Minotaur() { }
 
+    private Coords minotaurForce(Builder builder, Coords coords)
+    {
+        int x = (coords.getX() - builder.getCoords().getX()) + coords.getX();
+        int y = (coords.getY() - builder.getCoords().getY()) + coords.getY();
+        Coords forcedPos = new Coords(x,y);
+        return forcedPos;
+    }
+
     /**
      * Adds to the turn's move Minotaur's effect:
      * the builder can move into an opponent builder's cell, if the next space in the same
@@ -21,24 +29,14 @@ public class Minotaur extends Turn {
      *
      */
     @Override
-    public void move(Builder builder, Coords coords) throws IllegalMoveException {
-        if (checkMove(builder, coords)) {
-            if (match.isOccupied(coords)) {
-                if (match.getHeight(coords) < 4) {
-                    int x = (coords.getX() - builder.getCoords().getX()) + coords.getX();
-                    int y = (coords.getY() - builder.getCoords().getY()) + coords.getY();
-                    Coords forcedPos = new Coords(x,y);
-                    if (!match.isOccupied(forcedPos)) {
-                        if (!(match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))) {
-                            match.getBuilderByCoords(coords).setCoords(forcedPos);
-                            builder.setCoords(coords);
-                        } else { throw new IllegalMoveException(); }
-                    } else { throw new IllegalMoveException(); }
-                } else { throw new IllegalMoveException(); }
-            } else {
-                builder.setCoords(coords);
-            }
-        } else { throw new IllegalMoveException();}
+    public void move(Builder builder, Coords coords){
+        if (match.isOccupied(coords)) {
+            Coords forcedPos = minotaurForce(builder, coords);
+            match.getBuilderByCoords(coords).setCell(match.getCell(forcedPos));
+            builder.setCell(match.getCell(coords));
+        } else {
+            builder.setCell(match.getCell(coords));
+        }
     }
 
 
@@ -53,6 +51,17 @@ public class Minotaur extends Turn {
         if (!Map.isLegal(coords) || builder == null) {
             throw new IllegalArgumentException();
         } else {
+            if(match.getCell(coords).getDome())
+                return false;
+            if(match.isOccupied(coords) && !match.getCell(coords).getDome())
+            {
+                if(!Map.isLegal(minotaurForce(builder,coords)))
+                    return false;
+                if (match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))
+                    return false;
+                if(match.getCell(minotaurForce(builder,coords)).getDome())
+                    return false;
+            }
             int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
             return match.getAdjacent(builder.getCoords()).contains(coords) && diff <= 1;
         }

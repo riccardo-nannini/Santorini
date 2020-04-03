@@ -29,17 +29,13 @@ public class Ares extends Turn {
      *sets the unmovedBuilder
      */
     @Override
-    public void move(Builder builder, Coords coords) throws IllegalMoveException {
-        if (checkMove(builder, coords)) {
-            if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {
-                unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
-            } else {
-                unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
-            }
-            builder.setCoords(coords);
+    public void move(Builder builder, Coords coords){
+        if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {
+            unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
         } else {
-            throw new IllegalMoveException();
+            unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
         }
+        builder.setCell(match.getCell(coords));
     }
 
     /**

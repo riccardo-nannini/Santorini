@@ -27,15 +27,13 @@ public class Atlas extends Turn {
      * @throws IllegalBuildException if buildingPosition is not legal
      */
     @Override
-    public void build(Builder builder, Coords buildingPosition) throws IllegalBuildException
+    public void build(Builder builder, Coords buildingPosition)
     {
-        if(!checkBuild(builder, buildingPosition)) {
-            throw new IllegalBuildException();
-        }
+
         if (useEffect) {
             match.getCell(buildingPosition).setDome(true);
         } else {
-            match.setCell(buildingPosition, Level.findLevelByHeight(match.getHeight(buildingPosition)+1));
+            match.setCellLevel(buildingPosition, Level.findLevelByHeight(match.getHeight(buildingPosition)+1));
         }
     }
 }

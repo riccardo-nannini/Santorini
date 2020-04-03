@@ -24,8 +24,8 @@ public class MatchTests {
         Builder[] builders = new Builder[2];
         builders[0] = new Builder();
         builders[1] = new Builder();
-        builders[0].setCoords(new Coords(4,4));
-        builders[1].setCoords(new Coords(5,5));
+        builders[0].setCell(match.getCell(new Coords(4, 4)));
+        builders[1].setCell(match.getCell(new Coords(4, 3)));
         test.setBuilders(builders);
         match.addPlayer(test);
     }
@@ -41,7 +41,7 @@ public class MatchTests {
     {
         boolean result;
 
-        match.setCell(new Coords(3,2),Level.Top);
+        match.setCellLevel(new Coords(3,2),Level.Top);
         match.getCell(new Coords(3,2)).setDome(true);
         result = match.isOccupied(new Coords(3,2));
         assertTrue(result);
@@ -89,4 +89,5 @@ public class MatchTests {
         test = match.getPlayerByBuilder(match.getPlayers().get(0).getBuilders()[1]);
         assertEquals(match.getPlayers().get(0),test);
     }
+
 }

@@ -47,16 +47,16 @@ public class HephaestusTest {
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1 ,opponentsbuilder2});
         opponentPlayer.setGod(new Turn(match));
 
-        opponentPlayer.getBuilders()[0].setCoords(new Coords(0,0));
-        opponentPlayer.getBuilders()[1].setCoords(new Coords(0, 1));
-        player.getBuilders()[1].setCoords(new Coords(0,2));
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(0, 2)));
     }
 
     @Before
     public void setUp() {
         player.setGod(new Hephaestus());
-        player.getBuilders()[0].setCoords(new Coords(2,2));
-        match.setCell(new Coords(3,2), Level.Floor);
+        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 2)));
+        match.setCellLevel(new Coords(3,2), Level.Floor);
         match.getCell(new Coords(3,2)).setDome(false);
     }
 
@@ -73,20 +73,5 @@ public class HephaestusTest {
         player.build(builder1,new Coords(3,2));
         assertSame(match.getHeight(new Coords(3,2)),2);
     }
-
-    @Test (expected = IllegalBuildException.class)
-    public void BuildWithEffect_WrongInput_ShouldThrowException() throws IllegalBuildException {
-        player.setGod(new Hephaestus(true));
-        match.setCell(new Coords(3,2), Level.Medium);
-        player.build(builder1,new Coords(3,2));
-    }
-
-    @Test (expected = IllegalBuildException.class)
-    public void BuildNoEffect_WrongInput_ShouldThrowException() throws IllegalBuildException {
-        match.setCell(new Coords(3,2), Level.Top);
-        match.getCell(new Coords(3,2)).setDome(true);
-        player.build(builder1,new Coords(3,2));
-    }
-
 
 }

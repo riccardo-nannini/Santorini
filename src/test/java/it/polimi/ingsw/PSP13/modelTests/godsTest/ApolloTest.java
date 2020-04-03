@@ -3,9 +3,7 @@ package it.polimi.ingsw.PSP13.modelTests.godsTest;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
 import it.polimi.ingsw.PSP13.model.gods.Apollo;
-import it.polimi.ingsw.PSP13.model.gods.Ares;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
@@ -47,24 +45,24 @@ public class ApolloTest {
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1, opponentsbuilder2});
         opponentPlayer.setGod(new Turn());
 
-        player.getBuilders()[0].setCoords(new Coords(3, 0));
-        player.getBuilders()[1].setCoords(new Coords(3, 1));
+        player.getBuilders()[0].setCell(match.getCell(new Coords(3, 0)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(3, 1)));
 
-        opponentPlayer.getBuilders()[0].setCoords(new Coords(2, 0));
-        opponentPlayer.getBuilders()[1].setCoords(new Coords(5, 0));
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(2, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(4, 0)));
 
 
-        match.setCell(new Coords(3, 1), Level.Top);
-        match.setCell(new Coords(3, 2), Level.Floor);
-        match.setCell(new Coords(1, 2), Level.Base);
-        match.setCell(new Coords(2, 2), Level.Medium);
-        match.setCell(new Coords(1, 3), Level.Top);
-        match.setCell(new Coords(3, 3), Level.Top);
+        match.setCellLevel(new Coords(3, 1), Level.Top);
+        match.setCellLevel(new Coords(3, 2), Level.Floor);
+        match.setCellLevel(new Coords(1, 2), Level.Base);
+        match.setCellLevel(new Coords(2, 2), Level.Medium);
+        match.setCellLevel(new Coords(1, 3), Level.Top);
+        match.setCellLevel(new Coords(3, 3), Level.Top);
         match.getCell(new Coords(3,3)).setDome(true);
-        match.setCell(new Coords(3, 0), Level.Floor);
-        match.setCell(new Coords(1, 2), Level.Base);
-        match.setCell(new Coords(4, 0), Level.Floor);
-        match.setCell(new Coords(4, 4), Level.Floor);
+        match.setCellLevel(new Coords(3, 0), Level.Floor);
+        match.setCellLevel(new Coords(1, 2), Level.Base);
+        match.setCellLevel(new Coords(4, 0), Level.Floor);
+        match.setCellLevel(new Coords(4, 4), Level.Floor);
     }
 
     @Test(expected = IllegalArgumentException.class)

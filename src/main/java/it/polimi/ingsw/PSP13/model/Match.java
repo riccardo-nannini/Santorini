@@ -77,7 +77,7 @@ public class Match {
      * @param level
      * call to map.setCell
      */
-    public void setCell(Coords coords, Level level)
+    public void setCellLevel(Coords coords, Level level)
     {
         map.setCell(coords, level);
     }

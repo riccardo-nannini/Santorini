@@ -3,11 +3,9 @@ import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.debuffs.AthenaDebuff;
-import it.polimi.ingsw.PSP13.model.debuffs.Decorator;
 import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.gods.Athena;
 import it.polimi.ingsw.PSP13.model.player.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,26 +45,32 @@ public class AthenaTest {
         opponentsbuilder2 = new Builder();
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1 ,opponentsbuilder2});
         opponentPlayer.setGod(new Turn());
+
+        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 2)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(0, 2)));
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
     }
 
     @Test
     public void MovedCorrectlyTest() throws IllegalMoveException {
-        opponentPlayer.getBuilders()[0].setCoords(new Coords(0,0));
-        opponentPlayer.getBuilders()[1].setCoords(new Coords(0, 1));
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
 
-        player.getBuilders()[0].setCoords(new Coords(2,2));
-        player.getBuilders()[1].setCoords(new Coords(0,2));
-        match.setCell(new Coords(2,2), Level.Floor);
-        match.setCell(new Coords(2,3), Level.Floor);
+        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 2)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(0, 2)));
+        match.setCellLevel(new Coords(2,2), Level.Floor);
+        match.setCellLevel(new Coords(2,3), Level.Floor);
         player.move(player.getBuilders()[0], new Coords(2,3));
         assertEquals(player.getBuilders()[0].getCoords(), new Coords(2, 3));
+
     }
 
     @Test
     public void AppliedDebuff_OpponentTest() throws IllegalMoveException {
-        match.setCell(new Coords(1,0), Level.Base);
-        match.setCell(new Coords(0,0), Level.Floor);
-        player.getBuilders()[0].setCoords(new Coords(0,0));
+        match.setCellLevel(new Coords(1,0), Level.Base);
+        match.setCellLevel(new Coords(0,0), Level.Floor);
+        player.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
 
         player.move(player.getBuilders()[0], new Coords(1,0));
         assertTrue(opponentPlayer.getGod() instanceof AthenaDebuff);
@@ -75,9 +79,9 @@ public class AthenaTest {
 
     @Test
     public void NotAppliedDebuffTest() throws IllegalMoveException {
-        match.setCell(new Coords(1,0), Level.Floor);
-        match.setCell(new Coords(0,0), Level.Floor);
-        player.getBuilders()[0].setCoords(new Coords(0,0));
+        match.setCellLevel(new Coords(1,0), Level.Floor);
+        match.setCellLevel(new Coords(0,0), Level.Floor);
+        player.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
 
         player.move(player.getBuilders()[0], new Coords(1,0));
         assertFalse(opponentPlayer.getGod() instanceof AthenaDebuff);

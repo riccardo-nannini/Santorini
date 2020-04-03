@@ -47,22 +47,22 @@ public class AresTest {
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1, opponentsbuilder2});
         opponentPlayer.setGod(new Turn(match));
 
-        opponentPlayer.getBuilders()[0].setCoords(new Coords(0, 0));
-        opponentPlayer.getBuilders()[1].setCoords(new Coords(0, 1));
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
 
 
-        match.setCell(new Coords(3, 2), Level.Floor);
-        match.setCell(new Coords(1, 2), Level.Base);
-        match.setCell(new Coords(2, 2), Level.Medium);
-        match.setCell(new Coords(1, 3), Level.Top);
-        match.setCell(new Coords(3, 3), Level.Top);
+        match.setCellLevel(new Coords(3, 2), Level.Floor);
+        match.setCellLevel(new Coords(1, 2), Level.Base);
+        match.setCellLevel(new Coords(2, 2), Level.Medium);
+        match.setCellLevel(new Coords(1, 3), Level.Top);
+        match.setCellLevel(new Coords(3, 3), Level.Top);
         match.getCell(new Coords(3,3)).setDome(true);
     }
 
     @Before
     public void setUp() {
-        player.getBuilders()[0].setCoords(new Coords(2, 1));
-        player.getBuilders()[1].setCoords(new Coords(2, 3));
+        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 1)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(2, 3)));
     }
 
 

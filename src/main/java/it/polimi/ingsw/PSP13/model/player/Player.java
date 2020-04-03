@@ -13,12 +13,12 @@ public class Player {
     private String username;
 
 
-    public void move(Builder builder, Coords coords) throws IllegalMoveException
+    public void move(Builder builder, Coords coords)
     {
         god.move(builder, coords);
     }
 
-    public void build(Builder builder, Coords coords) throws IllegalBuildException
+    public void build(Builder builder, Coords coords)
     {
         god.build(builder, coords);
     }

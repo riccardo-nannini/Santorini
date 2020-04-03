@@ -46,19 +46,19 @@ public class AtlasTest {
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1 ,opponentsbuilder2});
         opponentPlayer.setGod(new Turn(match));
 
-        opponentPlayer.getBuilders()[0].setCoords(new Coords(0,0));
-        opponentPlayer.getBuilders()[1].setCoords(new Coords(0, 1));
-        player.getBuilders()[1].setCoords(new Coords(0,2));
-        match.setCell(new Coords(3,2), Level.Floor);
-        match.setCell(new Coords(1,2), Level.Base);
-        match.setCell(new Coords(2,2), Level.Top);
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(0, 2)));
+        match.setCellLevel(new Coords(3,2), Level.Floor);
+        match.setCellLevel(new Coords(1,2), Level.Base);
+        match.setCellLevel(new Coords(2,2), Level.Top);
         match.getCell(new Coords(2,2)).setDome(true);
-        match.setCell(new Coords(1,3), Level.Top);
+        match.setCellLevel(new Coords(1,3), Level.Top);
     }
 
     @Before
     public void setUp() {
-        player.getBuilders()[0].setCoords(new Coords(2,3));
+        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
         player.setGod(new Atlas());
     }
 
@@ -77,16 +77,6 @@ public class AtlasTest {
         assertTrue(match.getCell(new Coords(3,2)).getDome());
     }
 
-    @Test (expected = IllegalBuildException.class)
-    public void BuildWithEffect_WrongInput_ShouldThrowException() throws IllegalBuildException {
-        player.setGod(new Atlas(true));
-        player.build(builder1,new Coords(2,2));
-    }
-
-    @Test (expected = IllegalBuildException.class)
-    public void BuildNoEffect_WrongInput_ShouldThrowException() throws IllegalBuildException {
-        player.build(builder1,new Coords(2,2));
-    }
 
 
 }

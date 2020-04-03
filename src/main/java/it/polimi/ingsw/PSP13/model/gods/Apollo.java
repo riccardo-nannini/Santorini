@@ -48,7 +48,7 @@ public class Apollo extends Turn {
         if (!Map.isLegal(coords) || builder == null) {
             throw new IllegalArgumentException();
         } else {
-            int diff = match.getCell(coords).getLevel().getHeight() - Turn.match.getHeight(builder.getCoords());
+            int diff = match.getCell(coords).getLevel().getHeight() - builder.getHeight();
             if(Turn.match.getAdjacent(builder.getCoords()).contains(coords) && diff <= 1 && apolloCheck(builder, coords))
                 return true;
             else
@@ -58,37 +58,23 @@ public class Apollo extends Turn {
     }
 
     /**
-     * the opponent builder is forced to swap position
+     * the opponent builder is forced to swap position if needed
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
-     * @throws IllegalMoveException
      */
     @Override
-    public void move(Builder builder, Coords coords) throws IllegalMoveException {
-        if (checkMove(builder, coords))
+    public void move(Builder builder, Coords coords){
+
+        if(apolloCheck(builder, coords))
         {
-            if(apolloCheck(builder, coords))
-            {
-                try
-                {
-                    Builder opponent;
-                    opponent = match.getBuilderByCoords(coords);
-                    Coords old = builder.getCoords();
+            Builder opponent;
+            opponent = match.getBuilderByCoords(coords);
+            Coords old = builder.getCoords();
 
-                    match.getPlayerByBuilder(opponent).getGod().force(opponent,old);
-                }
-                catch(IllegalArgumentException e)
-                {
-
-                }
-
-            }
-
-            builder.setCoords(coords);
-
-        } else {
-            throw new IllegalMoveException();
+            match.getPlayerByBuilder(opponent).getGod().force(opponent,old);
         }
+
+        super.move(builder, coords);
     }
 
 }

@@ -20,7 +20,7 @@ public class Map {
         {
             for(int j=0;j<5;j++)
             {
-                matrix[i][j] = new Cell();
+                matrix[i][j] = new Cell(i,j);
             }
         }
     }

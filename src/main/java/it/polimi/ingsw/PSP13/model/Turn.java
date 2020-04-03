@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
 import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.player.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,8 +34,8 @@ public class Turn {
         if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || builder1 ==  null || builder2 == null) {
             throw new IllegalArgumentException();
         } else {
-            builder1.setCoords(coords1);
-            builder2.setCoords(coords2);
+            builder1.setCell(match.getCell(coords1));
+            builder2.setCell(match.getCell(coords2));
         }
     }
 
@@ -42,14 +43,9 @@ public class Turn {
      * Moves builder into the cell's coordinates
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
-     * @throws IllegalMoveException if checkMove(builder, coords) return false
      */
-    public void move(Builder builder, Coords coords) throws IllegalMoveException {
-        if (checkMove(builder, coords)) {
-            builder.setCoords(coords);
-        } else {
-            throw new IllegalMoveException();
-        }
+    public void move(Builder builder, Coords coords){
+        builder.setCell(match.getCell(coords));
     }
 
     /**
@@ -77,25 +73,21 @@ public class Turn {
      * @param coords coordinates of the cell where the builder is forced to move
      */
     public void force(Builder builder, Coords coords) {
-        builder.setCoords(coords);
+        builder.setCell(match.getCell(coords));
     }
 
     /**
      * Builds a level in the specified position
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
-     * @throws IllegalBuildException if buildingPosition is not legal
      */
-    public void build(Builder builder, Coords buildingPosition) throws IllegalBuildException
+    public void build(Builder builder, Coords buildingPosition)
     {
-        if(!checkBuild(builder, buildingPosition)) {
-            throw new IllegalBuildException();
-        }
         int currentLevel = match.getHeight(buildingPosition);
         if(currentLevel==Level.Top.getHeight())
             match.getCell(buildingPosition).setDome(true);
         else
-            match.setCell(buildingPosition, Level.findLevelByHeight(currentLevel+1));
+            match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+1));
     }
 
     /**
@@ -135,6 +127,42 @@ public class Turn {
      */
     public void end()
     {}
+
+    /**
+     *
+     * @param builder
+     * @return a list of adjacent squares that a builder can move in
+     */
+    public List<Coords> getCellMoves(Builder builder)
+    {
+        List<Coords> temp = match.getAdjacent(builder.getCoords());
+        List<Coords> sqrList = new ArrayList<>();
+
+        for(Coords coords1 : temp)
+        {
+            if(checkMove(builder, coords1))
+                sqrList.add(coords1);
+        }
+        return sqrList;
+    }
+
+    /**
+     *
+     * @param builder
+     * @return a list of adjacent cell that a builder can build on
+     */
+    public List<Coords> getCellBuilds(Builder builder)
+    {
+        List<Coords> temp = match.getAdjacent(builder.getCoords());
+        List<Coords> sqrList = new ArrayList<>();
+
+        for(Coords coords1 : temp)
+        {
+            if(checkBuild(builder, coords1))
+                sqrList.add(coords1);
+        }
+        return sqrList;
+    }
 
 
 }

@@ -13,11 +13,6 @@ public class AthenaDebuff extends Decorator{
     }
     Player player;
 
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     /**
      * In addition to the player's god condition on checkMove, the AthenaDebuff adds a check
      * on the movement action controlling if the builder is moving up.

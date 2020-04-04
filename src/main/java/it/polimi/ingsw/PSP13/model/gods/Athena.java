@@ -1,9 +1,7 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.debuffs.AthenaDebuff;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
@@ -16,7 +14,6 @@ public class Athena extends Turn {
      * If this is the case it will decorate other players' god with the AthenDebuff
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move to
-     * @throws IllegalMoveException if params aren't legal
      */
     @Override
     public void move(Builder builder, Coords coords){

@@ -12,11 +12,14 @@ public class Player {
     private int age;
     private String username;
 
+    public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
 
     public void move(Builder builder, Coords coords)
     {
         god.move(builder, coords);
     }
+
+    public boolean checkBuild(Builder builder, Coords coords) { return god.checkBuild(builder, coords); }
 
     public void build(Builder builder, Coords coords)
     {

@@ -1,13 +1,9 @@
 package it.polimi.ingsw.PSP13.model;
 
 import it.polimi.ingsw.PSP13.model.board.*;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.player.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Turn {
 
@@ -54,7 +50,7 @@ public class Turn {
      * @return true if builder can move into coords' cell, else return false
      * @throws IllegalArgumentException if params aren't legal
      */
-    public boolean checkMove(Builder builder, Coords coords) throws IllegalArgumentException {
+    public boolean checkMove(Builder builder, Coords coords) {
         if (!Map.isLegal(coords) || builder == null) {
             throw new IllegalArgumentException();
         } else {
@@ -84,7 +80,7 @@ public class Turn {
     public void build(Builder builder, Coords buildingPosition)
     {
         int currentLevel = match.getHeight(buildingPosition);
-        if(currentLevel==Level.Top.getHeight())
+        if(currentLevel == Level.Top.getHeight())
             match.getCell(buildingPosition).setDome(true);
         else
             match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+1));
@@ -123,7 +119,7 @@ public class Turn {
 
 
     /**
-     * Method the manages tasks in the end of the turn.
+     * Method that manages tasks at the end of the turn.
      */
     public void end()
     {}
@@ -131,37 +127,37 @@ public class Turn {
     /**
      *
      * @param builder
-     * @return a list of adjacent squares that a builder can move in
+     * @return a list of adjacent cells where a builder can move in
      */
     public List<Coords> getCellMoves(Builder builder)
     {
-        List<Coords> temp = match.getAdjacent(builder.getCoords());
-        List<Coords> sqrList = new ArrayList<>();
+        List<Coords> adjacents = match.getAdjacent(builder.getCoords());
+        List<Coords> possibleMove = new ArrayList<>();
 
-        for(Coords coords1 : temp)
+        for(Coords coords : adjacents)
         {
-            if(checkMove(builder, coords1))
-                sqrList.add(coords1);
+            if(checkMove(builder, coords))
+                possibleMove.add(coords);
         }
-        return sqrList;
+        return possibleMove;
     }
 
     /**
      *
      * @param builder
-     * @return a list of adjacent cell that a builder can build on
+     * @return a list of adjacent cells where the builder can build on
      */
     public List<Coords> getCellBuilds(Builder builder)
     {
-        List<Coords> temp = match.getAdjacent(builder.getCoords());
-        List<Coords> sqrList = new ArrayList<>();
+        List<Coords> adjacents = match.getAdjacent(builder.getCoords());
+        List<Coords> possibleBuildingSite = new ArrayList<>();
 
-        for(Coords coords1 : temp)
+        for(Coords coords : adjacents)
         {
-            if(checkBuild(builder, coords1))
-                sqrList.add(coords1);
+            if(checkBuild(builder, coords))
+                possibleBuildingSite.add(coords);
         }
-        return sqrList;
+        return possibleBuildingSite;
     }
 
 

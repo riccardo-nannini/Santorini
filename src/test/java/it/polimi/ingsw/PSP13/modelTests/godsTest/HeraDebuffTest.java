@@ -36,12 +36,19 @@ public class HeraDebuffTest {
         match.setCellLevel(new Coords(2,3), Level.Medium);
         match.setCellLevel(new Coords(2,4), Level.Top);
         match.setCellLevel(new Coords(2, 2), Level.Top);
+        match.setCellLevel(new Coords(1, 0), Level.Medium);
+        match.setCellLevel(new Coords(0, 0), Level.Top);
+        match.setCellLevel(new Coords(0 , 1), Level.Floor);
+        match.setCellLevel(new Coords(1, 1), Level.Top);
     }
 
     @Test
     public void checkWin_NormalMovement_ExpectedFalse() {
         boolean result = player.win(player.getBuilders()[0],
                 new Coords(2,3), new Coords(1,3));
+        assertFalse(result);
+        result = player.win(player.getBuilders()[0],
+                new Coords(1,0), new Coords(0,1));
         assertFalse(result);
     }
 
@@ -50,12 +57,18 @@ public class HeraDebuffTest {
         boolean result = player.win(player.getBuilders()[0],
                 new Coords(2,3), new Coords(2,4));
         assertFalse(result);
+                result = player.win(player.getBuilders()[0],
+                new Coords(1,0), new Coords(0,0));
+        assertFalse(result);
     }
 
     @Test
     public void checkWin_NotPerimetral_WinMovement_ExpectedTrue() {
         boolean result = player.win(player.getBuilders()[0],
                 new Coords(2,3), new Coords(2,2));
-        assertTrue(true);
+        assertTrue(result);
+        result = player.win(player.getBuilders()[0],
+                new Coords(1,0), new Coords(1,1));
+        assertTrue(result);
     }
 }

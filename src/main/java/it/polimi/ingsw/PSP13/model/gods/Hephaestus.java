@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
-
 import java.util.List;
 
 public class Hephaestus extends Turn {

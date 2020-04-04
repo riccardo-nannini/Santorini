@@ -3,7 +3,6 @@ import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.debuffs.AthenaDebuff;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.gods.Athena;
 import it.polimi.ingsw.PSP13.model.player.*;
 import org.junit.BeforeClass;
@@ -53,7 +52,7 @@ public class AthenaTest {
     }
 
     @Test
-    public void MovedCorrectlyTest() throws IllegalMoveException {
+    public void MovedCorrectlyTest() {
         opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
         opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
 
@@ -67,7 +66,7 @@ public class AthenaTest {
     }
 
     @Test
-    public void AppliedDebuff_OpponentTest() throws IllegalMoveException {
+    public void AppliedDebuff_OpponentTest() {
         match.setCellLevel(new Coords(1,0), Level.Base);
         match.setCellLevel(new Coords(0,0), Level.Floor);
         player.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
@@ -78,7 +77,7 @@ public class AthenaTest {
     }
 
     @Test
-    public void NotAppliedDebuffTest() throws IllegalMoveException {
+    public void NotAppliedDebuffTest() {
         match.setCellLevel(new Coords(1,0), Level.Floor);
         match.setCellLevel(new Coords(0,0), Level.Floor);
         player.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));

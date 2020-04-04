@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.debuffs.AthenaDebuff;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
@@ -35,7 +34,6 @@ public class AthenaDebuffTest {
         builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
         AthenaDebuff debuff = new AthenaDebuff(new Turn());
-        debuff.setPlayer(player);
         player.setGod(debuff);
 
         player.getBuilders()[0].setCell(match.getCell(new Coords(1, 1)));
@@ -50,22 +48,28 @@ public class AthenaDebuffTest {
     public void setUp() {
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
         player.getBuilders()[1].setCell(match.getCell(new Coords(4, 3)));
-    }
-    @Test
-    public void MovingSameLevel_NormalMoveExpected(){
-        player.move(player.getBuilders()[0], new Coords(3,3));
-        assertEquals(player.getBuilders()[0].getCoords(), new Coords(3, 3));
+        AthenaDebuff debuff = new AthenaDebuff(new Turn());
+        player.setGod(debuff);
     }
 
     @Test
-    public void MovingDown_NormalMoveExpected(){
-        player.move(player.getBuilders()[0], new Coords(3,4));
-        assertEquals(player.getBuilders()[0].getCoords(), new Coords(3, 4));
+    public void MovingSameLevel_ExpectedTrue(){
+        assertTrue(player.checkMove(player.getBuilders()[0], new Coords(3,3)));
+    }
+
+    @Test
+    public void MovingDown_ExpectedTrue(){
+        assertTrue(player.checkMove(player.getBuilders()[0], new Coords(3,4)));
+    }
+
+    @Test
+    public void MovingUp_ExpectedFalse(){
+        assertFalse(player.checkMove(player.getBuilders()[0], new Coords(2,4)));
     }
 
     @Test
     public void endOfTurn_DecoretorRemoveExpected(){
-        player.move(player.getBuilders()[0], new Coords(3,3));
+        player.checkMove(player.getBuilders()[0], new Coords(3,3));
         player.end();
         assertFalse(player.getGod() instanceof AthenaDebuff);
     }

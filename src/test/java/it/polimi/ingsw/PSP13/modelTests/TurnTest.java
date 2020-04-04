@@ -3,8 +3,6 @@ package it.polimi.ingsw.PSP13.modelTests;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
@@ -62,7 +60,7 @@ public class TurnTest {
     }
 
     @Test
-    public void moveCorrect() throws IllegalMoveException
+    public void moveCorrect()
     {
         turn.move(builders[0],new Coords(2,3));
         assertEquals(builders[0].getCoords(),new Coords(2,3));
@@ -91,7 +89,7 @@ public class TurnTest {
     }
 
     @Test
-    public void buildCorrect() throws IllegalBuildException
+    public void buildCorrect()
     {
         turn.build(builders[0],new Coords(2,1));
         assertEquals(Level.Base,match.getCell(new Coords(2,1)).getLevel());

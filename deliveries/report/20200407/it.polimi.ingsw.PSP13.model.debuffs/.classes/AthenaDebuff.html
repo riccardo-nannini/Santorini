@@ -1,0 +1,125 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AthenaDebuff</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.debuffs</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AthenaDebuff (it.polimi.ingsw.PSP13.model.debuffs)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AthenaDebuff</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (10/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.debuffs;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.Match;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class AthenaDebuff extends Decorator{
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    public AthenaDebuff(Turn god)
+<i>11</i>&nbsp;    {
+<b class="fc"><i>12</i>&nbsp;        super(god);</b>
+<b class="fc"><i>13</i>&nbsp;    }</b>
+<i>14</i>&nbsp;    Player player;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * In addition to the player&#39;s god condition on checkMove, the AthenaDebuff adds a check
+<i>18</i>&nbsp;     * on the movement action controlling if the builder is moving up.
+<i>19</i>&nbsp;     * @param builder builder that is currently moving
+<i>20</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move to
+<i>21</i>&nbsp;     * @return false if the builder is moving up, the result of player&#39;s god checkMove otherwise.
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords) {
+<b class="fc"><i>25</i>&nbsp;        player = match.getPlayerByBuilder(builder);</b>
+<b class="fc"><i>26</i>&nbsp;        if (god.checkMove(builder, coords)) {</b>
+<b class="fc"><i>27</i>&nbsp;            if (match.getHeight(builder.getCoords()) &lt; match.getHeight(coords)) {</b>
+<b class="fc"><i>28</i>&nbsp;                return false;</b>
+<b class="fc"><i>29</i>&nbsp;            } else return true;</b>
+<b class="nc"><i>30</i>&nbsp;        } return false;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Removes the AthenDebuff decorator since the effect only applies for one turn
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    public void end() {
+<b class="fc"><i>38</i>&nbsp;        god.end();</b>
+<b class="fc"><i>39</i>&nbsp;        removeDecorator(player);</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;}
+<i>42</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-07 01:01</div>
+</div>
+</body>
+</html>

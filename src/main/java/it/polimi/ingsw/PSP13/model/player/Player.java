@@ -1,8 +1,6 @@
 package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 
 public class Player {
 

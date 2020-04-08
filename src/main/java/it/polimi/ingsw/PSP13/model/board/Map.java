@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Map {
 
-    private Cell[][] matrix;
+    public Cell[][] matrix;
 
     /**
      * initializes a new matrix

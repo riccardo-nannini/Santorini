@@ -32,9 +32,9 @@ public class MinotaurTest {
     {
         match = new Match();
         match.start();
-        player = new Player(Color.Blue, 21, "Mario");
-        opponentPlayer1 = new Player(Color.Brown, 21, "Diego");
-        opponentPlayer2 = new Player(Color.White, 21, "Maurizio");
+        player = new Player(Color.Blue, "Mario");
+        opponentPlayer1 = new Player(Color.Yellow, "Diego");
+        opponentPlayer2 = new Player(Color.White, "Maurizio");
 
         match.addPlayer(player);
         match.addPlayer(opponentPlayer1);

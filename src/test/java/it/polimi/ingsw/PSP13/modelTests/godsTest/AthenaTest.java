@@ -28,8 +28,8 @@ public class AthenaTest {
     {
         match = new Match();
         match.start();
-        player = new Player(Color.Blue, 21, "Mario");
-        opponentPlayer = new Player(Color.Brown, 21, "Diego");
+        player = new Player(Color.Blue, "Mario");
+        opponentPlayer = new Player(Color.Yellow, "Diego");
         new Turn(match);
 
         match.addPlayer(player);

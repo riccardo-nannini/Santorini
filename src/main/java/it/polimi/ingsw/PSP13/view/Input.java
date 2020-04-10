@@ -1,37 +1,26 @@
 package it.polimi.ingsw.PSP13.view;
 
+import it.polimi.ingsw.PSP13.model.player.Coords;
 
-public abstract class Input {
+import java.util.List;
 
-    protected ObservableToController controller;
+public interface Input {
 
-    public Input(ObservableToController controller)
-    {
-        this.controller = controller;
-    }
+    public void moveInput();
 
-    /**
-     * the user is asked to enter a nickname for the game
-     */
-    public void getNickname()
-    {}
+    public void buildInput();
 
     /**
-     * the challenger selects from the list of all the gods only the gods that will be played this game
+     *
+     * @param error true if the previous input generated an error
+     * @return the player's nickname
      */
-    public void getGodSelection()
-    {}
+    public void nicknameInput(boolean error);
 
-    /**
-     * the user is asked to write the name of the god he wants to play with
-     */
-    public void getGod()
-    {}
+    public void godInput(String player, List<String> chosenGods);
 
-    /**
-     * the user is asked to insert the initial position of his builders
-     */
-    public void setupBuilder()
-    {}
+    public void builderSetUpInput(String player);
+
+    public void godSelectionInput(String challenger, List<String> godsList);
 
 }

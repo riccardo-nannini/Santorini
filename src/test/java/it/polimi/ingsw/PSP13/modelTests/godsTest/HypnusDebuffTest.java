@@ -24,7 +24,7 @@ public class HypnusDebuffTest {
     public static void setup() {
         match = new Match();
         match.start();
-        player = new Player(Color.Blue, 21, "Mario");
+        player = new Player(Color.Blue, "Mario");
 
         match.addPlayer(player);
         new Turn(match);

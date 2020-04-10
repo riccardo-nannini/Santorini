@@ -37,17 +37,16 @@ public class ViewObserver {
      * sets the gods available for this match
      * @param gods
      */
-    public void updateGodSelection(String[] gods)
+    public void updateGodSelection(String gods)
     {
         //ho la selezione degli dèi disponibili per questa partita
     }
 
     /**
      * sets the initial coordinates of player builders
-     * @param builder1
-     * @param builder2
+     * @param builder
      */
-    public void updateSetupBuilder(Coords builder1, Coords builder2)
+    public void updateSetupBuilder(Coords builder)
     {
         //posiziono i builder prima di iniziare la partita
     }

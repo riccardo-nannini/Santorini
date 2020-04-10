@@ -1,15 +1,12 @@
 package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.exception.IllegalBuildException;
-import it.polimi.ingsw.PSP13.model.exception.IllegalMoveException;
 
 public class Player {
 
     private Color color;
     private Builder[] builders;
-    private Turn god;
-    private int age;
+    public Turn god;
     private String username;
 
     public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
@@ -40,14 +37,12 @@ public class Player {
 
     /**
      * @param color
-     * @param age
      * @param username
      * initializes a new instance with the basic attributes
      */
-    public Player(Color color, int age, String username)
+    public Player(Color color, String username)
     {
         this.color = color;
-        this.age = age;
         this.username = username;
 
         builders = new Builder[2];
@@ -78,14 +73,6 @@ public class Player {
 
     public void setGod(Turn god) {
         this.god = god;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getUsername() {

@@ -98,4 +98,10 @@ public class Map {
         matrix[coords.getX()][coords.getY()].setLevel(level);
     }
 
+
+    public Cell[][] getMatrix() {
+        return matrix;
+    }
+
+
 }

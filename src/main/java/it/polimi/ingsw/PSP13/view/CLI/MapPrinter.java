@@ -1,19 +1,17 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
-import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.view.Immutables.BuilderView;
-import it.polimi.ingsw.PSP13.view.Immutables.CellView;
 import it.polimi.ingsw.PSP13.view.Immutables.MapView;
+import it.polimi.ingsw.PSP13.view.Immutables.WorkerVM;
 
 public class MapPrinter {
 
-    private MapView map;
-    private BuilderView builder;
-    private CellCLI[][] MapCLI;
+    private static MapView map;
+    private static BuilderMap builder = new BuilderMap();
+    private static CellCLI[][] MapCLI;
 
     /**
      * updates the instance of MapView and refreshes the video
@@ -28,15 +26,15 @@ public class MapPrinter {
      * updates the instance of BuilderView and refreshed the video
      * @param builder
      */
-    void updateBuildersCLI(BuilderView builder) {
-        this.builder = builder;
+    void updateBuildersCLI(WorkerVM builder) {
+        this.builder.updateBuilder(builder);
         printMap();
     }
 
     /**
      * stamps on video the current state of the board
      */
-    void printMap() {
+    public static void printMap() {
 
         MapCLI = new CellCLI[5][5];
         for (int i=0; i<5; i++) {
@@ -46,16 +44,22 @@ public class MapPrinter {
         }
         System.out.println("\n\n");
         System.out.printf("%50s","");
+        System.out.printf("%6s 0 %7s 1 %7s 2 %8s 3 %7s 4 \n\n","","","","","");
+        System.out.printf("%50s","");
         for (int row=0; row<5; row++) {
             for (int line = 1; line <= 3; line++) {
                 for (int col=0; col<5; col++) {
+                    if(line == 2 && col==0)
+                        System.out.print(row + "  ");
+                    if(line != 2 && col==0)
+                        System.out.print("   ");
                     MapCLI[row][col].printCell(line);
                     if (col<4) System.out.print(" \u2016 ");
                 }
                 System.out.println();
                 System.out.printf("%50s","");
             }
-            if (row<4) for (int i = 0; i < 51; i++) { System.out.print("\u2550");}
+            if (row<4) for (int i = 0; i < 55; i++) { System.out.print("\u2550");}
             System.out.println();
             System.out.printf("%50s","");
         }
@@ -65,21 +69,23 @@ public class MapPrinter {
 
     public static void main(String[] args) {
         Map mappa = new Map();
-        Coords[] coords = new Coords[2];
+        Coords[] coordsBlue = new Coords[2];
         Coords[] coordsRed = new Coords[2];
-        Coords[] coordsViolet = new Coords[2];
-        BuilderView builderView = new BuilderView();
-
-        coords[0] = new Coords(1,2);
-        coords[1] = new Coords(4,4);
+        Coords[] coordsYellow = new Coords[2];
+        BuilderMap builderMap = new BuilderMap();
+        WorkerVM workerBlue = new WorkerVM(Color.Blue,coordsBlue);
+        WorkerVM workerRed = new WorkerVM(Color.Red,coordsRed);
+        WorkerVM workerYellow = new WorkerVM(Color.Yellow,coordsYellow);
+        coordsBlue[0] = new Coords(1,2);
+        coordsBlue[1] = new Coords(4,4);
         coordsRed[0] = new Coords(2,2);
         coordsRed[1] = new Coords(2,1);
-        coordsViolet[0] = new Coords(4,2);
-        coordsViolet[1] = new Coords(4,3);
+        coordsYellow[0] = new Coords(4,2);
+        coordsYellow[1] = new Coords(4,3);
 
-        builderView.updateBuilder(coords,Color.Blue);
-        builderView.updateBuilder(coordsRed,Color.Red);
-        builderView.updateBuilder(coordsViolet,Color.Yellow);
+        builderMap.updateBuilder(workerBlue);
+        builderMap.updateBuilder(workerRed);
+        builderMap.updateBuilder(workerYellow);
 
         mappa.setCell(new Coords(2,3), Level.Top);
         mappa.getCell(new Coords(2,3)).setDome(true);
@@ -89,9 +95,9 @@ public class MapPrinter {
         MapView mapView = new MapView(mappa.getMatrix());
         MapPrinter printer = new MapPrinter();
         printer.map = mapView;
-        printer.builder = builderView;
+        printer.builder = builderMap;
 
-        printer.printMap();
+        MapPrinter.printMap();
 
         //printer.updateMapCLI(mapView);
     }

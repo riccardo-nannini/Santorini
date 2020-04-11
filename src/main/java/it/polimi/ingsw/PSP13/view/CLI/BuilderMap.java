@@ -1,24 +1,25 @@
-package it.polimi.ingsw.PSP13.view.Immutables;
+package it.polimi.ingsw.PSP13.view.CLI;
 
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.view.Immutables.WorkerVM;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BuilderView {
+public class BuilderMap {
 
-    private final Map<Color, Coords[]> map;
+    private final Map<Color, WorkerVM> map;
 
     public Coords[] getCoords(Color color){
-        return map.get(color).clone();
+        return map.get(color).getBuilders();
     }
 
     /**
      * creates an immutable builder
      */
-    public BuilderView()
+    public BuilderMap()
     {
         map = new HashMap<>();
         map.put(Color.Blue,null);
@@ -32,11 +33,10 @@ public class BuilderView {
     /**
      * updates the position of the builders identified by color
      * @param builders the new values
-     * @param color the color that identifies the builders
      */
-    public void updateBuilder(Coords[] builders, Color color)
+    public void updateBuilder(WorkerVM builders)
     {
-        map.put(color,builders);
+        map.put(builders.getColor(),builders);
     }
 
     /**
@@ -48,10 +48,12 @@ public class BuilderView {
     public Color checkBuilder(int x, int y)
     {
         Coords par = new Coords(x,y);
+        Coords[] coords = null;
 
         for(Map.Entry entry : map.entrySet())
         {
-            Coords[] coords = ((Coords[])entry.getValue());
+            if(entry.getValue() != null)
+                coords = ((WorkerVM)entry.getValue()).getBuilders();
             if(coords != null)
             {
                 if(coords[0].equals(par) || coords[1].equals(par))

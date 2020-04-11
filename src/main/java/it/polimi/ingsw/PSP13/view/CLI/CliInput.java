@@ -85,7 +85,7 @@ public class CliInput extends Input {
     {
         Coords[] coords = new Coords[2];
 
-        printMap();
+        MapPrinter.printMap();
         System.out.println(player + ", place your builder on the map and type the position in the format *row*,*column*:");
         System.out.println("Choose the position of your first builder:");
         coords[0] = readCoords();
@@ -118,40 +118,5 @@ public class CliInput extends Input {
         return new Coords(x,y);
     }
 
-
-    /**
-     * prints an empty map so the player can see the coordinates
-     */
-    public void printMap() {
-        CellCLI[][] MapCLI = new CellCLI[5][5];
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                MapCLI[i][j] = new CellCLI(new CellView(new Cell(i,j)), null);
-            }
-        }
-        System.out.println("\n\n");
-        System.out.printf("%50s","");
-        System.out.printf("%6s 0 %7s 1 %7s 2 %8s 3 %7s 4 \n\n","","","","","");
-        System.out.printf("%50s","");
-        for (int row=0; row<5; row++) {
-            for (int line = 1; line <= 3; line++) {
-                for (int col=0; col<5; col++) {
-                    if(line == 2 && col==0)
-                        System.out.print(row + "  ");
-                    if(line != 2 && col==0)
-                        System.out.print("   ");
-
-                    MapCLI[row][col].printCell(line);
-                    if (col<4) System.out.print(" \u2016 ");
-                }
-                System.out.println();
-                System.out.printf("%50s","");
-            }
-            if (row<4) for (int i = 0; i < 55; i++) { System.out.print("\u2550");}
-            System.out.println();
-            System.out.printf("%50s","");
-        }
-        System.out.println("\n\n");
-    }
 
 }

@@ -3,56 +3,45 @@ package it.polimi.ingsw.PSP13.view.CLI;
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
-import it.polimi.ingsw.PSP13.model.player.Builder;
+import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.view.Immutables.BuilderView;
+import it.polimi.ingsw.PSP13.view.Immutables.CellView;
 import it.polimi.ingsw.PSP13.view.Immutables.MapView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MapPrinter {
 
     private MapView map;
+    private BuilderView builder;
     private CellCLI[][] MapCLI;
-    private List<Builder> builders;
 
-    private void clearConsole()
-    {
-        try
-        {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows"))
-            {
-                Runtime.getRuntime().exec("cls");
-            }
-            else
-            {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch (final Exception e)
-        {
-            //  Handle any exceptions.
-        }
-    }
-
+    /**
+     * updates the instance of MapView and refreshes the video
+     * @param map
+     */
     void updateMapCLI(MapView map) {
         this.map = map;
-        clearConsole();
         printMap();
     }
 
+    /**
+     * updates the instance of BuilderView and refreshed the video
+     * @param builder
+     */
+    void updateBuildersCLI(BuilderView builder) {
+        this.builder = builder;
+        printMap();
+    }
+
+    /**
+     * stamps on video the current state of the board
+     */
     void printMap() {
-        boolean worker;
+
         MapCLI = new CellCLI[5][5];
         for (int i=0; i<5; i++) {
             for (int j=0; j<5; j++) {
-                worker = false;
-                for (Builder b : builders) {
-                    if (b.getCoords().equals(new Coords(i,j))) worker = true;
-                }
-                MapCLI[i][j] = new CellCLI(map.getMap()[i][j].getLevel(), map.getMap()[i][j].getDome(), worker);
+                MapCLI[i][j] = new CellCLI(map.getMap()[i][j], builder.checkBuilder(i,j));
             }
         }
         System.out.println("\n\n");
@@ -73,23 +62,37 @@ public class MapPrinter {
         System.out.println("\n\n");
     }
 
+
     public static void main(String[] args) {
         Map mappa = new Map();
+        Coords[] coords = new Coords[2];
+        Coords[] coordsRed = new Coords[2];
+        Coords[] coordsViolet = new Coords[2];
+        BuilderView builderView = new BuilderView();
 
-        Builder b1 = new Builder();
-        b1.setCell(new Cell(1,2));
-        List<Builder> builderList = new ArrayList<>();
-        builderList.add(b1);
+        coords[0] = new Coords(1,2);
+        coords[1] = new Coords(4,4);
+        coordsRed[0] = new Coords(2,2);
+        coordsRed[1] = new Coords(2,1);
+        coordsViolet[0] = new Coords(4,2);
+        coordsViolet[1] = new Coords(4,3);
+
+        builderView.updateBuilder(coords,Color.Blue);
+        builderView.updateBuilder(coordsRed,Color.Red);
+        builderView.updateBuilder(coordsViolet,Color.Yellow);
+
         mappa.setCell(new Coords(2,3), Level.Top);
         mappa.getCell(new Coords(2,3)).setDome(true);
         mappa.setCell(new Coords(1,4), Level.Medium);
         mappa.setCell(new Coords(0,0), Level.Base);
+
         MapView mapView = new MapView(mappa.getMatrix());
         MapPrinter printer = new MapPrinter();
         printer.map = mapView;
-        printer.builders = builderList;
+        printer.builder = builderView;
+
         printer.printMap();
 
-        printer.updateMapCLI(mapView);
+        //printer.updateMapCLI(mapView);
     }
 }

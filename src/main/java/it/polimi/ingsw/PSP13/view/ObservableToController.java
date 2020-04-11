@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP13.view;
 import it.polimi.ingsw.PSP13.controller.ViewObserver;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.util.List;
+
 public class ObservableToController {
 
     /**
@@ -28,7 +30,7 @@ public class ObservableToController {
      * the selection of gods selected by the challenger is sent to controller
      * @param gods
      */
-    public void notifyGodSelection(String[] gods)
+    public void notifyGodSelection(String gods)
     {
         controller.updateGodSelection(gods);
     }
@@ -44,11 +46,10 @@ public class ObservableToController {
 
     /**
      * the initial position of the users'builder is sent to controller
-     * @param builder1
-     * @param builder2
+     * @param builder
      */
-    public void notifySetupBuilder(Coords builder1, Coords builder2)
+    public void notifySetupBuilder(Coords builder)
     {
-        controller.updateSetupBuilder(builder1, builder2);
+        controller.updateSetupBuilder(builder);
     }
 }

@@ -9,6 +9,11 @@ public enum CellLevel {
 
     static final String RESET = "\u001b[0m";
 
+    /**
+     * creates an Enum that represents Unicode strings for the cell
+     * in various colors depending on the level
+     * @param color
+     */
     CellLevel(String color) {
         this.color = color;
     }

@@ -1,43 +1,39 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
-import it.polimi.ingsw.PSP13.model.board.Level;
+import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.view.Immutables.CellView;
-import it.polimi.ingsw.PSP13.view.Immutables.BuilderView;
 
 public class CellCLI {
 
-    CellLevel level;
-    String dome;
-    String builder;
+    private CellLevel level;
+    private WorkerColor builder = null;
+    private String dome;
 
     /**
-     * nuovo costruttore
+     * initializes a Cell datatype for the CLI
      * @param cell
-     * @param worker
+     * @param workerColor
      */
-    public CellCLI(CellView cell, BuilderView worker)
+    public CellCLI(CellView cell, Color workerColor)
     {
         if(cell.getDome())
             this.dome = "\u29BE";
-        if(worker != null)
+        if(workerColor != null)
         {
-            switch (worker.getColor())
+            switch (workerColor)
             {
                 case Blue:
-                    this.builder = WorkerColor.Blue.toString();
+                    this.builder = WorkerColor.Blue;
                     break;
-                case Violet:
-                    this.builder = WorkerColor.Violet.toString();
+                case Yellow:
+                    this.builder = WorkerColor.Yellow;
                     break;
-                case White:
-                    this.builder = WorkerColor.White.toString();
-                    break;
-                case Brown:
-                    this.builder = WorkerColor.Brown.toString();
+                case Red:
+                    this.builder = WorkerColor.Red;
                     break;
             }
         }
-        switch(level)
+        switch(cell.getLevel())
         {
             case Floor:
                 this.level = CellLevel.Floor;
@@ -55,35 +51,9 @@ public class CellCLI {
     }
 
     /**
-     * vecchio costruttore
-     * @param level
-     * @param dome
-     * @param builder
+     * stamps on video the line of the cell indicated
+     * @param line
      */
-    public CellCLI(Level level, boolean dome, boolean builder) {
-        if (dome) {
-            this.dome = "\u29BE";
-        }
-        if (builder) {
-            this.builder = "\uE77B";
-        }
-        switch(level)
-        {
-            case Floor:
-                this.level = CellLevel.Floor;
-                break;
-            case Base:
-                this.level = CellLevel.Base;
-                break;
-            case Medium:
-                this.level = CellLevel.Medium;
-                break;
-            case Top:
-                this.level = CellLevel.Top;
-                break;
-        }
-    }
-
     public void printCell(int line) {
         if (line < 1 || line > 3) return;
         switch (line) {
@@ -96,7 +66,7 @@ public class CellCLI {
                     System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, "\u001B[34m" + this.dome + CellLevel.RESET, this.level + CellLevel.RESET);
                 } else {
                     if (builder != null) {
-                        System.out.printf("%s%6s%11s", this.level + CellLevel.RESET, this.builder + CellLevel.RESET, this.level + CellLevel.RESET);
+                        System.out.printf("%s %6s%11s", this.level + CellLevel.RESET, this.builder + CellLevel.RESET, this.level + CellLevel.RESET);
                     } else {
                         System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, this.level + CellLevel.RESET, this.level + CellLevel.RESET);
                     }

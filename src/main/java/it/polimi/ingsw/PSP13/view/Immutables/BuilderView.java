@@ -1,32 +1,65 @@
 package it.polimi.ingsw.PSP13.view.Immutables;
 
-import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.model.player.Player;
+
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BuilderView {
 
-    private final Color color;
-    private final Coords coords;
+    private final Map<Color, Coords[]> map;
 
-    public Color getColor() {
-        return color;
-    }
-
-    public Coords getCoords() {
-        return coords;
+    public Coords[] getCoords(Color color){
+        return map.get(color).clone();
     }
 
     /**
      * creates an immutable builder
-     * @param builder
-     * @param player
      */
-    public BuilderView(Builder builder, Player player)
+    public BuilderView()
     {
-        this.color = player.getColor();
-        this.coords = builder.getCoords();
+        map = new HashMap<>();
+        map.put(Color.Blue,null);
+        map.put(Color.Red,null);
+        map.put(Color.Violet,null);
+        map.put(Color.White,null);
+        map.put(Color.Yellow,null);
+
+    }
+
+    /**
+     * updates the position of the builders identified by color
+     * @param builders the new values
+     * @param color the color that identifies the builders
+     */
+    public void updateBuilder(Coords[] builders, Color color)
+    {
+        map.put(color,builders);
+    }
+
+    /**
+     * check if there is a builder on coordinates (x,y)
+     * @param x
+     * @param y
+     * @return the color of the builder that lies on coordinates (x,y), null if there is no builder
+     */
+    public Color checkBuilder(int x, int y)
+    {
+        Coords par = new Coords(x,y);
+
+        for(Map.Entry entry : map.entrySet())
+        {
+            Coords[] coords = ((Coords[])entry.getValue());
+            if(coords != null)
+            {
+                if(coords[0].equals(par) || coords[1].equals(par))
+                    return (Color)entry.getKey();
+            }
+        }
+
+        return null;
     }
 
 

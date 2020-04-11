@@ -29,8 +29,8 @@ public class ApolloTest {
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
 
-        apollo = new Apollo();
-        turn = new Turn(match);
+        apollo = new Apollo(null);
+        turn = new Turn(match,null);
 
 
         match.addPlayer(player);

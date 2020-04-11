@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -7,7 +8,7 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Minotaur extends Turn {
 
-    public Minotaur() { }
+    public Minotaur(TurnHandler turnHandler) {this.turnHandler = turnHandler;}
 
     /**
      * @param builder
@@ -19,8 +20,7 @@ public class Minotaur extends Turn {
     {
         int x = (coords.getX() - builder.getCoords().getX()) + coords.getX();
         int y = (coords.getY() - builder.getCoords().getY()) + coords.getY();
-        Coords forcedPos = new Coords(x,y);
-        return forcedPos;
+        return new Coords(x,y);
     }
 
     /**
@@ -40,6 +40,7 @@ public class Minotaur extends Turn {
         } else {
             builder.setCell(match.getCell(coords));
         }
+        match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
 
 

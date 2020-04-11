@@ -1,13 +1,14 @@
 
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Pan extends Turn {
 
-    public Pan () { }
+    public Pan (TurnHandler turnHandler) {this.turnHandler = turnHandler; }
 
     /**
      * Adds to the standard win condition: win also if the builder moves down 2 or more levels
@@ -21,7 +22,10 @@ public class Pan extends Turn {
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition)
     {
         int levelDiff = match.getHeight(precedentPosition) - match.getHeight(currentPosition);
-        if (levelDiff >= 2) return true;
+        if (levelDiff >= 2) {
+            match.notifyWin(match.getPlayerByBuilder(builder));
+            return true;
+        }
         return super.checkWin(builder,precedentPosition,currentPosition);
     }
 }

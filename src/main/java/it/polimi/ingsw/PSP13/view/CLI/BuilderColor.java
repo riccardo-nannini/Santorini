@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
-public enum WorkerColor {
+public enum BuilderColor {
 
     Blue("\u001B[34m"), Red("\u001B[31m"), Yellow("\u001B[33m");
 
@@ -12,7 +12,7 @@ public enum WorkerColor {
      * creates an Enum that represents Unicode strings for the builder in various colors
      * @param color
      */
-    WorkerColor(String color)
+    BuilderColor(String color)
     {
         this.color = color;
     }

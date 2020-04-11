@@ -21,6 +21,7 @@ public class HeraDebuff extends Decorator {
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition) {
         if (super.checkWin(builder, precedentPosition, currentPosition)) {
             if (!isPerimetral(currentPosition)) {
+                match.notifyWin(match.getPlayerByBuilder(builder));
                 return true;
             }
         }

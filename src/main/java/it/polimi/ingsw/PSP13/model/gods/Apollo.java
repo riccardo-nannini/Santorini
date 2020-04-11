@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -7,8 +9,9 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Apollo extends Turn {
 
-    public Apollo()
+    public Apollo(TurnHandler turnHanlder)
     {
+        this.turnHandler = turnHanlder;
     }
 
     /**

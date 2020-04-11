@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.debuffs.HeraDebuff;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -8,6 +9,8 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 
 
 public class Hera extends Turn {
+
+    public Hera (TurnHandler turnHandler) {this.turnHandler = turnHandler; }
 
     /**
      * Adds the HeraDebuff decorator to every opponent player in order to apply Hera's win

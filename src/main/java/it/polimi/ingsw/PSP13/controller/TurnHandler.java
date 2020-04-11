@@ -21,4 +21,7 @@ public class TurnHandler {
     public boolean getInputUseEffect() {
         return true;
     }
+
+    public Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) {return null;};
+
 }

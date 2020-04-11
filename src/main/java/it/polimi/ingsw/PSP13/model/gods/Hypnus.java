@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.debuffs.HypnusDebuff;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -7,6 +8,8 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
 public class Hypnus extends Turn {
+
+    public Hypnus (TurnHandler turnHandler) {this.turnHandler = turnHandler; }
 
     /**
      * Adds the Hypnusdebuff decorator to every opponent player in order to apply Hypnus's move

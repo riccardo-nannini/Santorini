@@ -35,7 +35,7 @@ public class TurnTest {
         test.setBuilders(builders);
         match.setCellLevel(new Coords(2,3), Level.Base);
         match.addPlayer(test);
-        turn = new Turn(match);
+        turn = new Turn(match,null);
     }
 
     @Before

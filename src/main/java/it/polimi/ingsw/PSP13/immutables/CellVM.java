@@ -1,18 +1,18 @@
-package it.polimi.ingsw.PSP13.view.Immutables;
+package it.polimi.ingsw.PSP13.immutables;
 
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 
-public class CellView {
+public class CellVM {
 
     private final Level level;
     private final boolean dome;
 
     /**
-     * creates an immutable Cell
+     * Creates an immutable Cell
      * @param cell
      */
-    public CellView(Cell cell)
+    public CellVM(Cell cell)
     {
         this.level = cell.getLevel();
         this.dome = cell.getDome();

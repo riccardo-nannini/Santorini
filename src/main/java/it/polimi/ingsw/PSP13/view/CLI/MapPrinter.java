@@ -1,15 +1,15 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
+import it.polimi.ingsw.PSP13.immutables.BuilderVM;
+import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.view.Immutables.MapView;
-import it.polimi.ingsw.PSP13.view.Immutables.WorkerVM;
 
 public class MapPrinter {
 
-    private static MapView map;
+    private static MapVM map;
     private static BuilderMap builder = new BuilderMap();
     private static CellCLI[][] MapCLI;
 
@@ -17,7 +17,7 @@ public class MapPrinter {
      * updates the instance of MapView and refreshes the video
      * @param map
      */
-    void updateMapCLI(MapView map) {
+    public void updateMapCLI(MapVM map) {
         this.map = map;
         printMap();
     }
@@ -26,7 +26,7 @@ public class MapPrinter {
      * updates the instance of BuilderView and refreshed the video
      * @param builder
      */
-    void updateBuildersCLI(WorkerVM builder) {
+    public void updateBuildersCLI(BuilderVM builder) {
         this.builder.updateBuilder(builder);
         printMap();
     }
@@ -73,9 +73,9 @@ public class MapPrinter {
         Coords[] coordsRed = new Coords[2];
         Coords[] coordsYellow = new Coords[2];
         BuilderMap builderMap = new BuilderMap();
-        WorkerVM workerBlue = new WorkerVM(Color.Blue,coordsBlue);
-        WorkerVM workerRed = new WorkerVM(Color.Red,coordsRed);
-        WorkerVM workerYellow = new WorkerVM(Color.Yellow,coordsYellow);
+        BuilderVM workerBlue = new BuilderVM(coordsBlue, Color.Blue);
+        BuilderVM workerRed = new BuilderVM(coordsRed, Color.Red);
+        BuilderVM workerYellow = new BuilderVM(coordsYellow, Color.Yellow);
         coordsBlue[0] = new Coords(1,2);
         coordsBlue[1] = new Coords(4,4);
         coordsRed[0] = new Coords(2,2);
@@ -92,7 +92,7 @@ public class MapPrinter {
         mappa.setCell(new Coords(1,4), Level.Medium);
         mappa.setCell(new Coords(0,0), Level.Base);
 
-        MapView mapView = new MapView(mappa.getMatrix());
+        MapVM mapView = new MapVM(mappa.getMatrix());
         MapPrinter printer = new MapPrinter();
         printer.map = mapView;
         printer.builder = builderMap;

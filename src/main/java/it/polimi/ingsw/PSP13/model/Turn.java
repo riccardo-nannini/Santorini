@@ -2,21 +2,30 @@ package it.polimi.ingsw.PSP13.model;
 
 import it.polimi.ingsw.PSP13.model.board.*;
 import it.polimi.ingsw.PSP13.model.player.*;
+import it.polimi.ingsw.PSP13.controller.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Turn {
 
     protected static Match match;
+    protected TurnHandler turnHandler;
 
-    public Turn(Match match)
+    public Turn(Match match, TurnHandler turnHandler)
     {
         Turn.match = match;
+        this.turnHandler = turnHandler;
     }
 
     public Turn()
     {
 
+    }
+
+    public Turn(TurnHandler turnHanlder) {
+        this.turnHandler = turnHandler;
     }
     /**
      * Sets the position of builder1 to coords1 and builder2 to coords2
@@ -32,8 +41,16 @@ public class Turn {
         } else {
             builder1.setCell(match.getCell(coords1));
             builder2.setCell(match.getCell(coords2));
+            match.notifyBuilder(builder1, builder2);
         }
     }
+
+
+    /**
+     * Method that manages tasks at the beginning of the turn.
+     */
+    public void start()
+    {}
 
     /**
      * Moves builder into the cell's coordinates
@@ -42,6 +59,7 @@ public class Turn {
      */
     public void move(Builder builder, Coords coords){
         builder.setCell(match.getCell(coords));
+        match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
 
     /**
@@ -70,6 +88,7 @@ public class Turn {
      */
     public void force(Builder builder, Coords coords) {
         builder.setCell(match.getCell(coords));
+        match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
 
     /**
@@ -84,6 +103,7 @@ public class Turn {
             match.getCell(buildingPosition).setDome(true);
         else
             match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+1));
+        match.notifyMap();
     }
 
     /**
@@ -112,6 +132,7 @@ public class Turn {
     {
         if (match.getCell(precedentPosition).getLevel() == Level.Medium
                 && match.getCell(currentPosition).getLevel() == Level.Top) {
+            match.notifyWin(match.getPlayerByBuilder(builder));
             return true;
         }
         return false;

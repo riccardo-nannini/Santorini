@@ -1,12 +1,12 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
+import it.polimi.ingsw.PSP13.immutables.CellVM;
 import it.polimi.ingsw.PSP13.model.player.Color;
-import it.polimi.ingsw.PSP13.view.Immutables.CellView;
 
 public class CellCLI {
 
     private CellLevel level;
-    private WorkerColor builder = null;
+    private BuilderColor builder = null;
     private String dome;
 
     /**
@@ -14,7 +14,7 @@ public class CellCLI {
      * @param cell
      * @param workerColor
      */
-    public CellCLI(CellView cell, Color workerColor)
+    public CellCLI(CellVM cell, Color workerColor)
     {
         if(cell.getDome())
             this.dome = "\u29BE";
@@ -23,13 +23,13 @@ public class CellCLI {
             switch (workerColor)
             {
                 case Blue:
-                    this.builder = WorkerColor.Blue;
+                    this.builder = BuilderColor.Blue;
                     break;
                 case Yellow:
-                    this.builder = WorkerColor.Yellow;
+                    this.builder = BuilderColor.Yellow;
                     break;
                 case Red:
-                    this.builder = WorkerColor.Red;
+                    this.builder = BuilderColor.Red;
                     break;
             }
         }

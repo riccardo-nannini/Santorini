@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class Match {
 
     private List<Player> players;
     private Map map;
+    private ViewObservable observable;
+
 
     /**
      * starts a new match and initializes all the needed components
@@ -22,7 +25,13 @@ public class Match {
     {
         map = new Map();
         players = new ArrayList<>();
+        observable = new ViewObservable(this);
     }
+
+    public Map getMap() {
+        return this.map;
+    }
+
 
     /**
      * @param player
@@ -128,5 +137,31 @@ public class Match {
 
         throw new IllegalArgumentException();
     }
+
+    /**
+     * @param builder
+     * @return the other builder of builder's player
+     */
+    public Builder getOtherBuilder(Builder builder) {
+        if (getPlayerByBuilder(builder).getBuilders()[0] == builder) {
+            return getPlayerByBuilder(builder).getBuilders()[1];
+        } else {
+            return getPlayerByBuilder(builder).getBuilders()[0];
+        }
+    }
+
+    public void notifyMap() {
+        observable.notifyMap();
+    };
+
+    public void notifyBuilder(Builder builder1, Builder builder2) {
+        observable.notifyBuilder(builder1,builder2);
+    };
+
+    public void notifyWin(Player player) {
+        observable.notifyWin(player);
+    };
+
+
 
 }

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
+import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.view.Immutables.WorkerVM;
 
 
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class BuilderMap {
 
-    private final Map<Color, WorkerVM> map;
+    private final Map<Color, BuilderVM> map;
 
     public Coords[] getCoords(Color color){
         return map.get(color).getBuilders();
@@ -34,7 +34,7 @@ public class BuilderMap {
      * updates the position of the builders identified by color
      * @param builders the new values
      */
-    public void updateBuilder(WorkerVM builders)
+    public void updateBuilder(BuilderVM builders)
     {
         map.put(builders.getColor(),builders);
     }
@@ -53,7 +53,7 @@ public class BuilderMap {
         for(Map.Entry entry : map.entrySet())
         {
             if(entry.getValue() != null)
-                coords = ((WorkerVM)entry.getValue()).getBuilders();
+                coords = ((BuilderVM)entry.getValue()).getBuilders();
             if(coords != null)
             {
                 if(coords[0].equals(par) || coords[1].equals(par))

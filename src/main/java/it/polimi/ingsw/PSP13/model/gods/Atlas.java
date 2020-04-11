@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -7,15 +8,8 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Atlas extends Turn {
 
-    private Boolean useEffect;
-
-    public Atlas() {
-        this.useEffect = false;
-    }
-
-    //momentaneo per testing
-    public Atlas(Boolean useEffect) {
-        this.useEffect = useEffect;
+    public Atlas(TurnHandler turnHandler) {
+        this.turnHandler = turnHandler;
     }
 
     /**
@@ -27,10 +21,12 @@ public class Atlas extends Turn {
     @Override
     public void build(Builder builder, Coords buildingPosition)
     {
+        boolean useEffect = turnHandler.getInputUseEffect();
         if (useEffect) {
             match.getCell(buildingPosition).setDome(true);
         } else {
             match.setCellLevel(buildingPosition, Level.findLevelByHeight(match.getHeight(buildingPosition)+1));
         }
+        match.notifyMap();
     }
 }

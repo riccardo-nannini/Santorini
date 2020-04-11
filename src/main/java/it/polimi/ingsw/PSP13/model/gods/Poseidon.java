@@ -1,32 +1,18 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Poseidon extends Turn {
 
-    private Boolean useEffect;
-    private Coords coords1;
-    private Coords coords2;
-    private Coords coords3;
     private Builder unmovedBuilder;
 
-    public Poseidon () {
-        this.useEffect = false;
-        this.coords1 = null;
-        this.coords2 = null;
-        this.coords3 = null;
+    public Poseidon (TurnHandler turnHandler)
+    {
+        this.turnHandler = turnHandler;
         this.unmovedBuilder = null;
-    }
-
-    //momentaneo per test
-    public Poseidon (Boolean useEffect, Coords coords1, Coords coords2, Coords coords3, Builder unmovedBuilder) {
-        this.useEffect = useEffect;
-        this.coords1 = coords1;
-        this.coords2 = coords2;
-        this.coords3 = coords3;
-        this.unmovedBuilder = unmovedBuilder;
     }
 
     /**
@@ -41,7 +27,7 @@ public class Poseidon extends Turn {
         } else {
             unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
         }
-        builder.setCell(match.getCell(coords));
+        super.move(builder,coords);
     }
 
     /**
@@ -51,15 +37,20 @@ public class Poseidon extends Turn {
     @Override
     public void end() {
         if (match.getHeight(unmovedBuilder.getCoords()) == 0) {
-            //richidi se usare l'effetto
-            //se lo usa chiedi anche le 3 coordinate (quante ne vuole, max 3)
-            // (checkando che siano tutte diverse fra loro ??)
-            if (useEffect) {
-                if (checkBuild(unmovedBuilder, coords1)) build(unmovedBuilder, coords1);
-                if (checkBuild(unmovedBuilder, coords2)) build(unmovedBuilder, coords2);
-                if (checkBuild(unmovedBuilder, coords3)) build(unmovedBuilder, coords3);
+            if (!getCellBuilds(unmovedBuilder).isEmpty()) {
+                boolean useEffect = turnHandler.getInputUseEffect();
+                Coords buildCoords;
+                int i = 0;
+                while (useEffect && (i < 3) && !getCellBuilds(unmovedBuilder).isEmpty()) {
+                    buildCoords = turnHandler.getInputBuild(unmovedBuilder, getCellBuilds(unmovedBuilder));
+                    super.build(unmovedBuilder, buildCoords);
+                    i++;
+                    useEffect = turnHandler.getInputUseEffect();
+                }
+                match.notifyMap();
             }
         }
     }
+
 
 }

@@ -2,14 +2,18 @@ package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
 
+import java.util.List;
+
 public class Player {
 
     private Color color;
     private Builder[] builders;
-    public Turn god;
+    private Turn god;
     private String username;
 
     public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
+
+    public void start() {god.start();}
 
     public void move(Builder builder, Coords coords)
     {
@@ -35,6 +39,14 @@ public class Player {
 
     public void end() { god.end(); }
 
+    public List<Coords> getCellMoves(Builder builder) {
+        return god.getCellMoves(builder);
+    }
+
+    public List<Coords> getCellBuilds(Builder builder) {
+        return god.getCellBuilds(builder);
+    }
+
     /**
      * @param color
      * @param username
@@ -46,6 +58,8 @@ public class Player {
         this.username = username;
 
         builders = new Builder[2];
+        builders[0] = new Builder();
+        builders[1] = new Builder();
     }
 
 
@@ -64,7 +78,7 @@ public class Player {
     }
 
     public void setBuilders(Builder[] builders) {
-        this.builders = builders;
+        this.builders = builders.clone();
     }
 
     public Turn getGod() {

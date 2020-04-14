@@ -24,6 +24,7 @@ public class ViewObservable {
         this.mapObserver = new MapObserver(mapPrinter);
         this.builderObserver = new BuilderObserver(mapPrinter);
         this.winObserver = new WinObserver(mapPrinter);
+        notifyMap();
     }
 
     /**

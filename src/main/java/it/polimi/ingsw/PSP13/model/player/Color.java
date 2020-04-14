@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum Color {
 
-    White, Red, Yellow, Violet, Blue;
+    Red, Yellow, Blue;
 
     public static List<Color> getColors() {
         List<Color> colors = new ArrayList<>();

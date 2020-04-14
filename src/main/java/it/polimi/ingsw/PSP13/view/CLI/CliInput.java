@@ -40,12 +40,12 @@ public class CliInput extends Input {
         System.out.println(challenger + ", please select the Gods for this match.");
         System.out.println("This is the list of all the available gods you can choose from:");
         for(String god : chosenGods)
-            System.out.println(god + ", ");
-        System.out.println("type the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
+            System.out.print(god + ", ");
+        System.out.println("Type the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
-            System.out.println("wrong format, correct is: Zeus, Athena, Apollo");
+            System.out.println("Wrong format, correct is: Zeus, Athena, Apollo");
             input = scanner.nextLine();
         }
 
@@ -61,8 +61,8 @@ public class CliInput extends Input {
         System.out.println(player + ", choose your God:");
         System.out.println("This is the list of the available gods you can choose from for this match:");
         for(String god : chosenGods)
-            System.out.println(god + ", ");
-        System.out.println("Choose your god: ");
+            System.out.print(god + ", ");
+        System.out.print("Choose your god: ");
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
@@ -85,9 +85,9 @@ public class CliInput extends Input {
         coords[0] = readCoords();
         super.controller.notifySetupBuilder(coords[0]);
 
-        System.out.println("Choose the position of your second builder:");
+        /*System.out.println("Choose the position of your second builder:");
         coords[1] = readCoords();
-        super.controller.notifySetupBuilder(coords[1]);
+        super.controller.notifySetupBuilder(coords[1]);*/
     }
 
 
@@ -111,6 +111,5 @@ public class CliInput extends Input {
         int y = Integer.parseInt(dissection[1]);
         return new Coords(x,y);
     }
-
 
 }

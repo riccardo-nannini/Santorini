@@ -24,8 +24,6 @@ public class BuilderMap {
         map = new HashMap<>();
         map.put(Color.Blue,null);
         map.put(Color.Red,null);
-        map.put(Color.Violet,null);
-        map.put(Color.White,null);
         map.put(Color.Yellow,null);
 
     }

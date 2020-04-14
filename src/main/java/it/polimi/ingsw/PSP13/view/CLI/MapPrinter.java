@@ -18,7 +18,7 @@ public class MapPrinter {
      * @param map
      */
     public void updateMapCLI(MapVM map) {
-        this.map = map;
+        MapPrinter.map = map;
         printMap();
     }
 

@@ -8,11 +8,11 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
  */
 public class ViewObserver {
 
-    private Match match;
+    private final MatchHandler handler;
 
-    public ViewObserver(Match match)
+    public ViewObserver(MatchHandler matchHandler)
     {
-        this.match = match;
+        this.handler = matchHandler;
     }
 
     /**
@@ -21,7 +21,7 @@ public class ViewObserver {
      */
     public void updateNickname(String nickname)
     {
-        //dato x player setto il suo nickname
+        handler.setNick(nickname);
     }
 
     /**
@@ -30,7 +30,7 @@ public class ViewObserver {
      */
     public void updateGod(String god)
     {
-        //dato x player setto il suo turn
+        handler.setSelectedGod(god);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ViewObserver {
      */
     public void updateGodSelection(String gods)
     {
-        //ho la selezione degli dèi disponibili per questa partita
+        handler.setGodsReceived(gods);
     }
 
     /**
@@ -48,6 +48,6 @@ public class ViewObserver {
      */
     public void updateSetupBuilder(Coords builder)
     {
-        //posiziono i builder prima di iniziare la partita
+        handler.setCoords(builder);
     }
 }

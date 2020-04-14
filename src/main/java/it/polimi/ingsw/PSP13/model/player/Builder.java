@@ -7,7 +7,9 @@ public class Builder {
     private Cell cell;
 
     public Coords getCoords() {
-        return cell.getCoords();
+        Coords coordinates = null;
+        if (cell != null) coordinates = cell.getCoords();
+        return coordinates;
     }
 
     public int getHeight()

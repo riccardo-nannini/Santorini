@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
+import it.polimi.ingsw.PSP13.view.CLI.MapPrinter;
 
 
 import java.util.ArrayList;

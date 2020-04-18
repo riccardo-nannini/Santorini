@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP13.view;
 
+import it.polimi.ingsw.PSP13.immutables.BuilderVM;
+import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
 import java.util.List;
@@ -55,5 +57,24 @@ public abstract class Input {
      * @param godsNumber the number of gods the challenger has to choose
      */
     public void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error){}
+
+
+    /**
+     * Update view's map
+     * @param mapVM Immutable map sent from the model
+     */
+    public void updateMap(MapVM mapVM) {}
+
+    /**
+     * Update view's builders of the color of BuilerVM
+     * @param builderVM Immutables couple of builders sent from the model
+     */
+    public void updateBuilders(BuilderVM builderVM){}
+
+    /**
+     * Notifies the view that "username" won
+     * @param username Name of the winner
+     */
+    public void notifyWin(String username) {}
 
 }

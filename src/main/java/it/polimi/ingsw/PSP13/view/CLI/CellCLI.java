@@ -13,15 +13,13 @@ public class CellCLI {
      * initializes a Cell datatype for the CLI
      * @param cell
      * @param workerColor
+     * @param highlighted
      */
-    public CellCLI(CellVM cell, Color workerColor)
-    {
-        if(cell.getDome())
+    public CellCLI(CellVM cell, Color workerColor, boolean highlighted) {
+        if (cell.getDome())
             this.dome = "\u29BE";
-        if(workerColor != null)
-        {
-            switch (workerColor)
-            {
+        if (workerColor != null) {
+            switch (workerColor) {
                 case Blue:
                     this.builder = BuilderColor.Blue;
                     break;
@@ -33,22 +31,38 @@ public class CellCLI {
                     break;
             }
         }
-        switch(cell.getLevel())
-        {
+        switch (cell.getLevel()) {
             case Floor:
-                this.level = CellLevel.Floor;
+                if (highlighted) {
+                    this.level = CellLevel.FloorHighlighted;
+                } else {
+                    this.level = CellLevel.Floor;
+                }
                 break;
             case Base:
-                this.level = CellLevel.Base;
+                if (highlighted) {
+                    this.level = CellLevel.BaseHighlighted;
+                } else {
+                    this.level = CellLevel.Base;
+                }
                 break;
             case Medium:
-                this.level = CellLevel.Medium;
+                if (highlighted) {
+                    this.level = CellLevel.MediumHighlighted;
+                } else {
+                    this.level = CellLevel.Medium;
+                }
                 break;
             case Top:
-                this.level = CellLevel.Top;
+                if (highlighted) {
+                    this.level = CellLevel.TopHighlighted;
+                } else {
+                    this.level = CellLevel.Top;
+                }
                 break;
         }
     }
+
 
     /**
      * stamps on video the line of the cell indicated
@@ -59,7 +73,7 @@ public class CellCLI {
         switch (line) {
             case 1:
             case 3:
-                System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, this.level + CellLevel.RESET, this.level + CellLevel.RESET);
+                System.out.printf("%s%11s%11s", this.level +  CellLevel.RESET, this.level + CellLevel.RESET, this.level + CellLevel.RESET);
                 break;
             case 2:
                 if (dome != null) {

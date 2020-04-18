@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 import it.polimi.ingsw.PSP13.view.CLI.MapPrinter;
+import it.polimi.ingsw.PSP13.view.Input;
 
 
 import java.util.ArrayList;
@@ -22,11 +23,11 @@ public class Match {
     /**
      * starts a new match and initializes all the needed components
      */
-    public void start()
+    public void start(Input input)
     {
         map = new Map();
         players = new ArrayList<>();
-        observable = new ViewObservable(this);
+        observable = new ViewObservable(this, input);
     }
 
     public Map getMap() {

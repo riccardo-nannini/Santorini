@@ -1,9 +1,12 @@
-/*package it.polimi.ingsw.PSP13.model.gods;
+package it.polimi.ingsw.PSP13.model.gods;
 
 import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
+import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+
+import java.util.List;
 
 public class Prometheus extends Turn {
 
@@ -11,17 +14,13 @@ public class Prometheus extends Turn {
 
     public Prometheus (TurnHandler turnHandler) {
         this.turnHandler = turnHandler;
+        usedEffect = false;
     }
 
 
     @Override
     public void start() {
-        if (canUseEffect()) {
-            boolean useEffect = turnHandler.getInputUseEffect();
-            if (useEffect) {
-                Coords coords = turnHandler.getInputBuild(;)
-            }
-        }
+        usedEffect = turnHandler.getInputUseEffect();
     }
 
 
@@ -30,28 +29,42 @@ public class Prometheus extends Turn {
      * moving if he does not move up.
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
-     *//*
+     */
     @Override
     public void move(Builder builder, Coords coords) {
-        if (match.getHeight(coords) <= match.getHeight(builder.getCoords())) {
-            //richiesta uso effetto -> set useEffect
-            // se lo usa, richiedo sencondo input (casella in cui voglio costruir
-            // e prima di muovermi -> set beforeMove
-            boolean useEffect = turnHandler.getInputUseEffect();
-            if (useEffect) {
-                if (checkBuild(builder, beforeMove)) {
-                    build(builder, beforeMove);
-                }
-            }
+        if (usedEffect) {
+            List<Coords> possibleBuilds = getCellBuilds(builder);
+            if (!possibleBuilds.isEmpty()) {
+                Coords firstBuildCoords = turnHandler.getInputBuild(builder,possibleBuilds);
+                build(builder, firstBuildCoords);
+                match.notifyMap();
+            } else usedEffect = false;
+            super.move(builder,coords);
         }
-        super.move(builder, coords);
+
     }
 
 
-
-    public boolean canUseEffect() {
-        match.
+    /**
+     * Unlike turn's checkmove if the player use Prometheus effect he cannot
+     * move up
+     * @param builder builder that is currently moving
+     * @param coords coordinates of the cell where the builder wants to move
+     * @return true if builder can move into coords' cell, else return false
+     */
+    @Override
+    public boolean checkMove(Builder builder, Coords coords) {
+        if (usedEffect) {
+            if (!Map.isLegal(coords) || builder == null) {
+                throw new IllegalArgumentException();
+            } else {
+                int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
+                return match.getAdjacent(builder.getCoords()).contains(coords) && !match.isOccupied(coords) && diff <= 0;
+            }
+        } else return super.checkMove(builder,coords);
     }
+
+
 }
 
-*/
+

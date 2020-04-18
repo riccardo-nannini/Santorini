@@ -7,11 +7,20 @@ import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapPrinter {
 
     private static MapVM map;
     private static BuilderMap builder = new BuilderMap();
     private static CellCLI[][] MapCLI;
+    private static List<Coords> highlightedCells;
+
+
+    public static void setHighlightedCells(List<Coords> highlightedCells) {
+        MapPrinter.highlightedCells = highlightedCells;
+    }
 
     /**
      * updates the instance of MapView and refreshes the video
@@ -39,7 +48,7 @@ public class MapPrinter {
         MapCLI = new CellCLI[5][5];
         for (int i=0; i<5; i++) {
             for (int j=0; j<5; j++) {
-                MapCLI[i][j] = new CellCLI(map.getMap()[i][j], builder.checkBuilder(i,j));
+                MapCLI[i][j] = new CellCLI(map.getMap()[i][j], builder.checkBuilder(i,j),isHighlighted(i,j));
             }
         }
         System.out.println("\n\n");
@@ -64,6 +73,28 @@ public class MapPrinter {
             System.out.printf("%50s","");
         }
         System.out.println("\n\n");
+        highlightedCells.clear();
+    }
+
+    /**
+     * Stamps the winner
+     * @param username name of the winner
+     */
+    public void notifyWin(String username) {
+        System.out.println(username + " HAI VINTO, COMPLIMENTI");
+    }
+
+    /**
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return true if the x-y cell is highlighted
+     */
+    public static boolean isHighlighted(int x, int y) {
+        Coords coords = new Coords(x,y);
+        for (Coords cell : highlightedCells) {
+            if (coords.equals(cell)) return true;
+        }
+        return false;
     }
 
 
@@ -96,8 +127,15 @@ public class MapPrinter {
         MapPrinter printer = new MapPrinter();
         printer.map = mapView;
         printer.builder = builderMap;
+        List<Coords> list= new ArrayList<Coords>();
+        list.add(new Coords(0,0));
+        list.add(new Coords(0,1));
+        list.add(new Coords(1,0));
 
+        printer.setHighlightedCells(list);
         MapPrinter.printMap();
+        MapPrinter.printMap();
+
 
         //printer.updateMapCLI(mapView);
     }

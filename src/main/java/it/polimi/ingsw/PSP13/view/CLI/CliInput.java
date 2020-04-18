@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP13.view.CLI;
 
+import it.polimi.ingsw.PSP13.immutables.BuilderVM;
+import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
@@ -12,6 +14,7 @@ public class CliInput extends Input {
 
     private Scanner scanner;
     private String input;
+    private MapPrinter mapPrinter;
 
     public CliInput(ObservableToController controller) {
         super(controller);
@@ -142,10 +145,9 @@ public class CliInput extends Input {
             System.out.println("There was an error with your last selection");
 
         System.out.println(player + ", it is your turn now. You have to move a builder");
-        //chiamata alla funzione che manda la lista delle celle da illuminare
+        MapPrinter.setHighlightedCells(checkMoveCells);
         controller.notifyBuilderChoice(chooseBuilder(player));
-        //chiamata alla funzione che stampa la mappa con le celle illuminate
-
+        MapPrinter.printMap();
         System.out.println("You can choose a cell to build on only from the highlighted cells, type the cell coordinates in the format *row*,*column*:");
         Coords coords = readCoords();
 
@@ -161,12 +163,21 @@ public class CliInput extends Input {
         builderCoords = chooseBuilder(player);
 
 
-        //chiamata alla funzione che illumina le celle
-
+        MapPrinter.setHighlightedCells(checkBuildCells);
+        MapPrinter.printMap();
         System.out.println("You can move your builder only on the highlighted cells, type the arrival position in the format *row*,*column*:");
         Coords coords = readCoords();
 
         controller.notifyBuildInput(coords);
     }
+
+    @Override
+    public void updateMap(MapVM mapVM) { mapPrinter.updateMapCLI(mapVM); }
+
+    @Override
+    public void updateBuilders(BuilderVM builderVM){ mapPrinter.updateBuildersCLI(builderVM); }
+
+    @Override
+    public void notifyWin(String username) { mapPrinter.notifyWin(username); }
 
 }

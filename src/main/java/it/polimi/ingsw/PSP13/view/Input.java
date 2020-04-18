@@ -14,14 +14,19 @@ public abstract class Input {
     }
 
     /**
-     * asks the player where given builder should move
+     * asks the player to choose a builder to move
+     * @param player the player's nickname
+     * @param checkMoveCells a list of cell the builder can move on
+     * @param error true if the previous input generated an error
      */
-    public void moveInput(){}
+    public void moveInput(String player, List<Coords> checkMoveCells, boolean error){}
 
     /**
-     * asks the player where given builder should move
+     * asks the player to choose a builder and to build a structure
+     * @param player the player's nickname
+     * @param checkBuildCells a list of cell the builder can build on
      */
-    public void buildInput(){}
+    public void buildInput(String player, List<Coords> checkBuildCells){}
 
     /**
      * asks the player to insert a nickname for this match
@@ -35,13 +40,13 @@ public abstract class Input {
      * @param player the player who has to choose
      * @param chosenGods the gods available to be chosen
      */
-    public void godInput(String player, List<String> chosenGods){}
+    public void godInput(String player, List<String> chosenGods, boolean error){}
 
     /**
      * asks the player the starting position of his builder
      * @param player the player who has to choose
      */
-    public void builderSetUpInput(String player){}
+    public void builderSetUpInput(String player, boolean callNumber, boolean error){}
 
     /**
      * asks the challenger to choose a set of gods for this match
@@ -49,6 +54,6 @@ public abstract class Input {
      * @param godsList contains the name of all the gods available to choose from
      * @param godsNumber the number of gods the challenger has to choose
      */
-    public void godSelectionInput(String challenger, List<String> godsList, int godsNumber){}
+    public void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error){}
 
 }

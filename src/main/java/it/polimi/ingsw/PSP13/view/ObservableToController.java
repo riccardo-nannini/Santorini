@@ -52,4 +52,22 @@ public class ObservableToController {
     {
         controller.updateSetupBuilder(builder);
     }
+
+    /**
+     * the builder chosen by the user is sent to controller
+     * @param builder
+     */
+    public void notifyBuilderChoice(Coords builder){controller.updateBuilderChoice(builder);}
+
+    /**
+     * the new position of the chosen builder is sent to controller
+     * @param cellToMoveOn
+     */
+    public void notifyMoveInput(Coords cellToMoveOn){controller.updateMoveInput(cellToMoveOn);}
+
+    /**
+     * the cell to build on chosen by the user is sent to controller
+     * @param cellToBuildOn
+     */
+    public void notifyBuildInput(Coords cellToBuildOn){controller.updateBuildInput(cellToBuildOn);}
 }

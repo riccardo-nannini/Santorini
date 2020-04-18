@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP13.controller;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.util.List;
+
 /**
  * this is the controller observer class which is subscribed to the view
  */
@@ -50,4 +52,22 @@ public class ViewObserver {
     {
         handler.setCoords(builder);
     }
+
+    /**
+     * selects the builder chosen by the user
+     * @param builder
+     */
+    public void updateBuilderChoice(Coords builder){}
+
+    /**
+     * sets the new position of a given builder
+     * @param cellToMoveOn
+     */
+    public void updateMoveInput(Coords cellToMoveOn){}
+
+    /**
+     * sets the new structure level of the chosen position
+     * @param CellToBuildOn
+     */
+    public void updateBuildInput(Coords CellToBuildOn){}
 }

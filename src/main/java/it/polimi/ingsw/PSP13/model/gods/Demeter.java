@@ -9,11 +9,6 @@ import java.util.List;
 
 public class Demeter extends Turn {
 
-    public Demeter(TurnHandler turnHandler) {
-        this.turnHandler = turnHandler;
-    }
-
-
     /**
      * In addiction to turn's build allows the builder to build one additional
      * time, but not on the space.
@@ -26,7 +21,7 @@ public class Demeter extends Turn {
         List<Coords> possibleBuilds = getCellBuilds(builder);
         possibleBuilds.remove(coords);
         if (!possibleBuilds.isEmpty()) {
-            boolean useEffect = turnHandler.getInputUseEffect();
+            boolean useEffect = turnHandler.getInputUseEffect("Demeter");
             if (useEffect) {
                 Coords secondCoords = turnHandler.getInputBuild(builder, possibleBuilds);
                 super.build(builder, secondCoords);

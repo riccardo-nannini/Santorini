@@ -19,7 +19,7 @@ import java.util.Random;
 public class MatchHandler {
 
     private Match match;
-    private TurnHandler turn;
+    private TurnHandler turnHandler;
 
     private int numPlayers;
     private Input input;
@@ -27,7 +27,6 @@ public class MatchHandler {
     private String godsReceived;
     private String selectedGod;
     private Coords coords;
-    private Builder currentBuilder;
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         MatchHandler m = new MatchHandler();
@@ -37,13 +36,17 @@ public class MatchHandler {
         CliInput cli = new CliInput(o);
         m.setInput(cli);
         m.init();
+        m.play();
     }
 
 
     public void init() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         match = new Match();
-        match.start();
-        new Turn(match, new TurnHandler());
+        turnHandler = new TurnHandler(input);
+        turnHandler.setMatchHandler(this);
+        match.start(input);
+        Turn.setMatch(match);
+        Turn.setTurnHandler(turnHandler);
         numPlayers = 3;
         playerInit(input);
         godSelection(input);
@@ -78,22 +81,22 @@ public class MatchHandler {
         String godsString = "Apollo, Ares, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hypnus, Minotaur, Pan ,Poseidon, Prometheus, Zeus";
         List<String> godsList = new ArrayList<String>(Arrays.asList(godsString.split("\\s*,\\s*")));
 
-        boolean valid;
+        boolean error;
         List<String> godsInput;
         do {
-            valid = true;
-            input.godSelectionInput(challenger.getUsername(), godsList, numPlayers);
+            error = false;
+            input.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
             godsInput = new ArrayList<>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
-            if (!godsList.containsAll(godsInput)) valid = false;
+            if (!godsList.containsAll(godsInput)) error = true;
             for (String currentGod : godsInput) {
                 for (String otherGod : godsInput) {
                     if (currentGod != otherGod && currentGod.equals(otherGod)) {
-                        valid = false;
+                        error = true;
                         break;
                     }
                 }
             }
-        } while(!valid);
+        } while(error);
 
         List<String> chosenGods = new ArrayList<String>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
 
@@ -102,22 +105,20 @@ public class MatchHandler {
     }
 
     public void godAssignment(Input input, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        boolean valid;
+        boolean error;
         int pos = match.getPlayers().indexOf(challenger);
         for (int i = 0; i < numPlayers; i++) {
+            error = false;
             pos = (pos+1) % numPlayers;
             String player = match.getPlayers().get(pos).getUsername();
             do {
-                valid = true;
-                input.godInput(player, chosenGods);
-                if (!chosenGods.contains(selectedGod)) valid = false;
-            } while(!valid);
+                input.godInput(player, chosenGods, error);
+                if (!chosenGods.contains(selectedGod)) error = true;
+            } while(error);
             chosenGods.remove(selectedGod);
             Class<?> clazz = Class.forName("it.polimi.ingsw.PSP13.model.gods." + selectedGod);
-            Class[] c = new Class[1];
-            c[0] = TurnHandler.class;
-            Object[] ob = new Object[1];
-            ob[0] = new TurnHandler();
+            Class[] c = new Class[0];
+            Object[] ob = new Object[0];
             Object god = clazz.getDeclaredConstructor(c).newInstance(ob);
             Player currentPlayer = match.getPlayers().get(pos);
             currentPlayer.setGod((Turn) god);
@@ -129,45 +130,73 @@ public class MatchHandler {
         Coords pos1;
         Coords pos2 = null;
         Builder[] builders = new Builder[2];
+        boolean firstCall, error;
 
         for (int i=0; i < numPlayers; i++) {
+            firstCall = true;
+            error = false;
             pos1 = null;
             currentPlayer = match.getPlayers().get(i);
             for (int numBuilder = 0; numBuilder < 2; numBuilder++) {
                 do {
-                    input.builderSetUpInput(currentPlayer.getUsername());
-                } while (match.isOccupied(coords));
-                if (pos1 == null) { //TODO aggiungere check che seconda pos != prima pos
+                    input.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);
+                    if (match.isOccupied(coords)) error = true;
+                    if (pos1 != null && pos1.equals(coords)) error = true;
+                } while (error);
+                if (pos1 == null) {
                     pos1 = coords;
                 } else {
                     pos2 = coords;
                 }
                 builders[numBuilder] = new Builder();
+                firstCall = false;
+                error = false;
             }
             currentPlayer.setBuilders(builders);
             currentPlayer.setup(builders[0], builders[1], pos1, pos2);
         }
     }
 
+   //TODO potrebbero esserci problemi con le condizione di perdita nel caso di dei con input aggiuntivi
+   //TODO gestire caso giocatore faccia move in una posizione in cui non può fare una build
+
     public  void play() {
         List<Player> players = match.getPlayers();
-        Player currentPlayer;
+        List<Coords> possibleMoves, possibleBuilds;
+        Builder currentBuilder;
         Coords precedentPosition;
-        while (true) {
-            for (int i = 0; i < numPlayers; i++) {
-                currentPlayer = players.get(i);
+        boolean endGame = false;
+        while (!endGame) {
+            for (Player currentPlayer : players) {
+                if (players.size() < 2) {
+                    input.notifyWin(currentPlayer.getUsername());
+                    endGame = true;
+                    break;
+                }
+                turnHandler.getInputBuilder(currentPlayer);
+                currentBuilder = match.getBuilderByCoords(coords);
                 currentPlayer.start();
-                turn.getInputBuilder(currentPlayer);
                 precedentPosition = currentBuilder.getCoords();
-                turn.getInputMove(currentBuilder, currentPlayer.getCellMoves(currentBuilder));
+                possibleMoves = currentPlayer.getCellMoves(currentBuilder);
+                if (possibleMoves.isEmpty()) {
+                    players.remove(currentPlayer);
+                    continue;
+                }
+                coords = turnHandler.getInputMove(currentBuilder, possibleMoves);
                 currentPlayer.move(currentBuilder, coords);
-                if (currentPlayer.win(currentBuilder, precedentPosition, coords)) // fai vincere
-                turn.getInputBuild(currentBuilder, currentPlayer.getCellBuilds(currentBuilder));
+                if (currentPlayer.win(currentBuilder, precedentPosition, coords)) {
+                    endGame = true;
+                }
+                possibleBuilds = currentPlayer.getCellBuilds(currentBuilder);
+                if (possibleBuilds.isEmpty()) {
+                    players.remove(currentPlayer);
+                    continue;
+                }
+                coords = turnHandler.getInputBuild(currentBuilder, possibleBuilds);
                 currentPlayer.build(currentBuilder, coords);
                 currentPlayer.end();
             }
         }
-
     }
 
     public void setNumPlayers(int numPlayers) {
@@ -193,4 +222,17 @@ public class MatchHandler {
     public void setCoords(Coords coords) {
         this.coords = coords;
     }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public TurnHandler getTurnHandler() {
+        return turnHandler;
+    }
+
+    public Coords getCoords() {
+        return coords;
+    }
+
 }

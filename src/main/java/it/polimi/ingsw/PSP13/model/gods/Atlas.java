@@ -8,10 +8,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Atlas extends Turn {
 
-    public Atlas(TurnHandler turnHandler) {
-        this.turnHandler = turnHandler;
-    }
-
     /**
      * Adds to the standard build Atlas' effect:
      * the builder can build a dome at any level
@@ -21,7 +17,7 @@ public class Atlas extends Turn {
     @Override
     public void build(Builder builder, Coords buildingPosition)
     {
-        boolean useEffect = turnHandler.getInputUseEffect();
+        boolean useEffect = turnHandler.getInputUseEffect("Atlas");
         if (useEffect) {
             match.getCell(buildingPosition).setDome(true);
         } else {

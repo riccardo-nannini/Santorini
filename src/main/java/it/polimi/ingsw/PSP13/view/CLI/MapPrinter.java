@@ -17,9 +17,13 @@ public class MapPrinter {
     private static CellCLI[][] MapCLI;
     private static List<Coords> highlightedCells;
 
+    public MapPrinter() {
+        highlightedCells = new ArrayList<>();
+    }
+
 
     public static void setHighlightedCells(List<Coords> highlightedCells) {
-        MapPrinter.highlightedCells = highlightedCells;
+        MapPrinter.highlightedCells = new ArrayList<>(highlightedCells);
     }
 
     /**

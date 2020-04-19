@@ -11,22 +11,16 @@ import java.util.List;
 public class Turn {
 
     protected static Match match;
-    protected TurnHandler turnHandler;
+    protected static TurnHandler turnHandler;
 
     public Turn(Match match, TurnHandler turnHandler)
     {
         Turn.match = match;
-        this.turnHandler = turnHandler;
+        Turn.turnHandler = turnHandler;
     }
 
-    public Turn()
-    {
+    public Turn(){}
 
-    }
-
-    public Turn(TurnHandler turnHanlder) {
-        this.turnHandler = turnHandler;
-    }
     /**
      * Sets the position of builder1 to coords1 and builder2 to coords2
      * @param builder1
@@ -181,5 +175,12 @@ public class Turn {
         return possibleBuildingSite;
     }
 
+    public static void setMatch(Match match) {
+        Turn.match = match;
+    }
+
+    public static void setTurnHandler(TurnHandler turnHandler) {
+        Turn.turnHandler = turnHandler;
+    }
 
 }

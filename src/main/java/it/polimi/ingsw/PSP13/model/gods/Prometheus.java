@@ -12,15 +12,14 @@ public class Prometheus extends Turn {
 
     private Boolean usedEffect;
 
-    public Prometheus (TurnHandler turnHandler) {
-        this.turnHandler = turnHandler;
+    public Prometheus () {
         usedEffect = false;
     }
 
 
     @Override
     public void start() {
-        usedEffect = turnHandler.getInputUseEffect();
+        usedEffect = turnHandler.getInputUseEffect("Prometheus");
     }
 
 
@@ -39,14 +38,13 @@ public class Prometheus extends Turn {
                 build(builder, firstBuildCoords);
                 match.notifyMap();
             } else usedEffect = false;
-            super.move(builder,coords);
         }
-
+        super.move(builder,coords);
     }
 
 
     /**
-     * Unlike turn's checkmove if the player use Prometheus effect he cannot
+     * Unlike turn's checkmove, if the player uses Prometheus effect he cannot
      * move up
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
@@ -66,5 +64,3 @@ public class Prometheus extends Turn {
 
 
 }
-
-

@@ -9,10 +9,6 @@ import java.util.List;
 
 public class Artemis extends Turn {
 
-    public Artemis (TurnHandler turnHandler) {
-        this.turnHandler = turnHandler;
-    }
-
     /**
      * In addiction to turn's move allows the builder to move one additional
      * time
@@ -26,7 +22,7 @@ public class Artemis extends Turn {
         List<Coords> possibleMoves = getCellMoves(builder);
         possibleMoves.remove(startedCoords);
         if (!possibleMoves.isEmpty()) {
-            boolean useEffect = turnHandler.getInputUseEffect();
+            boolean useEffect = turnHandler.getInputUseEffect("Artemis");
             if (useEffect) {
                 Coords secondCoords = turnHandler.getInputMove(builder, possibleMoves);
                 super.move(builder, secondCoords);

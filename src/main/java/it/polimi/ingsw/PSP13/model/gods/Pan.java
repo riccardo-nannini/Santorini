@@ -8,8 +8,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Pan extends Turn {
 
-    public Pan (TurnHandler turnHandler) {this.turnHandler = turnHandler; }
-
     /**
      * Adds to the standard win condition: win also if the builder moves down 2 or more levels
      * @param builder builder that was involved in the current turn

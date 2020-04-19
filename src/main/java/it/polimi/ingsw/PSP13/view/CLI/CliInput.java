@@ -19,8 +19,8 @@ public class CliInput extends Input {
     public CliInput(ObservableToController controller) {
         super(controller);
         scanner = new Scanner(System.in);
+        mapPrinter = new MapPrinter();
     }
-
 
     @Override
     public void nicknameInput(boolean error)
@@ -36,7 +36,7 @@ public class CliInput extends Input {
 
 
     @Override
-    public void godSelectionInput(String challenger, List<String> chosenGods, int godsNumber, boolean error)
+    public void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error)
     {
         String input;
         String pattern = "([a-zA-Z]{3,} *, *){"+(godsNumber-1)+"}([a-zA-Z]{3,})";
@@ -47,9 +47,9 @@ public class CliInput extends Input {
         Pattern p = Pattern.compile("([a-zA-Z]{3,} *, *)+([a-zA-Z]{3,})");
         System.out.println(challenger + ", please select "+ godsNumber +" Gods for this match.");
         System.out.println("This is the list of all the available gods you can choose from:");
-        System.out.print(chosenGods.get(0));
-        for(int i=1;i<chosenGods.size();i++)
-            System.out.print(", " + chosenGods.get(i));
+        System.out.print(godsList.get(0));
+        for(int i=1;i<godsList.size();i++)
+            System.out.print(", " + godsList.get(i));
         System.out.println("Type the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
@@ -61,6 +61,12 @@ public class CliInput extends Input {
         super.controller.notifyGodSelection(input);
     }
 
+    @Override
+    public void effectInput(String god) {
+        System.out.println("Do you want to use the effect of " + god +"?");
+        input = scanner.nextLine();
+        controller.notifyEffect(input);
+    }
 
     @Override
     public void godInput(String player, List<String> chosenGods, boolean error)
@@ -86,9 +92,8 @@ public class CliInput extends Input {
         super.controller.notifyGod(input);
     }
 
-
     @Override
-    public void builderSetUpInput(String player, boolean callNumber, boolean error)
+    public void builderSetUpInput(String player, boolean firstCall, boolean error)
     {
         Coords coords;
 
@@ -97,7 +102,7 @@ public class CliInput extends Input {
             System.out.println("You can't place your builders there, choose again the positions.");
         System.out.println(player + ", place your builder on the map and type the position in the format *row*,*column*:");
 
-        if(!callNumber)
+        if(firstCall)
             System.out.println("Choose the position of your first builder:");
         else
             System.out.println("Choose the position of your second builder:");
@@ -105,7 +110,6 @@ public class CliInput extends Input {
         super.controller.notifySetupBuilder(coords);
 
     }
-
 
     /**
      * reads an input from console that is in a certain format
@@ -132,22 +136,22 @@ public class CliInput extends Input {
      * asks the player to choose a build
      * @return a Coords class based on user input
      */
-    private Coords chooseBuilder(String player)
+    public void chooseBuilder(String player)
     {
         System.out.println(player + ", select a builder. Type the coordinates of your builder in the format *row*,*column*:");
-        return readCoords();
+        controller.notifyBuilderChoice(readCoords());
     }
 
     @Override
     public void moveInput(String player, List<Coords> checkMoveCells, boolean error)
     {
+        MapPrinter.setHighlightedCells(checkMoveCells);
+        MapPrinter.printMap();
+
         if(error)
-            System.out.println("There was an error with your last selection");
+            System.out.println("!!!!  There was an error with your last selection !!!!");
 
         System.out.println(player + ", it is your turn now. You have to move a builder");
-        MapPrinter.setHighlightedCells(checkMoveCells);
-        controller.notifyBuilderChoice(chooseBuilder(player));
-        MapPrinter.printMap();
         System.out.println("You can choose a cell to build on only from the highlighted cells, type the cell coordinates in the format *row*,*column*:");
         Coords coords = readCoords();
 
@@ -156,16 +160,16 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void buildInput(String player, List<Coords> checkBuildCells)
+    public void buildInput(String player, List<Coords> checkBuildCells, boolean error)
     {
-        Coords builderCoords;
-        System.out.println(player + ", it is your turn now. You have to build on a cell");
-        builderCoords = chooseBuilder(player);
-
-
         MapPrinter.setHighlightedCells(checkBuildCells);
         MapPrinter.printMap();
-        System.out.println("You can move your builder only on the highlighted cells, type the arrival position in the format *row*,*column*:");
+
+        if(error)
+            System.out.println("!!!!  There was an error with your last selection !!!!");
+
+        System.out.println(player + ", it is your turn now. You have to build on a cell");
+        System.out.println("You can build only on the highlighted cells, type the arrival position in the format *row*,*column*:");
         Coords coords = readCoords();
 
         controller.notifyBuildInput(coords);

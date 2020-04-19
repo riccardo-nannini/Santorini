@@ -35,7 +35,7 @@ public class Ares extends Turn {
     public void end() {
         List<Coords> possibleRemoves = getCellRemoves(unmovedBuilder);
         if (!possibleRemoves.isEmpty()) {
-            boolean useEffect = turnHandler.getInputUseEffect();
+            boolean useEffect = turnHandler.getInputUseEffect("Ares");
             if (useEffect) {
                 Coords removeCoords = turnHandler.getInputRemoveBlock(unmovedBuilder,possibleRemoves);
                 int level = match.getHeight(removeCoords);

@@ -21,34 +21,34 @@ public abstract class Input {
      * @param checkMoveCells a list of cell the builder can move on
      * @param error true if the previous input generated an error
      */
-    public void moveInput(String player, List<Coords> checkMoveCells, boolean error){}
+    public abstract void moveInput(String player, List<Coords> checkMoveCells, boolean error);
 
     /**
      * asks the player to choose a builder and to build a structure
      * @param player the player's nickname
      * @param checkBuildCells a list of cell the builder can build on
      */
-    public void buildInput(String player, List<Coords> checkBuildCells){}
+    public abstract void buildInput(String player, List<Coords> checkBuildCells, boolean error);
 
     /**
      * asks the player to insert a nickname for this match
      * @param error true if the previous input generated an error
      * @return the player's nickname
      */
-    public void nicknameInput(boolean error){}
+    public abstract void nicknameInput(boolean error);
 
     /**
      * asks the player which god he wants to play with
      * @param player the player who has to choose
      * @param chosenGods the gods available to be chosen
      */
-    public void godInput(String player, List<String> chosenGods, boolean error){}
+    public abstract void godInput(String player, List<String> chosenGods, boolean error);
 
     /**
      * asks the player the starting position of his builder
      * @param player the player who has to choose
      */
-    public void builderSetUpInput(String player, boolean callNumber, boolean error){}
+    public abstract void builderSetUpInput(String player, boolean callNumber, boolean error);
 
     /**
      * asks the challenger to choose a set of gods for this match
@@ -56,8 +56,11 @@ public abstract class Input {
      * @param godsList contains the name of all the gods available to choose from
      * @param godsNumber the number of gods the challenger has to choose
      */
-    public void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error){}
+    public abstract void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error);
 
+    public abstract void effectInput(String god);
+
+    public abstract void chooseBuilder(String player);
 
     /**
      * Update view's map

@@ -7,9 +7,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Zeus extends Turn {
 
-    public Zeus (TurnHandler turnHandler) {
-        this.turnHandler = turnHandler;
-    }
     /**
      * A Builder can build on his own block
      * @param builder builder that is currently building

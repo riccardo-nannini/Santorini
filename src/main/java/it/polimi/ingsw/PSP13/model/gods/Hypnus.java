@@ -9,8 +9,6 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 
 public class Hypnus extends Turn {
 
-    public Hypnus (TurnHandler turnHandler) {this.turnHandler = turnHandler; }
-
     /**
      * Adds the Hypnusdebuff decorator to every opponent player in order to apply Hypnus's move
      * condition on them.

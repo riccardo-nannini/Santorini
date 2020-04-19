@@ -8,11 +8,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Hephaestus extends Turn {
 
-
-    public Hephaestus(TurnHandler turnHandler) {
-        this.turnHandler = turnHandler;
-    }
-
     /**
      * Builds a level in the specified position if useEffect == false,
      * 2 level otherwise
@@ -23,7 +18,7 @@ public class Hephaestus extends Turn {
     public void build(Builder builder, Coords buildingPosition){
         int currentLevelHeight = match.getHeight(buildingPosition);
         if (currentLevelHeight <= 1) {
-            boolean useEffect = turnHandler.getInputUseEffect();
+            boolean useEffect = turnHandler.getInputUseEffect("Hephaestus");
             if (useEffect) {
                 match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevelHeight+2));
             } else {

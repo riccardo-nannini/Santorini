@@ -10,8 +10,6 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 
 public class Hera extends Turn {
 
-    public Hera (TurnHandler turnHandler) {this.turnHandler = turnHandler; }
-
     /**
      * Adds the HeraDebuff decorator to every opponent player in order to apply Hera's win
      * condition on them

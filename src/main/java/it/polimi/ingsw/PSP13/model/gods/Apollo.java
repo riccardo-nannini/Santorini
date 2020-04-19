@@ -9,11 +9,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Apollo extends Turn {
 
-    public Apollo(TurnHandler turnHanlder)
-    {
-        this.turnHandler = turnHanlder;
-    }
-
     /**
      *
      * @param apollo

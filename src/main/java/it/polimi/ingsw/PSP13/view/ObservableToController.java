@@ -70,4 +70,6 @@ public class ObservableToController {
      * @param cellToBuildOn
      */
     public void notifyBuildInput(Coords cellToBuildOn){controller.updateBuildInput(cellToBuildOn);}
+
+    public void notifyEffect(String effect){controller.updateEffect(effect);}
 }

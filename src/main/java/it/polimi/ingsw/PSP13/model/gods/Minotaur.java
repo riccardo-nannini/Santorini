@@ -8,8 +8,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public class Minotaur extends Turn {
 
-    public Minotaur(TurnHandler turnHandler) {this.turnHandler = turnHandler;}
-
     /**
      * @param builder
      * @param coords

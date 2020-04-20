@@ -58,9 +58,25 @@ public abstract class Input {
      */
     public abstract void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error);
 
+    /**
+     * asks the player if he wants to activate the effect of his god
+     * @param god the name of the god related to the effect
+     */
     public abstract void effectInput(String god);
 
+    /**
+     * asks the player to select the builder he has to move
+     * @param player the player who has to choose
+     */
     public abstract void chooseBuilder(String player);
+
+    /**
+     * asks the player to remove a block on a certain cell
+     */
+    public abstract void removeBlock(List<Coords> removableBlocks, boolean error);
+
+
+    // ------------- UPDATES THE VIEW VIA PARAMETERS OBJECT -------------------
 
     /**
      * Update view's map

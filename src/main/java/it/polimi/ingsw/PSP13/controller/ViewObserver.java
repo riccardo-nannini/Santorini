@@ -73,8 +73,20 @@ public class ViewObserver {
         handler.getTurnHandler().setBuildCoords(cellToBuildOn);
     }
 
+    /**
+     * selects the answer of the player in using the effect (yes or no)
+     * @param effect
+     */
     public void updateEffect(String effect)
     {
         handler.getTurnHandler().setUseEffect(effect);
+    }
+
+    /**
+     * selects the cell to remove a block from
+     * @param CellToRemoveBlock
+     */
+    public void updateRemoveInput(Coords CellToRemoveBlock)
+    {
     }
 }

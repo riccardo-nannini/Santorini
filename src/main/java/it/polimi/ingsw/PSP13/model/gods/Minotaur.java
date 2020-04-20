@@ -31,10 +31,16 @@ public class Minotaur extends Turn {
      */
     @Override
     public void move(Builder builder, Coords coords){
-        if (match.isOccupied(coords)) {
+        if (match.isOccupied(coords) && !match.getCell(coords).getDome()) {
             Coords forcedPos = minotaurForce(builder, coords);
+
+            Builder[] oppoBuilders = match.getPlayerByBuilder(match.getBuilderByCoords(coords)).getBuilders();
+
             match.getBuilderByCoords(coords).setCell(match.getCell(forcedPos));
             builder.setCell(match.getCell(coords));
+
+            match.notifyBuilder(oppoBuilders[0], oppoBuilders[1]);
+
         } else {
             builder.setCell(match.getCell(coords));
         }

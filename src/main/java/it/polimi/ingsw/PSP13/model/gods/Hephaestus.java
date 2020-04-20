@@ -24,7 +24,7 @@ public class Hephaestus extends Turn {
             } else {
                 match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevelHeight+1));
             }
-        } else { match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevelHeight+1)); }
+        } else { super.build(builder, buildingPosition); }
         match.notifyMap();
     }
 

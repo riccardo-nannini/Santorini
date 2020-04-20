@@ -71,5 +71,15 @@ public class ObservableToController {
      */
     public void notifyBuildInput(Coords cellToBuildOn){controller.updateBuildInput(cellToBuildOn);}
 
+    /**
+     * the answer of the player is sent to controller
+     * @param effect the answer (yes or no)
+     */
     public void notifyEffect(String effect){controller.updateEffect(effect);}
+
+    /**
+     * the information of the cell to remove a block from is sent to controller
+     * @param cellToRemoveBlock the coordinates of the cell
+     */
+    public void notifyRemoveInput(Coords cellToRemoveBlock){controller.updateRemoveInput(cellToRemoveBlock);}
 }

@@ -50,7 +50,7 @@ public class CliInput extends Input {
         System.out.print(godsList.get(0));
         for(int i=1;i<godsList.size();i++)
             System.out.print(", " + godsList.get(i));
-        System.out.println("Type the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
+        System.out.println("\nType the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
@@ -81,7 +81,7 @@ public class CliInput extends Input {
         System.out.print(chosenGods.get(0));
         for(int i=1;i<chosenGods.size();i++)
             System.out.print(", " + chosenGods.get(i));
-        System.out.print("Choose your god: ");
+        System.out.print("\nChoose your god: ");
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
@@ -169,11 +169,28 @@ public class CliInput extends Input {
             System.out.println("!!!!  There was an error with your last selection !!!!");
 
         System.out.println(player + ", it is your turn now. You have to build on a cell");
-        System.out.println("You can build only on the highlighted cells, type the arrival position in the format *row*,*column*:");
+        System.out.println("You can build only on the highlighted cells, type the position in the format *row*,*column*:");
         Coords coords = readCoords();
 
         controller.notifyBuildInput(coords);
     }
+
+    @Override
+    public void removeBlock(List<Coords> removableBlocks, boolean error)
+    {
+
+        if(error)
+            System.out.println("!!!!  There was an error with your last selection !!!!");
+
+        System.out.println("Select the cell you want to remove a block from");
+        System.out.println("You can remove a block only from the highlighted cells, type the position in the format *row*,*column*:");
+        Coords coords = readCoords();
+
+        controller.notifyRemoveInput(coords);
+    }
+
+
+
 
     @Override
     public void updateMap(MapVM mapVM) { mapPrinter.updateMapCLI(mapVM); }

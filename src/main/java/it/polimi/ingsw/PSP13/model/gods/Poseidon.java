@@ -37,16 +37,19 @@ public class Poseidon extends Turn {
     public void end() {
         if (match.getHeight(unmovedBuilder.getCoords()) == 0) {
             if (!getCellBuilds(unmovedBuilder).isEmpty()) {
-                boolean useEffect = turnHandler.getInputUseEffect("Poseidon");
+
                 Coords buildCoords;
                 int i = 0;
-                while (useEffect && (i < 3) && !getCellBuilds(unmovedBuilder).isEmpty()) {
+
+                while((i<3) && turnHandler.getInputUseEffect("Poseidon") && !getCellBuilds(unmovedBuilder).isEmpty())
+                {
                     buildCoords = turnHandler.getInputBuild(unmovedBuilder, getCellBuilds(unmovedBuilder));
                     super.build(unmovedBuilder, buildCoords);
                     i++;
-                    useEffect = turnHandler.getInputUseEffect("Poseidon");
                 }
                 match.notifyMap();
+
+
             }
         }
     }

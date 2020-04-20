@@ -167,6 +167,8 @@ public class Turn {
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
         List<Coords> possibleBuildingSite = new ArrayList<>();
 
+        adjacents.add(builder.getCoords());
+
         for(Coords coords : adjacents)
         {
             if(checkBuild(builder, coords))

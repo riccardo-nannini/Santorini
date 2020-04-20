@@ -53,13 +53,11 @@ public class Match {
      * @param coords
      * @return true if the cell related to the coordinates has a dome on it or
      * at least a player has got a worker which coordinates are equal to coords, false otherwise
-     * @throws IllegalArgumentException if coords is not a legal object
      */
-    public boolean isOccupied(Coords coords) throws IllegalArgumentException
+    public boolean isOccupied(Coords coords)
     {
         if(coords == null || !Map.isLegal(coords))
-            throw new IllegalArgumentException();
-
+            return true;
         if(map.getCell(coords).getDome())
         {
             return true;
@@ -160,9 +158,6 @@ public class Match {
         observable.notifyBuilder(builder1,builder2);
     };
 
-    public void notifyWin(Player player) {
-        observable.notifyWin(player);
-    };
 
 
 

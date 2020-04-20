@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
@@ -19,6 +18,7 @@ public class Artemis extends Turn {
     public void move(Builder builder, Coords coords) {
         Coords startedCoords = builder.getCoords();
         super.move(builder, coords);
+        if (checkWin(builder,startedCoords,coords)) return;
         List<Coords> possibleMoves = getCellMoves(builder);
         possibleMoves.remove(startedCoords);
         if (!possibleMoves.isEmpty()) {

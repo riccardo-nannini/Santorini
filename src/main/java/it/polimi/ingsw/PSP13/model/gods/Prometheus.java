@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -35,8 +34,11 @@ public class Prometheus extends Turn {
             List<Coords> possibleBuilds = getCellBuilds(builder);
             if (!possibleBuilds.isEmpty()) {
                 Coords firstBuildCoords = turnHandler.getInputBuild(builder,possibleBuilds);
-                build(builder, firstBuildCoords);
-                match.notifyMap();
+                int heightFirstBuild = match.getHeight(firstBuildCoords);
+                int heightMove = match.getHeight(coords);
+                if (!(coords.equals(firstBuildCoords) && (heightFirstBuild == 3 || heightFirstBuild == heightMove))) {
+                    build(builder, firstBuildCoords);
+                }
             } else usedEffect = false;
         }
         super.move(builder,coords);
@@ -52,14 +54,33 @@ public class Prometheus extends Turn {
      */
     @Override
     public boolean checkMove(Builder builder, Coords coords) {
-        if (usedEffect) {
-            if (!Map.isLegal(coords) || builder == null) {
-                throw new IllegalArgumentException();
-            } else {
-                int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
-                return match.getAdjacent(builder.getCoords()).contains(coords) && !match.isOccupied(coords) && diff <= 0;
+        if (checkUseEffect(builder,coords)) {
+            if (usedEffect) {
+                if (!Map.isLegal(coords)) {
+                    throw new IllegalArgumentException();
+                } else {
+                    int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
+                    return match.getAdjacent(builder.getCoords()).contains(coords) && !match.isOccupied(coords) && diff <= 0;
+                }
+            } else return super.checkMove(builder, coords);
+        }
+        usedEffect = false;
+        return super.checkMove(builder, coords);
+    }
+
+    /**
+     * @param builder moving builder
+     * @param coords coords the builder wants to move to
+     * @return true if there's a free cell near the builder with a height <= the height of the cell
+     * it wants to move to
+     */
+    public boolean checkUseEffect(Builder builder, Coords coords) {
+        for (Coords adjacentCoords : match.getAdjacent(builder.getCoords())) {
+            if (!match.isOccupied(adjacentCoords) && match.getHeight(adjacentCoords) <= match.getHeight(builder.getCoords())) {
+                return true;
             }
-        } else return super.checkMove(builder,coords);
+        }
+        return false;
     }
 
 

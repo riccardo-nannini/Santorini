@@ -126,7 +126,6 @@ public class Turn {
     {
         if (match.getCell(precedentPosition).getLevel() == Level.Medium
                 && match.getCell(currentPosition).getLevel() == Level.Top) {
-            match.notifyWin(match.getPlayerByBuilder(builder));
             return true;
         }
         return false;

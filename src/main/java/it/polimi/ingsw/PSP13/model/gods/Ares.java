@@ -39,15 +39,16 @@ public class Ares extends Turn {
             if (useEffect) {
                 Coords removeCoords = turnHandler.getInputRemoveBlock(unmovedBuilder,possibleRemoves);
                 int level = match.getHeight(removeCoords);
-                if (level >= 1) {
-                    match.getCell(removeCoords).setLevel(Level.findLevelByHeight(level - 1));
-                    match.notifyMap();
-                }
+                match.getCell(removeCoords).setLevel(Level.findLevelByHeight(level - 1));
+                match.notifyMap();
             }
         }
     }
 
-
+    /**
+     * @param builder
+     * @return a list of unoccupied cells with a level > 0 neighbouring builder
+     */
     public List<Coords> getCellRemoves(Builder builder) {
 
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());

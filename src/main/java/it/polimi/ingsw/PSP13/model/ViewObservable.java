@@ -42,7 +42,4 @@ public class ViewObservable {
 
 
 
-    public void notifyWin(Player player) {
-        modelObserver.notifyWin(player.getUsername());
-    };
 }

@@ -27,10 +27,4 @@ public class ModelObserver {
         input.updateBuilders(builderVM);
     }
 
-    /**
-     * Notifies view's class Input that a player has won
-     * @param username Name of the winner
-     */
-    public void notifyWin(String username) { input.notifyWin(username); }
-
 }

@@ -42,7 +42,7 @@ public class CliInput extends Input {
         String pattern = "([a-zA-Z]{3,} *, *){"+(godsNumber-1)+"}([a-zA-Z]{3,})";
 
         if(error)
-            System.out.println("There was and error with you last selection, please repeat");
+            System.out.println("\u001B[31mThere was and error with you last selection, please repeat\u001b[0m");
 
         Pattern p = Pattern.compile("([a-zA-Z]{3,} *, *)+([a-zA-Z]{3,})");
         System.out.println(challenger + ", please select "+ godsNumber +" Gods for this match.");
@@ -54,7 +54,7 @@ public class CliInput extends Input {
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
-            System.out.println("Wrong format, correct is: Zeus, Athena, Apollo");
+            System.out.println("\u001B[31mWrong format, correct is: Zeus, Athena, Apollo\u001b[0m");
             input = scanner.nextLine();
         }
 
@@ -74,7 +74,7 @@ public class CliInput extends Input {
         Pattern p = Pattern.compile("[a-zA-Z]{3,}");
 
         if(error)
-            System.out.println("There was and error with you last selection, please repeat");
+            System.out.println("\u001B[31mThere was and error with you last selection, please repeat\u001b[0m");
 
         System.out.println(player + ", choose your God:");
         System.out.println("This is the list of the available gods you can choose from for this match:");
@@ -85,7 +85,7 @@ public class CliInput extends Input {
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
-            System.out.println("wrong input, choose your god");
+            System.out.println("\u001B[31mWrong input, chose your god.\u001b[0m");
             input = scanner.nextLine();
         }
 
@@ -99,7 +99,7 @@ public class CliInput extends Input {
 
         MapPrinter.printMap();
         if(error)
-            System.out.println("You can't place your builders there, choose again the positions.");
+            System.out.println("\u001B[31mYou can't place your builders there, choose again the positions.\u001b[0m");
         System.out.println(player + ", place your builder on the map and type the position in the format *row*,*column*:");
 
         if(firstCall)
@@ -122,7 +122,7 @@ public class CliInput extends Input {
 
         while(!p.matcher(input).matches())
         {
-            System.out.println("Wrong format, correct is: x,y");
+            System.out.println("\u001B[31mWrong format, correct is: x,y\u001b[0m");
             input = scanner.nextLine();
         }
 
@@ -149,7 +149,7 @@ public class CliInput extends Input {
         MapPrinter.printMap();
 
         if(error)
-            System.out.println("!!!!  There was an error with your last selection !!!!");
+            System.out.println("\u001B[31m!!!!  There was an error with your last selection !!!!\u001b[0m");
 
         System.out.println(player + ", it is your turn now. You have to move a builder");
         System.out.println("You can choose a cell to build on only from the highlighted cells, type the cell coordinates in the format *row*,*column*:");
@@ -166,7 +166,7 @@ public class CliInput extends Input {
         MapPrinter.printMap();
 
         if(error)
-            System.out.println("!!!!  There was an error with your last selection !!!!");
+            System.out.println("\u001B[31m!!!!  There was an error with your last selection !!!!\u001b[0m");
 
         System.out.println(player + ", it is your turn now. You have to build on a cell");
         System.out.println("You can build only on the highlighted cells, type the position in the format *row*,*column*:");
@@ -178,9 +178,11 @@ public class CliInput extends Input {
     @Override
     public void removeBlock(List<Coords> removableBlocks, boolean error)
     {
+        MapPrinter.setHighlightedCells(removableBlocks);
+        MapPrinter.printMap();
 
         if(error)
-            System.out.println("!!!!  There was an error with your last selection !!!!");
+            System.out.println("\u001B[31m!!!!  There was an error with your last selection !!!!\u001b[0m");
 
         System.out.println("Select the cell you want to remove a block from");
         System.out.println("You can remove a block only from the highlighted cells, type the position in the format *row*,*column*:");

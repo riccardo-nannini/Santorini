@@ -17,6 +17,7 @@ public class TurnHandler {
     private Coords builderPos;
     private Coords moveCoords;
     private Coords buildCoords;
+    private Coords removeCoords;
     private final Input input;
 
     public TurnHandler(Input input) {
@@ -32,6 +33,7 @@ public class TurnHandler {
                 builderPos = matchHandler.getCoords();
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
                 valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);
+                if (player.getCellMoves(builder).isEmpty()) valid = false;
             } catch (IllegalArgumentException e) {
                 valid = false;
             }
@@ -45,6 +47,8 @@ public class TurnHandler {
             input.moveInput(username, legalMoves, error);
             error = !legalMoves.contains(moveCoords);
         } while(error);
+        Player player = matchHandler.getMatch().getPlayerByBuilder(builder);
+        if (player.win(builder, builder.getCoords(), moveCoords)) matchHandler.setEndGame(true);
         return moveCoords;
     }
 
@@ -69,7 +73,15 @@ public class TurnHandler {
         return useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y");
     }
 
-    public Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) {return null;}
+    public Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) {
+        boolean error;
+        do {
+            error = false;
+            input.removeBlock(legalRemoves, error);
+            if (!legalRemoves.contains(removeCoords)) error = true;
+        } while(error);
+        return buildCoords;
+    }
 
     public void setUseEffect(String useEffect) {
         this.useEffect = useEffect;
@@ -91,5 +103,8 @@ public class TurnHandler {
         this.buildCoords = buildCoords;
     }
 
+    public void setRemoveCoords(Coords removeCoords) {
+        this.removeCoords = removeCoords;
+    }
 
 }

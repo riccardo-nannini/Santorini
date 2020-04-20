@@ -22,6 +22,7 @@ public class MatchHandler {
     private TurnHandler turnHandler;
 
     private int numPlayers;
+    boolean endGame;
     private Input input;
     private String nick;
     private String godsReceived;
@@ -88,6 +89,7 @@ public class MatchHandler {
             input.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
             godsInput = new ArrayList<>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
             if (!godsList.containsAll(godsInput)) error = true;
+            if (godsInput.size() != numPlayers) error = true;
             for (String currentGod : godsInput) {
                 for (String otherGod : godsInput) {
                     if (currentGod != otherGod && currentGod.equals(otherGod)) {
@@ -113,6 +115,7 @@ public class MatchHandler {
             String player = match.getPlayers().get(pos).getUsername();
             do {
                 input.godInput(player, chosenGods, error);
+                error = false;
                 if (!chosenGods.contains(selectedGod)) error = true;
             } while(error);
             chosenGods.remove(selectedGod);
@@ -140,6 +143,7 @@ public class MatchHandler {
             for (int numBuilder = 0; numBuilder < 2; numBuilder++) {
                 do {
                     input.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);
+                    error = false;
                     if (match.isOccupied(coords)) error = true;
                     if (pos1 != null && pos1.equals(coords)) error = true;
                 } while (error);
@@ -164,8 +168,8 @@ public class MatchHandler {
         List<Player> players = match.getPlayers();
         List<Coords> possibleMoves, possibleBuilds;
         Builder currentBuilder;
-        Coords precedentPosition;
-        boolean endGame = false;
+        Player winner = null;
+        endGame = false;
         while (!endGame) {
             for (Player currentPlayer : players) {
                 if (players.size() < 2) {
@@ -176,7 +180,6 @@ public class MatchHandler {
                 turnHandler.getInputBuilder(currentPlayer);
                 currentBuilder = match.getBuilderByCoords(coords);
                 currentPlayer.start();
-                precedentPosition = currentBuilder.getCoords();
                 possibleMoves = currentPlayer.getCellMoves(currentBuilder);
                 if (possibleMoves.isEmpty()) {
                     players.remove(currentPlayer);
@@ -184,8 +187,9 @@ public class MatchHandler {
                 }
                 coords = turnHandler.getInputMove(currentBuilder, possibleMoves);
                 currentPlayer.move(currentBuilder, coords);
-                if (currentPlayer.win(currentBuilder, precedentPosition, coords)) {
-                    endGame = true;
+                if (endGame) {
+                    winner = currentPlayer;
+                    break;
                 }
                 possibleBuilds = currentPlayer.getCellBuilds(currentBuilder);
                 if (possibleBuilds.isEmpty()) {
@@ -197,6 +201,7 @@ public class MatchHandler {
                 currentPlayer.end();
             }
         }
+        input.notifyWin(winner.getUsername());
     }
 
     public void setNumPlayers(int numPlayers) {
@@ -221,6 +226,10 @@ public class MatchHandler {
 
     public void setCoords(Coords coords) {
         this.coords = coords;
+    }
+
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
     }
 
     public Match getMatch() {

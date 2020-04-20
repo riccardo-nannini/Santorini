@@ -84,9 +84,10 @@ public class ViewObserver {
 
     /**
      * selects the cell to remove a block from
-     * @param CellToRemoveBlock
+     * @param cellToRemoveBlock
      */
-    public void updateRemoveInput(Coords CellToRemoveBlock)
+    public void updateRemoveInput(Coords cellToRemoveBlock)
     {
+        handler.getTurnHandler().setRemoveCoords(cellToRemoveBlock);
     }
 }

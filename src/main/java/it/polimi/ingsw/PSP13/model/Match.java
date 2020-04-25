@@ -1,15 +1,15 @@
 package it.polimi.ingsw.PSP13.model;
 
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
-import it.polimi.ingsw.PSP13.view.CLI.MapPrinter;
-import it.polimi.ingsw.PSP13.view.Input;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +23,10 @@ public class Match {
     /**
      * starts a new match and initializes all the needed components
      */
-    public void start(Input input)
-    {
+    public void start(VirtualView virtualView) throws IOException {
         map = new Map();
         players = new ArrayList<>();
-        observable = new ViewObservable(this, input);
+        observable = new ViewObservable(this, virtualView);
     }
 
     public Map getMap() {
@@ -150,11 +149,11 @@ public class Match {
         }
     }
 
-    public void notifyMap() {
+    public void notifyMap() throws IOException {
         observable.notifyMap();
     };
 
-    public void notifyBuilder(Builder builder1, Builder builder2) {
+    public void notifyBuilder(Builder builder1, Builder builder2) throws IOException {
         observable.notifyBuilder(builder1,builder2);
     };
 

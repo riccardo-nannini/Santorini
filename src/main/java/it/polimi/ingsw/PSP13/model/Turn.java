@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP13.model.board.*;
 import it.polimi.ingsw.PSP13.model.player.*;
 import it.polimi.ingsw.PSP13.controller.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Turn {
      * @param coords2
      * @throws IllegalArgumentException if params aren't legal
      */
-    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException {
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException, IOException {
         if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || builder1 ==  null || builder2 == null) {
             throw new IllegalArgumentException();
         } else {
@@ -51,7 +52,7 @@ public class Turn {
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      */
-    public void move(Builder builder, Coords coords){
+    public void move(Builder builder, Coords coords) throws IOException {
         builder.setCell(match.getCell(coords));
         match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
@@ -80,7 +81,7 @@ public class Turn {
      * @param builder forced builder
      * @param coords coordinates of the cell where the builder is forced to move
      */
-    public void force(Builder builder, Coords coords) {
+    public void force(Builder builder, Coords coords) throws IOException {
         builder.setCell(match.getCell(coords));
         match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
@@ -90,8 +91,7 @@ public class Turn {
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */
-    public void build(Builder builder, Coords buildingPosition)
-    {
+    public void build(Builder builder, Coords buildingPosition) throws IOException {
         int currentLevel = match.getHeight(buildingPosition);
         if(currentLevel == Level.Top.getHeight())
             match.getCell(buildingPosition).setDome(true);

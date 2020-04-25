@@ -31,10 +31,10 @@ public class MatchHandler {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         MatchHandler m = new MatchHandler();
         ViewObserver v = new ViewObserver(m);
-        ObservableToController o = new ObservableToController();
-        o.addObserver(v);
-        CliInput cli = new CliInput(o);
-        m.setInput(cli);
+       // ObservableToController o = new ObservableToController();
+       // o.addObserver(v);
+       // CliInput cli = new CliInput(o);
+       // m.setInput(cli);
         m.init();
         m.play();
     }
@@ -44,7 +44,7 @@ public class MatchHandler {
         match = new Match();
         turnHandler = new TurnHandler(input);
         turnHandler.setMatchHandler(this);
-        match.start(input);
+        //match.start(input);
         Turn.setMatch(match);
         Turn.setTurnHandler(turnHandler);
         numPlayers = 3;

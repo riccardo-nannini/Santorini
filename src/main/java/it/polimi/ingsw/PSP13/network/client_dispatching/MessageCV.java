@@ -9,25 +9,15 @@ public class MessageCV implements Serializable {
 
     private static final long serialVersionUID = 423L;
 
-    private final int id;
+    private int id;
+    private boolean error;
+    private String string;
+    private List<Coords> coordsList;
+    private List<String> stringList;
+    private boolean callNumber;
+    private int godsNumber;
 
-    private final boolean error;
-    private final String string;
-    private final List<Coords> coordsList;
-    private final List<String> stringList;
-    private final boolean callNumber;
-    private final int godsNumber;
-
-    public MessageCV(int id, boolean error, String string, List<Coords> coordsList, List<String> stringList, boolean callNumber, int godsNUmber)
-    {
-        this.id = id;
-        this.string = string;
-        this. error = error;
-        this.coordsList = coordsList;
-        this.stringList = stringList;
-        this.callNumber = callNumber;
-        this.godsNumber = godsNUmber;
-    }
+    public MessageCV() {}
 
     public int getId() {
         return id;
@@ -57,5 +47,31 @@ public class MessageCV implements Serializable {
         return godsNumber;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public void setString(String string) {
+        this.string = string;
+    }
+
+    public void setCoordsList(List<Coords> coordsList) {
+        this.coordsList = coordsList;
+    }
+
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
+    }
+
+    public void setCallNumber(boolean callNumber) {
+        this.callNumber = callNumber;
+    }
+
+    public void setGodsNumber(int godsNumber) {
+        this.godsNumber = godsNumber;
+    }
 }

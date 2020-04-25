@@ -3,8 +3,12 @@ package it.polimi.ingsw.PSP13.immutables;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
-public class BuilderVM {
+import java.io.Serializable;
 
+public class BuilderVM implements Serializable {
+
+
+    private static final long serialVersionUID = 552L;
     private final Color color;
     private final Coords[] builders;
 

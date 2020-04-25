@@ -1,8 +1,11 @@
 package it.polimi.ingsw.PSP13.model.player;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Coords {
+public class Coords implements Serializable {
+
+    private static final long serialVersionUID = 54L;
 
     private int x;
     private int y;

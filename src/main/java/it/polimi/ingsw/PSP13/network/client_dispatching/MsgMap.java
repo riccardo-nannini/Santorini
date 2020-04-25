@@ -1,0 +1,45 @@
+package it.polimi.ingsw.PSP13.network.client_dispatching;
+
+import it.polimi.ingsw.PSP13.network.client_dispatching.behavior.*;
+import it.polimi.ingsw.PSP13.view.Input;
+
+import java.util.Map;
+
+public class MsgMap {
+
+    private Map<Integer, ClientDispatcherBehavior> dispatcher;
+    private Input input;
+
+    public MsgMap(Input input)
+    {
+        init();
+    }
+
+    private void init()
+    {
+        dispatcher.put(0,new ClientMoveBehavior(input));
+        dispatcher.put(1,new ClientBuildBehavior(input));
+        dispatcher.put(2,new ClientNickBehavior(input));
+        dispatcher.put(3,new ClientGodBehavior(input));
+        dispatcher.put(4,new ClientSetupBehavior(input));
+        dispatcher.put(5,new ClientGodSelBehavior(input));
+        dispatcher.put(6,new ClientEffectBehavior(input));
+        dispatcher.put(7,new ClientChooseBuilderBehavior(input));
+        dispatcher.put(8,new ClientRmvBlockBehavior(input));
+
+    }
+
+
+    public void dispatch(MessageCV msg)
+    {
+        ClientDispatcherBehavior behavior = dispatcher.get(msg.getId());
+
+        behavior.behavior(msg);
+    }
+
+
+
+
+
+
+}

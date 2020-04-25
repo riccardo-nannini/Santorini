@@ -13,23 +13,30 @@ public class TurnHandler {
     //TODO volendo si può togliere il riferimento circolare a MatchHandler con qualche accorgimento
 
     private MatchHandler matchHandler;
-    private String useEffect;
-    private Coords builderPos;
-    private Coords moveCoords;
-    private Coords buildCoords;
-    private Coords removeCoords;
+    private String useEffect = null;
+    private Coords builderPos = null;
+    private Coords moveCoords = null;
+    private Coords buildCoords = null;
+    private Coords removeCoords = null;
     private final Input input;
 
     public TurnHandler(Input input) {
         this.input = input;
     }
 
-    public void getInputBuilder(Player player) {
+    public synchronized Coords getInputBuilder(Player player) {
         boolean valid;
         Builder builder;
         do {
             input.chooseBuilder(player.getUsername());
             try {
+                while (builderPos == null) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        //TODO
+                    }
+                }
                 builderPos = matchHandler.getCoords();
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
                 valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);
@@ -38,73 +45,116 @@ public class TurnHandler {
                 valid = false;
             }
         } while(!valid);
+        Coords returnCoords = builderPos;
+        builderPos = null;
+        return returnCoords;
     }
 
-    public Coords getInputMove(Builder builder, List<Coords> legalMoves) {
+    public synchronized Coords getInputMove(Builder builder, List<Coords> legalMoves) {
         boolean error = false;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             input.moveInput(username, legalMoves, error);
+            while (moveCoords == null) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    //TODO
+                }
+            }
             error = !legalMoves.contains(moveCoords);
         } while(error);
         Player player = matchHandler.getMatch().getPlayerByBuilder(builder);
         if (player.win(builder, builder.getCoords(), moveCoords)) matchHandler.setEndGame(true);
-        return moveCoords;
+        Coords returnCoords = moveCoords;
+        moveCoords = null;
+        return returnCoords;
     }
 
-    public Coords getInputBuild(Builder builder, List<Coords> legalBuilds) {
+    public synchronized Coords getInputBuild(Builder builder, List<Coords> legalBuilds) {
         boolean error = false;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             input.buildInput(username, legalBuilds, error);
+            while (buildCoords == null) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    //TODO
+                }
+            }
             error = !legalBuilds.contains(buildCoords);
         } while(error);
-        return buildCoords;
+        Coords returnCoords = buildCoords;
+        buildCoords = null;
+        return returnCoords;
     }
 
-    public boolean getInputUseEffect(String god) {
+    public synchronized boolean getInputUseEffect(String god) {
         boolean valid = false;
         do {
             input.effectInput(god);
+            while (useEffect == null) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    //TODO
+                }
+            }
             if (useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y")
                     || useEffect.toLowerCase().equals("no") || useEffect.toLowerCase().equals("n")) valid = true;
         } while (!valid);
-
-        return useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y");
+        boolean returnValue = useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y");
+        useEffect = null;
+        return returnValue;
     }
 
-    public Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) {
+    public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) {
         boolean error;
         do {
             error = false;
             input.removeBlock(legalRemoves, error);
+            while (removeCoords == null) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    //TODO
+                }
+            }
             if (!legalRemoves.contains(removeCoords)) error = true;
         } while(error);
-        return buildCoords;
+        Coords returnCoords = removeCoords;
+        removeCoords = null;
+        return returnCoords;
     }
 
-    public void setUseEffect(String useEffect) {
+    public synchronized void setUseEffect(String useEffect) {
         this.useEffect = useEffect;
+        notifyAll();
     }
 
-    public void setBuilderPos(Coords builderPos) {
+    public synchronized void setBuilderPos(Coords builderPos) {
         this.builderPos = builderPos;
+        notifyAll();
+    }
+
+    public synchronized void setMoveCoords(Coords moveCoords) {
+        this.moveCoords = moveCoords;
+        notifyAll();
+    }
+
+    public synchronized void setBuildCoords(Coords buildCoords) {
+        this.buildCoords = buildCoords;
+        notifyAll();
+    }
+
+    public synchronized void setRemoveCoords(Coords removeCoords) {
+        this.removeCoords = removeCoords;
+        notifyAll();
     }
 
     public void setMatchHandler(MatchHandler match) {
         this.matchHandler = match;
-    }
-
-    public void setMoveCoords(Coords moveCoords) {
-        this.moveCoords = moveCoords;
-    }
-
-    public void setBuildCoords(Coords buildCoords) {
-        this.buildCoords = buildCoords;
-    }
-
-    public void setRemoveCoords(Coords removeCoords) {
-        this.removeCoords = removeCoords;
     }
 
 }

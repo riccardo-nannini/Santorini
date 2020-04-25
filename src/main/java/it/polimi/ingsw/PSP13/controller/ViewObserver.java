@@ -16,15 +16,6 @@ public class ViewObserver {
     }
 
     /**
-     * check form string validation and set the value to the player instance
-     * @param nickname the nickname chosen by the user
-     */
-    public void updateNickname(String nickname)
-    {
-        handler.setNick(nickname);
-    }
-
-    /**
      * sets the value of the god to the player instance and updates the list of gods left
      * @param god the god chosen by user
      */
@@ -55,7 +46,7 @@ public class ViewObserver {
      * selects the builder chosen by the user
      * @param builder
      */
-    public void updateBuilderChoice(Coords builder){ handler.setCoords(builder);}
+    public void updateBuilderChoice(Coords builder){ handler.getTurnHandler().setBuilderPos(builder);}
 
     /**
      * sets the new position of a given builder

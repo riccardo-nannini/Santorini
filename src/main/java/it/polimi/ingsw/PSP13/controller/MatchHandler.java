@@ -24,10 +24,9 @@ public class MatchHandler {
     private int numPlayers;
     boolean endGame;
     private Input input;
-    private String nick;
-    private String godsReceived;
-    private String selectedGod;
-    private Coords coords;
+    private String godsReceived = null;
+    private String selectedGod = null;
+    private Coords coords = null;
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         MatchHandler m = new MatchHandler();
@@ -49,34 +48,20 @@ public class MatchHandler {
         Turn.setMatch(match);
         Turn.setTurnHandler(turnHandler);
         numPlayers = 3;
-        playerInit(input);
+        //playerInit(input);
         godSelection(input);
         builderSetUp(input);
 
     }
 
-    public void playerInit(Input input) {
+    public void addPlayer(String nick) {
         List<Color> colors = Color.getColors();
-        for (int i=0; i < numPlayers; i++) {
-            boolean valid, error;
-            error = false;
-            do {
-                valid = true;
-                input.nicknameInput(error);
-                for (Player otherPlayers : match.getPlayers()) {
-                    if (otherPlayers != null && otherPlayers.getUsername().equals(nick)) {
-                        error = true;
-                        valid = false;
-                        break;
-                    }
-                }
-            } while(!valid);
-            Player currentPlayer = new Player(colors.remove(0), nick);
-            match.addPlayer(currentPlayer);
-        }
+        Player player = new Player(colors.remove(0), nick);
+        match.addPlayer(player);
     }
 
-    public void godSelection(Input input) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+    public synchronized void godSelection(Input input) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+        //TODO gestire eccezioni invece di throws
         Random r = new Random();
         Player challenger = match.getPlayers().get(r.nextInt(3));
         String godsString = "Apollo, Ares, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hypnus, Minotaur, Pan ,Poseidon, Prometheus, Zeus";
@@ -87,7 +72,15 @@ public class MatchHandler {
         do {
             error = false;
             input.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
+            while (godsReceived == null) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    //TODO
+                }
+            }
             godsInput = new ArrayList<>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
+            godsReceived = null;
             if (!godsList.containsAll(godsInput)) error = true;
             if (godsInput.size() != numPlayers) error = true;
             for (String currentGod : godsInput) {
@@ -101,12 +94,10 @@ public class MatchHandler {
         } while(error);
 
         List<String> chosenGods = new ArrayList<String>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
-
         godAssignment(input, challenger, chosenGods);
-
     }
 
-    public void godAssignment(Input input, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public synchronized void godAssignment(Input input, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         boolean error;
         int pos = match.getPlayers().indexOf(challenger);
         for (int i = 0; i < numPlayers; i++) {
@@ -115,6 +106,13 @@ public class MatchHandler {
             String player = match.getPlayers().get(pos).getUsername();
             do {
                 input.godInput(player, chosenGods, error);
+                while (selectedGod == null) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        //TODO
+                    }
+                }
                 error = false;
                 if (!chosenGods.contains(selectedGod)) error = true;
             } while(error);
@@ -125,6 +123,7 @@ public class MatchHandler {
             Object god = clazz.getDeclaredConstructor(c).newInstance(ob);
             Player currentPlayer = match.getPlayers().get(pos);
             currentPlayer.setGod((Turn) god);
+            selectedGod = null;
         }
     }
 
@@ -143,6 +142,13 @@ public class MatchHandler {
             for (int numBuilder = 0; numBuilder < 2; numBuilder++) {
                 do {
                     input.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);
+                    while (coords == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
                     error = false;
                     if (match.isOccupied(coords)) error = true;
                     if (pos1 != null && pos1.equals(coords)) error = true;
@@ -155,19 +161,20 @@ public class MatchHandler {
                 builders[numBuilder] = new Builder();
                 firstCall = false;
                 error = false;
+                coords = null;
             }
             currentPlayer.setBuilders(builders);
             currentPlayer.setup(builders[0], builders[1], pos1, pos2);
         }
     }
 
-   //TODO potrebbero esserci problemi con le condizione di perdita nel caso di dei con input aggiuntivi
-   //TODO gestire caso giocatore faccia move in una posizione in cui non può fare una build
-
     public  void play() {
+        //TODO potrebbero esserci problemi con le condizione di perdita nel caso di dei con input aggiuntivi
+        //TODO gestire caso giocatore faccia move in una posizione in cui non può fare una build
         List<Player> players = match.getPlayers();
         List<Coords> possibleMoves, possibleBuilds;
         Builder currentBuilder;
+        Coords builderPos;
         Player winner = null;
         endGame = false;
         while (!endGame) {
@@ -177,8 +184,8 @@ public class MatchHandler {
                     endGame = true;
                     break;
                 }
-                turnHandler.getInputBuilder(currentPlayer);
-                currentBuilder = match.getBuilderByCoords(coords);
+                builderPos = turnHandler.getInputBuilder(currentPlayer);
+                currentBuilder = match.getBuilderByCoords(builderPos);
                 currentPlayer.start();
                 possibleMoves = currentPlayer.getCellMoves(currentBuilder);
                 if (possibleMoves.isEmpty()) {
@@ -204,32 +211,33 @@ public class MatchHandler {
         input.notifyWin(winner.getUsername());
     }
 
-    public void setNumPlayers(int numPlayers) {
+    public synchronized void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
+        notifyAll();
     }
 
     public void setInput(Input input) {
         this.input = input;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public void setGodsReceived(String godsReceived) {
+    public synchronized void setGodsReceived(String godsReceived) {
         this.godsReceived = godsReceived;
+        notifyAll();
     }
 
-    public void setSelectedGod(String selectedGod) {
+    public synchronized void setSelectedGod(String selectedGod) {
         this.selectedGod = selectedGod;
+        notifyAll();
     }
 
-    public void setCoords(Coords coords) {
+    public synchronized void setCoords(Coords coords) {
         this.coords = coords;
+        notifyAll();
     }
 
-    public void setEndGame(boolean endGame) {
+    public synchronized void setEndGame(boolean endGame) {
         this.endGame = endGame;
+        notifyAll();
     }
 
     public Match getMatch() {

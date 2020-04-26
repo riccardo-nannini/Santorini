@@ -40,7 +40,7 @@ public class MapPrinter {
      * @param builder
      */
     public void updateBuildersCLI(BuilderVM builder) {
-        this.builder.updateBuilder(builder);
+        MapPrinter.builder.updateBuilder(builder);
         printMap();
     }
 

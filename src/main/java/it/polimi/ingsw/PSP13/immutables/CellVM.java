@@ -3,8 +3,11 @@ package it.polimi.ingsw.PSP13.immutables;
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 
-public class CellVM {
+import java.io.Serializable;
 
+public class CellVM implements Serializable {
+
+    private static final long serialVersionUID = 6732L;
     private final Level level;
     private final boolean dome;
 

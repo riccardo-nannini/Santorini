@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Artemis extends Turn {
@@ -15,14 +16,14 @@ public class Artemis extends Turn {
      * @param coords coordinates of the cell where the builder wants to move
      */
     @Override
-    public void move(Builder builder, Coords coords) {
+    public void move(Builder builder, Coords coords) throws IOException {
         Coords startedCoords = builder.getCoords();
         super.move(builder, coords);
         if (checkWin(builder,startedCoords,coords)) return;
         List<Coords> possibleMoves = getCellMoves(builder);
         possibleMoves.remove(startedCoords);
         if (!possibleMoves.isEmpty()) {
-            boolean useEffect = turnHandler.getInputUseEffect("Artemis");
+            boolean useEffect = turnHandler.getInputUseEffect(match.getPlayerByBuilder(builder).getUsername(), "Artemis");
             if (useEffect) {
                 Coords secondCoords = turnHandler.getInputMove(builder, possibleMoves);
                 super.move(builder, secondCoords);

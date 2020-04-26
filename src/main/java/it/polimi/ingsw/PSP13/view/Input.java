@@ -21,14 +21,14 @@ public abstract class Input {
      * @param checkMoveCells a list of cell the builder can move on
      * @param error true if the previous input generated an error
      */
-    public abstract void moveInput(String player, List<Coords> checkMoveCells, boolean error);
+    public abstract void moveInput(List<Coords> checkMoveCells, boolean error);
 
     /**
      * asks the player to choose a builder and to build a structure
      * @param player the player's nickname
      * @param checkBuildCells a list of cell the builder can build on
      */
-    public abstract void buildInput(String player, List<Coords> checkBuildCells, boolean error);
+    public abstract void buildInput(List<Coords> checkBuildCells, boolean error);
 
     /**
      * asks the player to insert a nickname for this match
@@ -39,24 +39,21 @@ public abstract class Input {
 
     /**
      * asks the player which god he wants to play with
-     * @param player the player who has to choose
      * @param chosenGods the gods available to be chosen
      */
-    public abstract void godInput(String player, List<String> chosenGods, boolean error);
+    public abstract void godInput(List<String> chosenGods, boolean error);
 
     /**
      * asks the player the starting position of his builder
-     * @param player the player who has to choose
      */
-    public abstract void builderSetUpInput(String player, boolean callNumber, boolean error);
+    public abstract void builderSetUpInput(boolean callNumber, boolean error);
 
     /**
      * asks the challenger to choose a set of gods for this match
-     * @param challenger the player who has to choose
      * @param godsList contains the name of all the gods available to choose from
      * @param godsNumber the number of gods the challenger has to choose
      */
-    public abstract void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error);
+    public abstract void godSelectionInput(List<String> godsList, int godsNumber, boolean error);
 
     /**
      * asks the player if he wants to activate the effect of his god

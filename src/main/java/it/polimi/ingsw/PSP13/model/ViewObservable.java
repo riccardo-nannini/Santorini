@@ -17,7 +17,7 @@ public class ViewObservable {
     public ViewObservable (Match match, VirtualView virtualView) throws IOException {
         this.match = match;
         this.virtualView = virtualView;
-        notifyMap();
+        //notifyMap();
     }
 
     /**

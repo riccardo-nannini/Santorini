@@ -7,11 +7,10 @@ public class ClientSetupBehavior extends ClientBuildBehavior{
 
     @Override
     public void behavior(MessageCV messageCV) {
-        String player = messageCV.getString();
         boolean callNumber = messageCV.isCallNumber();
         boolean error = messageCV.isError();
 
-        input.builderSetUpInput(player, callNumber, error);
+        input.builderSetUpInput(callNumber, error);
     }
 
     public ClientSetupBehavior(Input input)

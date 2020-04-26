@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+
 public class Minotaur extends Turn {
 
     /**
@@ -30,7 +32,7 @@ public class Minotaur extends Turn {
      *
      */
     @Override
-    public void move(Builder builder, Coords coords){
+    public void move(Builder builder, Coords coords) throws IOException {
         if (match.isOccupied(coords) && !match.getCell(coords).getDome()) {
             Coords forcedPos = minotaurForce(builder, coords);
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class VirtualView {
 
-    private HashMap<String, ObjectOutputStream> outputMap;
+    private final HashMap<String, ObjectOutputStream> outputMap;
 
     /**
      * Creates an hashMap where the keys are the usernames and the values
@@ -22,11 +22,8 @@ public class VirtualView {
      * @param hashMap hash table <username,socket>
      * @throws IOException if an I/O error occurs while writing stream header
      */
-    public VirtualView(HashMap<String,Socket> hashMap) throws IOException {
-        outputMap = new HashMap<String, ObjectOutputStream>();
-        for (String username : hashMap.keySet()) {
-            outputMap.put(username, new ObjectOutputStream(hashMap.get(username).getOutputStream()));
-        }
+    public VirtualView(HashMap<String,ObjectOutputStream> hashMap) throws IOException {
+        outputMap = hashMap;
     }
 
     /**
@@ -155,6 +152,7 @@ public class VirtualView {
      */
     public void chooseBuilder(String player) throws IOException {
         MessageCV message = new MessageCV();
+        message.setString(player);
         message.setId(7);
         outputMap.get(player).writeObject(message);
     }
@@ -175,4 +173,9 @@ public class VirtualView {
         outputMap.get(player).writeObject(message);
     }
 
+    public void notifyWin(String username) throws IOException {
+        MessageCV message = new MessageCV();
+        message.setId(9);
+        outputMap.get(username).writeObject(message);
+    }
 }

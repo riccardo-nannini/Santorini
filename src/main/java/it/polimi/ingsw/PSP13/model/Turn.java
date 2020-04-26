@@ -44,8 +44,7 @@ public class Turn {
     /**
      * Method that manages tasks at the beginning of the turn.
      */
-    public void start()
-    {}
+    public void start(String player) throws IOException {}
 
     /**
      * Moves builder into the cell's coordinates
@@ -135,8 +134,7 @@ public class Turn {
     /**
      * Method that manages tasks at the end of the turn.
      */
-    public void end()
-    {}
+    public void end() throws IOException {}
 
     /**
      *

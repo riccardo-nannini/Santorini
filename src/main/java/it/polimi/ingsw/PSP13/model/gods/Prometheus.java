@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Prometheus extends Turn {
@@ -17,8 +18,8 @@ public class Prometheus extends Turn {
 
 
     @Override
-    public void start() {
-        usedEffect = turnHandler.getInputUseEffect("Prometheus");
+    public void start(String player) throws IOException {
+        usedEffect = turnHandler.getInputUseEffect(player, "Prometheus");
     }
 
 
@@ -29,7 +30,7 @@ public class Prometheus extends Turn {
      * @param coords coordinates of the cell where the builder wants to move
      */
     @Override
-    public void move(Builder builder, Coords coords) {
+    public void move(Builder builder, Coords coords) throws IOException {
         if (usedEffect) {
             List<Coords> possibleBuilds = getCellBuilds(builder);
             if (!possibleBuilds.isEmpty()) {

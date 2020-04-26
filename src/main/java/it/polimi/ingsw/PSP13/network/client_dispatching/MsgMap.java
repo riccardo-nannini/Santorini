@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP13.network.client_dispatching;
 import it.polimi.ingsw.PSP13.network.client_dispatching.behavior.*;
 import it.polimi.ingsw.PSP13.view.Input;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MsgMap {
@@ -12,11 +13,13 @@ public class MsgMap {
 
     public MsgMap(Input input)
     {
+        this.input = input;
         init();
     }
 
     private void init()
     {
+        dispatcher = new HashMap<>();
         dispatcher.put(0,new ClientMoveBehavior(input));
         dispatcher.put(1,new ClientBuildBehavior(input));
         dispatcher.put(2,new ClientNickBehavior(input));

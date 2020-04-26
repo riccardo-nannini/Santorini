@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+
 public class Atlas extends Turn {
 
     /**
@@ -15,9 +17,9 @@ public class Atlas extends Turn {
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */
     @Override
-    public void build(Builder builder, Coords buildingPosition)
-    {
-        boolean useEffect = turnHandler.getInputUseEffect("Atlas");
+    public void build(Builder builder, Coords buildingPosition) throws IOException {
+        String username = match.getPlayerByBuilder(builder).getUsername();
+        boolean useEffect = turnHandler.getInputUseEffect(username,"Atlas");
         if (useEffect) {
             match.getCell(buildingPosition).setDome(true);
         } else {

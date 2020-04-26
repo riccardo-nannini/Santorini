@@ -3,9 +3,8 @@ package it.polimi.ingsw.PSP13.controller;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
-import it.polimi.ingsw.PSP13.view.Input;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class TurnHandler {
@@ -18,17 +17,17 @@ public class TurnHandler {
     private Coords moveCoords = null;
     private Coords buildCoords = null;
     private Coords removeCoords = null;
-    private final Input input;
+    private final VirtualView virtualView;
 
-    public TurnHandler(Input input) {
-        this.input = input;
+    public TurnHandler(VirtualView virtualView) {
+        this.virtualView = virtualView;
     }
 
-    public synchronized Coords getInputBuilder(Player player) {
+    public synchronized Coords getInputBuilder(Player player) throws IOException {
         boolean valid;
         Builder builder;
         do {
-            input.chooseBuilder(player.getUsername());
+            virtualView.chooseBuilder(player.getUsername());
             try {
                 while (builderPos == null) {
                     try {
@@ -50,11 +49,11 @@ public class TurnHandler {
         return returnCoords;
     }
 
-    public synchronized Coords getInputMove(Builder builder, List<Coords> legalMoves) {
+    public synchronized Coords getInputMove(Builder builder, List<Coords> legalMoves) throws IOException {
         boolean error = false;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
-            input.moveInput(username, legalMoves, error);
+            virtualView.moveInput(username, legalMoves, error);
             while (moveCoords == null) {
                 try {
                     wait();
@@ -71,11 +70,11 @@ public class TurnHandler {
         return returnCoords;
     }
 
-    public synchronized Coords getInputBuild(Builder builder, List<Coords> legalBuilds) {
+    public synchronized Coords getInputBuild(Builder builder, List<Coords> legalBuilds) throws IOException {
         boolean error = false;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
-            input.buildInput(username, legalBuilds, error);
+            virtualView.buildInput(username, legalBuilds, error);
             while (buildCoords == null) {
                 try {
                     wait();
@@ -90,10 +89,10 @@ public class TurnHandler {
         return returnCoords;
     }
 
-    public synchronized boolean getInputUseEffect(String god) {
+    public synchronized boolean getInputUseEffect(String player, String god) throws IOException {
         boolean valid = false;
         do {
-            input.effectInput(god);
+            virtualView.effectInput(player, god);
             while (useEffect == null) {
                 try {
                     wait();
@@ -109,11 +108,12 @@ public class TurnHandler {
         return returnValue;
     }
 
-    public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) {
+    public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) throws IOException {
         boolean error;
+        String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             error = false;
-            input.removeBlock(legalRemoves, error);
+            virtualView.removeBlock(username, legalRemoves, error);
             while (removeCoords == null) {
                 try {
                     wait();

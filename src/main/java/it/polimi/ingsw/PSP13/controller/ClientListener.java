@@ -1,16 +1,18 @@
 package it.polimi.ingsw.PSP13.controller;
 
+import it.polimi.ingsw.PSP13.network.client_callback.MessageVC;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class ClientListener implements Runnable {
 
-    private final Socket client;
+    private final ObjectInputStream input;
     private static ViewObserver viewObserver;
 
-    public ClientListener (Socket client) {
-        this.client = client;
+    public ClientListener (ObjectInputStream input) {
+        this.input = input;
     }
 
     @Override
@@ -19,13 +21,11 @@ public class ClientListener implements Runnable {
         try {
             handleClientConnection();
         } catch (IOException e) {
-            System.out.println("client " + client.getInetAddress() + " connection dropped");
+            System.out.println("Connection dropped");
         }
     }
 
     private void handleClientConnection() throws IOException {
-
-        ObjectInputStream input = new ObjectInputStream(client.getInputStream());
 
         try {
             while (true) {
@@ -71,4 +71,9 @@ public class ClientListener implements Runnable {
         }
 
     }
+
+    public static void setViewObserver(ViewObserver viewObserver) {
+        ClientListener.viewObserver = viewObserver;
+    }
+
 }

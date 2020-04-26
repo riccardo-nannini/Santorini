@@ -36,7 +36,7 @@ public class CliInput extends Input {
 
 
     @Override
-    public void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error)
+    public void godSelectionInput(List<String> godsList, int godsNumber, boolean error)
     {
         String input;
         String pattern = "([a-zA-Z]{3,} *, *){"+(godsNumber-1)+"}([a-zA-Z]{3,})";
@@ -45,7 +45,7 @@ public class CliInput extends Input {
             System.out.println("\u001B[31mThere was and error with you last selection, please repeat\u001b[0m");
 
         Pattern p = Pattern.compile("([a-zA-Z]{3,} *, *)+([a-zA-Z]{3,})");
-        System.out.println(challenger + ", please select "+ godsNumber +" Gods for this match.");
+        System.out.println("Please select "+ godsNumber +" Gods for this match.");
         System.out.println("This is the list of all the available gods you can choose from:");
         System.out.print(godsList.get(0));
         for(int i=1;i<godsList.size();i++)
@@ -69,14 +69,14 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void godInput(String player, List<String> chosenGods, boolean error)
+    public void godInput(List<String> chosenGods, boolean error)
     {
         Pattern p = Pattern.compile("[a-zA-Z]{3,}");
 
         if(error)
             System.out.println("\u001B[31mThere was and error with you last selection, please repeat\u001b[0m");
 
-        System.out.println(player + ", choose your God:");
+        System.out.println("Choose your God:");
         System.out.println("This is the list of the available gods you can choose from for this match:");
         System.out.print(chosenGods.get(0));
         for(int i=1;i<chosenGods.size();i++)
@@ -93,14 +93,14 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void builderSetUpInput(String player, boolean firstCall, boolean error)
+    public void builderSetUpInput( boolean firstCall, boolean error)
     {
         Coords coords;
 
         MapPrinter.printMap();
         if(error)
             System.out.println("\u001B[31mYou can't place your builders there, choose again the positions.\u001b[0m");
-        System.out.println(player + ", place your builder on the map and type the position in the format *row*,*column*:");
+        System.out.println("Place your builder on the map and type the position in the format *row*,*column*:");
 
         if(firstCall)
             System.out.println("Choose the position of your first builder:");
@@ -143,7 +143,7 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void moveInput(String player, List<Coords> checkMoveCells, boolean error)
+    public void moveInput(List<Coords> checkMoveCells, boolean error)
     {
         MapPrinter.setHighlightedCells(checkMoveCells);
         MapPrinter.printMap();
@@ -151,7 +151,7 @@ public class CliInput extends Input {
         if(error)
             System.out.println("\u001B[31m!!!!  There was an error with your last selection !!!!\u001b[0m");
 
-        System.out.println(player + ", it is your turn now. You have to move a builder");
+        System.out.println("It is your turn now. You have to move a builder");
         System.out.println("You can choose a cell to build on only from the highlighted cells, type the cell coordinates in the format *row*,*column*:");
         Coords coords = readCoords();
 
@@ -160,7 +160,7 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void buildInput(String player, List<Coords> checkBuildCells, boolean error)
+    public void buildInput(List<Coords> checkBuildCells, boolean error)
     {
         MapPrinter.setHighlightedCells(checkBuildCells);
         MapPrinter.printMap();
@@ -168,7 +168,7 @@ public class CliInput extends Input {
         if(error)
             System.out.println("\u001B[31m!!!!  There was an error with your last selection !!!!\u001b[0m");
 
-        System.out.println(player + ", it is your turn now. You have to build on a cell");
+        System.out.println("It is your turn now. You have to build on a cell");
         System.out.println("You can build only on the highlighted cells, type the position in the format *row*,*column*:");
         Coords coords = readCoords();
 

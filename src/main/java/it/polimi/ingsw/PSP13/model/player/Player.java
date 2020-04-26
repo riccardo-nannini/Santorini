@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Player {
@@ -13,22 +14,19 @@ public class Player {
 
     public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
 
-    public void start() {god.start();}
+    public void start() throws IOException {god.start(username);}
 
-    public void move(Builder builder, Coords coords)
-    {
+    public void move(Builder builder, Coords coords) throws IOException {
         god.move(builder, coords);
     }
 
     public boolean checkBuild(Builder builder, Coords coords) { return god.checkBuild(builder, coords); }
 
-    public void build(Builder builder, Coords coords)
-    {
+    public void build(Builder builder, Coords coords) throws IOException {
         god.build(builder, coords);
     }
 
-    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2)
-    {
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IOException {
         god.setup(builder1, builder2, coords1, coords2);
     }
 
@@ -37,7 +35,7 @@ public class Player {
         return god.checkWin(builder, precedentPosition, currentPosition);
     }
 
-    public void end() { god.end(); }
+    public void end() throws IOException { god.end(); }
 
     public List<Coords> getCellMoves(Builder builder) {
         return god.getCellMoves(builder);

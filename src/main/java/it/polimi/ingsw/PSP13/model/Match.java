@@ -23,9 +23,12 @@ public class Match {
     /**
      * starts a new match and initializes all the needed components
      */
-    public void start(VirtualView virtualView) throws IOException {
+    public Match() {
         map = new Map();
         players = new ArrayList<>();
+    }
+
+    public void start(VirtualView virtualView) throws IOException {
         observable = new ViewObservable(this, virtualView);
     }
 

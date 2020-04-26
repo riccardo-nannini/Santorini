@@ -7,6 +7,8 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
+import java.io.IOException;
+
 public class Hypnus extends Turn {
 
     /**
@@ -19,7 +21,7 @@ public class Hypnus extends Turn {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException {
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException, IOException {
         super.setup(builder1, builder2, coords1, coords2);
         for (Player player : match.getPlayers()) {
             if (player != match.getPlayerByBuilder(builder1)) {

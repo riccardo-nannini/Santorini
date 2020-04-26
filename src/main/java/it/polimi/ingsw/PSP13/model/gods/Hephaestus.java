@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+
 public class Hephaestus extends Turn {
 
     /**
@@ -15,10 +17,11 @@ public class Hephaestus extends Turn {
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */
     @Override
-    public void build(Builder builder, Coords buildingPosition){
+    public void build(Builder builder, Coords buildingPosition) throws IOException {
         int currentLevelHeight = match.getHeight(buildingPosition);
         if (currentLevelHeight <= 1) {
-            boolean useEffect = turnHandler.getInputUseEffect("Hephaestus");
+            String username = match.getPlayerByBuilder(builder).getUsername();
+            boolean useEffect = turnHandler.getInputUseEffect(username,"Hephaestus");
             if (useEffect) {
                 match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevelHeight+2));
             } else {

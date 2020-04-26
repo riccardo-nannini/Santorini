@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Ares extends Turn {
      * sets the unmovedBuilder
      */
     @Override
-    public void move(Builder builder, Coords coords) {
+    public void move(Builder builder, Coords coords) throws IOException {
         if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {
             unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
         } else {
@@ -32,10 +33,11 @@ public class Ares extends Turn {
      * if useEffect = true
      */
     @Override
-    public void end() {
+    public void end() throws IOException {
         List<Coords> possibleRemoves = getCellRemoves(unmovedBuilder);
         if (!possibleRemoves.isEmpty()) {
-            boolean useEffect = turnHandler.getInputUseEffect("Ares");
+            String username = match.getPlayerByBuilder(unmovedBuilder).getUsername();
+            boolean useEffect = turnHandler.getInputUseEffect(username,"Ares");
             if (useEffect) {
                 Coords removeCoords = turnHandler.getInputRemoveBlock(unmovedBuilder,possibleRemoves);
                 int level = match.getHeight(removeCoords);

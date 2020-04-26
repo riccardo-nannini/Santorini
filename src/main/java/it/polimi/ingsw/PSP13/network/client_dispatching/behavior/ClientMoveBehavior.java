@@ -11,11 +11,10 @@ public class ClientMoveBehavior extends ClientDispatcherBehavior {
     @Override
     public void behavior(MessageCV messageCV) {
 
-        String player = messageCV.getString();
         List<Coords> checkMoveCells = messageCV.getCoordsList();
         boolean error = messageCV.isError();
 
-        input.moveInput(player, checkMoveCells, error);
+        input.moveInput(checkMoveCells, error);
     }
 
     public ClientMoveBehavior(Input input)

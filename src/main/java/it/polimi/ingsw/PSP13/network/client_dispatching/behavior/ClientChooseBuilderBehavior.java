@@ -7,6 +7,7 @@ public class ClientChooseBuilderBehavior extends ClientEffectBehavior {
 
     @Override
     public void behavior(MessageCV messageCV) {
+
         String player = messageCV.getString();
 
         input.chooseBuilder(player);

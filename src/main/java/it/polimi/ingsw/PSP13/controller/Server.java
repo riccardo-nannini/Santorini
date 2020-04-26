@@ -3,9 +3,13 @@ package it.polimi.ingsw.PSP13.controller;
 
 
 
+import it.polimi.ingsw.PSP13.model.player.Color;
+import it.polimi.ingsw.PSP13.model.player.Player;
+import it.polimi.ingsw.PSP13.network.client_callback.MessageVC;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageCV;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ public class Server {
     public final static int SOCKET_PORT = 7777;
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         Server server = new Server();
 
@@ -32,9 +36,13 @@ public class Server {
         }
 
         MatchHandler matchHandler = new MatchHandler();
-
         VirtualView virtualView = server.acceptClients(socket,matchHandler);
 
+        ViewObserver v = new ViewObserver(matchHandler);
+        ClientListener.setViewObserver(v);
+        matchHandler.setVirtualView(virtualView);
+        matchHandler.init();
+        matchHandler.play();
         //START CONTROLLER
 
     }
@@ -52,12 +60,15 @@ public class Server {
         ObjectOutputStream output;
         ObjectInputStream input;
         String username;
+        List<Color> colors = Color.getColors();
         List<String> usernameList = new ArrayList<String>();
-        HashMap<String, Socket> socketMap = new HashMap<String, Socket>();
+        HashMap<String, ObjectOutputStream> socketMap = new HashMap<String, ObjectOutputStream>();
 
+        //TODO for sbagliato
         for (int i=0; i<3; i++) {
             try {
                 Socket client = socket.accept();
+                System.out.println("Accettato " + client.getInetAddress());
                 output = new ObjectOutputStream(client.getOutputStream());
                 input = new ObjectInputStream(client.getInputStream());
                 boolean valid, error;
@@ -65,13 +76,16 @@ public class Server {
                 do {
                     valid = true;
 
-                    MessageCV message = new MessageCV();
-                    message.setError(error);
-                    message.setId(2);
-                    output.writeObject(message);
+                    MessageCV messageCV = new MessageCV();
+                    messageCV.setError(error);
+                    messageCV.setId(2);
+                    System.out.println("Chiedo il nickname a " + client.getInetAddress());
+                    output.writeObject(messageCV);
 
                     Object usernameObject = input.readObject();
-                    username = (String)usernameObject;
+                    MessageVC messageVC = (MessageVC)usernameObject;
+                    username = messageVC.getString();
+                    System.out.println("Ricevuto: " + username);
 
                     for (String otherUsername : usernameList) {
                         if (otherUsername.equals(username)) {
@@ -84,13 +98,14 @@ public class Server {
 
                 usernameList.add(username);
 
-                matchHandler.addPlayer(username);
+                Player player = new Player(colors.get(i), username);
+                matchHandler.addPlayer(player);
 
-                ClientListener clientListener = new ClientListener(client);
+                ClientListener clientListener = new ClientListener(input);
                 Thread thread = new Thread(clientListener);
                 thread.start();
 
-                socketMap.put(username,client);
+                socketMap.put(username,output);
 
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("connection dropped");

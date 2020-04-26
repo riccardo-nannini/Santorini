@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP13.view.CLI.CliInput;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,44 +24,32 @@ public class MatchHandler {
 
     private int numPlayers;
     boolean endGame;
-    private Input input;
+    private VirtualView virtualView;
     private String godsReceived = null;
     private String selectedGod = null;
     private Coords coords = null;
 
-    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        MatchHandler m = new MatchHandler();
-        ViewObserver v = new ViewObserver(m);
-       // ObservableToController o = new ObservableToController();
-       // o.addObserver(v);
-       // CliInput cli = new CliInput(o);
-       // m.setInput(cli);
-        m.init();
-        m.play();
+    public MatchHandler () throws IOException {
+        match = new Match();
     }
 
-
-    public void init() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        match = new Match();
-        turnHandler = new TurnHandler(input);
+    public void init() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+        numPlayers = 3;
+        turnHandler = new TurnHandler(virtualView);
         turnHandler.setMatchHandler(this);
-        //match.start(input);
         Turn.setMatch(match);
         Turn.setTurnHandler(turnHandler);
-        numPlayers = 3;
-        //playerInit(input);
-        godSelection(input);
-        builderSetUp(input);
+        match.start(virtualView);
+        godSelection(virtualView);
+        builderSetUp(virtualView);
 
     }
 
-    public void addPlayer(String nick) {
-        List<Color> colors = Color.getColors();
-        Player player = new Player(colors.remove(0), nick);
+    public void addPlayer(Player player) {
         match.addPlayer(player);
     }
 
-    public synchronized void godSelection(Input input) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+    public synchronized void godSelection(VirtualView virtualView) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, IOException {
         //TODO gestire eccezioni invece di throws
         Random r = new Random();
         Player challenger = match.getPlayers().get(r.nextInt(3));
@@ -71,7 +60,7 @@ public class MatchHandler {
         List<String> godsInput;
         do {
             error = false;
-            input.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
+            virtualView.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
             while (godsReceived == null) {
                 try {
                     wait();
@@ -93,11 +82,10 @@ public class MatchHandler {
             }
         } while(error);
 
-        List<String> chosenGods = new ArrayList<String>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
-        godAssignment(input, challenger, chosenGods);
+        godAssignment(virtualView, challenger, godsInput);
     }
 
-    public synchronized void godAssignment(Input input, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         boolean error;
         int pos = match.getPlayers().indexOf(challenger);
         for (int i = 0; i < numPlayers; i++) {
@@ -105,7 +93,7 @@ public class MatchHandler {
             pos = (pos+1) % numPlayers;
             String player = match.getPlayers().get(pos).getUsername();
             do {
-                input.godInput(player, chosenGods, error);
+                virtualView.godInput(player, chosenGods, error);
                 while (selectedGod == null) {
                     try {
                         wait();
@@ -127,13 +115,14 @@ public class MatchHandler {
         }
     }
 
-    public void builderSetUp(Input input) {
+    //TODO bug quando viene sbagliata la posizione del secondo builder
+    public synchronized void builderSetUp(VirtualView virtualView) throws IOException {
         Player currentPlayer;
         Coords pos1;
         Coords pos2 = null;
         Builder[] builders = new Builder[2];
         boolean firstCall, error;
-
+        match.notifyMap();
         for (int i=0; i < numPlayers; i++) {
             firstCall = true;
             error = false;
@@ -141,7 +130,7 @@ public class MatchHandler {
             currentPlayer = match.getPlayers().get(i);
             for (int numBuilder = 0; numBuilder < 2; numBuilder++) {
                 do {
-                    input.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);
+                    virtualView.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);
                     while (coords == null) {
                         try {
                             wait();
@@ -168,7 +157,7 @@ public class MatchHandler {
         }
     }
 
-    public  void play() {
+    public synchronized void play() throws IOException {
         //TODO potrebbero esserci problemi con le condizione di perdita nel caso di dei con input aggiuntivi
         //TODO gestire caso giocatore faccia move in una posizione in cui non può fare una build
         List<Player> players = match.getPlayers();
@@ -180,7 +169,7 @@ public class MatchHandler {
         while (!endGame) {
             for (Player currentPlayer : players) {
                 if (players.size() < 2) {
-                    input.notifyWin(currentPlayer.getUsername());
+                    virtualView.notifyWin(currentPlayer.getUsername());
                     endGame = true;
                     break;
                 }
@@ -208,7 +197,7 @@ public class MatchHandler {
                 currentPlayer.end();
             }
         }
-        input.notifyWin(winner.getUsername());
+        virtualView.notifyWin(winner.getUsername());
     }
 
     public synchronized void setNumPlayers(int numPlayers) {
@@ -216,8 +205,8 @@ public class MatchHandler {
         notifyAll();
     }
 
-    public void setInput(Input input) {
-        this.input = input;
+    public void setVirtualView(VirtualView virtualView) {
+        this.virtualView = virtualView;
     }
 
     public synchronized void setGodsReceived(String godsReceived) {

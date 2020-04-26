@@ -9,11 +9,10 @@ public class ClientGodBehavior extends ClientBuildBehavior {
 
     @Override
     public void behavior(MessageCV messageCV) {
-        String player = messageCV.getString();
         List<String> chosenGods = messageCV.getStringList();
         boolean error = messageCV.isError();
 
-        input.godInput(player, chosenGods, error);
+        input.godInput(chosenGods, error);
     }
 
     public ClientGodBehavior(Input input)

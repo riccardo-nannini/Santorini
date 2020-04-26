@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.*;
 import it.polimi.ingsw.PSP13.model.Match;
 
+import java.io.IOException;
+
 
 public class AthenaDebuff extends Decorator{
 
@@ -34,7 +36,7 @@ public class AthenaDebuff extends Decorator{
      * Removes the AthenDebuff decorator since the effect only applies for one turn
      */
     @Override
-    public void end() {
+    public void end() throws IOException {
         god.end();
         removeDecorator(player);
     }

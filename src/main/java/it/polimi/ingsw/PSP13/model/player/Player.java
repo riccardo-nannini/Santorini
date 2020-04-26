@@ -60,8 +60,7 @@ public class Player {
         builders[0] = new Builder();
         builders[1] = new Builder();
     }
-
-
+import it.polimi.ingsw.PSP13.model.Turn;
 
 
     public Color getColor() {

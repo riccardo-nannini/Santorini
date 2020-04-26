@@ -4,24 +4,10 @@ import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+import java.util.List;
+
 public class Artemis extends Turn {
-
-    private Boolean useEffect;
-    private Coords secondCoords;
-    private Coords startedCoords;
-
-    public Artemis () {
-        this.useEffect = false;
-        this.secondCoords = null;
-        this.startedCoords = null;
-    }
-
-    //momentaneo per test
-    public Artemis (Boolean useEffect, Coords secondCoords) {
-        this.useEffect = useEffect;
-        this.secondCoords = secondCoords;
-        this.startedCoords = null;
-    }
 
     /**
      * In addiction to turn's move allows the builder to move one additional
@@ -30,15 +16,19 @@ public class Artemis extends Turn {
      * @param coords coordinates of the cell where the builder wants to move
      */
     @Override
-    public void move(Builder builder, Coords coords) {
-        startedCoords = builder.getCoords();
+    public void move(Builder builder, Coords coords) throws IOException {
+        Coords startedCoords = builder.getCoords();
         super.move(builder, coords);
-        //richiesta all'utente di voler usare l'effetto di artemide --> set useEffecet
-        //se vuole usarlo, chiediamo anche le nuove coordinate --> set SecondCoords
-        if (useEffect) {
-            if (checkMove(builder,secondCoords) && startedCoords != secondCoords) {
-                super.move(builder,secondCoords);
+        if (checkWin(builder,startedCoords,coords)) return;
+        List<Coords> possibleMoves = getCellMoves(builder);
+        possibleMoves.remove(startedCoords);
+        if (!possibleMoves.isEmpty()) {
+            boolean useEffect = turnHandler.getInputUseEffect(match.getPlayerByBuilder(builder).getUsername(), "Artemis");
+            if (useEffect) {
+                Coords secondCoords = turnHandler.getInputMove(builder, possibleMoves);
+                super.move(builder, secondCoords);
             }
         }
     }
+
 }

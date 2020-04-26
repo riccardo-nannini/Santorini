@@ -20,7 +20,7 @@ public class MatchTests {
     {
         match = new Match();
         match.start();
-        Player test = new Player(Color.Blue,32,"test");
+        Player test = new Player(Color.Blue,"test");
         Builder[] builders = new Builder[2];
         builders[0] = new Builder();
         builders[1] = new Builder();

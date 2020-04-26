@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
+import java.io.IOException;
+
 public class Athena extends Turn {
 
     /**
@@ -16,7 +18,7 @@ public class Athena extends Turn {
      * @param coords coordinates of the cell where the builder wants to move to
      */
     @Override
-    public void move(Builder builder, Coords coords){
+    public void move(Builder builder, Coords coords) throws IOException {
         Coords precedentPosition = builder.getCoords();
         super.move(builder, coords);
         if (match.getHeight(precedentPosition) < builder.getHeight()) {
@@ -28,5 +30,6 @@ public class Athena extends Turn {
             }
         }
     }
+
 
 }

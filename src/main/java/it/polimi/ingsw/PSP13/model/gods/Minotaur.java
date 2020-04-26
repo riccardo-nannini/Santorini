@@ -1,13 +1,14 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
-public class Minotaur extends Turn {
+import java.io.IOException;
 
-    public Minotaur() { }
+public class Minotaur extends Turn {
 
     /**
      * @param builder
@@ -19,8 +20,7 @@ public class Minotaur extends Turn {
     {
         int x = (coords.getX() - builder.getCoords().getX()) + coords.getX();
         int y = (coords.getY() - builder.getCoords().getY()) + coords.getY();
-        Coords forcedPos = new Coords(x,y);
-        return forcedPos;
+        return new Coords(x,y);
     }
 
     /**
@@ -32,14 +32,21 @@ public class Minotaur extends Turn {
      *
      */
     @Override
-    public void move(Builder builder, Coords coords){
-        if (match.isOccupied(coords)) {
+    public void move(Builder builder, Coords coords) throws IOException {
+        if (match.isOccupied(coords) && !match.getCell(coords).getDome()) {
             Coords forcedPos = minotaurForce(builder, coords);
+
+            Builder[] oppoBuilders = match.getPlayerByBuilder(match.getBuilderByCoords(coords)).getBuilders();
+
             match.getBuilderByCoords(coords).setCell(match.getCell(forcedPos));
             builder.setCell(match.getCell(coords));
+
+            match.notifyBuilder(oppoBuilders[0], oppoBuilders[1]);
+
         } else {
             builder.setCell(match.getCell(coords));
         }
+        match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
 
 

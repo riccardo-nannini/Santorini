@@ -24,7 +24,7 @@ public class HypnusDebuffTest {
     public static void setup() {
         match = new Match();
         match.start();
-        player = new Player(Color.Blue, 21, "Mario");
+        player = new Player(Color.Blue, "Mario");
 
         match.addPlayer(player);
         new Turn(match);
@@ -53,7 +53,7 @@ public class HypnusDebuffTest {
     }
 
     @Test
-    public void MovingBuilderOnTheSameLevel_ExpectedTrue() {
+    public void MovingBuildersOnTheSameLevel_ExpectedTrue() {
         player.getBuilders()[0].setCell(match.getCell(new Coords(3, 2)));
         assertTrue(player.checkMove(player.getBuilders()[1], new Coords(3, 3)));
         assertTrue(player.checkMove(player.getBuilders()[1], new Coords(4, 4)));

@@ -2,22 +2,26 @@ package it.polimi.ingsw.PSP13.model;
 
 import it.polimi.ingsw.PSP13.model.board.*;
 import it.polimi.ingsw.PSP13.model.player.*;
+import it.polimi.ingsw.PSP13.controller.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Turn {
 
     protected static Match match;
+    protected static TurnHandler turnHandler;
 
-    public Turn(Match match)
+    public Turn(Match match, TurnHandler turnHandler)
     {
         Turn.match = match;
+        Turn.turnHandler = turnHandler;
     }
 
-    public Turn()
-    {
+    public Turn(){}
 
-    }
     /**
      * Sets the position of builder1 to coords1 and builder2 to coords2
      * @param builder1
@@ -26,22 +30,30 @@ public class Turn {
      * @param coords2
      * @throws IllegalArgumentException if params aren't legal
      */
-    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException {
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException, IOException {
         if (!Map.isLegal(coords1) || !Map.isLegal(coords2) || builder1 ==  null || builder2 == null) {
             throw new IllegalArgumentException();
         } else {
             builder1.setCell(match.getCell(coords1));
             builder2.setCell(match.getCell(coords2));
+            match.notifyBuilder(builder1, builder2);
         }
     }
+
+
+    /**
+     * Method that manages tasks at the beginning of the turn.
+     */
+    public void start(String player) throws IOException {}
 
     /**
      * Moves builder into the cell's coordinates
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      */
-    public void move(Builder builder, Coords coords){
+    public void move(Builder builder, Coords coords) throws IOException {
         builder.setCell(match.getCell(coords));
+        match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
 
     /**
@@ -68,8 +80,9 @@ public class Turn {
      * @param builder forced builder
      * @param coords coordinates of the cell where the builder is forced to move
      */
-    public void force(Builder builder, Coords coords) {
+    public void force(Builder builder, Coords coords) throws IOException {
         builder.setCell(match.getCell(coords));
+        match.notifyBuilder(builder,match.getOtherBuilder(builder));
     }
 
     /**
@@ -77,13 +90,13 @@ public class Turn {
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */
-    public void build(Builder builder, Coords buildingPosition)
-    {
+    public void build(Builder builder, Coords buildingPosition) throws IOException {
         int currentLevel = match.getHeight(buildingPosition);
         if(currentLevel == Level.Top.getHeight())
             match.getCell(buildingPosition).setDome(true);
         else
             match.setCellLevel(buildingPosition, Level.findLevelByHeight(currentLevel+1));
+        match.notifyMap();
     }
 
     /**
@@ -121,8 +134,7 @@ public class Turn {
     /**
      * Method that manages tasks at the end of the turn.
      */
-    public void end()
-    {}
+    public void end() throws IOException {}
 
     /**
      *
@@ -152,6 +164,8 @@ public class Turn {
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
         List<Coords> possibleBuildingSite = new ArrayList<>();
 
+        adjacents.add(builder.getCoords());
+
         for(Coords coords : adjacents)
         {
             if(checkBuild(builder, coords))
@@ -160,5 +174,12 @@ public class Turn {
         return possibleBuildingSite;
     }
 
+    public static void setMatch(Match match) {
+        Turn.match = match;
+    }
+
+    public static void setTurnHandler(TurnHandler turnHandler) {
+        Turn.turnHandler = turnHandler;
+    }
 
 }

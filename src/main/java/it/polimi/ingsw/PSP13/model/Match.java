@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.model;
 
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.board.Map;
@@ -7,6 +8,8 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +17,25 @@ public class Match {
 
     private List<Player> players;
     private Map map;
+    private ViewObservable observable;
+
 
     /**
      * starts a new match and initializes all the needed components
      */
-    public void start()
-    {
+    public Match() {
         map = new Map();
         players = new ArrayList<>();
     }
+
+    public void start(VirtualView virtualView) throws IOException {
+        observable = new ViewObservable(this, virtualView);
+    }
+
+    public Map getMap() {
+        return this.map;
+    }
+
 
     /**
      * @param player
@@ -42,13 +55,11 @@ public class Match {
      * @param coords
      * @return true if the cell related to the coordinates has a dome on it or
      * at least a player has got a worker which coordinates are equal to coords, false otherwise
-     * @throws IllegalArgumentException if coords is not a legal object
      */
-    public boolean isOccupied(Coords coords) throws IllegalArgumentException
+    public boolean isOccupied(Coords coords)
     {
         if(coords == null || !Map.isLegal(coords))
-            throw new IllegalArgumentException();
-
+            return true;
         if(map.getCell(coords).getDome())
         {
             return true;
@@ -128,5 +139,28 @@ public class Match {
 
         throw new IllegalArgumentException();
     }
+
+    /**
+     * @param builder
+     * @return the other builder of builder's player
+     */
+    public Builder getOtherBuilder(Builder builder) {
+        if (getPlayerByBuilder(builder).getBuilders()[0] == builder) {
+            return getPlayerByBuilder(builder).getBuilders()[1];
+        } else {
+            return getPlayerByBuilder(builder).getBuilders()[0];
+        }
+    }
+
+    public void notifyMap() throws IOException {
+        observable.notifyMap();
+    };
+
+    public void notifyBuilder(Builder builder1, Builder builder2) throws IOException {
+        observable.notifyBuilder(builder1,builder2);
+    };
+
+
+
 
 }

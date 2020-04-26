@@ -1,22 +1,14 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+
 public class Atlas extends Turn {
-
-    private Boolean useEffect;
-
-    public Atlas() {
-        this.useEffect = false;
-    }
-
-    //momentaneo per testing
-    public Atlas(Boolean useEffect) {
-        this.useEffect = useEffect;
-    }
 
     /**
      * Adds to the standard build Atlas' effect:
@@ -25,12 +17,14 @@ public class Atlas extends Turn {
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */
     @Override
-    public void build(Builder builder, Coords buildingPosition)
-    {
+    public void build(Builder builder, Coords buildingPosition) throws IOException {
+        String username = match.getPlayerByBuilder(builder).getUsername();
+        boolean useEffect = turnHandler.getInputUseEffect(username,"Atlas");
         if (useEffect) {
             match.getCell(buildingPosition).setDome(true);
         } else {
             match.setCellLevel(buildingPosition, Level.findLevelByHeight(match.getHeight(buildingPosition)+1));
         }
+        match.notifyMap();
     }
 }

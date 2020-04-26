@@ -5,36 +5,26 @@ import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Ares extends Turn {
 
     private Builder unmovedBuilder;
-    private Coords removeCoords;
-    private Boolean useEffect;
-
-    public Ares () {
-        unmovedBuilder = null;
-        removeCoords = null;
-        useEffect = null;
-    }
-
-    //momentaneo per testing
-    public Ares (Coords coords, Boolean useEffect) {
-        this.useEffect = useEffect;
-        this.removeCoords = coords;
-    }
 
     /**
-     *In addiction to turn's move
-     *sets the unmovedBuilder
+     * In addiction to turn's move
+     * sets the unmovedBuilder
      */
     @Override
-    public void move(Builder builder, Coords coords){
+    public void move(Builder builder, Coords coords) throws IOException {
         if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {
             unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
         } else {
             unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
         }
-        builder.setCell(match.getCell(coords));
+        super.move(builder, coords);
     }
 
     /**
@@ -43,15 +33,35 @@ public class Ares extends Turn {
      * if useEffect = true
      */
     @Override
-    public void end() {
-        if (useEffect) {
-            if (match.getAdjacent(unmovedBuilder.getCoords()).contains(removeCoords) && !match.isOccupied(removeCoords)) {
+    public void end() throws IOException {
+        List<Coords> possibleRemoves = getCellRemoves(unmovedBuilder);
+        if (!possibleRemoves.isEmpty()) {
+            String username = match.getPlayerByBuilder(unmovedBuilder).getUsername();
+            boolean useEffect = turnHandler.getInputUseEffect(username,"Ares");
+            if (useEffect) {
+                Coords removeCoords = turnHandler.getInputRemoveBlock(unmovedBuilder,possibleRemoves);
                 int level = match.getHeight(removeCoords);
-                if (level >= 1) {
-                    match.getCell(removeCoords).setLevel(Level.findLevelByHeight(level - 1));
-                }
+                match.getCell(removeCoords).setLevel(Level.findLevelByHeight(level - 1));
+                match.notifyMap();
             }
         }
+    }
+
+    /**
+     * @param builder
+     * @return a list of unoccupied cells with a level > 0 neighbouring builder
+     */
+    public List<Coords> getCellRemoves(Builder builder) {
+
+        List<Coords> adjacents = match.getAdjacent(builder.getCoords());
+        List<Coords> possibleRemoves = new ArrayList<>();
+
+        for (Coords coords : adjacents) {
+            if (!match.isOccupied(coords) && match.getHeight(coords) > 0) {
+                possibleRemoves.add(coords);
+            }
+        }
+        return possibleRemoves;
     }
 
 }

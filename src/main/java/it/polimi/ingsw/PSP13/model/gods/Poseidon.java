@@ -1,32 +1,19 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 
+import java.io.IOException;
+
 public class Poseidon extends Turn {
 
-    private Boolean useEffect;
-    private Coords coords1;
-    private Coords coords2;
-    private Coords coords3;
     private Builder unmovedBuilder;
 
-    public Poseidon () {
-        this.useEffect = false;
-        this.coords1 = null;
-        this.coords2 = null;
-        this.coords3 = null;
+    public Poseidon ()
+    {
         this.unmovedBuilder = null;
-    }
-
-    //momentaneo per test
-    public Poseidon (Boolean useEffect, Coords coords1, Coords coords2, Coords coords3, Builder unmovedBuilder) {
-        this.useEffect = useEffect;
-        this.coords1 = coords1;
-        this.coords2 = coords2;
-        this.coords3 = coords3;
-        this.unmovedBuilder = unmovedBuilder;
     }
 
     /**
@@ -35,13 +22,13 @@ public class Poseidon extends Turn {
      * @param coords coordinates of the cell where the builder wants to move
      */
     @Override
-    public void move(Builder builder, Coords coords) {
+    public void move(Builder builder, Coords coords) throws IOException {
         if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {
             unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];
         } else {
             unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
         }
-        builder.setCell(match.getCell(coords));
+        super.move(builder,coords);
     }
 
     /**
@@ -49,17 +36,25 @@ public class Poseidon extends Turn {
      * up to three times in neighbouring cells
      */
     @Override
-    public void end() {
+    public void end() throws IOException {
         if (match.getHeight(unmovedBuilder.getCoords()) == 0) {
-            //richidi se usare l'effetto
-            //se lo usa chiedi anche le 3 coordinate (quante ne vuole, max 3)
-            // (checkando che siano tutte diverse fra loro ??)
-            if (useEffect) {
-                if (checkBuild(unmovedBuilder, coords1)) build(unmovedBuilder, coords1);
-                if (checkBuild(unmovedBuilder, coords2)) build(unmovedBuilder, coords2);
-                if (checkBuild(unmovedBuilder, coords3)) build(unmovedBuilder, coords3);
+            if (!getCellBuilds(unmovedBuilder).isEmpty()) {
+
+                Coords buildCoords;
+                int i = 0;
+                String username = match.getPlayerByBuilder(unmovedBuilder).getUsername();
+                while((i<3) && turnHandler.getInputUseEffect(username,"Poseidon") && !getCellBuilds(unmovedBuilder).isEmpty())
+                {
+                    buildCoords = turnHandler.getInputBuild(unmovedBuilder, getCellBuilds(unmovedBuilder));
+                    super.build(unmovedBuilder, buildCoords);
+                    i++;
+                }
+                match.notifyMap();
+
+
             }
         }
     }
+
 
 }

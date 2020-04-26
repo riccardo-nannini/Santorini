@@ -1,31 +1,33 @@
 package it.polimi.ingsw.PSP13.model.player;
 
-import it.polimi.ingsw.PSP13.model.Turn;
+
+
+import java.io.IOException;
+import java.util.List;
+
 
 public class Player {
 
     private Color color;
     private Builder[] builders;
     private Turn god;
-    private int age;
     private String username;
 
     public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
 
-    public void move(Builder builder, Coords coords)
-    {
+    public void start() throws IOException {god.start(username);}
+
+    public void move(Builder builder, Coords coords) throws IOException {
         god.move(builder, coords);
     }
 
     public boolean checkBuild(Builder builder, Coords coords) { return god.checkBuild(builder, coords); }
 
-    public void build(Builder builder, Coords coords)
-    {
+    public void build(Builder builder, Coords coords) throws IOException {
         god.build(builder, coords);
     }
 
-    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2)
-    {
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IOException {
         god.setup(builder1, builder2, coords1, coords2);
     }
 
@@ -34,21 +36,29 @@ public class Player {
         return god.checkWin(builder, precedentPosition, currentPosition);
     }
 
-    public void end() { god.end(); }
+    public void end() throws IOException { god.end(); }
+
+    public List<Coords> getCellMoves(Builder builder) {
+        return god.getCellMoves(builder);
+    }
+
+    public List<Coords> getCellBuilds(Builder builder) {
+        return god.getCellBuilds(builder);
+    }
 
     /**
      * @param color
-     * @param age
      * @param username
      * initializes a new instance with the basic attributes
      */
-    public Player(Color color, int age, String username)
+    public Player(Color color, String username)
     {
         this.color = color;
-        this.age = age;
         this.username = username;
 
         builders = new Builder[2];
+        builders[0] = new Builder();
+        builders[1] = new Builder();
     }
 
 
@@ -67,7 +77,7 @@ public class Player {
     }
 
     public void setBuilders(Builder[] builders) {
-        this.builders = builders;
+        this.builders = builders.clone();
     }
 
     public Turn getGod() {
@@ -76,14 +86,6 @@ public class Player {
 
     public void setGod(Turn god) {
         this.god = god;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getUsername() {

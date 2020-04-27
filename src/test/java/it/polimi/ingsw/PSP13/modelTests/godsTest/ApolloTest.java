@@ -11,6 +11,8 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class ApolloTest {
@@ -25,11 +27,15 @@ public class ApolloTest {
     public static void init()
     {
         match = new Match();
-        match.start();
+        try {
+            match.start(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
 
-        apollo = new Apollo(null);
+        apollo = new Apollo();
         turn = new Turn(match,null);
 
 

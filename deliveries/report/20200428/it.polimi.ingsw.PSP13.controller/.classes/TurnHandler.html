@@ -1,0 +1,243 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TurnHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TurnHandler (it.polimi.ingsw.PSP13.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TurnHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (8/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    51,6%
+  </span>
+  <span class="absValue">
+    (47/ 91)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Player;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class TurnHandler {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    //TODO volendo si può togliere il riferimento circolare a MatchHandler con qualche accorgimento
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private MatchHandler matchHandler;
+<b class="fc"><i>15</i>&nbsp;    private String useEffect = null;</b>
+<b class="fc"><i>16</i>&nbsp;    private Coords builderPos = null;</b>
+<b class="fc"><i>17</i>&nbsp;    private Coords moveCoords = null;</b>
+<b class="fc"><i>18</i>&nbsp;    private Coords buildCoords = null;</b>
+<b class="fc"><i>19</i>&nbsp;    private Coords removeCoords = null;</b>
+<i>20</i>&nbsp;    private final VirtualView virtualView;
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;    public TurnHandler(VirtualView virtualView) {</b>
+<b class="fc"><i>23</i>&nbsp;        this.virtualView = virtualView;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public synchronized Coords getInputBuilder(Player player) throws IOException {
+<i>27</i>&nbsp;        boolean valid;
+<i>28</i>&nbsp;        Builder builder;
+<i>29</i>&nbsp;        do {
+<b class="nc"><i>30</i>&nbsp;            virtualView.chooseBuilder(player.getUsername());</b>
+<i>31</i>&nbsp;            try {
+<b class="nc"><i>32</i>&nbsp;                while (builderPos == null) {</b>
+<i>33</i>&nbsp;                    try {
+<b class="nc"><i>34</i>&nbsp;                        wait();</b>
+<b class="nc"><i>35</i>&nbsp;                    } catch (InterruptedException e) {</b>
+<i>36</i>&nbsp;                        //TODO
+<b class="nc"><i>37</i>&nbsp;                    }</b>
+<i>38</i>&nbsp;                }
+<b class="nc"><i>39</i>&nbsp;                builder = matchHandler.getMatch().getBuilderByCoords(builderPos);</b>
+<b class="nc"><i>40</i>&nbsp;                valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);</b>
+<b class="nc"><i>41</i>&nbsp;                if (player.getCellMoves(builder).isEmpty()) valid = false;</b>
+<b class="nc"><i>42</i>&nbsp;            } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>43</i>&nbsp;                valid = false;</b>
+<b class="nc"><i>44</i>&nbsp;            }</b>
+<b class="nc"><i>45</i>&nbsp;        } while(!valid);</b>
+<b class="nc"><i>46</i>&nbsp;        Coords returnCoords = builderPos;</b>
+<b class="nc"><i>47</i>&nbsp;        builderPos = null;</b>
+<b class="nc"><i>48</i>&nbsp;        return returnCoords;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public synchronized Coords getInputMove(Builder builder, List&lt;Coords&gt; legalMoves) throws IOException {
+<b class="nc"><i>52</i>&nbsp;        boolean error = false;</b>
+<b class="nc"><i>53</i>&nbsp;        String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();</b>
+<i>54</i>&nbsp;        do {
+<b class="nc"><i>55</i>&nbsp;            virtualView.moveInput(username, legalMoves, error);</b>
+<b class="nc"><i>56</i>&nbsp;            while (moveCoords == null) {</b>
+<i>57</i>&nbsp;                try {
+<b class="nc"><i>58</i>&nbsp;                    wait();</b>
+<b class="nc"><i>59</i>&nbsp;                } catch (InterruptedException e) {</b>
+<i>60</i>&nbsp;                    //TODO
+<b class="nc"><i>61</i>&nbsp;                }</b>
+<i>62</i>&nbsp;            }
+<b class="nc"><i>63</i>&nbsp;            error = !legalMoves.contains(moveCoords);</b>
+<b class="nc"><i>64</i>&nbsp;        } while(error);</b>
+<b class="nc"><i>65</i>&nbsp;        Player player = matchHandler.getMatch().getPlayerByBuilder(builder);</b>
+<b class="nc"><i>66</i>&nbsp;        if (player.win(builder, builder.getCoords(), moveCoords)) matchHandler.setEndGame(true);</b>
+<b class="nc"><i>67</i>&nbsp;        Coords returnCoords = moveCoords;</b>
+<b class="nc"><i>68</i>&nbsp;        moveCoords = null;</b>
+<b class="nc"><i>69</i>&nbsp;        return returnCoords;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public synchronized Coords getInputBuild(Builder builder, List&lt;Coords&gt; legalBuilds) throws IOException {
+<b class="fc"><i>73</i>&nbsp;        boolean error = false;</b>
+<b class="fc"><i>74</i>&nbsp;        String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();</b>
+<i>75</i>&nbsp;        do {
+<b class="fc"><i>76</i>&nbsp;            virtualView.buildInput(username, legalBuilds, error);</b>
+<b class="fc"><i>77</i>&nbsp;            while (buildCoords == null) {</b>
+<i>78</i>&nbsp;                try {
+<b class="nc"><i>79</i>&nbsp;                    wait();</b>
+<b class="nc"><i>80</i>&nbsp;                } catch (InterruptedException e) {</b>
+<i>81</i>&nbsp;                    //TODO
+<b class="nc"><i>82</i>&nbsp;                }</b>
+<i>83</i>&nbsp;            }
+<b class="fc"><i>84</i>&nbsp;            error = !legalBuilds.contains(buildCoords);</b>
+<b class="fc"><i>85</i>&nbsp;        } while(error);</b>
+<b class="fc"><i>86</i>&nbsp;        Coords returnCoords = buildCoords;</b>
+<b class="fc"><i>87</i>&nbsp;        buildCoords = null;</b>
+<b class="fc"><i>88</i>&nbsp;        return returnCoords;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public synchronized boolean getInputUseEffect(String player, String god) throws IOException {
+<b class="fc"><i>92</i>&nbsp;        boolean valid = false;</b>
+<i>93</i>&nbsp;        do {
+<b class="fc"><i>94</i>&nbsp;            virtualView.effectInput(player, god);</b>
+<b class="fc"><i>95</i>&nbsp;            while (useEffect == null) {</b>
+<i>96</i>&nbsp;                try {
+<b class="nc"><i>97</i>&nbsp;                    wait();</b>
+<b class="nc"><i>98</i>&nbsp;                } catch (InterruptedException e) {</b>
+<i>99</i>&nbsp;                    //TODO
+<b class="nc"><i>100</i>&nbsp;                }</b>
+<i>101</i>&nbsp;            }
+<b class="fc"><i>102</i>&nbsp;            if (useEffect.toLowerCase().equals(&quot;yes&quot;) || useEffect.toLowerCase().equals(&quot;y&quot;)</b>
+<b class="fc"><i>103</i>&nbsp;                    || useEffect.toLowerCase().equals(&quot;no&quot;) || useEffect.toLowerCase().equals(&quot;n&quot;)) valid = true;</b>
+<b class="fc"><i>104</i>&nbsp;        } while (!valid);</b>
+<b class="fc"><i>105</i>&nbsp;        boolean returnValue = useEffect.toLowerCase().equals(&quot;yes&quot;) || useEffect.toLowerCase().equals(&quot;y&quot;);</b>
+<b class="fc"><i>106</i>&nbsp;        useEffect = null;</b>
+<b class="fc"><i>107</i>&nbsp;        return returnValue;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    public synchronized Coords getInputRemoveBlock(Builder builder, List&lt;Coords&gt; legalRemoves) throws IOException {
+<i>111</i>&nbsp;        boolean error;
+<b class="fc"><i>112</i>&nbsp;        String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();</b>
+<b class="fc"><i>113</i>&nbsp;        System.out.println(&quot;\n OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO&quot;);</b>
+<i>114</i>&nbsp;        do {
+<b class="fc"><i>115</i>&nbsp;            error = false;</b>
+<b class="fc"><i>116</i>&nbsp;            virtualView.removeBlock(username, legalRemoves, error);</b>
+<b class="fc"><i>117</i>&nbsp;            while (removeCoords == null) {</b>
+<i>118</i>&nbsp;                try {
+<b class="nc"><i>119</i>&nbsp;                    wait();</b>
+<b class="nc"><i>120</i>&nbsp;                } catch (InterruptedException e) {</b>
+<i>121</i>&nbsp;                    //TODO
+<b class="nc"><i>122</i>&nbsp;                }</b>
+<i>123</i>&nbsp;            }
+<b class="fc"><i>124</i>&nbsp;            if (!legalRemoves.contains(removeCoords)) error = true;</b>
+<b class="fc"><i>125</i>&nbsp;        } while(error);</b>
+<b class="fc"><i>126</i>&nbsp;        Coords returnCoords = removeCoords;</b>
+<b class="fc"><i>127</i>&nbsp;        removeCoords = null;</b>
+<b class="fc"><i>128</i>&nbsp;        return returnCoords;</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    public synchronized void setUseEffect(String useEffect) {
+<b class="fc"><i>132</i>&nbsp;        this.useEffect = useEffect;</b>
+<b class="fc"><i>133</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>134</i>&nbsp;    }</b>
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    public synchronized void setBuilderPos(Coords builderPos) {
+<b class="nc"><i>137</i>&nbsp;        this.builderPos = builderPos;</b>
+<b class="nc"><i>138</i>&nbsp;        notifyAll();</b>
+<b class="nc"><i>139</i>&nbsp;    }</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    public synchronized void setMoveCoords(Coords moveCoords) {
+<b class="nc"><i>142</i>&nbsp;        this.moveCoords = moveCoords;</b>
+<b class="nc"><i>143</i>&nbsp;        notifyAll();</b>
+<b class="nc"><i>144</i>&nbsp;    }</b>
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    public synchronized void setBuildCoords(Coords buildCoords) {
+<b class="fc"><i>147</i>&nbsp;        this.buildCoords = buildCoords;</b>
+<b class="fc"><i>148</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>149</i>&nbsp;    }</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    public synchronized void setRemoveCoords(Coords removeCoords) {
+<b class="fc"><i>152</i>&nbsp;        this.removeCoords = removeCoords;</b>
+<b class="fc"><i>153</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>154</i>&nbsp;    }</b>
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    public void setMatchHandler(MatchHandler match) {
+<b class="fc"><i>157</i>&nbsp;        this.matchHandler = match;</b>
+<b class="fc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 22:16</div>
+</div>
+</body>
+</html>

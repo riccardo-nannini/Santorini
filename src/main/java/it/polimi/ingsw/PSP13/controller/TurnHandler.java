@@ -36,7 +36,6 @@ public class TurnHandler {
                         //TODO
                     }
                 }
-                builderPos = matchHandler.getCoords();
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
                 valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);
                 if (player.getCellMoves(builder).isEmpty()) valid = false;
@@ -111,6 +110,7 @@ public class TurnHandler {
     public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) throws IOException {
         boolean error;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
+        System.out.println("\n OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
         do {
             error = false;
             virtualView.removeBlock(username, legalRemoves, error);

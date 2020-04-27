@@ -11,9 +11,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
 
 public class ArtemisTest {
+
+    //TODO coverage a 50% su sta classe, aggiungere test
 
     public static Match match;
     public static Player player;
@@ -23,12 +25,15 @@ public class ArtemisTest {
     @BeforeClass
     public static void setup() {
         match = new Match();
-        match.start();
+        try {
+            match.start(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         player = new Player(Color.Blue, "Mario");
 
         match.addPlayer(player);
-        new Turn(match);
-
+        new Turn(match, null);
         builder1 = new Builder();
         builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});

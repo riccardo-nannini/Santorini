@@ -12,7 +12,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AthenaDebuffTest {
 
@@ -24,11 +27,15 @@ public class AthenaDebuffTest {
     @BeforeClass
     public static void setup() {
         match = new Match();
-        match.start();
+        try {
+            match.start(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         player = new Player(Color.Blue, "Mario");
 
         match.addPlayer(player);
-        new Turn(match);
+        new Turn(match, null);
 
         builder1 = new Builder();
         builder2 = new Builder();
@@ -70,7 +77,11 @@ public class AthenaDebuffTest {
     @Test
     public void endOfTurn_DecoretorRemoveExpected(){
         player.checkMove(player.getBuilders()[0], new Coords(3,3));
-        player.end();
+        try {
+            player.end();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertFalse(player.getGod() instanceof AthenaDebuff);
     }
 }

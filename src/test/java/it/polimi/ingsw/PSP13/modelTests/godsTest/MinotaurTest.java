@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP13.modelTests.godsTest;
 
+import it.polimi.ingsw.PSP13.controller.MatchHandler;
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
@@ -11,6 +14,10 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -26,15 +33,42 @@ public class MinotaurTest {
     public static Builder opponentsbuilder1_2;
     public static Builder opponentsbuilder2_1;
     public static Builder opponentsbuilder2_2;
+    public static TurnHandler handler;
+    public static VirtualView view;
 
     @BeforeClass
     public static void setup()
     {
-        match = new Match();
-        match.start();
+
+        MatchHandler matchHandler = null;
+        try {
+            matchHandler = new MatchHandler();
+            match = matchHandler.getMatch();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         player = new Player(Color.Blue, "Mario");
         opponentPlayer1 = new Player(Color.Yellow, "Diego");
-        opponentPlayer2 = new Player(Color.White, "Maurizio");
+        opponentPlayer2 = new Player(Color.Red, "Maurizio");
+
+        HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();
+        ObjectOutputStream stream;
+
+        try {
+            stream = new ObjectOutputStream(System.out);
+            outputMap.put(player.getUsername(),stream);
+            view = new VirtualView(outputMap);
+
+            handler = new TurnHandler(view);
+            handler.setMatchHandler(matchHandler);
+            match.start(view);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        new Turn(match, handler);
 
         match.addPlayer(player);
         match.addPlayer(opponentPlayer1);
@@ -49,12 +83,12 @@ public class MinotaurTest {
         opponentsbuilder1_1 = new Builder();
         opponentsbuilder1_2 = new Builder();
         opponentPlayer1.setBuilders(new Builder[]{opponentsbuilder1_1 ,opponentsbuilder1_2});
-        opponentPlayer1.setGod(new Turn(match));
+        opponentPlayer1.setGod(new Turn(match,null));
 
         opponentsbuilder2_1 = new Builder();
         opponentsbuilder2_2 = new Builder();
         opponentPlayer2.setBuilders(new Builder[]{opponentsbuilder2_1 ,opponentsbuilder2_2});
-        opponentPlayer2.setGod(new Turn(match));
+        opponentPlayer2.setGod(new Turn(match,null));
 
         match.setCellLevel(new Coords(4,2), Level.Floor);
         match.setCellLevel(new Coords(3,2), Level.Medium);
@@ -89,7 +123,11 @@ public class MinotaurTest {
 
     @Test
     public void MoveWithEffect_CorrectInput_CorrectBehaviour(){
-        player.move(builder2, new Coords(3,3));
+        try {
+            player.move(builder2, new Coords(3,3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(builder2.getCoords(),new Coords(3,3));
         assertEquals(opponentsbuilder1_1.getCoords(),new Coords(4,4));
     }
@@ -98,7 +136,11 @@ public class MinotaurTest {
     public void MoveWithEffect3_CorrectInput_CorrectBehaviour(){
         match.setCellLevel(new Coords(2,4), Level.Floor);
         match.getCell(new Coords(2,4)).setDome(false);
-        player.move(builder2, new Coords(2,3));
+        try {
+            player.move(builder2, new Coords(2,3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(builder2.getCoords(),new Coords(2,3));
         assertEquals(opponentsbuilder2_2.getCoords(),new Coords(2,4));
     }
@@ -106,7 +148,11 @@ public class MinotaurTest {
 
     @Test
     public void MoveNoEffect_CorrectInput_CorrectBehaviour(){
-        player.move(builder2, new Coords(2,1));
+        try {
+            player.move(builder2, new Coords(2,1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(builder2.getCoords(),new Coords(2,1));
     }
 

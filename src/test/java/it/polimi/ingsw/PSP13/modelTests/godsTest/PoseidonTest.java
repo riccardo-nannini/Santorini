@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP13.modelTests.godsTest;
 
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.gods.Poseidon;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -12,9 +11,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
 
 public class PoseidonTest {
+
+    //TODO aggiungere nuovi test, correggere quelli che ci sono già
 
     public static Match match;
     public static Player player;
@@ -24,11 +25,16 @@ public class PoseidonTest {
     @BeforeClass
     public static void setup() {
         match = new Match();
-        match.start();
+        try {
+            match.start(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         player = new Player(Color.Blue, "Mario");
 
         match.addPlayer(player);
-        new Turn(match);
+
+        new Turn(match, null);
 
         builder1 = new Builder();
         builder2 = new Builder();

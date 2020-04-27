@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP13.modelTests;
 
+import it.polimi.ingsw.PSP13.controller.MatchHandler;
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
@@ -11,6 +14,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
@@ -21,13 +27,39 @@ public class TurnTest {
     private static Turn turn;
     private static Builder[] builders = new Builder[2];
     private static Match match;
+    public static TurnHandler handler;
+    public static VirtualView view;
 
     @BeforeClass
     public static void init()
     {
-        match = new Match();
-        match.start();
+        MatchHandler matchHandler = null;
+        try {
+            matchHandler = new MatchHandler();
+            match = matchHandler.getMatch();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Player test = new Player(Color.Blue,"test");
+
+        HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();
+        ObjectOutputStream stream;
+
+        try {
+            stream = new ObjectOutputStream(System.out);
+            outputMap.put(test.getUsername(),stream);
+            view = new VirtualView(outputMap);
+
+            handler = new TurnHandler(view);
+            handler.setMatchHandler(matchHandler);
+            match.start(view);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        new Turn(match, handler);
+
         builders[0] = new Builder();
         builders[1] = new Builder();
         builders[0].setCell(match.getCell(new Coords(4, 4)));
@@ -41,20 +73,32 @@ public class TurnTest {
     @Before
     public void setBuilder()
     {
-        turn.force(builders[0],new Coords(2,2));
-        match.setCellLevel(new Coords(3,2),Level.Floor);
+        try {
+            turn.force(builders[0],new Coords(2,2));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        match.setCellLevel(new Coords(3,2), Level.Floor);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void setupException()
     {
-        turn.setup(builders[0], builders[1],new Coords(-1,-1),new Coords(2,3));
+        try {
+            turn.setup(builders[0], builders[1],new Coords(-1,-1),new Coords(2,3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setupCorrect()
     {
-        turn.setup(builders[0], builders[1],new Coords(1,1),new Coords(4,3));
+        try {
+            turn.setup(builders[0], builders[1],new Coords(1,1),new Coords(4,3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(new Coords(1,1),builders[0].getCoords());
         assertEquals(new Coords(4,3),builders[1].getCoords());
     }
@@ -62,7 +106,11 @@ public class TurnTest {
     @Test
     public void moveCorrect()
     {
-        turn.move(builders[0],new Coords(2,3));
+        try {
+            turn.move(builders[0],new Coords(2,3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(builders[0].getCoords(),new Coords(2,3));
     }
 
@@ -91,7 +139,11 @@ public class TurnTest {
     @Test
     public void buildCorrect()
     {
-        turn.build(builders[0],new Coords(2,1));
+        try {
+            turn.build(builders[0],new Coords(2,1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(Level.Base,match.getCell(new Coords(2,1)).getLevel());
     }
 
@@ -115,9 +167,13 @@ public class TurnTest {
     public void checkWinTrue()
     {
         boolean result;
-        turn.force(builders[0],new Coords(3,3));
-        match.setCellLevel(new Coords(3,3),Level.Medium);
-        match.setCellLevel(new Coords(3,4),Level.Top);
+        try {
+            turn.force(builders[0],new Coords(3,3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        match.setCellLevel(new Coords(3,3), Level.Medium);
+        match.setCellLevel(new Coords(3,4), Level.Top);
         result = turn.checkWin(builders[0],new Coords(3,3),new Coords(3,4));
         assertTrue(result);
     }
@@ -133,7 +189,7 @@ public class TurnTest {
     @Test
     public void getCellMovesTest()
     {
-        match.setCellLevel(new Coords(3,2),Level.Top);
+        match.setCellLevel(new Coords(3,2), Level.Top);
 
         List<Coords> list = turn.getCellMoves(builders[0]);
         assertThat(list, hasItems(new Coords(1,1)));
@@ -149,7 +205,7 @@ public class TurnTest {
     @Test
     public void getCellBuildsTest()
     {
-        match.setCellLevel(new Coords(3,2),Level.Top);
+        match.setCellLevel(new Coords(3,2), Level.Top);
 
         List<Coords> list = turn.getCellBuilds(builders[0]);
         assertThat(list, hasItems(new Coords(1,1)));

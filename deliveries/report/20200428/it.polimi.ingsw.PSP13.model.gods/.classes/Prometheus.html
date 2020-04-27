@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Prometheus</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Prometheus (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Prometheus</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43,3%
+  </span>
+  <span class="absValue">
+    (13/ 30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class Prometheus extends Turn {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private Boolean usedEffect;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public Prometheus () {</b>
+<b class="fc"><i>16</i>&nbsp;        usedEffect = false;</b>
+<b class="fc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Override
+<i>21</i>&nbsp;    public void start(String player) throws IOException {
+<b class="nc"><i>22</i>&nbsp;        usedEffect = turnHandler.getInputUseEffect(player, &quot;Prometheus&quot;);</b>
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * In addition to turn&#39;s move allows the builder to build both before and after
+<i>28</i>&nbsp;     * moving if he does not move up.
+<i>29</i>&nbsp;     * @param builder builder that is currently moving
+<i>30</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public void move(Builder builder, Coords coords) throws IOException {
+<b class="fc"><i>34</i>&nbsp;        if (usedEffect) {</b>
+<b class="nc"><i>35</i>&nbsp;            List&lt;Coords&gt; possibleBuilds = getCellBuilds(builder);</b>
+<b class="nc"><i>36</i>&nbsp;            if (!possibleBuilds.isEmpty()) {</b>
+<b class="nc"><i>37</i>&nbsp;                Coords firstBuildCoords = turnHandler.getInputBuild(builder,possibleBuilds);</b>
+<b class="nc"><i>38</i>&nbsp;                int heightFirstBuild = match.getHeight(firstBuildCoords);</b>
+<b class="nc"><i>39</i>&nbsp;                int heightMove = match.getHeight(coords);</b>
+<b class="nc"><i>40</i>&nbsp;                if (!(coords.equals(firstBuildCoords) &amp;&amp; (heightFirstBuild == 3 || heightFirstBuild == heightMove))) {</b>
+<b class="nc"><i>41</i>&nbsp;                    build(builder, firstBuildCoords);</b>
+<i>42</i>&nbsp;                }
+<b class="nc"><i>43</i>&nbsp;            } else usedEffect = false;</b>
+<i>44</i>&nbsp;        }
+<b class="fc"><i>45</i>&nbsp;        super.move(builder,coords);</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Unlike turn&#39;s checkmove, if the player uses Prometheus effect he cannot
+<i>51</i>&nbsp;     * move up
+<i>52</i>&nbsp;     * @param builder builder that is currently moving
+<i>53</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>54</i>&nbsp;     * @return true if builder can move into coords&#39; cell, else return false
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    @Override
+<i>57</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords) {
+<b class="fc"><i>58</i>&nbsp;        if (checkUseEffect(builder,coords)) {</b>
+<b class="fc"><i>59</i>&nbsp;            if (usedEffect) {</b>
+<b class="nc"><i>60</i>&nbsp;                if (!Map.isLegal(coords)) {</b>
+<b class="nc"><i>61</i>&nbsp;                    throw new IllegalArgumentException();</b>
+<i>62</i>&nbsp;                } else {
+<b class="nc"><i>63</i>&nbsp;                    int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());</b>
+<b class="nc"><i>64</i>&nbsp;                    return match.getAdjacent(builder.getCoords()).contains(coords) &amp;&amp; !match.isOccupied(coords) &amp;&amp; diff &lt;= 0;</b>
+<i>65</i>&nbsp;                }
+<b class="fc"><i>66</i>&nbsp;            } else return super.checkMove(builder, coords);</b>
+<i>67</i>&nbsp;        }
+<b class="nc"><i>68</i>&nbsp;        usedEffect = false;</b>
+<b class="nc"><i>69</i>&nbsp;        return super.checkMove(builder, coords);</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * @param builder moving builder
+<i>74</i>&nbsp;     * @param coords coords the builder wants to move to
+<i>75</i>&nbsp;     * @return true if there&#39;s a free cell near the builder with a height &lt;= the height of the cell
+<i>76</i>&nbsp;     * it wants to move to
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    public boolean checkUseEffect(Builder builder, Coords coords) {
+<b class="fc"><i>79</i>&nbsp;        for (Coords adjacentCoords : match.getAdjacent(builder.getCoords())) {</b>
+<b class="fc"><i>80</i>&nbsp;            if (!match.isOccupied(adjacentCoords) &amp;&amp; match.getHeight(adjacentCoords) &lt;= match.getHeight(builder.getCoords())) {</b>
+<b class="fc"><i>81</i>&nbsp;                return true;</b>
+<i>82</i>&nbsp;            }
+<b class="fc"><i>83</i>&nbsp;        }</b>
+<b class="nc"><i>84</i>&nbsp;        return false;</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 22:16</div>
+</div>
+</body>
+</html>

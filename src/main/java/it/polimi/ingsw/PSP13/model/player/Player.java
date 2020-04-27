@@ -2,6 +2,8 @@ package it.polimi.ingsw.PSP13.model.player;
 
 
 
+import it.polimi.ingsw.PSP13.model.Turn;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -60,7 +62,6 @@ public class Player {
         builders[0] = new Builder();
         builders[1] = new Builder();
     }
-import it.polimi.ingsw.PSP13.model.Turn;
 
 
     public Color getColor() {

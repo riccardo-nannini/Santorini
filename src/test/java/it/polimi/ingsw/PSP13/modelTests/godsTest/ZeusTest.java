@@ -11,7 +11,10 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ZeusTest {
 
@@ -24,7 +27,11 @@ public class ZeusTest {
     public static void init()
     {
         match = new Match();
-        match.start();
+        try {
+            match.start(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
 
@@ -34,7 +41,7 @@ public class ZeusTest {
         builder1 = new Builder();
         builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
-        turn = new Turn(match);
+        turn = new Turn(match,null);
         zeus = new Zeus();
         player.setGod(zeus);
 

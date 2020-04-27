@@ -9,6 +9,8 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class MatchTests {
@@ -19,7 +21,11 @@ public class MatchTests {
     public static void setup()
     {
         match = new Match();
-        match.start();
+        try {
+            match.start(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Player test = new Player(Color.Blue,"test");
         Builder[] builders = new Builder[2];
         builders[0] = new Builder();
@@ -30,10 +36,11 @@ public class MatchTests {
         match.addPlayer(test);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test()
     public void OccupiedTestException()
     {
-        match.isOccupied(new Coords(-1,-1));
+        boolean bool = match.isOccupied(new Coords(-1,-1));
+        assertTrue(bool);
     }
 
     @Test
@@ -41,7 +48,7 @@ public class MatchTests {
     {
         boolean result;
 
-        match.setCellLevel(new Coords(3,2),Level.Top);
+        match.setCellLevel(new Coords(3,2), Level.Top);
         match.getCell(new Coords(3,2)).setDome(true);
         result = match.isOccupied(new Coords(3,2));
         assertTrue(result);

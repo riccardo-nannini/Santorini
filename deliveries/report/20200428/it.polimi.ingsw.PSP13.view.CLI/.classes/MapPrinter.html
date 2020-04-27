@@ -1,0 +1,229 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MapPrinter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MapPrinter (it.polimi.ingsw.PSP13.view.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MapPrinter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 70)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.immutables.BuilderVM;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.immutables.MapVM;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Level;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Color;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class MapPrinter {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private static MapVM map;
+<b class="nc"><i>16</i>&nbsp;    private static BuilderMap builder = new BuilderMap();</b>
+<i>17</i>&nbsp;    private static CellCLI[][] MapCLI;
+<i>18</i>&nbsp;    private static List&lt;Coords&gt; highlightedCells;
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;    public MapPrinter() {</b>
+<b class="nc"><i>21</i>&nbsp;        highlightedCells = new ArrayList&lt;&gt;();</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public static void setHighlightedCells(List&lt;Coords&gt; highlightedCells) {
+<b class="nc"><i>26</i>&nbsp;        MapPrinter.highlightedCells = new ArrayList&lt;&gt;(highlightedCells);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * updates the instance of MapView and refreshes the video
+<i>31</i>&nbsp;     * @param map
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    public void updateMapCLI(MapVM map) {
+<b class="nc"><i>34</i>&nbsp;        MapPrinter.map = map;</b>
+<b class="nc"><i>35</i>&nbsp;        printMap();</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * updates the instance of BuilderView and refreshed the video
+<i>40</i>&nbsp;     * @param builder
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    public void updateBuildersCLI(BuilderVM builder) {
+<b class="nc"><i>43</i>&nbsp;        MapPrinter.builder.updateBuilder(builder);</b>
+<b class="nc"><i>44</i>&nbsp;        printMap();</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * stamps on video the current state of the board
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public static void printMap() {
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;        MapCLI = new CellCLI[5][5];</b>
+<b class="nc"><i>53</i>&nbsp;        for (int i=0; i&lt;5; i++) {</b>
+<b class="nc"><i>54</i>&nbsp;            for (int j=0; j&lt;5; j++) {</b>
+<b class="nc"><i>55</i>&nbsp;                MapCLI[i][j] = new CellCLI(map.getMap()[i][j], builder.checkBuilder(i,j),isHighlighted(i,j));</b>
+<i>56</i>&nbsp;            }
+<i>57</i>&nbsp;        }
+<b class="nc"><i>58</i>&nbsp;        System.out.println(&quot;\n\n&quot;);</b>
+<b class="nc"><i>59</i>&nbsp;        System.out.printf(&quot;%50s&quot;,&quot;&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;        System.out.printf(&quot;%6s 0 %7s 1 %7s 2 %8s 3 %7s 4 \n\n&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;);</b>
+<b class="nc"><i>61</i>&nbsp;        System.out.printf(&quot;%50s&quot;,&quot;&quot;);</b>
+<b class="nc"><i>62</i>&nbsp;        for (int row=0; row&lt;5; row++) {</b>
+<b class="nc"><i>63</i>&nbsp;            for (int line = 1; line &lt;= 3; line++) {</b>
+<b class="nc"><i>64</i>&nbsp;                for (int col=0; col&lt;5; col++) {</b>
+<b class="nc"><i>65</i>&nbsp;                    if(line == 2 &amp;&amp; col==0)</b>
+<b class="nc"><i>66</i>&nbsp;                        System.out.print(row + &quot;  &quot;);</b>
+<b class="nc"><i>67</i>&nbsp;                    if(line != 2 &amp;&amp; col==0)</b>
+<b class="nc"><i>68</i>&nbsp;                        System.out.print(&quot;   &quot;);</b>
+<b class="nc"><i>69</i>&nbsp;                    MapCLI[row][col].printCell(line);</b>
+<b class="nc"><i>70</i>&nbsp;                    if (col&lt;4) System.out.print(&quot; \u2016 &quot;);</b>
+<i>71</i>&nbsp;                }
+<b class="nc"><i>72</i>&nbsp;                System.out.println();</b>
+<b class="nc"><i>73</i>&nbsp;                System.out.printf(&quot;%50s&quot;,&quot;&quot;);</b>
+<i>74</i>&nbsp;            }
+<b class="nc"><i>75</i>&nbsp;            if (row&lt;4) for (int i = 0; i &lt; 55; i++) { System.out.print(&quot;\u2550&quot;);}</b>
+<b class="nc"><i>76</i>&nbsp;            System.out.println();</b>
+<b class="nc"><i>77</i>&nbsp;            System.out.printf(&quot;%50s&quot;,&quot;&quot;);</b>
+<i>78</i>&nbsp;        }
+<b class="nc"><i>79</i>&nbsp;        System.out.println(&quot;\n\n&quot;);</b>
+<b class="nc"><i>80</i>&nbsp;        highlightedCells.clear();</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * Stamps the winner
+<i>85</i>&nbsp;     * @param username name of the winner
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    public void notifyWin(String username) {
+<b class="nc"><i>88</i>&nbsp;        System.out.println(username + &quot; HAI VINTO, COMPLIMENTI&quot;);</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * @param x coordinate x
+<i>93</i>&nbsp;     * @param y coordinate y
+<i>94</i>&nbsp;     * @return true if the x-y cell is highlighted
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    public static boolean isHighlighted(int x, int y) {
+<b class="nc"><i>97</i>&nbsp;        Coords coords = new Coords(x,y);</b>
+<b class="nc"><i>98</i>&nbsp;        for (Coords cell : highlightedCells) {</b>
+<b class="nc"><i>99</i>&nbsp;            if (coords.equals(cell)) return true;</b>
+<b class="nc"><i>100</i>&nbsp;        }</b>
+<b class="nc"><i>101</i>&nbsp;        return false;</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>106</i>&nbsp;        Map mappa = new Map();</b>
+<b class="nc"><i>107</i>&nbsp;        Coords[] coordsBlue = new Coords[2];</b>
+<b class="nc"><i>108</i>&nbsp;        Coords[] coordsRed = new Coords[2];</b>
+<b class="nc"><i>109</i>&nbsp;        Coords[] coordsYellow = new Coords[2];</b>
+<b class="nc"><i>110</i>&nbsp;        BuilderMap builderMap = new BuilderMap();</b>
+<b class="nc"><i>111</i>&nbsp;        BuilderVM workerBlue = new BuilderVM(coordsBlue, Color.Blue);</b>
+<b class="nc"><i>112</i>&nbsp;        BuilderVM workerRed = new BuilderVM(coordsRed, Color.Red);</b>
+<b class="nc"><i>113</i>&nbsp;        BuilderVM workerYellow = new BuilderVM(coordsYellow, Color.Yellow);</b>
+<b class="nc"><i>114</i>&nbsp;        coordsBlue[0] = new Coords(1,2);</b>
+<b class="nc"><i>115</i>&nbsp;        coordsBlue[1] = new Coords(4,4);</b>
+<b class="nc"><i>116</i>&nbsp;        coordsRed[0] = new Coords(2,2);</b>
+<b class="nc"><i>117</i>&nbsp;        coordsRed[1] = new Coords(2,1);</b>
+<b class="nc"><i>118</i>&nbsp;        coordsYellow[0] = new Coords(4,2);</b>
+<b class="nc"><i>119</i>&nbsp;        coordsYellow[1] = new Coords(4,3);</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;        builderMap.updateBuilder(workerBlue);</b>
+<b class="nc"><i>122</i>&nbsp;        builderMap.updateBuilder(workerRed);</b>
+<b class="nc"><i>123</i>&nbsp;        builderMap.updateBuilder(workerYellow);</b>
+<i>124</i>&nbsp;
+<b class="nc"><i>125</i>&nbsp;        mappa.setCell(new Coords(2,3), Level.Top);</b>
+<b class="nc"><i>126</i>&nbsp;        mappa.getCell(new Coords(2,3)).setDome(true);</b>
+<b class="nc"><i>127</i>&nbsp;        mappa.setCell(new Coords(1,4), Level.Medium);</b>
+<b class="nc"><i>128</i>&nbsp;        mappa.setCell(new Coords(0,0), Level.Base);</b>
+<i>129</i>&nbsp;
+<b class="nc"><i>130</i>&nbsp;        MapVM mapView = new MapVM(mappa.getMatrix());</b>
+<b class="nc"><i>131</i>&nbsp;        MapPrinter printer = new MapPrinter();</b>
+<b class="nc"><i>132</i>&nbsp;        printer.map = mapView;</b>
+<b class="nc"><i>133</i>&nbsp;        printer.builder = builderMap;</b>
+<b class="nc"><i>134</i>&nbsp;        List&lt;Coords&gt; list= new ArrayList&lt;Coords&gt;();</b>
+<b class="nc"><i>135</i>&nbsp;        list.add(new Coords(0,0));</b>
+<b class="nc"><i>136</i>&nbsp;        list.add(new Coords(0,1));</b>
+<b class="nc"><i>137</i>&nbsp;        list.add(new Coords(1,0));</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;        printer.setHighlightedCells(list);</b>
+<b class="nc"><i>140</i>&nbsp;        MapPrinter.printMap();</b>
+<b class="nc"><i>141</i>&nbsp;        MapPrinter.printMap();</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;        //printer.updateMapCLI(mapView);
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-27 22:16</div>
+</div>
+</body>
+</html>

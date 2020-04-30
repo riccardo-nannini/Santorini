@@ -1,12 +1,10 @@
 package it.polimi.ingsw.PSP13.model.player;
 
-
-
+import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.Turn;
 
 import java.io.IOException;
 import java.util.List;
-
 
 public class Player {
 

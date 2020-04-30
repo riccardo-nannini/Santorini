@@ -52,7 +52,7 @@ public class BuilderMap {
         {
             if(entry.getValue() != null)
                 coords = ((BuilderVM)entry.getValue()).getBuilders();
-            if(coords != null)
+            if(coords != null && coords[0] != null && coords[1] != null)
             {
                 if(coords[0].equals(par) || coords[1].equals(par))
                     return (Color)entry.getKey();

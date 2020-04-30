@@ -158,9 +158,9 @@ public class Match {
 
     public void notifyBuilder(Builder builder1, Builder builder2) throws IOException {
         observable.notifyBuilder(builder1,builder2);
-    };
+    }
 
-
-
-
+    public void removeBuilder(Player player) throws IOException {
+        observable.removeBuilder(player);
+    }
 }

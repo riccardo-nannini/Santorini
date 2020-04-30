@@ -20,9 +20,8 @@ public class VirtualView {
      * Creates an hashMap where the keys are the usernames and the values
      * are the corresponding client's ObjectOutputStream
      * @param hashMap hash table <username,socket>
-     * @throws IOException if an I/O error occurs while writing stream header
      */
-    public VirtualView(HashMap<String,ObjectOutputStream> hashMap) throws IOException {
+    public VirtualView(HashMap<String,ObjectOutputStream> hashMap) {
         outputMap = hashMap;
     }
 
@@ -176,6 +175,15 @@ public class VirtualView {
     public void notifyWin(String username) throws IOException {
         MessageCV message = new MessageCV();
         message.setId(9);
+        message.setString("Win");
         outputMap.get(username).writeObject(message);
     }
+
+    public void notifyLose(String username) throws IOException {
+        MessageCV message = new MessageCV();
+        message.setId(9);
+        message.setString("Lose");
+        outputMap.get(username).writeObject(message);
+    }
+
 }

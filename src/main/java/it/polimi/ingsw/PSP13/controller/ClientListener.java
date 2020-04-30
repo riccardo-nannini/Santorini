@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP13.network.client_callback.MessageVC;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 
 public class ClientListener implements Runnable {
 

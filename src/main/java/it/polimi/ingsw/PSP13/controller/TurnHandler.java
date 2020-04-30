@@ -26,6 +26,7 @@ public class TurnHandler {
     public synchronized Coords getInputBuilder(Player player) throws IOException {
         boolean valid;
         Builder builder;
+        Coords returnCoords;
         do {
             virtualView.chooseBuilder(player.getUsername());
             try {
@@ -38,18 +39,23 @@ public class TurnHandler {
                 }
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
                 valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);
-                if (player.getCellMoves(builder).isEmpty()) valid = false;
+                if (valid && player.getCellMoves(builder).isEmpty()) {
+                    Builder otherBuilder = player.getBuilders()[0] == builder ? player.getBuilders()[1] : player.getBuilders()[0];
+                    builderPos = otherBuilder.getCoords();
+                }
             } catch (IllegalArgumentException e) {
                 valid = false;
+            } finally {
+                returnCoords = builderPos;
+                builderPos = null;
             }
         } while(!valid);
-        Coords returnCoords = builderPos;
-        builderPos = null;
         return returnCoords;
     }
 
     public synchronized Coords getInputMove(Builder builder, List<Coords> legalMoves) throws IOException {
         boolean error = false;
+        Coords returnCoords;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             virtualView.moveInput(username, legalMoves, error);
@@ -61,16 +67,17 @@ public class TurnHandler {
                 }
             }
             error = !legalMoves.contains(moveCoords);
+            returnCoords = moveCoords;
+            moveCoords = null;
         } while(error);
         Player player = matchHandler.getMatch().getPlayerByBuilder(builder);
-        if (player.win(builder, builder.getCoords(), moveCoords)) matchHandler.setEndGame(true);
-        Coords returnCoords = moveCoords;
-        moveCoords = null;
+        if (player.win(builder, builder.getCoords(), returnCoords)) matchHandler.setEndGame(true);
         return returnCoords;
     }
 
     public synchronized Coords getInputBuild(Builder builder, List<Coords> legalBuilds) throws IOException {
         boolean error = false;
+        Coords returnCoords;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             virtualView.buildInput(username, legalBuilds, error);
@@ -81,15 +88,16 @@ public class TurnHandler {
                     //TODO
                 }
             }
+            returnCoords = buildCoords;
             error = !legalBuilds.contains(buildCoords);
+            buildCoords = null;
         } while(error);
-        Coords returnCoords = buildCoords;
-        buildCoords = null;
         return returnCoords;
     }
 
     public synchronized boolean getInputUseEffect(String player, String god) throws IOException {
         boolean valid = false;
+        boolean returnValue;
         do {
             virtualView.effectInput(player, god);
             while (useEffect == null) {
@@ -101,14 +109,15 @@ public class TurnHandler {
             }
             if (useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y")
                     || useEffect.toLowerCase().equals("no") || useEffect.toLowerCase().equals("n")) valid = true;
+            returnValue =  useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y");
+            useEffect = null;
         } while (!valid);
-        boolean returnValue = useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y");
-        useEffect = null;
         return returnValue;
     }
 
     public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) throws IOException {
         boolean error;
+        Coords returnCoords;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         System.out.println("\n OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
         do {
@@ -122,9 +131,9 @@ public class TurnHandler {
                 }
             }
             if (!legalRemoves.contains(removeCoords)) error = true;
+            returnCoords = removeCoords;
+            removeCoords = null;
         } while(error);
-        Coords returnCoords = removeCoords;
-        removeCoords = null;
         return returnCoords;
     }
 

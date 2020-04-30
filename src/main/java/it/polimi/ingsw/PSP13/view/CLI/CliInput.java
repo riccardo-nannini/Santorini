@@ -201,6 +201,9 @@ public class CliInput extends Input {
     public void updateBuilders(BuilderVM builderVM){ mapPrinter.updateBuildersCLI(builderVM); }
 
     @Override
-    public void notifyWin(String username) { mapPrinter.notifyWin(username); }
+    public void notifyWin() { mapPrinter.notifyWin(); }
+
+    @Override
+    public void notifyLose() { mapPrinter.notifyLose(); }
 
 }

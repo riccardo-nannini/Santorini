@@ -89,8 +89,9 @@ public abstract class Input {
 
     /**
      * Notifies the view that "username" won
-     * @param username Name of the winner
      */
-    public void notifyWin(String username) {}
+    public void notifyWin() {}
+
+    public void notifyLose() {}
 
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
 
@@ -37,7 +38,12 @@ public class ViewObservable {
         builders[0] = builder1.getCoords();
         builders[1] = builder2.getCoords();
         virtualView.updateBuilders(new BuilderVM(builders, match.getPlayerByBuilder(builder1).getColor()));
-    };
+    }
+
+    public void removeBuilder(Player player) throws IOException {
+        Coords[] builders = new Coords[]{null, null};
+        virtualView.updateBuilders(new BuilderVM(builders, player.getColor()));
+    }
 
 
 

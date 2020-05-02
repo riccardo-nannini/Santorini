@@ -119,7 +119,7 @@ public class TurnHandler {
         boolean error;
         Coords returnCoords;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
-        System.out.println("\n OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+
         do {
             error = false;
             virtualView.removeBlock(username, legalRemoves, error);

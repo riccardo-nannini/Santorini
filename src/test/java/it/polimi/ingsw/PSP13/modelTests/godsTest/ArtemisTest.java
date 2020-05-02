@@ -1,7 +1,11 @@
 package it.polimi.ingsw.PSP13.modelTests.godsTest;
 
+import it.polimi.ingsw.PSP13.controller.MatchHandler;
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
+import it.polimi.ingsw.PSP13.model.gods.Ares;
 import it.polimi.ingsw.PSP13.model.gods.Artemis;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -12,6 +16,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
 
 public class ArtemisTest {
 
@@ -21,19 +29,43 @@ public class ArtemisTest {
     public static Player player;
     public static Builder builder1;
     public static Builder builder2;
+    public static TurnHandler handler;
+    public static VirtualView view;
 
     @BeforeClass
     public static void setup() {
-        match = new Match();
+
+        MatchHandler matchHandler = null;
         try {
-            match.start(null);
+            matchHandler = new MatchHandler();
+            match = matchHandler.getMatch();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         player = new Player(Color.Blue, "Mario");
 
+        HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();
+        ObjectOutputStream stream;
+
+        try {
+            stream = new ObjectOutputStream(System.out);
+            outputMap.put(player.getUsername(),stream);
+            view = new VirtualView(outputMap);
+
+            handler = new TurnHandler(view);
+            handler.setMatchHandler(matchHandler);
+            match.start(view);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        new Turn(match, handler);
+
+
         match.addPlayer(player);
-        new Turn(match, null);
+
         builder1 = new Builder();
         builder2 = new Builder();
         player.setBuilders(new Builder[]{builder1, builder2});
@@ -51,10 +83,33 @@ public class ArtemisTest {
 
     @Test
     public void NoAdditionalMoveTest() {
+        player.setGod(new Artemis());
+        handler.setUseEffect("no");
+        Coords movedTo = new Coords(2, 4);
+        try {
+            player.move(builder2, movedTo);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(builder2.getCoords(),new Coords(2,4));
     }
 
     @Test
     public void AdditionalMoveTest() {
+        Coords effectCoords = new Coords(1,4);
+        player.setGod(new Artemis());
+        handler.setUseEffect("yes");
+        handler.setMoveCoords(effectCoords);
+        Coords movedTo = new Coords(2, 4);
+        try {
+            player.move(builder1, movedTo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(builder1.getCoords(),effectCoords);
     }
 
 }

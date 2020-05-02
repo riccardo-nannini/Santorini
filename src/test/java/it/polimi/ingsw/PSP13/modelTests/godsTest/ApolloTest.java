@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP13.modelTests.godsTest;
 
+import it.polimi.ingsw.PSP13.controller.MatchHandler;
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
@@ -8,10 +11,13 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -21,23 +27,43 @@ public class ApolloTest {
     private static Player player, opponentPlayer;
     private static Builder builder1, builder2, opponentsbuilder1, opponentsbuilder2;
     private static Turn turn,apollo;
-
+    public static TurnHandler handler;
+    public static VirtualView view;
 
     @BeforeClass
     public static void init()
     {
-        match = new Match();
+        MatchHandler matchHandler = null;
         try {
-            match.start(null);
+            matchHandler = new MatchHandler();
+            match = matchHandler.getMatch();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
 
-        apollo = new Apollo();
-        turn = new Turn(match,null);
+        HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();
+        ObjectOutputStream stream;
 
+        try {
+            stream = new ObjectOutputStream(System.out);
+            outputMap.put(player.getUsername(),stream);
+            view = new VirtualView(outputMap);
+
+            handler = new TurnHandler(view);
+            handler.setMatchHandler(matchHandler);
+            match.start(view);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        new Turn(match, handler);
+
+        apollo = new Apollo();
 
         match.addPlayer(player);
         match.addPlayer(opponentPlayer);
@@ -72,6 +98,16 @@ public class ApolloTest {
         match.setCellLevel(new Coords(4, 4), Level.Floor);
     }
 
+    @Before
+    public void setup()
+    {
+        player.getBuilders()[0].setCell(match.getCell(new Coords(3, 0)));
+        player.getBuilders()[1].setCell(match.getCell(new Coords(3, 1)));
+
+        opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(2, 0)));
+        opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(4, 0)));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void checkMoveException() throws IllegalArgumentException
     {
@@ -86,6 +122,9 @@ public class ApolloTest {
         assertTrue(result);
 
         result = apollo.checkMove(builder1,new Coords(2,0));
+        assertTrue(result);
+
+        result = apollo.checkMove(builder2,new Coords(2,1));
         assertTrue(result);
 
     }
@@ -103,7 +142,7 @@ public class ApolloTest {
     }
 
     @Test
-    public void moveTest()
+    public void moveWithEffectTest()
     {
         try
         {
@@ -115,6 +154,19 @@ public class ApolloTest {
         catch (Exception e)
         {}
 
+    }
+
+    @Test
+    public void moveNoEffectTest()
+    {
+        try
+        {
+            apollo.move(builder1,new Coords(2,2));
+            assertEquals(builder1.getCoords(),new Coords(2,2));
+
+        }
+        catch (Exception e)
+        {}
 
     }
 

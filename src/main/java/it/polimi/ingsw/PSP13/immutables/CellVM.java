@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class CellVM implements Serializable {
 
@@ -29,5 +30,13 @@ public class CellVM implements Serializable {
         return dome;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CellVM cellVM = (CellVM) o;
+        return getDome() == cellVM.getDome() &&
+                getLevel() == cellVM.getLevel();
+    }
 
 }

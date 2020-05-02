@@ -17,6 +17,17 @@ public class MessageCV implements Serializable {
     private boolean callNumber;
     private int godsNumber;
 
+    public MessageCV(int id, boolean error, String string, List<Coords> coordsList, List<String> stringList, boolean callNumber, int godsNumber)
+    {
+        this.id = id;
+        this.error = error;
+        this.string = string;
+        this.coordsList = coordsList;
+        this.stringList = stringList;
+        this.callNumber = callNumber;
+        this.godsNumber = godsNumber;
+    }
+
     public MessageCV() {}
 
     public int getId() {

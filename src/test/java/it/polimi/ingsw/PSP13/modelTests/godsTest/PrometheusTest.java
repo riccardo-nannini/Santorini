@@ -76,7 +76,7 @@ public class PrometheusTest {
         opponentsbuilder1 = new Builder();
         opponentsbuilder2 = new Builder();
         opponentPlayer.setBuilders(new Builder[]{opponentsbuilder1 ,opponentsbuilder2});
-        opponentPlayer.setGod(new Turn(match,null));
+        opponentPlayer.setGod(new Turn(match,handler));
 
         opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
         opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));;
@@ -94,14 +94,15 @@ public class PrometheusTest {
     public void setUp() {
         match.setCellLevel(new Coords(3,3), Level.Floor);
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
-        player.setGod(new Prometheus());
+        match.setCellLevel(new Coords(1,2), Level.Base);
+
     }
 
 
     @Test
-    public void MoveWithEffect_CorrectInput_CorrectBuilding() {
-        player.setGod(new Prometheus());
-        handler.setUseEffect("yes");
+    public void MoveNoEffectTest() {
+
+        handler.setUseEffect("no");
         handler.setBuildCoords(new Coords(1,2));
         if (player.getGod().checkMove(player.getBuilders()[0],new Coords(3,3))) {
             try {
@@ -115,18 +116,36 @@ public class PrometheusTest {
     }
 
     @Test
-    public void MoveWithEffect2_CorrectInput_CorrectBuilding() {
-        match.setCellLevel(new Coords(3,3), Level.Base);
-        player.setGod(new Prometheus());
+    public void MoveWithEffect_CorrectInput_CorrectBuilding() {
+
         handler.setUseEffect("yes");
         handler.setBuildCoords(new Coords(1,2));
         if (player.getGod().checkMove(player.getBuilders()[0],new Coords(3,3))) {
             try {
+                player.start();
                 player.move(builder1, new Coords(3, 3));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            assertSame(match.getHeight(new Coords(1, 2)), 1);
+            assertSame(match.getHeight(new Coords(1, 2)), 2);
+            assertEquals(player.getBuilders()[0].getCoords(), new Coords(3, 3));
+        }
+    }
+
+    @Test
+    public void MoveWithEffect2_CorrectInput_CorrectBuilding() {
+        match.setCellLevel(new Coords(3,3), Level.Base);
+
+        handler.setUseEffect("yes");
+        handler.setBuildCoords(new Coords(1,2));
+        if (player.getGod().checkMove(player.getBuilders()[0],new Coords(3,3))) {
+            try {
+                player.start();
+                player.move(builder1, new Coords(3, 3));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assertSame(match.getHeight(new Coords(1, 2)), 2);
             assertEquals(player.getBuilders()[0].getCoords(), new Coords(3, 3));
         }
     }

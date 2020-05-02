@@ -174,6 +174,12 @@ public class MinotaurTest {
         player.getBuilders()[1].setCell(match.getCell(new Coords(3, 4)));
         result = player.getGod().checkMove(builder2,new Coords(3,3));
         assertFalse(result);
+
+        result = player.getGod().checkMove(null,new Coords(2,3));
+        assertFalse(result);
+
+        result = player.getGod().checkMove(builder2,new Coords(2,4));
+        assertFalse(result);
     }
 
     @Test
@@ -191,6 +197,13 @@ public class MinotaurTest {
         boolean result;
         result = player.getGod().checkMove(builder2,new Coords(2,3));
         assertFalse(result);
+
+        result = player.getGod().checkMove(builder2,new Coords(1,1));
+        assertFalse(result);
+
+        result = player.getGod().checkMove(builder2,new Coords(7,7));
+        assertFalse(result);
+
     }
 
 }

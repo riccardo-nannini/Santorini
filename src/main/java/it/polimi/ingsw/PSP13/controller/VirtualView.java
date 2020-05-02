@@ -2,19 +2,23 @@ package it.polimi.ingsw.PSP13.controller;
 
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
+import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class VirtualView {
 
     private final HashMap<String, ObjectOutputStream> outputMap;
+    private HashMap<String, Color> colorsMap;
+    private HashMap<String, String> godsMap;
 
     /**
      * Creates an hashMap where the keys are the usernames and the values
@@ -23,6 +27,8 @@ public class VirtualView {
      */
     public VirtualView(HashMap<String,ObjectOutputStream> hashMap) {
         outputMap = hashMap;
+        colorsMap = new HashMap<>();
+        godsMap = new HashMap<>();
     }
 
     /**
@@ -81,18 +87,36 @@ public class VirtualView {
 
     /**
      * Sends to the player's client a MessageCV
-     * representing a god input request
+     * representing a god input request and also a message to the opponents informing them
+     * the player is selecting his god.
+     * Otherwise, it sends one message to player informing him which god
+     * the server assigns him , when only one god remains
      * @param player player username
      * @param chosenGods list of gods chosen by the challenger among which the player can choose his god
      * @param error notifies the client that this message is sent due to a previous input error
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void godInput(String player, List<String> chosenGods, boolean error) throws IOException {
+
         MessageCV message = new MessageCV();
         message.setId(3);
         message.setStringList(chosenGods);
         message.setError(error);
         outputMap.get(player).writeObject(message);
+
+        if (chosenGods.size() > 1) {
+            MessageCV messageOpponents = new MessageCV();
+            messageOpponents.setId(3);
+            messageOpponents.setString(player);
+            List<String> emptyList = new ArrayList<>();
+            messageOpponents.setStringList(emptyList);
+            for (ObjectOutputStream output : outputMap.values()) {
+                if (!output.equals(outputMap.get(player))) output.writeObject(messageOpponents);
+            }
+        }
+
+
+
     }
 
     /**
@@ -113,7 +137,9 @@ public class VirtualView {
 
     /**
      * Sends to the player's client a MessageCV
-     * representing a god selection input request
+     * representing a god selection input request.
+     * Sends also a message to the opponents informing them
+     * the challenger is selecting the gods
      * @param challenger challenger player username
      * @param godsList list of all gods
      * @param godsNumber number of gods he has to choose
@@ -127,6 +153,15 @@ public class VirtualView {
         message.setGodsNumber(godsNumber);
         message.setError(error);
         outputMap.get(challenger).writeObject(message);
+
+        MessageCV messageOpponents = new MessageCV();
+        messageOpponents.setId(5);
+        messageOpponents.setGodsNumber(0);
+        messageOpponents.setString(challenger);
+        for(ObjectOutputStream output : outputMap.values()) {
+            if (!output.equals(outputMap.get(challenger))) output.writeObject(messageOpponents);
+        }
+
     }
 
     /**
@@ -186,4 +221,53 @@ public class VirtualView {
         outputMap.get(username).writeObject(message);
     }
 
+
+    public void addColor(String username,Color color) {
+        colorsMap.put(username,color);
+    }
+
+    public void setGod(String username,String god) {
+        godsMap.put(username,god);
+    }
+
+    public void setColorsMap(HashMap<String, Color> colorsMap) {
+        this.colorsMap = colorsMap;
+    }
+
+    /**
+     * Sends to every client a message containing
+     * information about them
+     * @throws IOException if an I/O error occurs while writing stream header
+     */
+    public void notifyClientsInfo() throws IOException {
+        for (String username : colorsMap.keySet()) {
+            MessageClientsInfoCV message = generateMessageClientsInfoCV(username);
+            outputMap.get(username).writeObject(message);
+        }
+    }
+
+    /**
+     * @param username username of the player the message will be sent to
+     * @return a MessageClientsInfoCV containing clients information
+     */
+    public MessageClientsInfoCV generateMessageClientsInfoCV(String username) {
+        MessageClientsInfoCV message = new MessageClientsInfoCV();
+        message.setClientUsername(username);
+        message.setClientColor(colorsMap.get(username));
+        message.setClientGod(godsMap.get(username));
+        List<String> opponentsUsernames = new ArrayList<>();
+        List<Color> opponentsColors = new ArrayList<>();
+        List<String> opponentsGod = new ArrayList<>();
+        for (String opponentUsername : colorsMap.keySet()) {
+            if (!opponentUsername.equals(username)) {
+                opponentsUsernames.add(opponentUsername);
+                opponentsColors.add(colorsMap.get(opponentUsername));
+                opponentsGod.add(godsMap.get(opponentUsername));
+            }
+        }
+        message.setOpponentsUsernames(opponentsUsernames);
+        message.setOpponentsColors(opponentsColors);
+        message.setOpponentsGod(opponentsGod);
+        return message;
+    }
 }

@@ -38,6 +38,7 @@ public class MatchHandler {
         Turn.setTurnHandler(turnHandler);
         match.start(virtualView);
         godSelection(virtualView);
+        virtualView.notifyClientsInfo();
         builderSetUp(virtualView);
 
     }
@@ -84,26 +85,31 @@ public class MatchHandler {
 
     public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         boolean error;
-        String receivedGod;
+        String receivedGod = null;
         int pos = match.getPlayers().indexOf(challenger);
         for (int i = 0; i < numPlayers; i++) {
             error = false;
             pos = (pos+1) % numPlayers;
             String player = match.getPlayers().get(pos).getUsername();
-            do {
-                virtualView.godInput(player, chosenGods, error);
-                while (selectedGod == null) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        //TODO
+            if (chosenGods.size() > 1) {
+                do {
+                    virtualView.godInput(player, chosenGods, error);
+                    while (selectedGod == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
                     }
-                }
-                error = false;
-                if (!chosenGods.contains(selectedGod)) error = true;
-                receivedGod = selectedGod;
-                selectedGod = null;
-            } while(error);
+                    error = false;
+                    if (!chosenGods.contains(selectedGod)) error = true;
+                    receivedGod = selectedGod;
+                    selectedGod = null;
+                } while (error);
+            } else {
+                virtualView.godInput(player, chosenGods, error);
+                receivedGod = chosenGods.get(0);
+            }
             chosenGods.remove(receivedGod);
             Class<?> clazz = Class.forName("it.polimi.ingsw.PSP13.model.gods." + receivedGod);
             Class[] c = new Class[0];
@@ -111,9 +117,11 @@ public class MatchHandler {
             Object god = clazz.getDeclaredConstructor(c).newInstance(ob);
             Player currentPlayer = match.getPlayers().get(pos);
             currentPlayer.setGod((Turn) god);
+            virtualView.setGod(player,receivedGod);
 
         }
     }
+
     /**
      * Handles the set up of the builders for each players
      * @param virtualView

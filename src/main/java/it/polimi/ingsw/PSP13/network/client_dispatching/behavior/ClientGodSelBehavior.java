@@ -10,11 +10,19 @@ public class ClientGodSelBehavior extends ClientBuildBehavior {
     @Override
     public void behavior(MessageCV messageCV) {
 
-        List<String> godsList = messageCV.getStringList();
-        int godsNumber = messageCV.getGodsNumber();
-        boolean error = messageCV.isError();
 
-        input.godSelectionInput(godsList,godsNumber,error);
+        int godsNumber = messageCV.getGodsNumber();
+
+        if (godsNumber != 0) {
+            List<String> godsList = messageCV.getStringList();
+            boolean error = messageCV.isError();
+            input.godSelectionInput(godsList,godsNumber,error);
+        } else {
+            String challenger = messageCV.getString();
+            input.printWaitGodsSelection(challenger);
+        }
+
+
     }
 
     public ClientGodSelBehavior(Input input)

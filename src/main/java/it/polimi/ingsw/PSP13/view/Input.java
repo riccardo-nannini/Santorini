@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP13.view;
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 
 import java.util.List;
 
@@ -93,5 +94,30 @@ public abstract class Input {
     public void notifyWin() {}
 
     public void notifyLose() {}
+
+    /**
+     * Updates cliet's CLI setting clients information (usernames, builders colors and gods)
+     * @param messageClientsInfoCV contains clients information
+     */
+    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {}
+
+    /**
+     * Informs clients that the challenger is choosing gods
+     * for the match
+     * @param challenger username of the challenger
+     */
+    public void printWaitGodsSelection(String challenger) {}
+
+    /**
+     * Informs clients that player is choosing his god
+     * @param player player's username
+     */
+    public void printWaitGodSelection(String player) {}
+
+    /**
+     * Inform client which god the server assigned him
+     * @param assignedGod name of the assigned god
+     */
+    public void printAssignedGod(String assignedGod) {}
 
 }

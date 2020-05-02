@@ -63,6 +63,7 @@ public class Server {
         List<Color> colors = Color.getColors();
         List<String> usernameList = new ArrayList<String>();
         HashMap<String, ObjectOutputStream> socketMap = new HashMap<String, ObjectOutputStream>();
+        HashMap<String,Color> colorsMap = new HashMap<>();
 
         //TODO for sbagliato
         for (int i=0; i<3; i++) {
@@ -106,13 +107,16 @@ public class Server {
                 thread.start();
 
                 socketMap.put(username,output);
+                colorsMap.put(username,colors.get(i));
+
 
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("connection dropped");
             }
         }
-
-        return new VirtualView(socketMap);
+        VirtualView virtualView = new VirtualView(socketMap);
+        virtualView.setColorsMap(colorsMap);
+        return virtualView;
 
     }
 

@@ -55,6 +55,8 @@ public class UpdateListener implements Runnable{
                 input.updateBuilders((BuilderVM)obj);
             if(obj instanceof MapVM)
                 input.updateMap((MapVM)obj);
+            if(obj instanceof MessageClientsInfoCV)
+                input.setupClientsInfo((MessageClientsInfoCV)obj);
         }
     }
 

@@ -15,7 +15,7 @@ public class Client {
     public static final int PORT=7777;
 
     public static void main(String[] args) {
-        System.out.println("type the ip address of the server:");
+        System.out.println("Type the ip address of the \u001B[1mSERVER\u001B[0m:");
         Scanner scanner = new Scanner(System.in);
         String server = scanner.nextLine();
 
@@ -28,7 +28,8 @@ public class Client {
             ControllerCallback callback = new ControllerCallback(socket);
             ObservableToController obs = new ObservableToController(callback);
 
-            System.out.println("Choose the graphic mode (insert GUI or CLI:");
+            System.out.println("Choose the graphic mode (insert \u001B[1mGUI\u001B[0m or \u001B[1mCLI\u001B[0m):");
+
             if(scanner.nextLine().equals("CLI"))
             {
                 input = new CliInput(obs);

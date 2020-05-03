@@ -13,6 +13,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VirtualView {
 
@@ -38,8 +40,21 @@ public class VirtualView {
      */
     public void updateMap(MapVM mapVM) throws IOException {
         for(ObjectOutputStream output : outputMap.values()) {
-            output.writeObject(mapVM);
+            try {
+                output.writeObject(mapVM);
+            } catch (IOException e) {
+                notifyDisconnection();
+            }
         }
+    }
+
+    /**
+     * Removes a player from both color and gods map after the elimination of the player from the game
+     * @param player the eliminated player's username
+     */
+    public void removePlayer(String player) {
+        colorsMap.remove(player);
+        godsMap.remove(player);
     }
 
     /**
@@ -49,7 +64,11 @@ public class VirtualView {
      */
     public void updateBuilders(BuilderVM builderVM) throws IOException {
         for(ObjectOutputStream output : outputMap.values()) {
-            output.writeObject(builderVM);
+            try {
+                output.writeObject(builderVM);
+            } catch (IOException e) {
+                notifyDisconnection();
+            }
         }
     }
 
@@ -66,7 +85,11 @@ public class VirtualView {
         message.setId(0);
         message.setCoordsList(checkMoveCells);
         message.setError(error);
-        outputMap.get(player).writeObject(message);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     /**
@@ -82,7 +105,11 @@ public class VirtualView {
         message.setId(1);
         message.setCoordsList(checkBuildCells);
         message.setError(error);
-        outputMap.get(player).writeObject(message);
+        try{
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     /**
@@ -102,7 +129,11 @@ public class VirtualView {
         message.setId(3);
         message.setStringList(chosenGods);
         message.setError(error);
-        outputMap.get(player).writeObject(message);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
 
         if (chosenGods.size() > 1) {
             MessageCV messageOpponents = new MessageCV();
@@ -111,12 +142,15 @@ public class VirtualView {
             List<String> emptyList = new ArrayList<>();
             messageOpponents.setStringList(emptyList);
             for (ObjectOutputStream output : outputMap.values()) {
-                if (!output.equals(outputMap.get(player))) output.writeObject(messageOpponents);
+                if (!output.equals(outputMap.get(player))) {
+                    try{
+                        output.writeObject(messageOpponents);
+                    } catch (IOException e) {
+                        notifyDisconnection();
+                    }
+                }
             }
         }
-
-
-
     }
 
     /**
@@ -132,7 +166,11 @@ public class VirtualView {
         message.setId(4);
         message.setCallNumber(callNumber);
         message.setError(error);
-        outputMap.get(player).writeObject(message);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     /**
@@ -152,16 +190,25 @@ public class VirtualView {
         message.setStringList(godsList);
         message.setGodsNumber(godsNumber);
         message.setError(error);
-        outputMap.get(challenger).writeObject(message);
+        try {
+            outputMap.get(challenger).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
 
         MessageCV messageOpponents = new MessageCV();
         messageOpponents.setId(5);
         messageOpponents.setGodsNumber(0);
         messageOpponents.setString(challenger);
         for(ObjectOutputStream output : outputMap.values()) {
-            if (!output.equals(outputMap.get(challenger))) output.writeObject(messageOpponents);
+            if (!output.equals(outputMap.get(challenger))) {
+                try {
+                    output.writeObject(messageOpponents);
+                } catch (IOException e) {
+                    notifyDisconnection();
+                }
+            }
         }
-
     }
 
     /**
@@ -175,7 +222,11 @@ public class VirtualView {
         MessageCV message = new MessageCV();
         message.setId(6);
         message.setString(god);
-        outputMap.get(player).writeObject(message);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     /**
@@ -188,7 +239,11 @@ public class VirtualView {
         MessageCV message = new MessageCV();
         message.setString(player);
         message.setId(7);
-        outputMap.get(player).writeObject(message);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     /**
@@ -204,23 +259,36 @@ public class VirtualView {
         message.setId(8);
         message.setCoordsList(removableBlocks);
         message.setError(error);
-        outputMap.get(player).writeObject(message);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     public void notifyWin(String username) throws IOException {
         MessageCV message = new MessageCV();
         message.setId(9);
         message.setString("Win");
-        outputMap.get(username).writeObject(message);
+        try {
+            outputMap.get(username).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
     public void notifyLose(String username) throws IOException {
+        this.removePlayer(username);
         MessageCV message = new MessageCV();
         message.setId(9);
         message.setString("Lose");
-        outputMap.get(username).writeObject(message);
+        try {
+            outputMap.get(username).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
+        this.notifyClientsInfo();
     }
-
 
     public void addColor(String username,Color color) {
         colorsMap.put(username,color);
@@ -242,7 +310,11 @@ public class VirtualView {
     public void notifyClientsInfo() throws IOException {
         for (String username : colorsMap.keySet()) {
             MessageClientsInfoCV message = generateMessageClientsInfoCV(username);
-            outputMap.get(username).writeObject(message);
+            try {
+                outputMap.get(username).writeObject(message);
+            } catch (IOException e) {
+                notifyDisconnection();
+            }
         }
     }
 
@@ -270,4 +342,22 @@ public class VirtualView {
         message.setOpponentsGod(opponentsGod);
         return message;
     }
+
+    public void notifyDisconnection() throws IOException {
+        int i = 1;
+        for(ObjectOutputStream output : outputMap.values()) {
+            MessageCV message = new MessageCV();
+            message.setId(10);
+            try {
+                output.writeObject(message);
+                output.close();
+            } catch (IOException e) {
+                System.out.println("Cannot send disconnection message "+ i);
+            } finally {
+                i++;
+            }
+        }
+        throw new IOException();
+    }
+
 }

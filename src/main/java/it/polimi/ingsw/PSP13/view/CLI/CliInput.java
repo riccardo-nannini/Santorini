@@ -235,6 +235,8 @@ CliInput extends Input {
         System.out.println("Only one God available. " + assignedGod + " is assigned to you");
     }
 
-
-
+    @Override
+    public void disconnectionMessage() {
+        System.out.println("The match ended due to a disconnection");
+    }
 }

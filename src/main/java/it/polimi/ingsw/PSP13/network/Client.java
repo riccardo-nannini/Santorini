@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP13.network;
 
 import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
+import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
 import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
 import it.polimi.ingsw.PSP13.view.CLI.CliInput;
 import it.polimi.ingsw.PSP13.view.Input;
@@ -41,6 +42,7 @@ public class Client {
             }
 
             UpdateListener updateListener = new UpdateListener(socket, input);
+            new Thread(new HearthBeat(callback)).start();
             Thread thread = new Thread(updateListener, "listener");
             thread.start();
 

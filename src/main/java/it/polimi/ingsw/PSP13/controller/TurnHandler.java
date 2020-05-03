@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TurnHandler {
@@ -12,6 +13,7 @@ public class TurnHandler {
     //TODO volendo si può togliere il riferimento circolare a MatchHandler con qualche accorgimento
 
     private MatchHandler matchHandler;
+    private List<String> disconnectedPlayers = new ArrayList<>();
     private String useEffect = null;
     private Coords builderPos = null;
     private Coords moveCoords = null;
@@ -30,12 +32,24 @@ public class TurnHandler {
         do {
             virtualView.chooseBuilder(player.getUsername());
             try {
-                while (builderPos == null) {
+                while (builderPos == null && disconnectedPlayers.isEmpty()) {
                     try {
                         wait();
                     } catch (InterruptedException e) {
                         //TODO
                     }
+                }
+                if (!disconnectedPlayers.isEmpty()) {
+                    if (!disconnectedPlayers.contains(player.getUsername())) {
+                        while (builderPos == null) {
+                            try {
+                                wait();
+                            } catch (InterruptedException e) {
+                                //TODO
+                            }
+                        }
+                    }
+                    virtualView.notifyDisconnection();
                 }
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
                 valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);
@@ -59,12 +73,24 @@ public class TurnHandler {
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             virtualView.moveInput(username, legalMoves, error);
-            while (moveCoords == null) {
+            while (moveCoords == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
                     //TODO
                 }
+            }
+            if (!disconnectedPlayers.isEmpty()) {
+                if (!disconnectedPlayers.contains(username)) {
+                    while (moveCoords == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
+                }
+                virtualView.notifyDisconnection();
             }
             error = !legalMoves.contains(moveCoords);
             returnCoords = moveCoords;
@@ -81,12 +107,24 @@ public class TurnHandler {
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
         do {
             virtualView.buildInput(username, legalBuilds, error);
-            while (buildCoords == null) {
+            while (buildCoords == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
                     //TODO
                 }
+            }
+            if (!disconnectedPlayers.isEmpty()) {
+                if (!disconnectedPlayers.contains(username)) {
+                    while (buildCoords == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
+                }
+                virtualView.notifyDisconnection();
             }
             returnCoords = buildCoords;
             error = !legalBuilds.contains(buildCoords);
@@ -100,12 +138,24 @@ public class TurnHandler {
         boolean returnValue;
         do {
             virtualView.effectInput(player, god);
-            while (useEffect == null) {
+            while (useEffect == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
                     //TODO
                 }
+            }
+            if (!disconnectedPlayers.isEmpty()) {
+                if (!disconnectedPlayers.contains(player)) {
+                    while (useEffect == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
+                }
+                virtualView.notifyDisconnection();
             }
             if (useEffect.toLowerCase().equals("yes") || useEffect.toLowerCase().equals("y")
                     || useEffect.toLowerCase().equals("no") || useEffect.toLowerCase().equals("n")) valid = true;
@@ -116,21 +166,31 @@ public class TurnHandler {
     }
 
     public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) throws IOException {
-        boolean error;
+        boolean error = false;
         Coords returnCoords;
         String username = matchHandler.getMatch().getPlayerByBuilder(builder).getUsername();
-
         do {
-            error = false;
             virtualView.removeBlock(username, legalRemoves, error);
-            while (removeCoords == null) {
+            while (removeCoords == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
                     //TODO
                 }
             }
-            if (!legalRemoves.contains(removeCoords)) error = true;
+            if (!disconnectedPlayers.isEmpty()) {
+                if (!disconnectedPlayers.contains(username)) {
+                    while (removeCoords == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
+                }
+                virtualView.notifyDisconnection();
+            }
+            error = !legalRemoves.contains(removeCoords);
             returnCoords = removeCoords;
             removeCoords = null;
         } while(error);
@@ -166,4 +226,8 @@ public class TurnHandler {
         this.matchHandler = match;
     }
 
+    public synchronized void addDisconnectedPlayer(String player) {
+        disconnectedPlayers.add(player);
+        notifyAll();
+    }
 }

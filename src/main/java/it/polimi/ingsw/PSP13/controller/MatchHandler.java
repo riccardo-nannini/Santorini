@@ -3,12 +3,8 @@ package it.polimi.ingsw.PSP13.controller;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
-import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
-import it.polimi.ingsw.PSP13.view.CLI.CliInput;
-import it.polimi.ingsw.PSP13.view.Input;
-import it.polimi.ingsw.PSP13.view.ObservableToController;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +15,7 @@ public class MatchHandler {
     private Match match;
     private TurnHandler turnHandler;
 
+    private List<String> disconnectedPlayers = new ArrayList<String>();
     private int numPlayers;
     boolean endGame;
     private VirtualView virtualView;
@@ -26,7 +23,7 @@ public class MatchHandler {
     private String selectedGod = null;
     private Coords coords = null;
 
-    public MatchHandler () throws IOException {
+    public MatchHandler () {
         match = new Match();
     }
 
@@ -40,7 +37,6 @@ public class MatchHandler {
         godSelection(virtualView);
         virtualView.notifyClientsInfo();
         builderSetUp(virtualView);
-
     }
 
     public void addPlayer(Player player) {
@@ -59,12 +55,24 @@ public class MatchHandler {
         do {
             error = false;
             virtualView.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
-            while (godsReceived == null) {
+            while (godsReceived == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
                     //TODO
                 }
+            }
+            if (!disconnectedPlayers.isEmpty()) {
+                if (!disconnectedPlayers.contains(challenger.getUsername())) {
+                    while (godsReceived == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
+                }
+                virtualView.notifyDisconnection();
             }
             godsInput = new ArrayList<>(Arrays.asList(godsReceived.split("\\s*,\\s*")));
             godsReceived = null;
@@ -85,7 +93,7 @@ public class MatchHandler {
 
     public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         boolean error;
-        String receivedGod = null;
+        String receivedGod;
         int pos = match.getPlayers().indexOf(challenger);
         for (int i = 0; i < numPlayers; i++) {
             error = false;
@@ -94,12 +102,24 @@ public class MatchHandler {
             if (chosenGods.size() > 1) {
                 do {
                     virtualView.godInput(player, chosenGods, error);
-                    while (selectedGod == null) {
+                    while (selectedGod == null && disconnectedPlayers.isEmpty()) {
                         try {
                             wait();
                         } catch (InterruptedException e) {
                             //TODO
                         }
+                    }
+                    if (!disconnectedPlayers.isEmpty()) {
+                        if (!disconnectedPlayers.contains(player)) {
+                            while (selectedGod == null) {
+                                try {
+                                    wait();
+                                } catch (InterruptedException e) {
+                                    //TODO
+                                }
+                            }
+                        }
+                        virtualView.notifyDisconnection();
                     }
                     error = false;
                     if (!chosenGods.contains(selectedGod)) error = true;
@@ -143,12 +163,24 @@ public class MatchHandler {
             for (int numBuilder = 0; numBuilder < 2; numBuilder++) {
                 do {
                     virtualView.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);
-                    while (coords == null) {
+                    while (coords == null && disconnectedPlayers.isEmpty()) {
                         try {
                             wait();
                         } catch (InterruptedException e) {
                             //TODO
                         }
+                    }
+                    if (!disconnectedPlayers.isEmpty()) {
+                        if (!disconnectedPlayers.contains(currentPlayer.getUsername())) {
+                            while (coords == null) {
+                                try {
+                                    wait();
+                                } catch (InterruptedException e) {
+                                    //TODO
+                                }
+                            }
+                        }
+                        virtualView.notifyDisconnection();
                     }
                     error = false;
                     if (match.isOccupied(coords)) error = true;
@@ -174,7 +206,6 @@ public class MatchHandler {
      * @throws IOException
      */
     public synchronized void play() throws IOException {
-        //TODO gestire caso giocatore faccia move in una posizione in cui non può fare una build
         List<Player> players;
         List<Coords> possibleMoves, possibleBuilds;
         Builder currentBuilder;
@@ -220,6 +251,7 @@ public class MatchHandler {
         this.notifyWinners(winner.getUsername());
     }
 
+
     /**
      * Notifies the players that the game ended and tells them if they did win or lose.
      * @param winner username of the winner
@@ -258,6 +290,11 @@ public class MatchHandler {
 
     public synchronized void setEndGame(boolean endGame) {
         this.endGame = endGame;
+        notifyAll();
+    }
+
+    public synchronized void addDisconnectedPlayer(String player) {
+        disconnectedPlayers.add(player);
         notifyAll();
     }
 

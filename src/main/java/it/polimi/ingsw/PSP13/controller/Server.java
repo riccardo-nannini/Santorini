@@ -30,7 +30,7 @@ public class Server {
         try {
             socket = new ServerSocket(SOCKET_PORT);
         } catch (IOException e) {
-            System.out.println("cannot open server socket");
+            System.out.println("Cannot open server socket");
             System.exit(1);
             return;
         }
@@ -41,10 +41,14 @@ public class Server {
         ViewObserver v = new ViewObserver(matchHandler);
         ClientListener.setViewObserver(v);
         matchHandler.setVirtualView(virtualView);
-        matchHandler.init();
-        matchHandler.play();
-        //START CONTROLLER
 
+        try {
+            matchHandler.init();
+            matchHandler.play();
+        } catch (IOException e) {
+            System.out.println("A client disconnected, quitting the game");
+            System.exit(0);
+        }
     }
 
 
@@ -56,7 +60,7 @@ public class Server {
      * @return the VirtualView containing client's sockets and theirs username
      */
     //TODO FARE THREAD SEPARATO PER LEGGERE NICKNAME DAI GIOCATORI
-    public VirtualView acceptClients(ServerSocket socket, MatchHandler matchHandler) throws IOException {
+    public VirtualView acceptClients(ServerSocket socket, MatchHandler matchHandler) {
         ObjectOutputStream output;
         ObjectInputStream input;
         String username;
@@ -69,6 +73,7 @@ public class Server {
         for (int i=0; i<3; i++) {
             try {
                 Socket client = socket.accept();
+                client.setSoTimeout(20000);
                 System.out.println("Accettato " + client.getInetAddress());
                 output = new ObjectOutputStream(client.getOutputStream());
                 input = new ObjectInputStream(client.getInputStream());
@@ -102,7 +107,7 @@ public class Server {
                 Player player = new Player(colors.get(i), username);
                 matchHandler.addPlayer(player);
 
-                ClientListener clientListener = new ClientListener(input);
+                ClientListener clientListener = new ClientListener(input, username);
                 Thread thread = new Thread(clientListener);
                 thread.start();
 
@@ -111,7 +116,7 @@ public class Server {
 
 
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("connection dropped");
+                System.out.println("Connection dropped");
             }
         }
         VirtualView virtualView = new VirtualView(socketMap);

@@ -105,7 +105,6 @@ public class Match {
     }
 
     /**
-     *
      * @param coords
      * @return the builder which coordinates are param
      * @throws IllegalArgumentException if there is not builder is coords

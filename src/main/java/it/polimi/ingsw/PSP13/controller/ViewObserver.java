@@ -81,4 +81,9 @@ public class ViewObserver {
     {
         handler.getTurnHandler().setRemoveCoords(cellToRemoveBlock);
     }
+
+    public void updateDisconnection(String player) {
+        handler.getTurnHandler().addDisconnectedPlayer(player);
+        handler.addDisconnectedPlayer(player);
+    }
 }

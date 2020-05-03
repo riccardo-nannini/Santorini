@@ -7,11 +7,13 @@ import java.io.ObjectInputStream;
 
 public class ClientListener implements Runnable {
 
+    private String username;
     private final ObjectInputStream input;
     private static ViewObserver viewObserver;
 
-    public ClientListener (ObjectInputStream input) {
+    public ClientListener (ObjectInputStream input, String username) {
         this.input = input;
+        this.username = username;
     }
 
     @Override
@@ -20,7 +22,8 @@ public class ClientListener implements Runnable {
         try {
             handleClientConnection();
         } catch (IOException e) {
-            System.out.println("Connection dropped");
+            System.out.println("Connection dropped from " + username);
+            viewObserver.updateDisconnection(username);
         }
     }
 
@@ -32,7 +35,7 @@ public class ClientListener implements Runnable {
                 dispatcher(next);
             }
         } catch (ClassNotFoundException | ClassCastException e) {
-            System.out.println("invalid stream from client");
+            System.out.println("Invalid stream from client " + username);
         }
     }
 

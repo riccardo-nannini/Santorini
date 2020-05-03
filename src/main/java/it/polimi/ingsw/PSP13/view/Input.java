@@ -120,4 +120,5 @@ public abstract class Input {
      */
     public void printAssignedGod(String assignedGod) {}
 
+    public void disconnectionMessage() {}
 }

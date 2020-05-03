@@ -250,4 +250,14 @@ CliInput extends Input {
     public void disconnectionMessage() {
         System.out.println("The match ended due to a disconnection");
     }
+
+    @Override
+    public void choosePlayerNum(boolean error)
+    {
+        if(error)
+            System.out.println("\u001B[31mThere was an ERROR with your last selection\u001b[0m");
+        System.out.println("insert the number of players for this match:");
+        int number = scanner.nextInt();
+        controller.notifyPlayersNumber(number);
+    }
 }

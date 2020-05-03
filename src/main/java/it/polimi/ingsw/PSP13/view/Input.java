@@ -18,7 +18,6 @@ public abstract class Input {
 
     /**
      * asks the player to choose a builder to move
-     * @param player the player's nickname
      * @param checkMoveCells a list of cell the builder can move on
      * @param error true if the previous input generated an error
      */
@@ -26,7 +25,6 @@ public abstract class Input {
 
     /**
      * asks the player to choose a builder and to build a structure
-     * @param player the player's nickname
      * @param checkBuildCells a list of cell the builder can build on
      */
     public abstract void buildInput(List<Coords> checkBuildCells, boolean error);
@@ -120,7 +118,13 @@ public abstract class Input {
      */
     public void printAssignedGod(String assignedGod) {}
 
-    public void disconnectionMessage() {}
+    public abstract void disconnectionMessage();
+
+    /**
+     * asks the player to choose the number of players
+     * for this current match
+     */
+    public abstract void choosePlayerNum(boolean error);
 
     /**
      * Saves in MapPrinter the effect description of player's god

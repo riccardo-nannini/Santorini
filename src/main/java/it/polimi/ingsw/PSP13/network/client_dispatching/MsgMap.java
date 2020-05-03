@@ -32,6 +32,8 @@ public class MsgMap {
         dispatcher.put(9, new ClientEndGameBehavior(input));
         dispatcher.put(11,new ClientEffectDescriptionBehaviour(input));
         dispatcher.put(10,new ClientDisconnectionBehavior(input));
+        dispatcher.put(13, new ClientPlayerNumBehavior(input));
+        dispatcher.put(14, new ClientLeftOutBehavior(input));
     }
 
 

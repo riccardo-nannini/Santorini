@@ -15,12 +15,14 @@ public class MessageVC implements Serializable {
 
     private final String string;
     private final Coords coords;
+    private final int playerNum;
 
-    public MessageVC(int id, String string, Coords coords)
+    public MessageVC(int id, String string, Coords coords, int playerNum)
     {
         this.id = id;
         this.string = string;
         this.coords = coords;
+        this.playerNum = playerNum;
     }
 
     public int getId() {
@@ -33,6 +35,10 @@ public class MessageVC implements Serializable {
 
     public Coords getCoords() {
         return coords;
+    }
+
+    public int getPlayerNum() {
+        return playerNum;
     }
 
 

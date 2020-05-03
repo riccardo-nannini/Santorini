@@ -4,16 +4,21 @@ import it.polimi.ingsw.PSP13.network.client_callback.MessageVC;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.Socket;
 
 public class ClientListener implements Runnable {
 
+    private Socket socket;
     private String username;
     private final ObjectInputStream input;
     private static ViewObserver viewObserver;
+    private Lobby lobby;
 
-    public ClientListener (ObjectInputStream input, String username) {
-        this.input = input;
-        this.username = username;
+    public ClientListener (Socket socket, Lobby lobby) throws IOException {
+        this.socket = socket;
+        this.input = new ObjectInputStream(socket.getInputStream());
+        this.lobby = lobby;
+        this.username = socket.getInetAddress().toString();
     }
 
     @Override
@@ -23,7 +28,10 @@ public class ClientListener implements Runnable {
             handleClientConnection();
         } catch (IOException e) {
             System.out.println("Connection dropped from " + username);
-            viewObserver.updateDisconnection(username);
+
+            lobby.takeSetupDisconnection(socket);
+            if(lobby.isLobbySetupDone())
+                viewObserver.updateDisconnection(username);
         }
     }
 
@@ -50,6 +58,9 @@ public class ClientListener implements Runnable {
             case 1:
                 if (messageVC.getCoords() != null) viewObserver.updateBuildInput(messageVC.getCoords());
                 break;
+            case 2:
+                if (messageVC.getString() != null) lobby.validateNickname(socket,messageVC.getString());
+                break;
             case 3:
                 if (messageVC.getString() != null) viewObserver.updateGod(messageVC.getString());
                 break;
@@ -68,6 +79,9 @@ public class ClientListener implements Runnable {
             case 8:
                 if (messageVC.getCoords() != null) viewObserver.updateRemoveInput(messageVC.getCoords());
                 break;
+            case 13:
+                if (messageVC.getPlayerNum() != 0) lobby.validatePlayerNumber(messageVC.getPlayerNum());
+                break;
             default:
                 break;
         }
@@ -76,6 +90,10 @@ public class ClientListener implements Runnable {
 
     public static void setViewObserver(ViewObserver viewObserver) {
         ClientListener.viewObserver = viewObserver;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

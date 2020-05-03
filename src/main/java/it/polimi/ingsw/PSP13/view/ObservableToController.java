@@ -25,7 +25,7 @@ public class ObservableToController {
      */
     public void notifyNickname(String nickname)
     {
-        MessageVC msg = new MessageVC(2, nickname, null);
+        MessageVC msg = new MessageVC(2, nickname, null,0);
         callback.send(msg);
     }
 
@@ -35,7 +35,7 @@ public class ObservableToController {
      */
     public void notifyGodSelection(String gods)
     {
-        MessageVC msg = new MessageVC(5, gods, null);
+        MessageVC msg = new MessageVC(5, gods, null,0);
         callback.send(msg);
     }
 
@@ -45,7 +45,7 @@ public class ObservableToController {
      */
     public void notifyGod(String god)
     {
-        MessageVC msg = new MessageVC(3, god, null);
+        MessageVC msg = new MessageVC(3, god, null,0);
         callback.send(msg);
     }
 
@@ -56,7 +56,7 @@ public class ObservableToController {
     public void notifySetupBuilder(Coords builder)
     {
 
-        MessageVC msg = new MessageVC(4, null, builder);
+        MessageVC msg = new MessageVC(4, null, builder,0);
         callback.send(msg);
     }
 
@@ -66,7 +66,7 @@ public class ObservableToController {
      */
     public void notifyBuilderChoice(Coords builder)
     {
-        MessageVC msg = new MessageVC(7, null, builder);
+        MessageVC msg = new MessageVC(7, null, builder,0);
         callback.send(msg);
     }
 
@@ -76,7 +76,7 @@ public class ObservableToController {
      */
     public void notifyMoveInput(Coords cellToMoveOn)
     {
-        MessageVC msg = new MessageVC(0, null, cellToMoveOn);
+        MessageVC msg = new MessageVC(0, null, cellToMoveOn,0);
         callback.send(msg);
     }
 
@@ -86,7 +86,7 @@ public class ObservableToController {
      */
     public void notifyBuildInput(Coords cellToBuildOn)
     {
-        MessageVC msg = new MessageVC(1, null, cellToBuildOn);
+        MessageVC msg = new MessageVC(1, null, cellToBuildOn,0);
         callback.send(msg);
     }
 
@@ -96,7 +96,7 @@ public class ObservableToController {
      */
     public void notifyEffect(String effect)
     {
-        MessageVC msg = new MessageVC(6, effect, null);
+        MessageVC msg = new MessageVC(6, effect, null,0);
         callback.send(msg);
     }
 
@@ -106,7 +106,13 @@ public class ObservableToController {
      */
     public void notifyRemoveInput(Coords cellToRemoveBlock)
     {
-        MessageVC msg = new MessageVC(8, null, cellToRemoveBlock);
+        MessageVC msg = new MessageVC(8, null, cellToRemoveBlock, 0);
+        callback.send(msg);
+    }
+
+    public void notifyPlayersNumber(int number)
+    {
+        MessageVC msg = new MessageVC(13,null,null,number);
         callback.send(msg);
     }
 }

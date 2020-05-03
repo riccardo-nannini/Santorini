@@ -34,17 +34,19 @@ public class Client {
             if(scanner.nextLine().equals("CLI"))
             {
                 input = new CliInput(obs);
-                //start gui
             }
             else
             {
                 input = new CliInput(obs);
+                //start gui
             }
 
             UpdateListener updateListener = new UpdateListener(socket, input);
             new Thread(new HearthBeat(callback)).start();
             Thread thread = new Thread(updateListener, "listener");
             thread.start();
+
+            input.nicknameInput(false);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,7 +16,7 @@ public class MessagesTest {
     public static void init()
     {
         cv = new MessageCV(1,false,"test",null,null,true,5);
-        vc = new MessageVC(1,"test",null);
+        vc = new MessageVC(1,"test",null,0);
     }
 
     @Test

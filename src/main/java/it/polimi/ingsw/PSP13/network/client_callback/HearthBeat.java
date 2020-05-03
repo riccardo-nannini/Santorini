@@ -15,7 +15,7 @@ public class HearthBeat implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            MessageVC ping = new MessageVC(9, null, null);
+            MessageVC ping = new MessageVC(9, null, null,0);
             callback.send(ping);
         }
     }

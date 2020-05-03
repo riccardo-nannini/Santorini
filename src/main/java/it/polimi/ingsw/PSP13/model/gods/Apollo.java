@@ -10,6 +10,13 @@ import java.io.IOException;
 public class Apollo extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Apollo() {
+        effect = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated";
+    }
+
+    /**
      * @param apollo
      * @param coords
      * @return true if coords' cell is occupied by a player instead of a dome or it's not occupied
@@ -69,5 +76,7 @@ public class Apollo extends Turn {
             super.move(builder, coords);
 
     }
+
+
 
 }

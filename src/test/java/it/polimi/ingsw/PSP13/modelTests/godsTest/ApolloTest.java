@@ -34,12 +34,8 @@ public class ApolloTest {
     public static void init()
     {
         MatchHandler matchHandler = null;
-        try {
-            matchHandler = new MatchHandler();
-            match = matchHandler.getMatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        matchHandler = new MatchHandler();
+        match = matchHandler.getMatch();
 
 
         player = new Player(Color.Blue, "Mario");

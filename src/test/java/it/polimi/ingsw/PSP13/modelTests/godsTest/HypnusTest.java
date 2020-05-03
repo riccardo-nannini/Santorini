@@ -36,12 +36,8 @@ public class HypnusTest {
     @BeforeClass
     public static void setup() {
         MatchHandler matchHandler = null;
-        try {
-            matchHandler = new MatchHandler();
-            match = matchHandler.getMatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        matchHandler = new MatchHandler();
+        match = matchHandler.getMatch();
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
 

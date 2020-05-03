@@ -12,9 +12,16 @@ public class Prometheus extends Turn {
 
     private Boolean usedEffect;
 
-    public Prometheus () {
+    /**
+     * Sets the effect description
+     */
+    public Prometheus() {
         usedEffect = false;
+        effect = " If your Worker does not move up, it may build both before and after moving" +
+                "\nATTENTION: if you decide to use the effect, first of all you will be asked to insert where you you want to move" +
+                "\nand if the movement respects prometheus effect you will be asked to insert the coordinates of the before-moving build";
     }
+
 
 
     @Override

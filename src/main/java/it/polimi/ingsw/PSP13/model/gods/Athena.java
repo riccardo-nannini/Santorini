@@ -11,6 +11,13 @@ import java.io.IOException;
 public class Athena extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Athena() {
+        effect = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn";
+    }
+
+    /**
      * In addition to calling the player's god move the method checks if the builder is
      * moving up.
      * If this is the case it will decorate other players' god with the AthenDebuff

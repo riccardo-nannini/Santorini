@@ -97,6 +97,7 @@ CliInput extends Input {
     public void builderSetUpInput( boolean firstCall, boolean error)
     {
         MapPrinter.setWaitOtherClients(false);
+        MapPrinter.setShowEffect(true);
         Coords coords;
 
         MapPrinter.printMap();
@@ -110,6 +111,7 @@ CliInput extends Input {
             System.out.println("Choose the position of your second builder:");
         coords = readCoords();
         MapPrinter.setWaitOtherClients(true);
+        MapPrinter.setShowEffect(false);
         super.controller.notifySetupBuilder(coords);
 
     }
@@ -142,6 +144,7 @@ CliInput extends Input {
     public void chooseBuilder(String player)
     {
         MapPrinter.setWaitOtherClients(false);
+        MapPrinter.setShowEffect(true);
         MapPrinter.printMap();
         System.out.println("It's your turn now");
         System.out.println("\u001B[1mSELECT A BUILDER\u001B[0m, type the coordinates of your builder in the format \u001B[3mrow,column\u001B[0m:");
@@ -169,6 +172,7 @@ CliInput extends Input {
     public void buildInput(List<Coords> checkBuildCells, boolean error)
     {
         MapPrinter.setWaitOtherClients(false);
+        MapPrinter.setShowEffect(true);
         MapPrinter.setHighlightedCells(checkBuildCells);
         MapPrinter.printMap();
 
@@ -180,6 +184,7 @@ CliInput extends Input {
         Coords coords = readCoords();
 
         MapPrinter.setWaitOtherClients(true);
+        MapPrinter.setShowEffect(false);
         controller.notifyBuildInput(coords);
 
     }
@@ -199,6 +204,12 @@ CliInput extends Input {
 
         controller.notifyRemoveInput(coords);
     }
+
+    @Override
+    public void getEffectDescription(String effect) {
+        MapPrinter.setGodEffect(effect);
+    }
+
 
 
 

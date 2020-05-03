@@ -138,6 +138,7 @@ public class MatchHandler {
             Player currentPlayer = match.getPlayers().get(pos);
             currentPlayer.setGod((Turn) god);
             virtualView.setGod(player,receivedGod);
+            virtualView.sendGodEffectDescription(player,match.getPlayers().get(pos).getEffect());
 
         }
     }

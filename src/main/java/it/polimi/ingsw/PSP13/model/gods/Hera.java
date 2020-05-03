@@ -13,6 +13,13 @@ import java.io.IOException;
 public class Hera extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Hera() {
+        effect = "An opponent cannot win by moving into a perimeter space";
+    }
+
+    /**
      * Adds the HeraDebuff decorator to every opponent player in order to apply Hera's win
      * condition on them
      * @param builder1

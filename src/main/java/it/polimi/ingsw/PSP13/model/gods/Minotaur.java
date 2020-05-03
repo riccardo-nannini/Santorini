@@ -11,6 +11,13 @@ import java.io.IOException;
 public class Minotaur extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Minotaur() {
+        effect = "Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level";
+    }
+
+    /**
      * @param builder
      * @param coords
      * @return coordinate of the cell in the next space

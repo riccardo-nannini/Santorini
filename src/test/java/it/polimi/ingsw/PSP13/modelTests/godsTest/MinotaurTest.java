@@ -41,12 +41,8 @@ public class MinotaurTest {
     {
 
         MatchHandler matchHandler = null;
-        try {
-            matchHandler = new MatchHandler();
-            match = matchHandler.getMatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        matchHandler = new MatchHandler();
+        match = matchHandler.getMatch();
 
         player = new Player(Color.Blue, "Mario");
         opponentPlayer1 = new Player(Color.Yellow, "Diego");

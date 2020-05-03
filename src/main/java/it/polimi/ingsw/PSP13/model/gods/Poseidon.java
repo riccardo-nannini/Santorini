@@ -11,10 +11,14 @@ public class Poseidon extends Turn {
 
     private Builder unmovedBuilder;
 
-    public Poseidon ()
-    {
+    /**
+     * Sets the effect description
+     */
+    public Poseidon() {
         this.unmovedBuilder = null;
+        effect = "If your unmoved Worker is on the ground level, it may build up to three times in neighboring spaces";
     }
+
 
     /**
      * In addiction to turn's move, sets the unmoved builder

@@ -24,10 +24,14 @@ public class MapPrinter {
     private static List<BuilderColor> opponentsColors;
     private static List<String> opponentsGods;
     private static boolean waitOtherClients;
+    private static String godEffectDescription;
+    private static boolean showEffect;
 
     public MapPrinter() {
         highlightedCells = new ArrayList<>();
         waitOtherClients = true;
+        showEffect = false;
+        godEffectDescription = "";
     }
 
 
@@ -161,9 +165,11 @@ public class MapPrinter {
             System.out.println();
             System.out.printf("%30s","");
         }
-        System.out.println("\n");
         highlightedCells.clear();
+        System.out.println();
         if (waitOtherClients) System.out.println("Please wait your turn... ... ...");
+        if (showEffect) printEffectDescription();
+        System.out.println();
     }
 
     public static void setWaitOtherClients(boolean waitOtherClients) {
@@ -171,9 +177,12 @@ public class MapPrinter {
     }
 
 
+    public static void setShowEffect(boolean showEffect) {
+        MapPrinter.showEffect = showEffect;
+    }
+
     /**
      * Prints the win message
-     *
      */
     public void notifyWin() {
         System.out.println(" HAI VINTO, COMPLIMENTI");
@@ -199,6 +208,16 @@ public class MapPrinter {
         return false;
     }
 
+    public static void setGodEffect(String godEffect) {
+        MapPrinter.godEffectDescription = godEffect;
+    }
+
+    /**
+     * Prints the god effect description
+     */
+    public static void printEffectDescription() {
+        System.out.println("\u001B[1m" + clientGod.toUpperCase() + "'S EFFECT\u001B[0m: " + godEffectDescription);
+    }
 
     public static void main(String[] args) {
         Map mappa = new Map();
@@ -258,6 +277,7 @@ public class MapPrinter {
         MapPrinter.printMap();
         MapPrinter.printMap();
 
+        System.out.println("Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated");
 
         //printer.updateMapCLI(mapView);
     }

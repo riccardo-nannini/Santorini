@@ -13,6 +13,7 @@ public class Turn {
 
     protected static Match match;
     protected static TurnHandler turnHandler;
+    protected String effect;
 
     public Turn(Match match, TurnHandler turnHandler)
     {
@@ -182,4 +183,7 @@ public class Turn {
         Turn.turnHandler = turnHandler;
     }
 
+    public String getEffect() {
+        return effect;
+    }
 }

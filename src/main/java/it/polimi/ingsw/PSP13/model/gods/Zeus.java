@@ -8,6 +8,13 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 public class Zeus extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Zeus() {
+        effect = "Your Worker may build a block under itself";
+    }
+
+    /**
      * A Builder can build on his own block
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build

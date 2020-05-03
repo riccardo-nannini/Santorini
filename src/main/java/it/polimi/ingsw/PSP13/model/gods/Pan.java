@@ -8,6 +8,13 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 public class Pan extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Pan() {
+        effect = "You also win if your Worker moves down two or more levels";
+    }
+
+    /**
      * Adds to the standard win condition: win also if the builder moves down 2 or more levels
      * @param builder builder that was involved in the current turn
      * @param precedentPosition position occupied by the builder before moving

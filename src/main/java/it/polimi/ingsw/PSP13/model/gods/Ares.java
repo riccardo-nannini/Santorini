@@ -14,6 +14,13 @@ public class Ares extends Turn {
     private Builder unmovedBuilder;
 
     /**
+     * Sets the effect description
+     */
+    public Ares () {
+        effect =  "You may remove an unoccupied block (not dome) neighboring your unmoved Worker";
+
+    }
+    /**
      * In addiction to turn's move
      * sets the unmovedBuilder
      */
@@ -63,5 +70,6 @@ public class Ares extends Turn {
         }
         return possibleRemoves;
     }
+
 
 }

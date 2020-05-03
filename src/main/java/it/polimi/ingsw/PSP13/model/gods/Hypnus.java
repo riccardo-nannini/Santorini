@@ -12,6 +12,13 @@ import java.io.IOException;
 public class Hypnus extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Hypnus() {
+        effect = "If one of your opponent's Workers is higher than all of their others, it cannot move";
+    }
+
+    /**
      * Adds the Hypnusdebuff decorator to every opponent player in order to apply Hypnus's move
      * condition on them.
      * @param builder1

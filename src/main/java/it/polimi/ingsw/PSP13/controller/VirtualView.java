@@ -343,6 +343,23 @@ public class VirtualView {
         return message;
     }
 
+    /**
+     * Sends to player's client a message containing the
+     * description of the effect of his god
+     * @param player player username
+     * @param effect a String containing the effect description
+     */
+    public void sendGodEffectDescription(String player, String effect) throws IOException {
+        MessageCV message = new MessageCV();
+        message.setId(11);
+        message.setString(effect);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e){
+            notifyDisconnection();
+        }
+    }
+
     public void notifyDisconnection() throws IOException {
         int i = 1;
         for(ObjectOutputStream output : outputMap.values()) {

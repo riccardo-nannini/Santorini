@@ -121,4 +121,11 @@ public abstract class Input {
     public void printAssignedGod(String assignedGod) {}
 
     public void disconnectionMessage() {}
+
+    /**
+     * Saves in MapPrinter the effect description of player's god
+     * @param effect description of the effect
+     */
+    public void getEffectDescription(String effect) {}
+
 }

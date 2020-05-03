@@ -13,6 +13,8 @@ public class Player {
     private Turn god;
     private String username;
 
+    public String getEffect() { return god.getEffect(); }
+
     public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
 
     public void start() throws IOException {god.start(username);}

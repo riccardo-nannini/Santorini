@@ -11,6 +11,13 @@ import java.io.IOException;
 public class Atlas extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Atlas() {
+        effect = "Your Worker may build a dome at any level including the ground";
+    }
+
+    /**
      * Adds to the standard build Atlas' effect:
      * the builder can build a dome at any level
      * @param builder builder that is currently building

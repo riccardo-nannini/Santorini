@@ -34,12 +34,8 @@ public class TurnTest {
     public static void init()
     {
         MatchHandler matchHandler = null;
-        try {
-            matchHandler = new MatchHandler();
-            match = matchHandler.getMatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        matchHandler = new MatchHandler();
+        match = matchHandler.getMatch();
         Player test = new Player(Color.Blue,"test");
 
         HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();

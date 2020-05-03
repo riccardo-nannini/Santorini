@@ -10,6 +10,14 @@ import java.util.List;
 public class Artemis extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Artemis () {
+        effect = "Your Worker may move one additional time, but not back to the space it started on";
+
+    }
+
+    /**
      * In addiction to turn's move allows the builder to move one additional
      * time
      * @param builder builder that is currently moving

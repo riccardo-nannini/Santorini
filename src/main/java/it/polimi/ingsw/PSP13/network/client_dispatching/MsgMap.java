@@ -29,7 +29,8 @@ public class MsgMap {
         dispatcher.put(6,new ClientEffectBehavior(input));
         dispatcher.put(7,new ClientChooseBuilderBehavior(input));
         dispatcher.put(8,new ClientRmvBlockBehavior(input));
-        dispatcher.put(9,new ClientEndGameBehavior(input));
+        dispatcher.put(9, new ClientEndGameBehavior(input));
+        dispatcher.put(11,new ClientEffectDescriptionBehaviour(input));
         dispatcher.put(10,new ClientDisconnectionBehavior(input));
     }
 

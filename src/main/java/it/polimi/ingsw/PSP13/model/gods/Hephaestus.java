@@ -11,6 +11,13 @@ import java.io.IOException;
 public class Hephaestus extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Hephaestus() {
+        effect = "Your Worker may build one additional block (not dome) on top of your first block";
+    }
+
+    /**
      * Builds a level in the specified position if useEffect == false,
      * 2 level otherwise
      * @param builder builder that is currently building

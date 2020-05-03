@@ -10,6 +10,13 @@ import java.util.List;
 public class Demeter extends Turn {
 
     /**
+     * Sets the effect description
+     */
+    public Demeter() {
+        effect = " Your Worker may build one additional time, but not on the same space";
+    }
+
+    /**
      * In addiction to turn's build allows the builder to build one additional
      * time, but not on the space.
      * @param builder builder that is currently building

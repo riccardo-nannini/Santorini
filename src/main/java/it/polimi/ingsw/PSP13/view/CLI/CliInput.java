@@ -52,7 +52,7 @@ CliInput extends Input {
         for(int i=1;i<godsList.size();i++)
             System.out.print(", " + godsList.get(i));
         System.out.println("\nType the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
-        scanner.nextLine();
+
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
@@ -258,7 +258,24 @@ CliInput extends Input {
         if(error)
             System.out.println("\u001B[31mThere was an ERROR with your last selection\u001b[0m");
         System.out.println("insert the number of players for this match:");
-        int number = scanner.nextInt();
-        controller.notifyPlayersNumber(number);
+        String string = scanner.nextLine();
+
+        while(!getInteger(string))
+        {
+            System.out.println("\u001B[31mWRONG FORMAT, insert a number: \u001b[0m");
+            string = scanner.nextLine();
+        }
+
+        controller.notifyPlayersNumber(Integer.parseInt(string));
+    }
+
+    private boolean getInteger(String string) throws NumberFormatException
+    {
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch(NumberFormatException e) {
+            return false;
+        }
     }
 }

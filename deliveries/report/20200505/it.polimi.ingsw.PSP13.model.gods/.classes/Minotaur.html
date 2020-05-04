@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Minotaur</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Minotaur (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Minotaur</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,6%
+  </span>
+  <span class="absValue">
+    (28/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.controller.TurnHandler;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.io.IOException;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class Minotaur extends Turn {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Sets the effect description
+<i>15</i>&nbsp;     */
+<b class="fc"><i>16</i>&nbsp;    public Minotaur() {</b>
+<b class="fc"><i>17</i>&nbsp;        effect = &quot;Your Worker may move into an opponent Worker&#39;s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level&quot;;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * @param builder
+<i>22</i>&nbsp;     * @param coords
+<i>23</i>&nbsp;     * @return coordinate of the cell in the next space
+<i>24</i>&nbsp;     * in the same direction of builder&#39;s coords
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    private Coords minotaurForce(Builder builder, Coords coords)
+<i>27</i>&nbsp;    {
+<b class="fc"><i>28</i>&nbsp;        int x = (coords.getX() - builder.getCoords().getX()) + coords.getX();</b>
+<b class="fc"><i>29</i>&nbsp;        int y = (coords.getY() - builder.getCoords().getY()) + coords.getY();</b>
+<b class="fc"><i>30</i>&nbsp;        return new Coords(x,y);</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Adds to the turn&#39;s move Minotaur&#39;s effect:
+<i>35</i>&nbsp;     * the builder can move into an opponent builder&#39;s cell, if the next space in the same
+<i>36</i>&nbsp;     * direction is unoccupied. Their builder is forced into that space
+<i>37</i>&nbsp;     * @param builder builder that is currently moving
+<i>38</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>39</i>&nbsp;     *
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    @Override
+<i>42</i>&nbsp;    public void move(Builder builder, Coords coords) throws IOException {
+<b class="fc"><i>43</i>&nbsp;        if (match.isOccupied(coords) &amp;&amp; !match.getCell(coords).getDome()) {</b>
+<b class="fc"><i>44</i>&nbsp;            Coords forcedPos = minotaurForce(builder, coords);</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;            Builder[] oppoBuilders = match.getPlayerByBuilder(match.getBuilderByCoords(coords)).getBuilders();</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;            match.getBuilderByCoords(coords).setCell(match.getCell(forcedPos));</b>
+<b class="fc"><i>49</i>&nbsp;            builder.setCell(match.getCell(coords));</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;            match.notifyBuilder(oppoBuilders[0], oppoBuilders[1]);</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;        } else {</b>
+<b class="fc"><i>54</i>&nbsp;            builder.setCell(match.getCell(coords));</b>
+<i>55</i>&nbsp;        }
+<b class="fc"><i>56</i>&nbsp;        match.notifyBuilder(builder,match.getOtherBuilder(builder));</b>
+<b class="fc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * Checks if the moving position is legal considering Minotaur&#39;s effect:
+<i>62</i>&nbsp;     * the builder can move into an opponent builder&#39;s cell, if the next space in the same
+<i>63</i>&nbsp;     * direction is unoccupied. Their builder is forced into that space.
+<i>64</i>&nbsp;     * @param builder builder that is currently moving
+<i>65</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>66</i>&nbsp;     * @return true if moving position is legal, else otherwise
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords) {
+<b class="fc"><i>69</i>&nbsp;        if (!Map.isLegal(coords) || builder == null) {</b>
+<b class="fc"><i>70</i>&nbsp;            return false;</b>
+<i>71</i>&nbsp;        } else {
+<b class="fc"><i>72</i>&nbsp;            if(match.getCell(coords).getDome())</b>
+<b class="fc"><i>73</i>&nbsp;                return false;</b>
+<b class="fc"><i>74</i>&nbsp;            if(match.isOccupied(coords) &amp;&amp; !match.getCell(coords).getDome())</b>
+<i>75</i>&nbsp;            {
+<b class="fc"><i>76</i>&nbsp;                if(!Map.isLegal(minotaurForce(builder,coords)))</b>
+<b class="nc"><i>77</i>&nbsp;                    return false;</b>
+<b class="fc"><i>78</i>&nbsp;                if (match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))</b>
+<b class="fc"><i>79</i>&nbsp;                    return false;</b>
+<b class="fc"><i>80</i>&nbsp;                if(match.getCell(minotaurForce(builder,coords)).getDome())</b>
+<b class="fc"><i>81</i>&nbsp;                    return false;</b>
+<i>82</i>&nbsp;            }
+<b class="fc"><i>83</i>&nbsp;            int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());</b>
+<b class="fc"><i>84</i>&nbsp;            return match.getAdjacent(builder.getCoords()).contains(coords) &amp;&amp; diff &lt;= 1;</b>
+<i>85</i>&nbsp;        }
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 19:28</div>
+</div>
+</body>
+</html>

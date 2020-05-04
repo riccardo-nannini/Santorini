@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CellLevel</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CellLevel (it.polimi.ingsw.PSP13.view.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CellLevel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.CLI;
+<i>2</i>&nbsp;
+<b class="nc"><i>3</i>&nbsp;public enum CellLevel {</b>
+<i>4</i>&nbsp;
+<b class="nc"><i>5</i>&nbsp;    Floor(&quot;\u001B[37m\u24c4&quot;), Base(&quot;\u001B[94m\u2460&quot;),</b>
+<b class="nc"><i>6</i>&nbsp;    Medium(&quot;\u001B[36m\u2461&quot;), Top(&quot;\u001B[34m\u2462&quot;),</b>
+<b class="nc"><i>7</i>&nbsp;    FloorHighlighted(&quot;\u001B[33m\u24c4&quot;), BaseHighlighted(&quot;\u001B[33m\u2460&quot;),</b>
+<b class="nc"><i>8</i>&nbsp;    MediumHighlighted(&quot;\u001B[33m\u2461&quot;), TopHighlighted(&quot;\u001B[33m\u2462&quot;);</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    String color;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    static final String RESET = &quot;\u001b[0m&quot;;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * creates an Enum that represents Unicode strings for the cell
+<i>17</i>&nbsp;     * in various colors depending on the level
+<i>18</i>&nbsp;     * @param color
+<i>19</i>&nbsp;     */
+<b class="nc"><i>20</i>&nbsp;    CellLevel(String color) {</b>
+<b class="nc"><i>21</i>&nbsp;        this.color = color;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public String toString() {
+<b class="nc"><i>26</i>&nbsp;        return color;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 19:28</div>
+</div>
+</body>
+</html>

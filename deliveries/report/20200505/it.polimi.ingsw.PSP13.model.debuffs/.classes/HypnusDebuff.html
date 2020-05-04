@@ -1,0 +1,110 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HypnusDebuff</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.debuffs</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HypnusDebuff (it.polimi.ingsw.PSP13.model.debuffs)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HypnusDebuff</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.debuffs;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Player;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class HypnusDebuff extends Decorator {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    public HypnusDebuff(Turn god) {
+<b class="fc"><i>11</i>&nbsp;        super(god);</b>
+<b class="fc"><i>12</i>&nbsp;    }</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    @Override
+<i>15</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords) {
+<b class="fc"><i>16</i>&nbsp;        if (this.isHigher(builder)) {</b>
+<b class="fc"><i>17</i>&nbsp;            return false;</b>
+<i>18</i>&nbsp;        }
+<b class="fc"><i>19</i>&nbsp;        return super.checkMove(builder, coords);</b>
+<i>20</i>&nbsp;    }
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    private boolean isHigher(Builder builder) {
+<b class="fc"><i>23</i>&nbsp;        Player player = match.getPlayerByBuilder(builder);</b>
+<b class="fc"><i>24</i>&nbsp;        Builder otherBuilder = player.getBuilders()[0] == builder ? player.getBuilders()[1] : player.getBuilders()[0];</b>
+<b class="fc"><i>25</i>&nbsp;        return builder.getHeight() &gt; otherBuilder.getHeight();</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 19:28</div>
+</div>
+</body>
+</html>

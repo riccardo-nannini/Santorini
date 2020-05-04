@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -126,6 +127,15 @@ public class Lobby implements Runnable{
             wait = false;
             lobbySetupDone = true;
             notifyAll();
+            if(socketList.size() == playersNumber){
+                stop = true;
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
         else
             socketList.peek().playerNumberIter(true);
@@ -155,7 +165,7 @@ public class Lobby implements Runnable{
      * then it fills some data structures and computers boolean for the cycle.
      * @throws IOException
      */
-    private void socketAccept() throws IOException {
+    private void socketAccept() throws IOException, SocketException {
         Socket socket = serverSocket.accept();
         System.out.println("connected to: " + socket.getInetAddress());
         socket.setSoTimeout(20000);
@@ -209,6 +219,8 @@ public class Lobby implements Runnable{
                 }
 
             } catch (IOException | InterruptedException e) {
+                if(e instanceof SocketException)
+                    return;
                 e.printStackTrace();
             }
         }
@@ -245,10 +257,10 @@ public class Lobby implements Runnable{
         ViewObserver viewObserver = new ViewObserver(matchHandler);
         ClientListener.setViewObserver(viewObserver);
 
+        System.out.println("Setup routine ended successfully");
+
         matchHandler.init();
         matchHandler.play();
-
-        System.out.println("Setup routine ended successfully");
 
     }
 

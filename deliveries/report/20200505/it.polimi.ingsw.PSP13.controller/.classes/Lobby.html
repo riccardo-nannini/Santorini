@@ -1,0 +1,414 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Lobby</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Lobby (it.polimi.ingsw.PSP13.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Lobby</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 136)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Color;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Player;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.io.ObjectOutputStream;
+<i>8</i>&nbsp;import java.lang.reflect.InvocationTargetException;
+<i>9</i>&nbsp;import java.net.ServerSocket;
+<i>10</i>&nbsp;import java.net.Socket;
+<i>11</i>&nbsp;import java.net.SocketException;
+<i>12</i>&nbsp;import java.util.HashMap;
+<i>13</i>&nbsp;import java.util.Map;
+<i>14</i>&nbsp;import java.util.concurrent.BlockingQueue;
+<i>15</i>&nbsp;import java.util.concurrent.LinkedBlockingDeque;
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;public class Lobby implements Runnable{</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    private ServerSocket serverSocket;
+<b class="nc"><i>20</i>&nbsp;    private BlockingQueue&lt;ClientHandler&gt; socketList = new LinkedBlockingDeque&lt;&gt;();</b>
+<b class="nc"><i>21</i>&nbsp;    private Map&lt;String, Socket&gt; usernameMap = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>22</i>&nbsp;    private Map&lt;Socket, ClientHandler&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>23</i>&nbsp;    private Map&lt;Socket, ClientListener&gt; listenerList = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>24</i>&nbsp;    private Map&lt;Socket, ObjectOutputStream&gt; fillByClient = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>25</i>&nbsp;    private int playersNumber = 3;</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;    private boolean stop = false;</b>
+<b class="nc"><i>28</i>&nbsp;    private boolean wait = false;</b>
+<b class="nc"><i>29</i>&nbsp;    private boolean lobbySetupDone = false;</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * initializes the ServerSocket
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    private void setServerSocket()
+<i>35</i>&nbsp;    {
+<i>36</i>&nbsp;        try {
+<b class="nc"><i>37</i>&nbsp;            serverSocket = new ServerSocket(Server.PORT);</b>
+<b class="nc"><i>38</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>39</i>&nbsp;            System.out.println(&quot;cannot open server socket&quot;);</b>
+<b class="nc"><i>40</i>&nbsp;            System.exit(1);</b>
+<i>41</i>&nbsp;            return;
+<b class="nc"><i>42</i>&nbsp;        }</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * return the username from the usernameMap given a socket. given a value returns the key
+<i>47</i>&nbsp;     * @param socket the value
+<i>48</i>&nbsp;     * @return the key
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    private String getUsernameFromSocket(Socket socket)
+<i>51</i>&nbsp;    {
+<b class="nc"><i>52</i>&nbsp;        for(Map.Entry entry : usernameMap.entrySet())</b>
+<i>53</i>&nbsp;        {
+<b class="nc"><i>54</i>&nbsp;            if(entry.getValue() == socket)</b>
+<b class="nc"><i>55</i>&nbsp;                return (String)entry.getKey();</b>
+<b class="nc"><i>56</i>&nbsp;        }</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        return null;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * takes a disconnection from the client in the setup moment of the game
+<i>63</i>&nbsp;     * if the socket interested is the first, must repeat setupIter() with another client
+<i>64</i>&nbsp;     * @param socket the disconnected client
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    public synchronized void takeSetupDisconnection(Socket socket)
+<i>67</i>&nbsp;    {
+<b class="nc"><i>68</i>&nbsp;        if(lobbySetupDone)</b>
+<i>69</i>&nbsp;            return;
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;        if(map.get(socket) == socketList.peek())</b>
+<i>72</i>&nbsp;        {
+<i>73</i>&nbsp;            try {
+<b class="nc"><i>74</i>&nbsp;                socketList.take();</b>
+<b class="nc"><i>75</i>&nbsp;                setupIter();</b>
+<b class="nc"><i>76</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>77</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>78</i>&nbsp;            }</b>
+<i>79</i>&nbsp;        }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;        try {
+<b class="nc"><i>82</i>&nbsp;            socket.close();</b>
+<b class="nc"><i>83</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>84</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>85</i>&nbsp;        }</b>
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;        listenerList.remove(socket);</b>
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;        usernameMap.remove(getUsernameFromSocket(socket));</b>
+<b class="nc"><i>90</i>&nbsp;        map.remove(socket);</b>
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;        stop = false;</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * validates the nickname received from a client. check if it&#39;s already taken
+<i>98</i>&nbsp;     * @param socket the client who sent the nickname
+<i>99</i>&nbsp;     * @param nickname the username chosen
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    public synchronized void validateNickname(Socket socket, String nickname)
+<i>102</i>&nbsp;    {
+<b class="nc"><i>103</i>&nbsp;        System.out.println(&quot;received nickname &quot; + nickname + &quot; from: &quot; + socket.getInetAddress());</b>
+<b class="nc"><i>104</i>&nbsp;        if(!usernameMap.containsKey(nickname))</b>
+<i>105</i>&nbsp;        {
+<b class="nc"><i>106</i>&nbsp;            usernameMap.put(nickname,socket);</b>
+<b class="nc"><i>107</i>&nbsp;            listenerList.get(socket).setUsername(nickname);</b>
+<b class="nc"><i>108</i>&nbsp;            if(map.get(socket) == socketList.peek())</b>
+<b class="nc"><i>109</i>&nbsp;                notifyAll();</b>
+<b class="nc"><i>110</i>&nbsp;            if(lobbySetupDone)</b>
+<b class="nc"><i>111</i>&nbsp;                notifyAll();</b>
+<i>112</i>&nbsp;        }
+<i>113</i>&nbsp;        else
+<b class="nc"><i>114</i>&nbsp;            map.get(socket).nicknameIter(true);</b>
+<i>115</i>&nbsp;    }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    /**
+<i>118</i>&nbsp;     * validate the playersNumber input chosen by the first player
+<i>119</i>&nbsp;     * computes boolean value to get the listening cycle work correctly
+<i>120</i>&nbsp;     * @param playersNumber the number chosen by the first client
+<i>121</i>&nbsp;     */
+<i>122</i>&nbsp;    public synchronized void validatePlayerNumber(int playersNumber)
+<i>123</i>&nbsp;    {
+<b class="nc"><i>124</i>&nbsp;        if(playersNumber == 2 || playersNumber == 3)</b>
+<i>125</i>&nbsp;        {
+<b class="nc"><i>126</i>&nbsp;            this.playersNumber = playersNumber;</b>
+<b class="nc"><i>127</i>&nbsp;            wait = false;</b>
+<b class="nc"><i>128</i>&nbsp;            lobbySetupDone = true;</b>
+<b class="nc"><i>129</i>&nbsp;            notifyAll();</b>
+<b class="nc"><i>130</i>&nbsp;            if(socketList.size() == playersNumber){</b>
+<b class="nc"><i>131</i>&nbsp;                stop = true;</b>
+<i>132</i>&nbsp;                try {
+<b class="nc"><i>133</i>&nbsp;                    serverSocket.close();</b>
+<b class="nc"><i>134</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>135</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>136</i>&nbsp;                }</b>
+<i>137</i>&nbsp;            }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;        }
+<i>140</i>&nbsp;        else
+<b class="nc"><i>141</i>&nbsp;            socketList.peek().playerNumberIter(true);</b>
+<i>142</i>&nbsp;    }
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     * asks the first client to choose playerNumber
+<i>146</i>&nbsp;     * if no client connected it waits
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;    public synchronized void setupIter()
+<i>149</i>&nbsp;    {
+<b class="nc"><i>150</i>&nbsp;        while(socketList.isEmpty())</b>
+<i>151</i>&nbsp;        {
+<i>152</i>&nbsp;            try {
+<b class="nc"><i>153</i>&nbsp;                wait();</b>
+<b class="nc"><i>154</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>155</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>156</i>&nbsp;            }</b>
+<i>157</i>&nbsp;        }
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;        socketList.peek().playerNumberIter(false);</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    }
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;    /**
+<i>164</i>&nbsp;     * accepts a client, creates a ClientHandler object and a ClientListener object.
+<i>165</i>&nbsp;     * then it fills some data structures and computers boolean for the cycle.
+<i>166</i>&nbsp;     * @throws IOException
+<i>167</i>&nbsp;     */
+<i>168</i>&nbsp;    private void socketAccept() throws IOException, SocketException {
+<b class="nc"><i>169</i>&nbsp;        Socket socket = serverSocket.accept();</b>
+<b class="nc"><i>170</i>&nbsp;        System.out.println(&quot;connected to: &quot; + socket.getInetAddress());</b>
+<b class="nc"><i>171</i>&nbsp;        socket.setSoTimeout(20000);</b>
+<i>172</i>&nbsp;
+<b class="nc"><i>173</i>&nbsp;        ObjectOutputStream obj = new ObjectOutputStream(socket.getOutputStream());</b>
+<b class="nc"><i>174</i>&nbsp;        fillByClient.put(socket,obj);</b>
+<b class="nc"><i>175</i>&nbsp;        ClientHandler client = new ClientHandler(obj);</b>
+<b class="nc"><i>176</i>&nbsp;        socketList.add(client);</b>
+<b class="nc"><i>177</i>&nbsp;        map.put(socket,client);</b>
+<i>178</i>&nbsp;
+<b class="nc"><i>179</i>&nbsp;        ClientListener listener = new ClientListener(socket, this);</b>
+<b class="nc"><i>180</i>&nbsp;        listenerList.put(socket,listener);</b>
+<b class="nc"><i>181</i>&nbsp;        Thread thread = new Thread(listener);</b>
+<b class="nc"><i>182</i>&nbsp;        thread.start();</b>
+<i>183</i>&nbsp;
+<b class="nc"><i>184</i>&nbsp;        if(socketList.size() &gt;= playersNumber)</b>
+<i>185</i>&nbsp;        {
+<b class="nc"><i>186</i>&nbsp;            if(!lobbySetupDone)</b>
+<b class="nc"><i>187</i>&nbsp;                wait = true;</b>
+<i>188</i>&nbsp;            else
+<i>189</i>&nbsp;            {
+<b class="nc"><i>190</i>&nbsp;                stop = true;</b>
+<b class="nc"><i>191</i>&nbsp;                wait = false;</b>
+<i>192</i>&nbsp;            }
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;        }
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * this method accept clients of pauses based on current situation.
+<i>201</i>&nbsp;     * if 3 client already connected, it waits
+<i>202</i>&nbsp;     * if playersNum isn&#39;t received, it waits
+<i>203</i>&nbsp;     * it stops when playersNum client are currently connected
+<i>204</i>&nbsp;     */
+<i>205</i>&nbsp;    private void listening()
+<i>206</i>&nbsp;    {
+<b class="nc"><i>207</i>&nbsp;        setServerSocket();</b>
+<b class="nc"><i>208</i>&nbsp;        while(!stop)</b>
+<i>209</i>&nbsp;        {
+<i>210</i>&nbsp;            try {
+<b class="nc"><i>211</i>&nbsp;                socketAccept();</b>
+<i>212</i>&nbsp;
+<b class="nc"><i>213</i>&nbsp;                while(wait)</b>
+<i>214</i>&nbsp;                {
+<b class="nc"><i>215</i>&nbsp;                    synchronized (this)</b>
+<i>216</i>&nbsp;                    {
+<b class="nc"><i>217</i>&nbsp;                        wait();</b>
+<b class="nc"><i>218</i>&nbsp;                    }</b>
+<i>219</i>&nbsp;                }
+<i>220</i>&nbsp;
+<b class="nc"><i>221</i>&nbsp;            } catch (IOException | InterruptedException e) {</b>
+<b class="nc"><i>222</i>&nbsp;                if(e instanceof SocketException)</b>
+<i>223</i>&nbsp;                    return;
+<b class="nc"><i>224</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>225</i>&nbsp;            }</b>
+<i>226</i>&nbsp;        }
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    }
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;    /**
+<i>231</i>&nbsp;     * given all the data structures filled and a matchHandler instance this method starts the match
+<i>232</i>&nbsp;     * @throws NoSuchMethodException
+<i>233</i>&nbsp;     * @throws InstantiationException
+<i>234</i>&nbsp;     * @throws IOException
+<i>235</i>&nbsp;     * @throws IllegalAccessException
+<i>236</i>&nbsp;     * @throws InvocationTargetException
+<i>237</i>&nbsp;     * @throws ClassNotFoundException
+<i>238</i>&nbsp;     */
+<i>239</i>&nbsp;    private void createMatch() throws NoSuchMethodException, InstantiationException, IOException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+<b class="nc"><i>240</i>&nbsp;        int diff = socketList.size() - playersNumber;</b>
+<b class="nc"><i>241</i>&nbsp;        if(diff &gt; 0)</b>
+<i>242</i>&nbsp;        {
+<b class="nc"><i>243</i>&nbsp;            for(int i=0;i&lt;diff;i++)</b>
+<i>244</i>&nbsp;            {
+<b class="nc"><i>245</i>&nbsp;                ((ClientHandler)(socketList.toArray()[playersNumber+i])).lateClientMustDisconnect();</b>
+<i>246</i>&nbsp;            }
+<i>247</i>&nbsp;        }
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;
+<b class="nc"><i>250</i>&nbsp;        MatchHandler matchHandler = null;</b>
+<i>251</i>&nbsp;        try {
+<b class="nc"><i>252</i>&nbsp;            matchHandler = createMatchHandler();</b>
+<b class="nc"><i>253</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>254</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>255</i>&nbsp;        }</b>
+<i>256</i>&nbsp;
+<b class="nc"><i>257</i>&nbsp;        ViewObserver viewObserver = new ViewObserver(matchHandler);</b>
+<b class="nc"><i>258</i>&nbsp;        ClientListener.setViewObserver(viewObserver);</b>
+<i>259</i>&nbsp;
+<b class="nc"><i>260</i>&nbsp;        System.out.println(&quot;Setup routine ended successfully&quot;);</b>
+<i>261</i>&nbsp;
+<b class="nc"><i>262</i>&nbsp;        matchHandler.init();</b>
+<b class="nc"><i>263</i>&nbsp;        matchHandler.play();</b>
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;    }
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;    /**
+<i>268</i>&nbsp;     * accept client method
+<i>269</i>&nbsp;     */
+<i>270</i>&nbsp;    @Override
+<i>271</i>&nbsp;    public void run()
+<i>272</i>&nbsp;    {
+<b class="nc"><i>273</i>&nbsp;        listening();</b>
+<i>274</i>&nbsp;        try {
+<b class="nc"><i>275</i>&nbsp;            createMatch();</b>
+<b class="nc"><i>276</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>277</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>278</i>&nbsp;        }</b>
+<i>279</i>&nbsp;    }
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;    /**
+<i>282</i>&nbsp;     * given all the data structures filled, this method creates a matchHandler instance
+<i>283</i>&nbsp;     * @return
+<i>284</i>&nbsp;     * @throws IOException
+<i>285</i>&nbsp;     */
+<i>286</i>&nbsp;    private synchronized MatchHandler createMatchHandler() throws IOException {
+<i>287</i>&nbsp;
+<b class="nc"><i>288</i>&nbsp;        MatchHandler matchHandler = new MatchHandler();</b>
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;        while(usernameMap.size()&lt;playersNumber) {</b>
+<i>291</i>&nbsp;            try {
+<b class="nc"><i>292</i>&nbsp;                wait();</b>
+<b class="nc"><i>293</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>294</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>295</i>&nbsp;            }</b>
+<i>296</i>&nbsp;        }
+<i>297</i>&nbsp;
+<b class="nc"><i>298</i>&nbsp;        HashMap&lt;String, Color&gt; result = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>299</i>&nbsp;        Color[] colors = Color.values();</b>
+<b class="nc"><i>300</i>&nbsp;        int i=0;</b>
+<b class="nc"><i>301</i>&nbsp;        for(String nickname : usernameMap.keySet())</b>
+<i>302</i>&nbsp;        {
+<b class="nc"><i>303</i>&nbsp;            Color color = colors[i];</b>
+<b class="nc"><i>304</i>&nbsp;            i++;</b>
+<b class="nc"><i>305</i>&nbsp;            result.put(nickname,color);</b>
+<b class="nc"><i>306</i>&nbsp;            Player player = new Player(color, nickname);</b>
+<b class="nc"><i>307</i>&nbsp;            matchHandler.addPlayer(player);</b>
+<b class="nc"><i>308</i>&nbsp;            System.out.println(player);</b>
+<b class="nc"><i>309</i>&nbsp;        }</b>
+<b class="nc"><i>310</i>&nbsp;        matchHandler.setNumPlayers(playersNumber);</b>
+<i>311</i>&nbsp;
+<b class="nc"><i>312</i>&nbsp;        HashMap&lt;String, ObjectOutputStream&gt; outputMap = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>313</i>&nbsp;        for(Map.Entry entry : usernameMap.entrySet())</b>
+<i>314</i>&nbsp;        {
+<b class="nc"><i>315</i>&nbsp;            outputMap.put((String)entry.getKey(),fillByClient.get(entry.getValue()));</b>
+<b class="nc"><i>316</i>&nbsp;        }</b>
+<i>317</i>&nbsp;
+<b class="nc"><i>318</i>&nbsp;        VirtualView virtualView = new VirtualView(outputMap);</b>
+<b class="nc"><i>319</i>&nbsp;        virtualView.setColorsMap(result);</b>
+<b class="nc"><i>320</i>&nbsp;        matchHandler.setVirtualView(virtualView);</b>
+<i>321</i>&nbsp;
+<b class="nc"><i>322</i>&nbsp;        return matchHandler;</b>
+<i>323</i>&nbsp;    }
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;
+<i>326</i>&nbsp;    public boolean isLobbySetupDone() {
+<b class="nc"><i>327</i>&nbsp;        return lobbySetupDone;</b>
+<i>328</i>&nbsp;    }
+<i>329</i>&nbsp;
+<i>330</i>&nbsp;
+<i>331</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-04 19:28</div>
+</div>
+</body>
+</html>

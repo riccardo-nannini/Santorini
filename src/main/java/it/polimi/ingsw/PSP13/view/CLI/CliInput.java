@@ -25,7 +25,7 @@ CliInput extends Input {
     }
 
     @Override
-    public void nicknameInput(boolean error)
+    public synchronized void nicknameInput(boolean error)
     {
         if(!error)
             System.out.println("Insert your \u001B[1mNICKNAME\u001B[0m:");
@@ -52,6 +52,7 @@ CliInput extends Input {
         for(int i=1;i<godsList.size();i++)
             System.out.print(", " + godsList.get(i));
         System.out.println("\nType the name of the gods you choose separated by a comma (e.g. Zeus, Athena, Apollo)");
+        scanner.nextLine();
         input = scanner.nextLine();
         while(!p.matcher(input).matches())
         {
@@ -252,7 +253,7 @@ CliInput extends Input {
     }
 
     @Override
-    public void choosePlayerNum(boolean error)
+    public synchronized void choosePlayerNum(boolean error)
     {
         if(error)
             System.out.println("\u001B[31mThere was an ERROR with your last selection\u001b[0m");

@@ -46,7 +46,7 @@ public class MatchHandler {
     public synchronized void godSelection(VirtualView virtualView) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, IOException {
         //TODO gestire eccezioni invece di throws
         Random r = new Random();
-        Player challenger = match.getPlayers().get(r.nextInt(3));
+        Player challenger = match.getPlayers().get(r.nextInt(numPlayers));
         String godsString = "Apollo, Ares, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hypnus, Minotaur, Pan ,Poseidon, Prometheus, Zeus";
         List<String> godsList = new ArrayList<String>(Arrays.asList(godsString.split("\\s*,\\s*")));
 

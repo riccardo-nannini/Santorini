@@ -106,6 +106,8 @@ public class Lobby implements Runnable{
             listenerList.get(socket).setUsername(nickname);
             if(map.get(socket) == socketList.peek())
                 notifyAll();
+            if(lobbySetupDone)
+                notifyAll();
         }
         else
             map.get(socket).nicknameIter(true);
@@ -269,9 +271,17 @@ public class Lobby implements Runnable{
      * @return
      * @throws IOException
      */
-    private MatchHandler createMatchHandler() throws IOException {
+    private synchronized MatchHandler createMatchHandler() throws IOException {
 
         MatchHandler matchHandler = new MatchHandler();
+
+        while(usernameMap.size()<playersNumber) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         HashMap<String, Color> result = new HashMap<>();
         Color[] colors = Color.values();
@@ -283,6 +293,7 @@ public class Lobby implements Runnable{
             result.put(nickname,color);
             Player player = new Player(color, nickname);
             matchHandler.addPlayer(player);
+            System.out.println(player);
         }
         matchHandler.setNumPlayers(playersNumber);
 

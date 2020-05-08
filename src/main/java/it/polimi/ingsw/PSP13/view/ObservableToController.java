@@ -115,4 +115,13 @@ public class ObservableToController {
         MessageVC msg = new MessageVC(13,null,null,number);
         callback.send(msg);
     }
+
+    /**
+     * the selection of the starter player is sent to the controller
+     * @param starter username of the selected starter player
+     */
+    public void notifyStarterSelection(String starter) {
+        MessageVC msg = new MessageVC(15, starter, null, 0);
+        callback.send(msg);
+    }
 }

@@ -162,4 +162,17 @@ public class Match {
     public void removeBuilder(Player player) throws IOException {
         observable.removeBuilder(player);
     }
+
+    /**
+     * @param username username of the player looked for
+     * @return username's player , null if there are no corresponding player
+     */
+    public Player getPlayerByUsername(String username) {
+        for (Player player : players) {
+            if (player.getUsername().equals(username)) return player;
+        }
+        return null;
+    }
+
+
 }

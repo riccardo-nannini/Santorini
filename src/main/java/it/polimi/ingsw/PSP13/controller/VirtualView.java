@@ -377,4 +377,41 @@ public class VirtualView {
         throw new IOException();
     }
 
+    /**
+     * Sends to the challenger's client a MessageCV
+     * representing a starter selection input request.
+     * @param challenger username of the challenger
+     * @param error notifies the client that this message is sent due to a previous input error
+     * @throws IOException if an I/O error occurs while writing stream header
+     */
+    public void starterInput(String challenger, boolean error)  throws IOException {
+        MessageCV message = new MessageCV();
+        message.setStringList(new ArrayList<>(outputMap.keySet()));
+        message.setId(12);
+        message.setError(error);
+        message.setString(null);
+        try {
+            outputMap.get(challenger).writeObject(message);
+        } catch (IOException e){
+            notifyDisconnection();
+        }
+
+        MessageCV messageOpponents = new MessageCV();
+        messageOpponents.setId(12);
+        messageOpponents.setError(error);
+        messageOpponents.setString(challenger);
+        for(ObjectOutputStream output : outputMap.values()) {
+            if (!output.equals(outputMap.get(challenger))) {
+                try {
+                    output.writeObject(messageOpponents);
+                } catch (IOException e) {
+                    notifyDisconnection();
+                }
+            }
+        }
+
+
+
+    }
+
 }

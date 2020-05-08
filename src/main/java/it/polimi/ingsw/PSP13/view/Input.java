@@ -132,4 +132,17 @@ public abstract class Input {
      */
     public void getEffectDescription(String effect) {}
 
+    /**
+     * Asks the challenger to choose the starter player
+     * @param error true if the previous input generated an error
+     * @param usernames players' usernames
+     */
+    public void starterInput(boolean error, List<String> usernames) {}
+
+    /**
+     * Informs clients that the challenger is choosing the starter player
+     * @param challenger challenger's username
+     */
+    public void printWaitStarterSelection(String challenger) {}
+
 }

@@ -278,4 +278,31 @@ CliInput extends Input {
             return false;
         }
     }
+
+    @Override
+    public void starterInput(boolean error,List<String> usernames) {
+        if(error) {
+            System.out.println("\u001B[31mThere was and ERROR with you last selection, please repeat\u001b[0m");
+        } else {
+            System.out.println("\nYou have to choose the \u001B[1mSTARTER PLAYER\u001B[0m");
+        }
+
+        System.out.print("This is the list of the players: ");
+        for (int i = 0; i < usernames.size(); i++) {
+            System.out.print(usernames.get(i));
+            if (i !=  usernames.size()-1) System.out.print(", ");
+        }
+        System.out.print("\nChoose the starter, including you: ");
+        input = scanner.nextLine();
+
+        super.controller.notifyStarterSelection(input);
+    }
+
+
+
+    @Override
+    public void printWaitStarterSelection(String challenger) {
+        System.out.println("Please wait, "+ challenger +" is choosing the starter player... ... ...");
+    }
+
 }

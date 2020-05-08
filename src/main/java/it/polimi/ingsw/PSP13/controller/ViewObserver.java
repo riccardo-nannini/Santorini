@@ -91,4 +91,8 @@ public class ViewObserver {
         handler.getTurnHandler().addDisconnectedPlayer(player);
         handler.addDisconnectedPlayer(player);
     }
+
+    public void updateStarter(String starter) {
+        handler.setSelectedStarter(starter);
+    }
 }

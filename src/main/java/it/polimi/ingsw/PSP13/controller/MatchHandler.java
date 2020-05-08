@@ -22,6 +22,8 @@ public class MatchHandler {
     private String godsReceived = null;
     private String selectedGod = null;
     private Coords coords = null;
+    private Player challenger = null;
+    private String selectedStarter = null;
 
     public MatchHandler () {
         match = new Match();
@@ -36,6 +38,7 @@ public class MatchHandler {
         match.start(virtualView);
         godSelection(virtualView);
         virtualView.notifyClientsInfo();
+        starterSelection(virtualView);
         builderSetUp(virtualView);
     }
 
@@ -46,7 +49,7 @@ public class MatchHandler {
     public synchronized void godSelection(VirtualView virtualView) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, IOException {
         //TODO gestire eccezioni invece di throws
         Random r = new Random();
-        Player challenger = match.getPlayers().get(r.nextInt(numPlayers));
+        challenger = match.getPlayers().get(r.nextInt(numPlayers));
         String godsString = "Apollo, Ares, Artemis, Athena, Atlas, Demeter, Hephaestus, Hera, Hypnus, Minotaur, Pan ,Poseidon, Prometheus, Zeus";
         List<String> godsList = new ArrayList<String>(Arrays.asList(godsString.split("\\s*,\\s*")));
 
@@ -94,11 +97,18 @@ public class MatchHandler {
     public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         boolean error;
         String receivedGod;
-        int pos = match.getPlayers().indexOf(challenger);
+        List<Player> playerList = match.getPlayers();
+        int challengerPos = playerList.indexOf(challenger);
+        //sort match.getPlayers() putting challenger in the last position
+        if (challengerPos != (numPlayers-1)) {
+            Player app = playerList.get(numPlayers-1);
+            playerList.set(numPlayers-1,playerList.get(challengerPos));
+            playerList.set(challengerPos,app);
+        }
+
         for (int i = 0; i < numPlayers; i++) {
             error = false;
-            pos = (pos+1) % numPlayers;
-            String player = match.getPlayers().get(pos).getUsername();
+            String player = match.getPlayers().get(i).getUsername();
             if (chosenGods.size() > 1) {
                 do {
                     virtualView.godInput(player, chosenGods, error);
@@ -135,13 +145,86 @@ public class MatchHandler {
             Class[] c = new Class[0];
             Object[] ob = new Object[0];
             Object god = clazz.getDeclaredConstructor(c).newInstance(ob);
-            Player currentPlayer = match.getPlayers().get(pos);
+            Player currentPlayer = match.getPlayers().get(i);
             currentPlayer.setGod((Turn) god);
             virtualView.setGod(player,receivedGod);
-            virtualView.sendGodEffectDescription(player,match.getPlayers().get(pos).getEffect());
+            virtualView.sendGodEffectDescription(player,match.getPlayers().get(i).getEffect());
 
         }
     }
+
+    /**
+     * Handles the selection of the starter player
+     * by the challenger
+     * @param virtualView
+     * @throws IOException
+     */
+    public synchronized void starterSelection(VirtualView virtualView) throws IOException {
+        boolean error = false;
+        do {
+            virtualView.starterInput(challenger.getUsername(), error);
+            while (selectedStarter == null && disconnectedPlayers.isEmpty()) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    //TODO
+                }
+            }
+            //TODO chiedere a nanno se si gestisce così la disconnesione
+            if (!disconnectedPlayers.isEmpty()) {
+                if (!disconnectedPlayers.contains(challenger)) {
+                    while (selectedStarter == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            //TODO
+                        }
+                    }
+                }
+                virtualView.notifyDisconnection();
+            }
+            error = true;
+            for (Player player : match.getPlayers()) {
+                if (player.getUsername().equals(selectedStarter)) {
+                    error = false;
+                    break;
+                }
+            }
+            if (error) selectedStarter = null;
+        } while(error);
+
+        sortPlayers();
+
+    }
+
+
+    //TODO OTTIMIZZABILE
+    /**
+     * Sorts player's list shifting starterPlayer in first position,
+     * keeping the shift order used up to this point
+     */
+    public void sortPlayers() {
+        int starterIndex = match.getPlayers().indexOf(match.getPlayerByUsername(selectedStarter));
+        if (starterIndex != 0) {
+            if (numPlayers == 2) {
+                Player app = match.getPlayers().get(0);
+                match.getPlayers().set(0, match.getPlayerByUsername(selectedStarter));
+                match.getPlayers().set(1, app);
+            } else {  //if numPlayers = 3
+                List<Player> appList = new ArrayList<>(match.getPlayers());
+                match.getPlayers().set(0, appList.get(starterIndex));
+                if (starterIndex == 1) {
+                    match.getPlayers().set(1, appList.get(2));
+                    match.getPlayers().set(2, appList.get(0));
+                } else {
+                    match.getPlayers().set(1, appList.get(0));
+                    match.getPlayers().set(2, appList.get(1));
+                }
+            }
+        }
+    }
+
+
 
     /**
      * Handles the set up of the builders for each players
@@ -213,9 +296,11 @@ public class MatchHandler {
         Coords builderPos;
         Player winner = null;
         endGame = false;
+        Player currentPlayer;
         while (!endGame) {
             players = Collections.unmodifiableList(new ArrayList<>(match.getPlayers()));
-            for (Player currentPlayer : players) {
+            for (int i = 0; i < match.getPlayers().size(); i++) {
+                currentPlayer = players.get(i);
                 if (players.size() < 2) {
                     virtualView.notifyWin(currentPlayer.getUsername());
                     endGame = true;
@@ -309,6 +394,11 @@ public class MatchHandler {
 
     public Coords getCoords() {
         return coords;
+    }
+
+    public synchronized void setSelectedStarter(String starter) {
+        this.selectedStarter = starter;
+        notifyAll();
     }
 
 }

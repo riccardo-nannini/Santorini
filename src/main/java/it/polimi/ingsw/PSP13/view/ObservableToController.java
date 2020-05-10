@@ -112,7 +112,7 @@ public class ObservableToController {
 
     public void notifyPlayersNumber(int number)
     {
-        MessageVC msg = new MessageVC(13,null,null,number);
+        MessageVC msg = new MessageVC(13,null,null, number);
         callback.send(msg);
     }
 
@@ -124,4 +124,21 @@ public class ObservableToController {
         MessageVC msg = new MessageVC(15, starter, null, 0);
         callback.send(msg);
     }
+
+
+    public void notifyPlayAgain(String playAgain)
+    {
+        System.out.println(playAgain);
+        MessageVC msg = null;
+        if(playAgain.equals("yes") || playAgain.equals("y")){
+            msg = new MessageVC(16,"yes",null,0);
+        }
+        else if(playAgain.equals("no") || playAgain.equals("n")){
+            msg = new MessageVC(16,"no",null,0);
+        }
+
+        callback.send(msg);
+
+    }
+
 }

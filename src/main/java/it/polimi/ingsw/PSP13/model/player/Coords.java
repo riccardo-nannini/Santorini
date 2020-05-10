@@ -26,6 +26,9 @@ public class Coords implements Serializable {
         this.y = y;
     }
 
+    public Coords()
+    {}
+
     public Coords(int x, int y)
     {
         this.x = x;

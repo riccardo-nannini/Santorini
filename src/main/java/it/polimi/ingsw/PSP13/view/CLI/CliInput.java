@@ -305,4 +305,25 @@ CliInput extends Input {
         System.out.println("Please wait, "+ challenger +" is choosing the starter player... ... ...");
     }
 
+    public void playAgain()
+    {
+        String yes = "yes";
+        String y = "y";
+        String no = "no";
+        String n = "n";
+
+        System.out.println("do you want to play again?");
+        String input = scanner.nextLine();
+
+        while(!(input.toLowerCase().equals(yes) || input.toLowerCase().equals(y)
+                || input.toLowerCase().equals(no) || input.toLowerCase().equals(n)))
+        {
+            System.out.println("\u001B[31mWRONG INPUT, type [Y/N]\u001B[0m:");
+            input = scanner.nextLine();
+        }
+
+        controller.notifyPlayAgain(input.toLowerCase());
+    }
+
+
 }

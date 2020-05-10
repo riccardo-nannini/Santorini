@@ -2,20 +2,18 @@ package it.polimi.ingsw.PSP13.controller;
 
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Player;
-import it.polimi.ingsw.PSP13.network.Client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-public class Lobby implements Runnable{
+public class PermaLobby implements Runnable{
 
     private ServerSocket serverSocket;
     private BlockingQueue<ClientHandler> socketList = new LinkedBlockingDeque<>();
@@ -23,11 +21,11 @@ public class Lobby implements Runnable{
     private Map<Socket, ClientHandler> map = new HashMap<>();
     private Map<Socket, ClientListener> listenerList = new HashMap<>();
     private Map<Socket, ObjectOutputStream> fillByClient = new HashMap<>();
+    private Map<Socket,Boolean> rematchMap = new HashMap<>();
     private int playersNumber = 3;
-
-    private boolean stop = false;
-    private boolean wait = false;
     private boolean lobbySetupDone = false;
+    private boolean start = false;
+
 
     /**
      * initializes the ServerSocket
@@ -35,12 +33,74 @@ public class Lobby implements Runnable{
     private void setServerSocket()
     {
         try {
-            serverSocket = new ServerSocket(Server.PORT);
+            serverSocket = new ServerSocket(Server2.PORT);
         } catch (IOException e) {
             System.out.println("cannot open server socket");
             System.exit(1);
             return;
         }
+    }
+
+    @Override
+    public void run()
+    {
+        setServerSocket();
+        listening();
+    }
+
+    /**
+     * validates the nickname received from a client. check if it's already taken
+     * @param socket the client who sent the nickname
+     * @param nickname the username chosen
+     */
+    public synchronized void validateNickname(Socket socket, String nickname)
+    {
+        System.out.println("received nickname " + nickname + " from: " + socket.getInetAddress());
+        if(!usernameMap.containsKey(nickname))
+        {
+            usernameMap.put(nickname,socket);
+            listenerList.get(socket).setUsername(nickname);
+            if(lobbySetupDone)
+                notifyAll();
+
+        }
+        else
+            map.get(socket).nicknameIter(true);
+    }
+
+    private void checkReady()
+    {
+        if(lobbySetupDone && socketList.size()>=playersNumber) {
+            Runnable runnable = () -> {
+                try {
+                    createMatch();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+            Thread t = new Thread(runnable);
+            t.start();
+
+        }
+    }
+
+
+    /**
+     * validate the playersNumber input chosen by the first player
+     * computes boolean value to get the listening cycle work correctly
+     * @param playersNumber the number chosen by the first client
+     */
+    public synchronized void validatePlayerNumber(int playersNumber)
+    {
+        if(playersNumber == 2 || playersNumber == 3)
+        {
+            this.playersNumber = playersNumber;
+            lobbySetupDone = true;
+            checkReady();
+
+        }
+        else
+            socketList.peek().playerNumberIter(true);
     }
 
     /**
@@ -59,17 +119,6 @@ public class Lobby implements Runnable{
         return null;
     }
 
-    private Socket getSocketFromClientHandler(ClientHandler clientHandler)
-    {
-        for(Map.Entry entry : map.entrySet())
-        {
-            if(entry.getValue() == clientHandler)
-                return (Socket)entry.getKey();
-        }
-
-        return null;
-    }
-
     /**
      * takes a disconnection from the client in the setup moment of the game
      * if the socket interested is the first, must repeat setupIter() with another client
@@ -77,8 +126,26 @@ public class Lobby implements Runnable{
      */
     public synchronized void takeSetupDisconnection(Socket socket)
     {
-        if(lobbySetupDone)
-            return;
+
+        if(lobbySetupDone){
+            if(!start && map.get(socket) == socketList.peek())
+            {
+
+                try {
+                    socketList.take();
+                    socket.close();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                listenerList.remove(socket);
+
+                usernameMap.remove(getUsernameFromSocket(socket));
+                map.remove(socket);
+            }
+            else
+                return;
+        }
 
         if(map.get(socket) == socketList.peek())
         {
@@ -97,78 +164,8 @@ public class Lobby implements Runnable{
         }
 
         listenerList.remove(socket);
-
         usernameMap.remove(getUsernameFromSocket(socket));
         map.remove(socket);
-
-        stop = false;
-
-    }
-
-    /**
-     * validates the nickname received from a client. check if it's already taken
-     * @param socket the client who sent the nickname
-     * @param nickname the username chosen
-     */
-    public synchronized void validateNickname(Socket socket, String nickname)
-    {
-        System.out.println("received nickname " + nickname + " from: " + socket.getInetAddress());
-        if(!usernameMap.containsKey(nickname))
-        {
-            usernameMap.put(nickname,socket);
-            listenerList.get(socket).setUsername(nickname);
-            if(map.get(socket) == socketList.peek())
-                notifyAll();
-            if(lobbySetupDone)
-                notifyAll();
-        }
-        else
-            map.get(socket).nicknameIter(true);
-    }
-
-    /**
-     * validate the playersNumber input chosen by the first player
-     * computes boolean value to get the listening cycle work correctly
-     * @param playersNumber the number chosen by the first client
-     */
-    public synchronized void validatePlayerNumber(int playersNumber)
-    {
-        if(playersNumber == 2 || playersNumber == 3)
-        {
-            this.playersNumber = playersNumber;
-            wait = false;
-            lobbySetupDone = true;
-            notifyAll();
-            if(socketList.size() >= playersNumber){
-                stop = true;
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        else
-            socketList.peek().playerNumberIter(true);
-    }
-
-    /**
-     * asks the first client to choose playerNumber
-     * if no client connected it waits
-     */
-    public synchronized void setupIter()
-    {
-        while(socketList.isEmpty())
-        {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        socketList.peek().playerNumberIter(false);
 
     }
 
@@ -177,7 +174,8 @@ public class Lobby implements Runnable{
      * then it fills some data structures and computers boolean for the cycle.
      * @throws IOException
      */
-    private void socketAccept() throws IOException, SocketException {
+    private void  socketAccept() throws IOException {
+
         Socket socket = serverSocket.accept();
         System.out.println("connected to: " + socket.getInetAddress());
         socket.setSoTimeout(20000);
@@ -187,56 +185,55 @@ public class Lobby implements Runnable{
         ClientHandler client = new ClientHandler(obj);
         socketList.add(client);
         map.put(socket,client);
-/**
+
         ClientListener listener = new ClientListener(socket, this);
         listenerList.put(socket,listener);
         Thread thread = new Thread(listener);
-        thread.start();*/
+        thread.start();
 
-        if(socketList.size() >= playersNumber)
+        if(socketList.size() > playersNumber)
         {
-            if(!lobbySetupDone)
-                wait = true;
-            else
-            {
-                stop = true;
-                wait = false;
-            }
-
+            client.playersLimitReachedCanWait();
+            return;
         }
 
+        synchronized (this)
+        {
+            notifyAll();
+        }
+
+        checkReady();
 
     }
 
-    /**
-     * this method accept clients of pauses based on current situation.
-     * if 3 client already connected, it waits
-     * if playersNum isn't received, it waits
-     * it stops when playersNum client are currently connected
-     */
-    private void listening()
+    public void listening()
     {
-        setServerSocket();
-        while(!stop)
+        while(true)
         {
             try {
                 socketAccept();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-                while(wait)
-                {
-                    synchronized (this)
-                    {
-                        wait();
-                    }
-                }
-
-            } catch (IOException | InterruptedException e) {
-                if(e instanceof SocketException)
-                    return;
+    /**
+     * asks the first client to choose playerNumber
+     * if no client connected it waits
+     */
+    public synchronized void setupIter()
+    {
+        if(socketList.isEmpty())
+        {
+            try {
+                wait();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
+        socketList.peek().playerNumberIter(false);
     }
 
     /**
@@ -248,21 +245,15 @@ public class Lobby implements Runnable{
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
      */
-    private void createMatch() throws NoSuchMethodException, InstantiationException, IOException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+    private void createMatch() throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         int diff = socketList.size() - playersNumber;
         if(diff > 0)
         {
             for(int i=0;i<diff;i++)
             {
-                ClientHandler clientHandler = (ClientHandler) socketList.toArray()[playersNumber+i];
-                Socket socket = getSocketFromClientHandler(clientHandler);
-                ((ClientHandler)(socketList.toArray()[playersNumber+i])).lateClientMustDisconnect();
-                listenerList.remove(socket);
-                usernameMap.remove(getUsernameFromSocket(socket));
-                map.remove(socket);
+                ((ClientHandler)(socketList.toArray()[playersNumber+i])).playersLimitReachedCanWait();
             }
         }
-
 
         MatchHandler matchHandler = null;
         try {
@@ -275,24 +266,39 @@ public class Lobby implements Runnable{
         ClientListener.setViewObserver(viewObserver);
 
         System.out.println("Setup routine ended successfully");
-
+        start = true;
         matchHandler.init();
         matchHandler.play();
 
+        rematchMap.clear();
+        start = false;
+        playAgain();
     }
 
-    /**
-     * accept client method
-     */
-    @Override
-    public void run()
-    {
-        listening();
-        try {
-            createMatch();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private synchronized void playAgain() {
+        System.out.println("Rematch setup");
+        while(rematchMap.size() < playersNumber)
+        {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
+        for(Socket socket : rematchMap.keySet())
+        {
+            if(rematchMap.get(socket).equals(false))
+            {
+                socketList.remove(map.get(socket));
+                listenerList.remove(socket);
+                usernameMap.remove(getUsernameFromSocket(socket));
+                map.remove(socket);
+                lobbySetupDone = false;
+            }
+        }
+
+        setupIter();
     }
 
     /**
@@ -339,10 +345,20 @@ public class Lobby implements Runnable{
         return matchHandler;
     }
 
+    public synchronized void fillPlayAgainMap(Socket socket, String choice)
+    {
+        if(choice.equals("yes"))
+            rematchMap.put(socket,true);
+        else
+            rematchMap.put(socket,false);
 
-    public boolean isLobbySetupDone() {
-        return lobbySetupDone;
+        notifyAll();
+
     }
 
+    public boolean isStart()
+    {
+        return start;
+    }
 
 }

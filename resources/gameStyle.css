@@ -1,0 +1,21 @@
+
+GridPane > Button{
+    -fx-background-radius: 3;
+}
+
+.filterOff{
+    -fx-background-color: transparent;
+}
+
+.highlighted{
+    -fx-background-color: yellow;
+    -fx-border-color: black;
+}
+
+.highlighted:hover{
+    -fx-background-color: #fffc32;
+}
+
+.background{
+    -fx-background-color: black;
+}

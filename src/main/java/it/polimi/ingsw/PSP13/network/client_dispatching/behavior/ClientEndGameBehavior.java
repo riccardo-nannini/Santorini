@@ -15,6 +15,9 @@ public class ClientEndGameBehavior extends ClientDispatcherBehavior{
         } else if (endgame.equals("Lose")) {
             input.notifyLose();
         }
+
+        input.playAgain();
+
     }
 
     public ClientEndGameBehavior(Input input)

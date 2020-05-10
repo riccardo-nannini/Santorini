@@ -132,6 +132,8 @@ public abstract class Input {
      */
     public void getEffectDescription(String effect) {}
 
+    public abstract void playAgain();
+
     /**
      * Asks the challenger to choose the starter player
      * @param error true if the previous input generated an error

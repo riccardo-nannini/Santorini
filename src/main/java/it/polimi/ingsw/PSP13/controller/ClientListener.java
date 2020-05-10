@@ -12,9 +12,9 @@ public class ClientListener implements Runnable {
     private String username;
     private final ObjectInputStream input;
     private static ViewObserver viewObserver;
-    private Lobby lobby;
+    private PermaLobby lobby;
 
-    public ClientListener (Socket socket, Lobby lobby) throws IOException {
+    public ClientListener (Socket socket, PermaLobby lobby) throws IOException {
         this.socket = socket;
         this.input = new ObjectInputStream(socket.getInputStream());
         this.lobby = lobby;
@@ -30,7 +30,7 @@ public class ClientListener implements Runnable {
             System.out.println("Connection dropped from " + username);
 
             lobby.takeSetupDisconnection(socket);
-            if(lobby.isLobbySetupDone())
+            if(lobby.isStart())
                 viewObserver.updateDisconnection(username);
         }
     }
@@ -82,8 +82,8 @@ public class ClientListener implements Runnable {
             case 13:
                 if (messageVC.getPlayerNum() != 0) lobby.validatePlayerNumber(messageVC.getPlayerNum());
                 break;
-            case 15:
-                if (messageVC.getString() != null) viewObserver.updateStarter(messageVC.getString());
+            case 16:
+                if (messageVC.getString() != null) lobby.fillPlayAgainMap(socket, messageVC.getString());
                 break;
             default:
                 break;
@@ -98,5 +98,7 @@ public class ClientListener implements Runnable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 
 }

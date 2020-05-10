@@ -1,0 +1,55 @@
+
+Button
+{
+    -fx-padding: 12px 12px;
+    -fx-border-width:2;
+    -fx-border-radius: 16;
+    -fx-font-family: "RobotoCondensed";
+    -fx-font-size: 15px;
+    -fx-cursor: pointer;
+    -fx-background-radius: 16;
+    -fx-font-weight: bold
+}
+
+.textEmpty
+{
+    -fx-background-color: white;
+    -fx-border-color: #b0b0b0;
+}
+
+.textFilled
+{
+    -fx-background-color: #D13639;
+    -fx-border-color: #D13639;
+    -fx-text-fill: white;
+}
+
+Label{
+    -fx-font-family: "RobotoCondensed";
+    -fx-font-weight: Bold;
+}
+
+TextField
+{
+    -fx-font-family: "RobotoCondensed";
+
+    -fx-font-size: 15px;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 0 ;
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}
+
+TextField:focused {
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}
+
+.gradient{
+
+    -fx-background-color: linear-gradient(to top left, #20bf55 0%, #01baef 74%);
+    -fx-background-color: linear-gradient(to top left, #f9ea8f 0%, #aff1da 74%);
+
+    -fx-background-color: linear-gradient(to top left, #fce043 0%, #fb7ba2 74%);/* mio preferito*/
+    -fx-background-color: linear-gradient(to top left, #f9c5d1 30%, #9795ef 74%);/* mio preferito*/
+    -fx-background-color: linear-gradient(to top left, #eec0c6 30%, #7ee8fa 74%);/* mio preferito*/
+
+}

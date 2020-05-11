@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.PSP13.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>4</i>&nbsp;import javafx.event.ActionEvent;
+<i>5</i>&nbsp;import javafx.fxml.FXML;
+<i>6</i>&nbsp;import javafx.fxml.Initializable;
+<i>7</i>&nbsp;import javafx.scene.control.Button;
+<i>8</i>&nbsp;import javafx.scene.control.TableView;
+<i>9</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>10</i>&nbsp;import javafx.scene.layout.Pane;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.net.URL;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.List;
+<i>15</i>&nbsp;import java.util.ResourceBundle;
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;public class Game{</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private GridPane gridBoard;
+<i>21</i>&nbsp;    @FXML
+<i>22</i>&nbsp;    private Pane blackFilter;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private Button selectBuilderBtn;
+<i>25</i>&nbsp;    @FXML
+<i>26</i>&nbsp;    private Button button00;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    private Button button01;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private Button button10;
+<i>31</i>&nbsp;    @FXML
+<i>32</i>&nbsp;    private Button button11;
+<i>33</i>&nbsp;
+<b class="nc"><i>34</i>&nbsp;    private List&lt;Coords&gt; coords = new ArrayList&lt;&gt;();</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void setList()
+<i>37</i>&nbsp;    {
+<b class="nc"><i>38</i>&nbsp;        coords.clear();</b>
+<b class="nc"><i>39</i>&nbsp;        coords.add(new Coords(0,0));</b>
+<b class="nc"><i>40</i>&nbsp;        coords.add(new Coords(0,1));</b>
+<b class="nc"><i>41</i>&nbsp;        coords.add(new Coords(1,0));</b>
+<b class="nc"><i>42</i>&nbsp;        coords.add(new Coords(1,1));</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    public void gridBtnClick(ActionEvent event)
+<i>47</i>&nbsp;    {
+<b class="nc"><i>48</i>&nbsp;        gridBoard.setOpacity(0);</b>
+<b class="nc"><i>49</i>&nbsp;        gridBoard.setDisable(true);</b>
+<b class="nc"><i>50</i>&nbsp;        blackFilter.setOpacity(0);</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @FXML
+<i>54</i>&nbsp;    public void selectBuilder(ActionEvent event)
+<i>55</i>&nbsp;    {
+<b class="nc"><i>56</i>&nbsp;        setList();</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        gridBoard.setOpacity(0.6);</b>
+<b class="nc"><i>59</i>&nbsp;        gridBoard.setDisable(false);</b>
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;        blackFilter.setOpacity(0.4);</b>
+<i>62</i>&nbsp;
+<b class="nc"><i>63</i>&nbsp;        for(Coords coord : coords){</b>
+<b class="nc"><i>64</i>&nbsp;            switch (coord.getX())</b>
+<i>65</i>&nbsp;            {
+<i>66</i>&nbsp;                case 0:
+<i>67</i>&nbsp;                {
+<b class="nc"><i>68</i>&nbsp;                    switch (coord.getY())</b>
+<i>69</i>&nbsp;                    {
+<i>70</i>&nbsp;                        case 0:
+<i>71</i>&nbsp;                         {
+<b class="nc"><i>72</i>&nbsp;                             button00.getStyleClass().clear();</b>
+<b class="nc"><i>73</i>&nbsp;                             button00.getStyleClass().add(&quot;highlighted&quot;);</b>
+<i>74</i>&nbsp;                         }
+<i>75</i>&nbsp;                        case 1:
+<i>76</i>&nbsp;                        {
+<b class="nc"><i>77</i>&nbsp;                            button01.getStyleClass().clear();</b>
+<b class="nc"><i>78</i>&nbsp;                            button01.getStyleClass().add(&quot;highlighted&quot;);</b>
+<i>79</i>&nbsp;                        }
+<i>80</i>&nbsp;                    }
+<i>81</i>&nbsp;                }
+<i>82</i>&nbsp;                case 1:
+<i>83</i>&nbsp;                {
+<b class="nc"><i>84</i>&nbsp;                    switch (coord.getY())</b>
+<i>85</i>&nbsp;                    {
+<i>86</i>&nbsp;                        case 0:
+<i>87</i>&nbsp;                        {
+<b class="nc"><i>88</i>&nbsp;                            button10.getStyleClass().clear();</b>
+<b class="nc"><i>89</i>&nbsp;                            button10.getStyleClass().add(&quot;highlighted&quot;);</b>
+<i>90</i>&nbsp;                        }
+<i>91</i>&nbsp;                        case 1:
+<i>92</i>&nbsp;                        {
+<b class="nc"><i>93</i>&nbsp;                            button11.getStyleClass().clear();</b>
+<b class="nc"><i>94</i>&nbsp;                            button11.getStyleClass().add(&quot;highlighted&quot;);</b>
+<i>95</i>&nbsp;                        }
+<i>96</i>&nbsp;                    }
+<i>97</i>&nbsp;                }
+<i>98</i>&nbsp;            }
+<b class="nc"><i>99</i>&nbsp;        }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-11 21:51</div>
+</div>
+</body>
+</html>

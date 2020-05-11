@@ -82,6 +82,9 @@ public class ClientListener implements Runnable {
             case 13:
                 if (messageVC.getPlayerNum() != 0) lobby.validatePlayerNumber(messageVC.getPlayerNum());
                 break;
+            case 15:
+                if (messageVC.getString() != null) viewObserver.updateStarter(messageVC.getString());
+                break;
             case 16:
                 if (messageVC.getString() != null) lobby.fillPlayAgainMap(socket, messageVC.getString());
                 break;

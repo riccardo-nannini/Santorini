@@ -1,0 +1,117 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Pan</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Pan (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pan</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;
+<i>2</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class Pan extends Turn {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * Sets the effect description
+<i>12</i>&nbsp;     */
+<b class="fc"><i>13</i>&nbsp;    public Pan() {</b>
+<b class="fc"><i>14</i>&nbsp;        effect = &quot;You also win if your Worker moves down two or more levels&quot;;</b>
+<b class="fc"><i>15</i>&nbsp;    }</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Adds to the standard win condition: win also if the builder moves down 2 or more levels
+<i>19</i>&nbsp;     * @param builder builder that was involved in the current turn
+<i>20</i>&nbsp;     * @param precedentPosition position occupied by the builder before moving
+<i>21</i>&nbsp;     * @param currentPosition position currently occupied by the builder
+<i>22</i>&nbsp;     * @return true if the player did win in this turn, false otherwise
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @Override
+<i>26</i>&nbsp;    public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition)
+<i>27</i>&nbsp;    {
+<b class="fc"><i>28</i>&nbsp;        int levelDiff = match.getHeight(precedentPosition) - match.getHeight(currentPosition);</b>
+<b class="fc"><i>29</i>&nbsp;        if (levelDiff &gt;= 2) {</b>
+<b class="fc"><i>30</i>&nbsp;            return true;</b>
+<i>31</i>&nbsp;        }
+<b class="fc"><i>32</i>&nbsp;        return super.checkWin(builder,precedentPosition,currentPosition);</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-11 21:51</div>
+</div>
+</body>
+</html>

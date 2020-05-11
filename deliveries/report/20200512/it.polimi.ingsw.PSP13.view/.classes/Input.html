@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Input</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Input (it.polimi.ingsw.PSP13.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Input</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.immutables.BuilderVM;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.immutables.MapVM;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public abstract class Input {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    protected ObservableToController controller;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public Input(ObservableToController controller)
+<b class="nc"><i>15</i>&nbsp;    {</b>
+<b class="nc"><i>16</i>&nbsp;        this.controller = controller;</b>
+<i>17</i>&nbsp;    }
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * asks the player to choose a builder to move
+<i>21</i>&nbsp;     * @param checkMoveCells a list of cell the builder can move on
+<i>22</i>&nbsp;     * @param error true if the previous input generated an error
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public abstract void moveInput(List&lt;Coords&gt; checkMoveCells, boolean error);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * asks the player to choose a builder and to build a structure
+<i>28</i>&nbsp;     * @param checkBuildCells a list of cell the builder can build on
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public abstract void buildInput(List&lt;Coords&gt; checkBuildCells, boolean error);
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * asks the player to insert a nickname for this match
+<i>34</i>&nbsp;     * @param error true if the previous input generated an error
+<i>35</i>&nbsp;     * @return the player&#39;s nickname
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    public abstract void nicknameInput(boolean error);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * asks the player which god he wants to play with
+<i>41</i>&nbsp;     * @param chosenGods the gods available to be chosen
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public abstract void godInput(List&lt;String&gt; chosenGods, boolean error);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * asks the player the starting position of his builder
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public abstract void builderSetUpInput(boolean callNumber, boolean error);
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * asks the challenger to choose a set of gods for this match
+<i>52</i>&nbsp;     * @param godsList contains the name of all the gods available to choose from
+<i>53</i>&nbsp;     * @param godsNumber the number of gods the challenger has to choose
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public abstract void godSelectionInput(List&lt;String&gt; godsList, int godsNumber, boolean error);
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * asks the player if he wants to activate the effect of his god
+<i>59</i>&nbsp;     * @param god the name of the god related to the effect
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public abstract void effectInput(String god);
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * asks the player to select the builder he has to move
+<i>65</i>&nbsp;     * @param player the player who has to choose
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public abstract void chooseBuilder(String player);
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * asks the player to remove a block on a certain cell
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public abstract void removeBlock(List&lt;Coords&gt; removableBlocks, boolean error);
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    // ------------- UPDATES THE VIEW VIA PARAMETERS OBJECT -------------------
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Update view&#39;s map
+<i>79</i>&nbsp;     * @param mapVM Immutable map sent from the model
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public void updateMap(MapVM mapVM) {}
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * Update view&#39;s builders of the color of BuilerVM
+<i>85</i>&nbsp;     * @param builderVM Immutables couple of builders sent from the model
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    public void updateBuilders(BuilderVM builderVM){}
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    /**
+<i>90</i>&nbsp;     * Notifies the view that &quot;username&quot; won
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    public void notifyWin() {}
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    public void notifyLose() {}
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Updates cliet&#39;s CLI setting clients information (usernames, builders colors and gods)
+<i>98</i>&nbsp;     * @param messageClientsInfoCV contains clients information
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {}
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Informs clients that the challenger is choosing gods
+<i>104</i>&nbsp;     * for the match
+<i>105</i>&nbsp;     * @param challenger username of the challenger
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public void printWaitGodsSelection(String challenger) {}
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Informs clients that player is choosing his god
+<i>111</i>&nbsp;     * @param player player&#39;s username
+<i>112</i>&nbsp;     */
+<i>113</i>&nbsp;    public void printWaitGodSelection(String player) {}
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * Inform client which god the server assigned him
+<i>117</i>&nbsp;     * @param assignedGod name of the assigned god
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    public void printAssignedGod(String assignedGod) {}
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    public abstract void disconnectionMessage();
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    /**
+<i>124</i>&nbsp;     * asks the player to choose the number of players
+<i>125</i>&nbsp;     * for this current match
+<i>126</i>&nbsp;     */
+<i>127</i>&nbsp;    public abstract void choosePlayerNum(boolean error);
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /**
+<i>130</i>&nbsp;     * Saves in MapPrinter the effect description of player&#39;s god
+<i>131</i>&nbsp;     * @param effect description of the effect
+<i>132</i>&nbsp;     */
+<i>133</i>&nbsp;    public void getEffectDescription(String effect) {}
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    public abstract void playAgain();
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    /**
+<i>138</i>&nbsp;     * Asks the challenger to choose the starter player
+<i>139</i>&nbsp;     * @param error true if the previous input generated an error
+<i>140</i>&nbsp;     * @param usernames players&#39; usernames
+<i>141</i>&nbsp;     */
+<i>142</i>&nbsp;    public void starterInput(boolean error, List&lt;String&gt; usernames) {}
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     * Informs clients that the challenger is choosing the starter player
+<i>146</i>&nbsp;     * @param challenger challenger&#39;s username
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;    public void printWaitStarterSelection(String challenger) {}
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-11 21:51</div>
+</div>
+</body>
+</html>

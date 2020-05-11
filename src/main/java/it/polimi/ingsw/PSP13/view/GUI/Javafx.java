@@ -52,7 +52,7 @@ public class Javafx {
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene gameBoard = new Scene(pane);
-        gameBoard.getStylesheets().add("GameStyle.css");
+        gameBoard.getStylesheets().add("gameStyle.css");
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(gameBoard);

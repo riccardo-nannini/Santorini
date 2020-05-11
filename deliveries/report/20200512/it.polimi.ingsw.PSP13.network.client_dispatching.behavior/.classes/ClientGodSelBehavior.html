@@ -1,0 +1,115 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientGodSelBehavior</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.network.client_dispatching.behavior</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientGodSelBehavior (it.polimi.ingsw.PSP13.network.client_dispatching.behavior)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientGodSelBehavior</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.network.client_dispatching.behavior;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.MessageCV;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.view.Input;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class ClientGodSelBehavior extends ClientBuildBehavior {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    @Override
+<i>11</i>&nbsp;    public void behavior(MessageCV messageCV) {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;        int godsNumber = messageCV.getGodsNumber();</b>
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;        if (godsNumber != 0) {</b>
+<b class="nc"><i>17</i>&nbsp;            List&lt;String&gt; godsList = messageCV.getStringList();</b>
+<b class="nc"><i>18</i>&nbsp;            boolean error = messageCV.isError();</b>
+<b class="nc"><i>19</i>&nbsp;            input.godSelectionInput(godsList,godsNumber,error);</b>
+<b class="nc"><i>20</i>&nbsp;        } else {</b>
+<b class="nc"><i>21</i>&nbsp;            String challenger = messageCV.getString();</b>
+<b class="nc"><i>22</i>&nbsp;            input.printWaitGodsSelection(challenger);</b>
+<i>23</i>&nbsp;        }
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public ClientGodSelBehavior(Input input)
+<i>29</i>&nbsp;    {
+<b class="nc"><i>30</i>&nbsp;        super(input);</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-11 21:51</div>
+</div>
+</body>
+</html>

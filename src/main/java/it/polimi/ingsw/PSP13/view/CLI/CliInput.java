@@ -193,6 +193,7 @@ CliInput extends Input {
     @Override
     public void removeBlock(List<Coords> removableBlocks, boolean error)
     {
+        MapPrinter.setWaitOtherClients(false);
         MapPrinter.setHighlightedCells(removableBlocks);
         MapPrinter.printMap();
 
@@ -203,6 +204,7 @@ CliInput extends Input {
         System.out.println("You can remove a block only from the \u001B[33mHIGHLIGHTED CELLS\u001B[0m, type the position in the format \u001B[3mrow,column\u001B[0m:");
         Coords coords = readCoords();
 
+        MapPrinter.setWaitOtherClients(true);
         controller.notifyRemoveInput(coords);
     }
 

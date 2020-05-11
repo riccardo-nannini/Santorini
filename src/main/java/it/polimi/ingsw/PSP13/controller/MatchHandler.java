@@ -67,7 +67,7 @@ public class MatchHandler {
             }
             if (!disconnectedPlayers.isEmpty()) {
                 if (!disconnectedPlayers.contains(challenger.getUsername())) {
-                    while (godsReceived == null) {
+                    while (godsReceived == null && !disconnectedPlayers.contains(challenger.getUsername())) {
                         try {
                             wait();
                         } catch (InterruptedException e) {
@@ -121,7 +121,7 @@ public class MatchHandler {
                     }
                     if (!disconnectedPlayers.isEmpty()) {
                         if (!disconnectedPlayers.contains(player)) {
-                            while (selectedGod == null) {
+                            while (selectedGod == null && !disconnectedPlayers.contains(player)) {
                                 try {
                                     wait();
                                 } catch (InterruptedException e) {
@@ -256,7 +256,7 @@ public class MatchHandler {
                     }
                     if (!disconnectedPlayers.isEmpty()) {
                         if (!disconnectedPlayers.contains(currentPlayer.getUsername())) {
-                            while (coords == null) {
+                            while (coords == null && !disconnectedPlayers.contains(currentPlayer.getUsername())) {
                                 try {
                                     wait();
                                 } catch (InterruptedException e) {
@@ -302,8 +302,7 @@ public class MatchHandler {
             for (int i = 0; i < match.getPlayers().size(); i++) {
                 currentPlayer = players.get(i);
                 if (players.size() < 2) {
-                    virtualView.notifyWin(currentPlayer.getUsername());
-                    endGame = true;
+                    this.notifyWinners(currentPlayer.getUsername());
                     break;
                 }
                 builderPos = turnHandler.getInputBuilder(currentPlayer);
@@ -311,9 +310,7 @@ public class MatchHandler {
                 currentPlayer.start();
                 possibleMoves = currentPlayer.getCellMoves(currentBuilder);
                 if (possibleMoves.isEmpty()) {
-                    virtualView.notifyLose(currentPlayer.getUsername());
-                    match.removeBuilder(currentPlayer);
-                    match.getPlayers().remove(currentPlayer);
+                    this.notifyLoser(currentPlayer);
                     continue;
                 }
                 coords = turnHandler.getInputMove(currentBuilder, possibleMoves);
@@ -324,9 +321,7 @@ public class MatchHandler {
                 }
                 possibleBuilds = currentPlayer.getCellBuilds(currentBuilder);
                 if (possibleBuilds.isEmpty()) {
-                    virtualView.notifyLose(currentPlayer.getUsername());
-                    match.removeBuilder(currentPlayer);
-                    match.getPlayers().remove(currentPlayer);
+                    this.notifyLoser(currentPlayer);
                     continue;
                 }
                 coords = turnHandler.getInputBuild(currentBuilder, possibleBuilds);
@@ -344,10 +339,17 @@ public class MatchHandler {
      * @throws IOException
      */
     public void notifyWinners(String winner) throws IOException {
+        endGame = true;
         virtualView.notifyWin(winner);
         for (Player player : match.getPlayers()) {
             if (!player.getUsername().equals(winner)) virtualView.notifyLose(player.getUsername());
         }
+    }
+
+    public void notifyLoser(Player loser) throws IOException {
+        virtualView.notifyLose(loser.getUsername());
+        match.removeBuilder(loser);
+        match.getPlayers().remove(loser);
     }
 
     public synchronized void setNumPlayers(int numPlayers) {

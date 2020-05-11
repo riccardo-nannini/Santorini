@@ -121,52 +121,26 @@ public class PermaLobby implements Runnable{
 
     /**
      * takes a disconnection from the client in the setup moment of the game
-     * if the socket interested is the first, must repeat setupIter() with another client
+     * if the socket interested is the first, it must repeat setupIter() with another client
      * @param socket the disconnected client
      */
     public synchronized void takeSetupDisconnection(Socket socket)
     {
-
-        if(lobbySetupDone){
-            if(!start && map.get(socket) == socketList.peek())
-            {
-
-                try {
-                    socketList.take();
-                    socket.close();
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                listenerList.remove(socket);
-
-                usernameMap.remove(getUsernameFromSocket(socket));
-                map.remove(socket);
-            }
-            else
-                return;
-        }
-
-        if(map.get(socket) == socketList.peek())
-        {
-            try {
-                socketList.take();
-                setupIter();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
+        boolean isFirst = map.get(socket) == socketList.peek();
+        socketList.remove(map.get(socket));
+        listenerList.remove(socket);
+        usernameMap.remove(getUsernameFromSocket(socket));
+        map.remove(socket);
         try {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        listenerList.remove(socket);
-        usernameMap.remove(getUsernameFromSocket(socket));
-        map.remove(socket);
-
+        if(isFirst && !lobbySetupDone)
+        {
+            setupIter();
+        }
     }
 
     /**
@@ -267,9 +241,15 @@ public class PermaLobby implements Runnable{
 
         System.out.println("Setup routine ended successfully");
         start = true;
-        matchHandler.init();
-        matchHandler.play();
 
+        try {
+            matchHandler.init();
+            matchHandler.play();
+        } catch (IOException e) {
+            System.out.println("A client disconnected during the game");
+            System.exit(1);
+            //TODO riaprire le lobby piuttosto che chiudere il server dopo una disconnessione in partita
+        }
         rematchMap.clear();
         start = false;
         playAgain();
@@ -347,7 +327,7 @@ public class PermaLobby implements Runnable{
 
     public synchronized void fillPlayAgainMap(Socket socket, String choice)
     {
-        if(choice.equals("yes"))
+        if(choice.equals("yes") || choice.equals("y"))
             rematchMap.put(socket,true);
         else
             rematchMap.put(socket,false);

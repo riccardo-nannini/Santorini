@@ -41,7 +41,7 @@ public class TurnHandler {
                 }
                 if (!disconnectedPlayers.isEmpty()) {
                     if (!disconnectedPlayers.contains(player.getUsername())) {
-                        while (builderPos == null) {
+                        while (builderPos == null && !disconnectedPlayers.contains(player.getUsername())) {
                             try {
                                 wait();
                             } catch (InterruptedException e) {
@@ -82,7 +82,7 @@ public class TurnHandler {
             }
             if (!disconnectedPlayers.isEmpty()) {
                 if (!disconnectedPlayers.contains(username)) {
-                    while (moveCoords == null) {
+                    while (moveCoords == null && !disconnectedPlayers.contains(username)) {
                         try {
                             wait();
                         } catch (InterruptedException e) {
@@ -116,7 +116,7 @@ public class TurnHandler {
             }
             if (!disconnectedPlayers.isEmpty()) {
                 if (!disconnectedPlayers.contains(username)) {
-                    while (buildCoords == null) {
+                    while (buildCoords == null && !disconnectedPlayers.contains(username)) {
                         try {
                             wait();
                         } catch (InterruptedException e) {
@@ -147,7 +147,7 @@ public class TurnHandler {
             }
             if (!disconnectedPlayers.isEmpty()) {
                 if (!disconnectedPlayers.contains(player)) {
-                    while (useEffect == null) {
+                    while (useEffect == null && !disconnectedPlayers.contains(player)) {
                         try {
                             wait();
                         } catch (InterruptedException e) {
@@ -180,7 +180,7 @@ public class TurnHandler {
             }
             if (!disconnectedPlayers.isEmpty()) {
                 if (!disconnectedPlayers.contains(username)) {
-                    while (removeCoords == null) {
+                    while (removeCoords == null && !disconnectedPlayers.contains(username)) {
                         try {
                             wait();
                         } catch (InterruptedException e) {

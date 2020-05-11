@@ -46,7 +46,7 @@ public class ClientListener implements Runnable {
             System.out.println("Invalid stream from client " + username);
         }
     }
-
+    //TODO sostituire switch con classi bevavoiural come nel client per estendibilità
     private void dispatcher(Object message) {
         if (! (message instanceof MessageVC)) return;
         MessageVC messageVC = (MessageVC) message;

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP13.controller;
 
-import it.polimi.ingsw.PSP13.network.client_callback.MessageVC;
+import it.polimi.ingsw.PSP13.network.MessageID;
+import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,44 +49,44 @@ public class ClientListener implements Runnable {
     }
     //TODO sostituire switch con classi bevavoiural come nel client per estendibilità
     private void dispatcher(Object message) {
-        if (! (message instanceof MessageVC)) return;
-        MessageVC messageVC = (MessageVC) message;
-        int id = messageVC.getId();
+        if (! (message instanceof MessageFromViewToController)) return;
+        MessageFromViewToController messageVC = (MessageFromViewToController) message;
+        MessageID id = messageVC.getMessageID();
         switch (id) {
-            case 0:
+            case move:
                 if (messageVC.getCoords() != null) viewObserver.updateMoveInput(messageVC.getCoords());
                 break;
-            case 1:
+            case build:
                 if (messageVC.getCoords() != null) viewObserver.updateBuildInput(messageVC.getCoords());
                 break;
-            case 2:
+            case processNickname:
                 if (messageVC.getString() != null) lobby.validateNickname(socket,messageVC.getString());
                 break;
-            case 3:
+            case processGodChoice:
                 if (messageVC.getString() != null) viewObserver.updateGod(messageVC.getString());
                 break;
-            case 4:
+            case builderSetupPhase:
                 if (messageVC.getCoords() != null) viewObserver.updateSetupBuilder(messageVC.getCoords());
                 break;
-            case 5:
+            case processGodsSelection:
                 if (messageVC.getString() != null) viewObserver.updateGodSelection(messageVC.getString());
                 break;
-            case 6:
+            case useEffect:
                 if (messageVC.getString() != null) viewObserver.updateEffect(messageVC.getString());
                 break;
-            case 7:
+            case selectBuilder:
                 if (messageVC.getCoords() != null) viewObserver.updateBuilderChoice(messageVC.getCoords());
                 break;
-            case 8:
+            case removeBlock:
                 if (messageVC.getCoords() != null) viewObserver.updateRemoveInput(messageVC.getCoords());
                 break;
-            case 13:
+            case processPlayersNumber:
                 if (messageVC.getPlayerNum() != 0) lobby.validatePlayerNumber(messageVC.getPlayerNum());
                 break;
-            case 15:
+            case updateStarter:
                 if (messageVC.getString() != null) viewObserver.updateStarter(messageVC.getString());
                 break;
-            case 16:
+            case rematch:
                 if (messageVC.getString() != null) lobby.fillPlayAgainMap(socket, messageVC.getString());
                 break;
             default:

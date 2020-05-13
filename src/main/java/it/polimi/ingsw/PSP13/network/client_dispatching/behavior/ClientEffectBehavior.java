@@ -1,12 +1,12 @@
 package it.polimi.ingsw.PSP13.network.client_dispatching.behavior;
 
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageFromControllerToView;
 import it.polimi.ingsw.PSP13.view.Input;
 
 public class ClientEffectBehavior extends ClientBuildBehavior {
 
     @Override
-    public void behavior(MessageCV messageCV) {
+    public void behavior(MessageFromControllerToView messageCV) {
         String god = messageCV.getString();
 
         input.effectInput(god);

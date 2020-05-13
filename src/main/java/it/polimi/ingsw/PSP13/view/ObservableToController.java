@@ -1,11 +1,9 @@
 package it.polimi.ingsw.PSP13.view;
 
-import it.polimi.ingsw.PSP13.controller.ViewObserver;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.MessageID;
 import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
-import it.polimi.ingsw.PSP13.network.client_callback.MessageVC;
-
-import java.util.List;
+import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController;
 
 public class ObservableToController {
 
@@ -25,7 +23,7 @@ public class ObservableToController {
      */
     public void notifyNickname(String nickname)
     {
-        MessageVC msg = new MessageVC(2, nickname, null,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.processNickname, nickname, null,0);
         callback.send(msg);
     }
 
@@ -35,7 +33,7 @@ public class ObservableToController {
      */
     public void notifyGodSelection(String gods)
     {
-        MessageVC msg = new MessageVC(5, gods, null,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.processGodsSelection, gods, null,0);
         callback.send(msg);
     }
 
@@ -45,7 +43,7 @@ public class ObservableToController {
      */
     public void notifyGod(String god)
     {
-        MessageVC msg = new MessageVC(3, god, null,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.processGodChoice, god, null,0);
         callback.send(msg);
     }
 
@@ -56,7 +54,7 @@ public class ObservableToController {
     public void notifySetupBuilder(Coords builder)
     {
 
-        MessageVC msg = new MessageVC(4, null, builder,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.builderSetupPhase, null, builder,0);
         callback.send(msg);
     }
 
@@ -66,7 +64,7 @@ public class ObservableToController {
      */
     public void notifyBuilderChoice(Coords builder)
     {
-        MessageVC msg = new MessageVC(7, null, builder,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.selectBuilder, null, builder,0);
         callback.send(msg);
     }
 
@@ -76,7 +74,7 @@ public class ObservableToController {
      */
     public void notifyMoveInput(Coords cellToMoveOn)
     {
-        MessageVC msg = new MessageVC(0, null, cellToMoveOn,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.move, null, cellToMoveOn,0);
         callback.send(msg);
     }
 
@@ -86,7 +84,7 @@ public class ObservableToController {
      */
     public void notifyBuildInput(Coords cellToBuildOn)
     {
-        MessageVC msg = new MessageVC(1, null, cellToBuildOn,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.build, null, cellToBuildOn,0);
         callback.send(msg);
     }
 
@@ -96,7 +94,7 @@ public class ObservableToController {
      */
     public void notifyEffect(String effect)
     {
-        MessageVC msg = new MessageVC(6, effect, null,0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.useEffect, effect, null,0);
         callback.send(msg);
     }
 
@@ -106,13 +104,13 @@ public class ObservableToController {
      */
     public void notifyRemoveInput(Coords cellToRemoveBlock)
     {
-        MessageVC msg = new MessageVC(8, null, cellToRemoveBlock, 0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.removeBlock, null, cellToRemoveBlock, 0);
         callback.send(msg);
     }
 
     public void notifyPlayersNumber(int number)
     {
-        MessageVC msg = new MessageVC(13,null,null, number);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.processPlayersNumber,null,null, number);
         callback.send(msg);
     }
 
@@ -121,7 +119,7 @@ public class ObservableToController {
      * @param starter username of the selected starter player
      */
     public void notifyStarterSelection(String starter) {
-        MessageVC msg = new MessageVC(15, starter, null, 0);
+        MessageFromViewToController msg = new MessageFromViewToController(MessageID.updateStarter, starter, null, 0);
         callback.send(msg);
     }
 
@@ -129,12 +127,12 @@ public class ObservableToController {
     public void notifyPlayAgain(String playAgain)
     {
         System.out.println(playAgain);
-        MessageVC msg = null;
+        MessageFromViewToController msg = null;
         if(playAgain.equals("yes") || playAgain.equals("y")){
-            msg = new MessageVC(16,"yes",null,0);
+            msg = new MessageFromViewToController(MessageID.rematch,"yes",null,0);
         }
         else if(playAgain.equals("no") || playAgain.equals("n")){
-            msg = new MessageVC(16,"no",null,0);
+            msg = new MessageFromViewToController(MessageID.rematch,"no",null,0);
         }
 
         callback.send(msg);

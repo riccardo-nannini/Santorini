@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP13.network.client_callback;
 
+import it.polimi.ingsw.PSP13.network.MessageID;
+
 public class HearthBeat implements Runnable {
 
     private ControllerCallback callback;
@@ -15,7 +17,7 @@ public class HearthBeat implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            MessageVC ping = new MessageVC(9, null, null,0);
+            MessageFromViewToController ping = new MessageFromViewToController(MessageID.gameOver, null, null,0);
             callback.send(ping);
         }
     }

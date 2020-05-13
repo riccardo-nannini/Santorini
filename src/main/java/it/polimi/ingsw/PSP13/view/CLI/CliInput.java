@@ -3,25 +3,44 @@ package it.polimi.ingsw.PSP13.view.CLI;
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
+import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
+import it.polimi.ingsw.PSP13.view.GUI.GuiInput;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class
-CliInput extends Input {
+public class CliInput extends Input {
 
     private Scanner scanner;
     private String input;
     private MapPrinter mapPrinter;
 
-    public CliInput(ObservableToController controller) {
-        super(controller);
+    public CliInput() {
         scanner = new Scanner(System.in);
         mapPrinter = new MapPrinter();
+    }
+
+    @Override
+    public void setup()
+    {
+        System.out.println("Type the ip address of the \u001B[1mSERVER\u001B[0m:");
+        String server = scanner.nextLine();
+        try {
+            connectToServer(server);
+        } catch (IOException e) {
+
+            System.out.println("\u001B[31mCannot establish a connection, you may be offline! (Or the server could... \uD83E\uDD14 )\u001b[0m");
+            setup();
+        }
+        nicknameInput(false);
     }
 
     @Override
@@ -33,6 +52,8 @@ CliInput extends Input {
             System.out.println("\u001B[31mThe nickname you have chosen is not available for this match, please insert another nickname:\u001b[0m");
         input = scanner.nextLine();
         super.controller.notifyNickname(input);
+        if(!first)
+            lobbyWait();
     }
 
 
@@ -259,7 +280,7 @@ CliInput extends Input {
     {
         if(error)
             System.out.println("\u001B[31mThere was an ERROR with your last selection\u001b[0m");
-        System.out.println("insert the number of players for this match:");
+        System.out.println("Insert the number of players for this match:");
         String string = scanner.nextLine();
 
         while(!getInteger(string))
@@ -326,6 +347,14 @@ CliInput extends Input {
 
         controller.notifyPlayAgain(input.toLowerCase());
     }
+
+    public void lobbyWait()
+    {
+        System.out.println("Please wait until a match is found...");
+    }
+
+
+
 
 
 }

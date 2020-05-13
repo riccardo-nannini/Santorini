@@ -18,6 +18,7 @@
                <font>
                   <Font name="Roboto" size="1.0" />
                </font></Button>
+            <Label fx:id="errorLabel" layoutX="18.0" layoutY="315.0" prefHeight="49.0" prefWidth="197.0" styleClass="error" visible="false" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="slide" prefHeight="400.0" prefWidth="230.0" visible="false">
@@ -28,6 +29,19 @@
                   <Font size="17.0" />
                </font></Label>
             <TextField id="nicknameText" fx:id="nicknameText" layoutX="22.0" layoutY="153.0" onInputMethodTextChanged="#textCheckNickname" onKeyTyped="#textCheckNickname" />
+            <Label fx:id="nicknameError" layoutX="18.0" layoutY="315.0" prefHeight="49.0" prefWidth="197.0" styleClass="error" visible="false" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="slide1" prefHeight="400.0" prefWidth="230.0" visible="false">
+         <children>
+            <Spinner fx:id="spinner" layoutX="40.0" layoutY="170.0" />
+            <Button id="okSlide" fx:id="okFirst" disable="true" layoutX="126.0" layoutY="222.0" mnemonicParsing="false" onAction="#sendPnumber" styleClass="textEmpty" text="OK" textFill="#b0b0b0" />
+            <Label layoutX="14.0" layoutY="121.0" styleClass="prova" text="Choose the player number">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="waitLabel" layoutX="18.0" layoutY="315.0" prefHeight="49.0" prefWidth="197.0" styleClass="error" visible="false" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="back" layoutX="231.0" prefHeight="400.0" prefWidth="410.0" styleClass="gradient">

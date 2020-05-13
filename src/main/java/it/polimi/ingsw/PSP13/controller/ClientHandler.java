@@ -1,10 +1,10 @@
 package it.polimi.ingsw.PSP13.controller;
 
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageCV;
+import it.polimi.ingsw.PSP13.network.MessageID;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageFromControllerToView;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class ClientHandler {
 
@@ -20,8 +20,7 @@ public class ClientHandler {
      */
     public void nicknameIter(boolean error)
     {
-        MessageCV msg = new MessageCV(2);
-        msg.setError(error);
+        MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processNickname, error);
         try {
             out.writeObject(msg);
         } catch (IOException e) {
@@ -35,8 +34,7 @@ public class ClientHandler {
      */
     public void playerNumberIter(boolean error)
     {
-        MessageCV msg = new MessageCV(13);
-        msg.setError(error);
+        MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processPlayersNumber, error);
         try {
             out.writeObject(msg);
         } catch (IOException e) {
@@ -50,7 +48,7 @@ public class ClientHandler {
      */
     public void lateClientMustDisconnect()
     {
-        MessageCV msg = new MessageCV(14);
+        MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.lobbyFull, false);
         try {
             out.writeObject(msg);
         } catch (IOException e) {
@@ -64,7 +62,7 @@ public class ClientHandler {
      */
     public void playersLimitReachedCanWait()
     {
-        MessageCV msg = new MessageCV(16);
+        MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.lobbyFull, false);
         try {
             out.writeObject(msg);
         } catch (IOException e) {

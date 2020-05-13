@@ -29,6 +29,10 @@ Label{
     -fx-font-weight: Bold;
 }
 
+.error{
+    -fx-text-fill: #D13639;
+}
+
 TextField
 {
     -fx-font-family: "RobotoCondensed";

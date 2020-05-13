@@ -8,7 +8,9 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -39,6 +41,17 @@ public class PermaLobby implements Runnable{
             System.exit(1);
             return;
         }
+    }
+
+    private Socket getSocketFromClientHandler(ClientHandler clientHandler)
+    {
+        for(Map.Entry entry : map.entrySet())
+        {
+            if(entry.getValue() == clientHandler)
+                return (Socket)entry.getKey();
+        }
+
+        return null;
     }
 
     @Override
@@ -126,6 +139,9 @@ public class PermaLobby implements Runnable{
      */
     public synchronized void takeSetupDisconnection(Socket socket)
     {
+        if(start)
+            return;
+
         boolean isFirst = map.get(socket) == socketList.peek();
         socketList.remove(map.get(socket));
         listenerList.remove(socket);
@@ -247,8 +263,8 @@ public class PermaLobby implements Runnable{
             matchHandler.play();
         } catch (IOException e) {
             System.out.println("A client disconnected during the game");
-            System.exit(1);
-            //TODO riaprire le lobby piuttosto che chiudere il server dopo una disconnessione in partita
+            checkReady();
+            return;
         }
         rematchMap.clear();
         start = false;
@@ -298,10 +314,18 @@ public class PermaLobby implements Runnable{
             }
         }
 
+        List<String> usernames = new ArrayList<>(usernameMap.keySet());
+        int diff = socketList.size() - playersNumber;
+        for(int i=0;i<diff;i++)
+        {
+            Socket socket = getSocketFromClientHandler(((ClientHandler)(socketList.toArray()[playersNumber+i])));
+            usernames.remove(getUsernameFromSocket(socket));
+        }
+
         HashMap<String, Color> result = new HashMap<>();
         Color[] colors = Color.values();
         int i=0;
-        for(String nickname : usernameMap.keySet())
+        for(String nickname : usernames)
         {
             Color color = colors[i];
             i++;

@@ -3,17 +3,36 @@ package it.polimi.ingsw.PSP13.view;
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
+import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
+
+import static it.polimi.ingsw.PSP13.network.Client.PORT;
 
 public abstract class Input {
 
     protected ObservableToController controller;
+    protected boolean first = false;
+    protected Socket socket;
 
-    public Input(ObservableToController controller)
-    {
-        this.controller = controller;
+    public void setup(){};
+
+    public void connectToServer(String serverIp) throws IOException{
+
+        socket = new Socket(serverIp, PORT);
+
+        ControllerCallback callback = new ControllerCallback(socket);
+        controller = new ObservableToController(callback);
+        UpdateListener updateListener = new UpdateListener(socket, this);
+        new Thread(new HearthBeat(callback)).start();
+        Thread thread = new Thread(updateListener, "listener");
+        thread.start();
     }
 
     /**
@@ -146,5 +165,18 @@ public abstract class Input {
      * @param challenger challenger's username
      */
     public void printWaitStarterSelection(String challenger) {}
+
+
+    public abstract void lobbyWait();
+
+
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+
+    public boolean isFirst() {
+        return first;
+    }
+
 
 }

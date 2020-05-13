@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 
 public class Game{
 
+    private GuiInput guiInput;
+
     @FXML
     private GridPane gridBoard;
     @FXML
@@ -99,5 +101,11 @@ public class Game{
         }
 
     }
+
+
+    protected void setGuiInput(GuiInput guiInput) {
+        this.guiInput = guiInput;
+    }
+
 
 }

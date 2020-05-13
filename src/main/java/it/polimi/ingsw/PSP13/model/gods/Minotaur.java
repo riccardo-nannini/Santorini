@@ -77,11 +77,11 @@ public class Minotaur extends Turn {
                     return false;
                 if (match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))
                     return false;
-                if(match.getCell(minotaurForce(builder,coords)).getDome())
+                if(match.isOccupied(minotaurForce(builder,coords)))
                     return false;
             }
-            int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
-            return match.getAdjacent(builder.getCoords()).contains(coords) && diff <= 1;
+
+            return match.getAdjacent(builder.getCoords()).contains(coords);
         }
     }
 }

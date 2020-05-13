@@ -4,7 +4,8 @@ import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageCV;
+import it.polimi.ingsw.PSP13.network.MessageID;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageFromControllerToView;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 
 
@@ -13,8 +14,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VirtualView {
 
@@ -81,10 +80,9 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void moveInput(String player, List<Coords> checkMoveCells, boolean error) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(0);
-        message.setCoordsList(checkMoveCells);
-        message.setError(error);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.move,error,null,checkMoveCells,null,false,-1);
+
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -101,10 +99,8 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void buildInput(String player, List<Coords> checkBuildCells, boolean error) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(1);
-        message.setCoordsList(checkBuildCells);
-        message.setError(error);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.build,error,null,checkBuildCells,null,false,-1);
         try{
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -125,10 +121,9 @@ public class VirtualView {
      */
     public void godInput(String player, List<String> chosenGods, boolean error) throws IOException {
 
-        MessageCV message = new MessageCV();
-        message.setId(3);
-        message.setStringList(chosenGods);
-        message.setError(error);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.processGodChoice,error,null,null,chosenGods,false,-1);
+
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -136,11 +131,10 @@ public class VirtualView {
         }
 
         if (chosenGods.size() > 1) {
-            MessageCV messageOpponents = new MessageCV();
-            messageOpponents.setId(3);
-            messageOpponents.setString(player);
+            MessageFromControllerToView messageOpponents;
             List<String> emptyList = new ArrayList<>();
-            messageOpponents.setStringList(emptyList);
+            messageOpponents =
+                    new MessageFromControllerToView(MessageID.processGodChoice,false,player,null,emptyList,false,-1);
             for (ObjectOutputStream output : outputMap.values()) {
                 if (!output.equals(outputMap.get(player))) {
                     try{
@@ -162,10 +156,9 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void builderSetUpInput(String player, boolean callNumber, boolean error) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(4);
-        message.setCallNumber(callNumber);
-        message.setError(error);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.builderSetupPhase,error,null,null,null,callNumber,-1);
+
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -185,21 +178,16 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void godSelectionInput(String challenger, List<String> godsList, int godsNumber, boolean error) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(5);
-        message.setStringList(godsList);
-        message.setGodsNumber(godsNumber);
-        message.setError(error);
+        MessageFromControllerToView message = new MessageFromControllerToView(MessageID.processGodsSelection,error,null,null,godsList,false,godsNumber);
         try {
             outputMap.get(challenger).writeObject(message);
         } catch (IOException e) {
             notifyDisconnection();
         }
 
-        MessageCV messageOpponents = new MessageCV();
-        messageOpponents.setId(5);
-        messageOpponents.setGodsNumber(0);
-        messageOpponents.setString(challenger);
+        MessageFromControllerToView messageOpponents =
+                new MessageFromControllerToView(MessageID.processGodsSelection,false,challenger,null,null,false,0);
+
         for(ObjectOutputStream output : outputMap.values()) {
             if (!output.equals(outputMap.get(challenger))) {
                 try {
@@ -219,9 +207,8 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void effectInput(String player, String god) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(6);
-        message.setString(god);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.useEffect,false,god,null,null,false,-1);
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -236,9 +223,7 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void chooseBuilder(String player) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setString(player);
-        message.setId(7);
+        MessageFromControllerToView message = new MessageFromControllerToView(MessageID.selectBuilder,false,player,null,null,false,-1);
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -255,10 +240,8 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void removeBlock(String player, List<Coords> removableBlocks, boolean error) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(8);
-        message.setCoordsList(removableBlocks);
-        message.setError(error);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.removeBlock,error,null,removableBlocks,null,false,-1);
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e) {
@@ -267,9 +250,9 @@ public class VirtualView {
     }
 
     public void notifyWin(String username) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(9);
-        message.setString("Win");
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.gameOver,false,"Win",null,null,false,-1);
+
         try {
             outputMap.get(username).writeObject(message);
         } catch (IOException e) {
@@ -279,9 +262,8 @@ public class VirtualView {
 
     public void notifyLose(String username) throws IOException {
         this.removePlayer(username);
-        MessageCV message = new MessageCV();
-        message.setId(9);
-        message.setString("Lose");
+        MessageFromControllerToView message = new MessageFromControllerToView(MessageID.gameOver,false,"Lose",null,null,false,-1);
+
         try {
             outputMap.get(username).writeObject(message);
         } catch (IOException e) {
@@ -350,9 +332,8 @@ public class VirtualView {
      * @param effect a String containing the effect description
      */
     public void sendGodEffectDescription(String player, String effect) throws IOException {
-        MessageCV message = new MessageCV();
-        message.setId(11);
-        message.setString(effect);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.effectDescription,false,effect,null,null,false,-1);
         try {
             outputMap.get(player).writeObject(message);
         } catch (IOException e){
@@ -363,8 +344,7 @@ public class VirtualView {
     public void notifyDisconnection() throws IOException {
         int i = 1;
         for(ObjectOutputStream output : outputMap.values()) {
-            MessageCV message = new MessageCV();
-            message.setId(10);
+            MessageFromControllerToView message = new MessageFromControllerToView(MessageID.disconnection,false);
             try {
                 output.writeObject(message);
                 output.close();
@@ -385,21 +365,15 @@ public class VirtualView {
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void starterInput(String challenger, boolean error)  throws IOException {
-        MessageCV message = new MessageCV();
-        message.setStringList(new ArrayList<>(outputMap.keySet()));
-        message.setId(12);
-        message.setError(error);
-        message.setString(null);
+        MessageFromControllerToView message =
+                new MessageFromControllerToView(MessageID.clientStarter,error,null,null,new ArrayList<String>(outputMap.keySet()),false,-1);
         try {
             outputMap.get(challenger).writeObject(message);
         } catch (IOException e){
             notifyDisconnection();
         }
 
-        MessageCV messageOpponents = new MessageCV();
-        messageOpponents.setId(12);
-        messageOpponents.setError(error);
-        messageOpponents.setString(challenger);
+        MessageFromControllerToView messageOpponents = new MessageFromControllerToView(MessageID.clientStarter,error,challenger,null,null,false,-1);
         for(ObjectOutputStream output : outputMap.values()) {
             if (!output.equals(outputMap.get(challenger))) {
                 try {

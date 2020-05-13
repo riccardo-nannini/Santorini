@@ -47,8 +47,8 @@ public class UpdateListener implements Runnable{
 
     private void dispatch(Object obj)
     {
-        if(obj instanceof MessageCV)
-            dispatcher.dispatch((MessageCV)obj);
+        if(obj instanceof MessageFromControllerToView)
+            dispatcher.dispatch((MessageFromControllerToView)obj);
         else
         {
             if(obj instanceof BuilderVM)

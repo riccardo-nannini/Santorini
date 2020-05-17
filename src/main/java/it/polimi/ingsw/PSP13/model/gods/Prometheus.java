@@ -18,8 +18,9 @@ public class Prometheus extends Turn {
     public Prometheus() {
         usedEffect = false;
         effect = " If your Worker does not move up, it may build both before and after moving" +
-                "\nATTENTION: if you decide to use the effect, first of all you will be asked to insert where you you want to move" +
-                "\nand if the movement respects prometheus effect you will be asked to insert the coordinates of the before-moving build";
+                "\n\u001B[1mATTENTION\u001B[0m: if you decide to use the effect, \u001B[1mFIRST\u001B[0m of all you will be asked to insert \u001B[1mWHERE YOU WANT TO MOVE\u001B[0m" +
+                "\nand \u001B[1mTHEN\u001B[0m you will be asked to insert the coordinates of \u001B[1mTHE BEFORE-MOVING BUILD\u001B[0m that will be done only if it " +
+                "respects Prometheus effect";
     }
 
 
@@ -43,8 +44,8 @@ public class Prometheus extends Turn {
             if (!possibleBuilds.isEmpty()) {
                 Coords firstBuildCoords = turnHandler.getInputBuild(builder,possibleBuilds);
                 int heightFirstBuild = match.getHeight(firstBuildCoords);
-                int heightMove = match.getHeight(coords);
-                if (!(coords.equals(firstBuildCoords) && (heightFirstBuild == 3 || heightFirstBuild == heightMove))) {
+                int heightBuilder = match.getHeight(builder.getCoords());
+                if (!(coords.equals(firstBuildCoords) && (heightFirstBuild == 3 || heightFirstBuild == heightBuilder))) {
                     build(builder, firstBuildCoords);
                 }
             } else usedEffect = false;
@@ -62,7 +63,7 @@ public class Prometheus extends Turn {
      */
     @Override
     public boolean checkMove(Builder builder, Coords coords) {
-        if (checkUseEffect(builder,coords)) {
+        if (checkUseEffect(builder)) {
             if (usedEffect) {
                 if (!Map.isLegal(coords)) {
                     throw new IllegalArgumentException();
@@ -78,11 +79,9 @@ public class Prometheus extends Turn {
 
     /**
      * @param builder moving builder
-     * @param coords coords the builder wants to move to
-     * @return true if there's a free cell near the builder with a height <= the height of the cell
-     * it wants to move to
+     * @return true if there's a free cell near the builder with a height <= the height of builder's cell
      */
-    public boolean checkUseEffect(Builder builder, Coords coords) {
+    public boolean checkUseEffect(Builder builder) {
         for (Coords adjacentCoords : match.getAdjacent(builder.getCoords())) {
             if (!match.isOccupied(adjacentCoords) && match.getHeight(adjacentCoords) <= match.getHeight(builder.getCoords())) {
                 return true;

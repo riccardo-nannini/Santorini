@@ -56,7 +56,6 @@ public class Game{
     public void selectBuilder(ActionEvent event)
     {
         setList();
-
         gridBoard.setOpacity(0.6);
         gridBoard.setDisable(false);
 

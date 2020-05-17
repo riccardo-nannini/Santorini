@@ -131,7 +131,6 @@ public class Turn {
         return false;
     }
 
-
     /**
      * Method that manages tasks at the end of the turn.
      */

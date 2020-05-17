@@ -35,7 +35,7 @@ public class PermaLobby implements Runnable{
     private void setServerSocket()
     {
         try {
-            serverSocket = new ServerSocket(Server2.PORT);
+            serverSocket = new ServerSocket(Server.PORT);
         } catch (IOException e) {
             System.out.println("cannot open server socket");
             System.exit(1);

@@ -9,7 +9,8 @@ import java.util.List;
 
 public class GuiInput extends Input {
 
-    private Javafx loginController;
+    private Lobby loginController;
+    private GodSelectionGUI godSelection = null;
 
 
     @Override
@@ -48,9 +49,9 @@ public class GuiInput extends Input {
 
     @Override
     public void godSelectionInput(List<String> godsList, int godsNumber, boolean error) {
-        Platform.runLater(()->{
+        Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
             try {
-                loginController.sceneChange();
+                loginController.sceneChangeGodSelection(godsList, godsNumber);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -100,13 +101,14 @@ public class GuiInput extends Input {
 
     @Override
     public void printWaitGodsSelection(String challenger) {
-        Platform.runLater(()->{
+
+        /*Platform.runLater(()->{
             try {
                 loginController.sceneChange();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        });*/
 
     }
 
@@ -125,8 +127,12 @@ public class GuiInput extends Input {
 
     }
 
-    public void setLoginController(Javafx loginController) {
+    public void setLoginController(Lobby loginController) {
         this.loginController = loginController;
+    }
+
+    public void setGodSelection(GodSelectionGUI godSelection) {
+        this.godSelection = godSelection;
     }
 
     public ObservableToController getController()

@@ -31,7 +31,7 @@ public class Client {
             answer = scanner.nextLine();
         }
 
-        if(answer.equals("cli")){
+        if(answer.toLowerCase().equals("cli")){
             input = new CliInput();
         }
         else {

@@ -18,11 +18,11 @@ public class Main extends Application {
         Font.loadFont( Main.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/javafx.fxml"));
+        loader.setLocation(new URL("file:./resources/lobby.fxml"));
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene scene = new Scene(pane);
-        scene.getStylesheets().add("style.css");
+        scene.getStylesheets().add("lobby.css");
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Santorini");

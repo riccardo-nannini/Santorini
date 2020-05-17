@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP13.model.gods;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,7 +29,8 @@ public class Artemis extends Turn {
         Coords startedCoords = builder.getCoords();
         super.move(builder, coords);
         if (checkWin(builder,startedCoords,coords)) return;
-        List<Coords> possibleMoves = getCellMoves(builder);
+        Player player = match.getPlayerByBuilder(builder);
+        List<Coords> possibleMoves = player.getCellMoves(builder);
         possibleMoves.remove(startedCoords);
         if (!possibleMoves.isEmpty()) {
             boolean useEffect = turnHandler.getInputUseEffect(match.getPlayerByBuilder(builder).getUsername(), "Artemis");

@@ -8,10 +8,12 @@ public class Server {
 
         System.out.println("Server online.");
 
-        Lobby lobby = new Lobby();
-        Thread thread = new Thread(lobby);
-        thread.start();
+        PermaLobby lobby = new PermaLobby();
+        Thread threadListening = new Thread(lobby);
+        threadListening.start();
 
         lobby.setupIter();
+
     }
+
 }

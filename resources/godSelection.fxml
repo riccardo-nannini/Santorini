@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.GodSelectionGUI">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="false">
+         <image>
+            <Image url="@background.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="481.0" fitWidth="215.0" layoutX="933.0" layoutY="375.0" pickOnBounds="true" preserveRatio="false" rotate="90.0">
+         <image>
+            <Image url="@background_2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="187.0" fitWidth="357.0" layoutX="863.0" layoutY="516.0" pickOnBounds="true" preserveRatio="false">
+         <image>
+            <Image url="@bg_panelMid.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="526.0" fitWidth="486.0" layoutX="800.0" pickOnBounds="true" preserveRatio="false">
+         <image>
+            <Image url="@background_2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="282.0" fitWidth="390.0" layoutX="846.0" layoutY="65.0" pickOnBounds="true" preserveRatio="false" rotate="180.0">
+         <image>
+            <Image url="@bg_panelMid.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="card" depthTest="DISABLE" fitHeight="266.0" fitWidth="170.0" layoutX="956.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="descriptionBox" layoutX="846.0" layoutY="347.0" prefHeight="110.0" prefWidth="390.0" stylesheets="@god_selection.css" />
+      <VBox layoutY="90.0" prefHeight="538.0" prefWidth="800.0">
+         <children>
+            <AnchorPane fx:id="anchorPane1" prefHeight="142.0" prefWidth="745.0">
+               <VBox.margin>
+                  <Insets left="60.0" right="60.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane2" layoutX="70.0" layoutY="10.0" prefHeight="142.0" prefWidth="745.0">
+               <VBox.margin>
+                  <Insets left="60.0" right="60.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane3" layoutX="70.0" layoutY="152.0" prefHeight="142.0" prefWidth="745.0">
+               <VBox.margin>
+                  <Insets left="60.0" right="60.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane4" layoutX="70.0" layoutY="294.0" prefHeight="142.0" prefWidth="745.0">
+               <VBox.margin>
+                  <Insets left="60.0" right="60.0" />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <ImageView fx:id="confirm" fitHeight="68.0" fitWidth="73.0" layoutX="875.0" layoutY="623.0" onMouseClicked="#confirmClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Confirm.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="helper" fitHeight="89.0" fitWidth="81.0" layoutX="1134.0" layoutY="613.0" onMouseClicked="#helperClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@helper.png" />
+         </image>
+      </ImageView>
+      <TextFlow fx:id="infoBox" layoutX="863.0" layoutY="532.0" prefHeight="97.0" prefWidth="357.0" />
+   </children>
+</AnchorPane>

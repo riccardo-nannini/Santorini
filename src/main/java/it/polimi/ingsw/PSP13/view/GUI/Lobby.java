@@ -8,11 +8,14 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,16 +26,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class Javafx {
+public class Lobby implements Initializable{
 
     private GuiInput guiInput;
 
@@ -70,33 +75,20 @@ public class Javafx {
         nicknameError.setVisible(true);
     }
 
-    public void choosePlayersNum()
-    {
-        Stage popop = new Stage();
-        popop.initModality(Modality.APPLICATION_MODAL);
-        popop.setTitle("Select a number");
-        popop.setMinWidth(300);
+    //public static EventType<UpdateEvent> etype = new EventType<>(EventType.ROOT,"prova");
 
-        Label label = new Label();
-        label.setText("Insert the number of players for this match");
-        Spinner spinner = new Spinner();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        /*slide1.addEventHandler(etype,updateEvent -> {
+            try {
+                chooseP();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });*/
+
         SpinnerValueFactory<Integer> numbers = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,3,3);
         spinner.setValueFactory(numbers);
-        spinner.setEditable(true);
-
-        Button send = new Button("OK");
-        send.setOnAction(event -> {
-            guiInput.getController().notifyPlayersNumber((Integer)spinner.getValue());
-            popop.close();
-        });
-
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(label,spinner, send);
-        vBox.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(vBox);
-        popop.setScene(scene);
-        popop.showAndWait();
 
     }
 
@@ -118,6 +110,33 @@ public class Javafx {
         game.setGuiInput(guiInput);
     }
 
+    public void sceneChangeGodSelection(List<String> godsList, int godsNumber) throws IOException {
+        nextScene = true;
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/godSelection.fxml"));
+        AnchorPane pane = loader.<AnchorPane>load();
+
+        GodSelectionGUI godSelection = loader.<GodSelectionGUI>getController();
+        godSelection.setGodsList(godsList);
+        godSelection.setGodsNumber(godsNumber);
+        godSelection.upload();
+        godSelection.setGuiInput(guiInput);
+        guiInput.setGodSelection(godSelection);
+
+        Scene selectionScene = new Scene(pane);
+        selectionScene.getStylesheets().add("god_selection.css");
+
+        Stage stage = (Stage) (parent.getScene().getWindow());
+        stage.setScene(selectionScene);
+
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
+
+
+    }
+
     @FXML
     public void gameStart(ActionEvent event) throws Exception
     {
@@ -128,6 +147,7 @@ public class Javafx {
         guiInput.getController().notifyNickname(nickname);
         nicknameSent=true;
 
+
         if(guiInput.isFirst())
             chooseP();
         else
@@ -135,7 +155,6 @@ public class Javafx {
             nicknameError.setText("Please wait until a match is found...");
             nicknameError.setVisible(true);
         }
-
 
     }
 
@@ -175,12 +194,12 @@ public class Javafx {
     public void textCheck(KeyEvent event)
     {
         if(serverText.getText().equals(""))
-         {
-             ok.getStyleClass().clear();
-             ok.getStyleClass().add("textEmpty");
-             ok.setDisable(true);
+        {
+            ok.getStyleClass().clear();
+            ok.getStyleClass().add("textEmpty");
+            ok.setDisable(true);
 
-         }
+        }
         else
         {
             ok.getStyleClass().remove("textEmpty");
@@ -199,7 +218,7 @@ public class Javafx {
     }
 
     public void chooseP() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("javafx.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
         Scene scene = parent.getScene();
 
         root.translateXProperty().set(scene.getWidth());
@@ -241,7 +260,7 @@ public class Javafx {
         }
 
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("javafx.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
         Scene scene = ((Node)event.getSource()).getScene();
 
         root.translateXProperty().set(scene.getWidth());
@@ -260,6 +279,10 @@ public class Javafx {
 
     }
 
+
+    public AnchorPane getSlide1() {
+        return slide1;
+    }
 
     public boolean isNicknameSent() {
         return nicknameSent;

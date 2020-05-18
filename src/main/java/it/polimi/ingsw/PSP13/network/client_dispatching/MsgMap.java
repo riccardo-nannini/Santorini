@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP13.network.MessageID;
 import it.polimi.ingsw.PSP13.network.client_dispatching.behavior.*;
 import it.polimi.ingsw.PSP13.view.Input;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import static it.polimi.ingsw.PSP13.network.MessageID.*;
 
 public class MsgMap {
 
-    private Map<MessageID, ClientDispatcherBehavior> dispatcher;
+    private EnumMap<MessageID,ClientDispatcherBehavior> dispatcher;
     private Input input;
 
     public MsgMap(Input input)
@@ -22,7 +23,7 @@ public class MsgMap {
 
     private void init()
     {
-        dispatcher = new HashMap<>();
+        dispatcher = new EnumMap<>(MessageID.class);
         dispatcher.put(move,new ClientMoveBehavior(input));
         dispatcher.put(build,new ClientBuildBehavior(input));
         dispatcher.put(processNickname,new ClientNickBehavior(input));

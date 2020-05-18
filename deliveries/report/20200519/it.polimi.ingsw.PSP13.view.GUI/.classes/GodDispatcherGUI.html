@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodDispatcherGUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodDispatcherGUI (it.polimi.ingsw.PSP13.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodDispatcherGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 49)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.collections.FXCollections;
+<i>4</i>&nbsp;import javafx.collections.ObservableList;
+<i>5</i>&nbsp;import javafx.event.Event;
+<i>6</i>&nbsp;import javafx.fxml.FXML;
+<i>7</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>8</i>&nbsp;import javafx.scene.Cursor;
+<i>9</i>&nbsp;import javafx.scene.Node;
+<i>10</i>&nbsp;import javafx.scene.Scene;
+<i>11</i>&nbsp;import javafx.scene.control.Label;
+<i>12</i>&nbsp;import javafx.scene.control.Spinner;
+<i>13</i>&nbsp;import javafx.scene.control.SpinnerValueFactory;
+<i>14</i>&nbsp;import javafx.scene.control.TextArea;
+<i>15</i>&nbsp;import javafx.scene.effect.BlendMode;
+<i>16</i>&nbsp;import javafx.scene.image.Image;
+<i>17</i>&nbsp;import javafx.scene.image.ImageView;
+<i>18</i>&nbsp;import javafx.scene.input.MouseButton;
+<i>19</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>20</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>21</i>&nbsp;import javafx.scene.text.Font;
+<i>22</i>&nbsp;import javafx.scene.text.Text;
+<i>23</i>&nbsp;import javafx.scene.text.TextFlow;
+<i>24</i>&nbsp;import javafx.stage.Modality;
+<i>25</i>&nbsp;import javafx.stage.Stage;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;import java.io.IOException;
+<i>28</i>&nbsp;import java.net.MalformedURLException;
+<i>29</i>&nbsp;import java.net.URL;
+<i>30</i>&nbsp;import java.util.ArrayList;
+<i>31</i>&nbsp;import java.util.List;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;public class GodDispatcherGUI {</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    private GodHandlerInterface godHandler;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    private GuiInput guiInput;
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;    private Stage stage = null;</b>
+<i>40</i>&nbsp;    public AnchorPane anchorPane1;
+<i>41</i>&nbsp;    public ImageView card;
+<i>42</i>&nbsp;    public ImageView confirm;
+<i>43</i>&nbsp;    public TextFlow infoBox;
+<i>44</i>&nbsp;    public TextArea descriptionBox;
+<i>45</i>&nbsp;    public ImageView godIcon1, godIcon2, godIcon3, godIcon4, godIcon5, godIcon6, godIcon7, godIcon8, godIcon9,
+<i>46</i>&nbsp;            godIcon10, godIcon11, godIcon12, godIcon13, godIcon14, godIcon15, godIcon16;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public void upload() {
+<b class="nc"><i>49</i>&nbsp;        godHandler.upload();</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void godClicked(Event event) {
+<b class="nc"><i>53</i>&nbsp;        godHandler.godClicked(event);</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public void confirmClicked() {
+<b class="nc"><i>57</i>&nbsp;        godHandler.confirmClicked();</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public void helperClicked() {
+<b class="nc"><i>61</i>&nbsp;        godHandler.helperClicked();</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public void setSceneGodInput(List&lt;String&gt; chosenGods, boolean isChoosing) throws IOException {
+<b class="nc"><i>65</i>&nbsp;        AnchorPane root = anchorPane1;</b>
+<b class="nc"><i>66</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>67</i>&nbsp;        loader.setLocation(new URL(&quot;file:./resources/godSelection.fxml&quot;));</b>
+<b class="nc"><i>68</i>&nbsp;        AnchorPane pane = loader.&lt;AnchorPane&gt;load();</b>
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        GodDispatcherGUI godDispatcher = loader.&lt;GodDispatcherGUI&gt;getController();</b>
+<b class="nc"><i>71</i>&nbsp;        GodInput godInput = new GodInput(godDispatcher);</b>
+<b class="nc"><i>72</i>&nbsp;        godDispatcher.setGodHandler(godInput);</b>
+<b class="nc"><i>73</i>&nbsp;        godInput.setGodsList(chosenGods);</b>
+<b class="nc"><i>74</i>&nbsp;        godInput.setIsChoosing(isChoosing);</b>
+<b class="nc"><i>75</i>&nbsp;        godDispatcher.upload();</b>
+<b class="nc"><i>76</i>&nbsp;        godDispatcher.setGuiInput(guiInput);</b>
+<i>77</i>&nbsp;
+<b class="nc"><i>78</i>&nbsp;        Scene selectionScene = new Scene(pane);</b>
+<b class="nc"><i>79</i>&nbsp;        selectionScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;        if (stage == null) stage = (Stage) (root.getScene().getWindow());</b>
+<b class="nc"><i>82</i>&nbsp;        stage.setScene(selectionScene);</b>
+<b class="nc"><i>83</i>&nbsp;        stage.show();</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public void setScenePopUp(List&lt;String&gt; players) throws IOException {
+<b class="nc"><i>87</i>&nbsp;        Stage popup = new Stage();</b>
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;        Font.loadFont( GodDispatcherGUI.class.getResource(&quot;/fonts/RobotoCondensed-Regular.ttf&quot;).toExternalForm(), 18);</b>
+<b class="nc"><i>90</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>91</i>&nbsp;        loader.setLocation(new URL(&quot;file:./resources/popupStarter.fxml&quot;));</b>
+<b class="nc"><i>92</i>&nbsp;        AnchorPane popupPane = loader.&lt;AnchorPane&gt;load();</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        PopupGUI popupGUI = loader.&lt;PopupGUI&gt;getController();</b>
+<b class="nc"><i>95</i>&nbsp;        popupGUI.upload(players);</b>
+<b class="nc"><i>96</i>&nbsp;        popupGUI.setGuiInput(guiInput);</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;        Scene starterScene = new Scene(popupPane);</b>
+<b class="nc"><i>99</i>&nbsp;        starterScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<b class="nc"><i>100</i>&nbsp;        popup.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>101</i>&nbsp;        popup.setTitle(&quot;Starting player&quot;);</b>
+<b class="nc"><i>102</i>&nbsp;        popup.setScene(starterScene);</b>
+<b class="nc"><i>103</i>&nbsp;        popup.showAndWait();</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    public void gameBoardSceneChange() throws IOException {
+<b class="nc"><i>107</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>108</i>&nbsp;        loader.setLocation(new URL(&quot;file:./resources/lobby.fxml&quot;));</b>
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;        AnchorPane pane = loader.&lt;AnchorPane&gt;load();</b>
+<b class="nc"><i>111</i>&nbsp;        Scene lobby = new Scene(pane);</b>
+<b class="nc"><i>112</i>&nbsp;        lobby.getStylesheets().add(&quot;lobby.css&quot;);</b>
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;        Stage stage = (Stage) (anchorPane1.getScene().getWindow());</b>
+<b class="nc"><i>115</i>&nbsp;        stage.setScene(lobby);</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        Mappa map = loader.&lt;Mappa&gt;getController();</b>
+<b class="nc"><i>118</i>&nbsp;        map.setGuiInput(guiInput);</b>
+<b class="nc"><i>119</i>&nbsp;        guiInput.setMap(map);</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    public void setGuiInput(GuiInput guiInput) {
+<b class="nc"><i>124</i>&nbsp;        this.guiInput = guiInput;</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    public void setGodHandler(GodHandlerInterface godHandler) {
+<b class="nc"><i>128</i>&nbsp;        this.godHandler = godHandler;</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    public GuiInput getGuiInput() {
+<b class="nc"><i>132</i>&nbsp;        return guiInput;</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-18 23:20</div>
+</div>
+</body>
+</html>

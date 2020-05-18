@@ -59,7 +59,7 @@ public abstract class Input {
      * asks the player which god he wants to play with
      * @param chosenGods the gods available to be chosen
      */
-    public abstract void godInput(List<String> chosenGods, boolean error);
+    public void godInput(List<String> chosenGods, boolean error){};
 
     /**
      * asks the player the starting position of his builder
@@ -167,7 +167,7 @@ public abstract class Input {
     public void printWaitStarterSelection(String challenger) {}
 
 
-    public abstract void lobbyWait();
+    public void lobbyWait() {};
 
 
     public void setFirst(boolean first) {

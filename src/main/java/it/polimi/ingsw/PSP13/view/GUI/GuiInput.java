@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.view.GUI.status.*;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Platform;
@@ -15,18 +16,14 @@ public class GuiInput extends Input {
 
     private Lobby loginController;
     private GodDispatcherGUI godDispatcher = null;
-    private Mappa mappaController;
+    private Mappa map;
 
-
-    public void setMapController(Mappa mapController) {
-        this.mappaController = mapController;
-    }
 
     @Override
     public void setEffectDescription(String effect) {
         Platform.runLater(() -> {
             try {
-                mappaController.setClientEffectDescription(effect);
+                map.setClientEffectDescription(effect);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -37,7 +34,7 @@ public class GuiInput extends Input {
     public void updateBuilders(BuilderVM builderVM){
         Platform.runLater(() -> {
             try {
-                mappaController.updateBuiders(builderVM.getColor(), builderVM.getBuilders());
+                map.updateBuiders(builderVM.getColor(), builderVM.getBuilders());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -48,7 +45,7 @@ public class GuiInput extends Input {
     public void updateMap(MapVM mapVM) {
         Platform.runLater(() -> {
             try {
-                mappaController.updateMap(mapVM);
+                map.updateMap(mapVM);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -59,30 +56,36 @@ public class GuiInput extends Input {
     public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
         Platform.runLater(() -> {
             try {
-                mappaController.setUpClientsInfo(messageClientsInfoCV);
+                map.setUpClientsInfo(messageClientsInfoCV);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
-    
+
     @Override
     public void moveInput(List<Coords> checkMoveCells, boolean error) {
+
+        map.setStatus(new MoveStatus());
+        Platform.runLater(()->{
+            map.move(checkMoveCells, error);
+        });
 
     }
 
     @Override
     public void buildInput(List<Coords> checkBuildCells, boolean error) {
-
+        map.setStatus(new BuildStatus());
+        Platform.runLater(()->{
+            map.build(checkBuildCells, error);
+        });
     }
 
     @Override
     public void nicknameInput(boolean error) {
         Platform.runLater(() -> {
-            System.out.println("sono dentro");
             if(error)
             {
-                System.out.println("errore");
                 loginController.nicknameError();
             }
 
@@ -103,13 +106,12 @@ public class GuiInput extends Input {
 
     @Override
     public void builderSetUpInput(boolean callNumber, boolean error) {
-        Platform.runLater(() -> {
-            try {
-                mappaController.builderSetUpInput();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+        map.setStatus(new SetupStatus());
+        Platform.runLater(()->{
+            map.builderSetup(callNumber, error);
         });
+
     }
 
     @Override
@@ -137,20 +139,40 @@ public class GuiInput extends Input {
     @Override
     public void effectInput(String god) {
 
+        Platform.runLater(()->{
+            map.askEffect(god);
+        });
     }
 
     @Override
     public void chooseBuilder(String player) {
-
+        map.setStatus(new SelectBuilderStatus());
+        Platform.runLater(()->{
+            map.chooseBuilder();
+        });
     }
 
     @Override
     public void removeBlock(List<Coords> removableBlocks, boolean error) {
-
+        map.setStatus(new RemoveBlockStatus());
+        Platform.runLater(()->{
+            map.removeBlock(removableBlocks, error);
+        });
     }
 
     @Override
     public void disconnectionMessage() {
+
+        Platform.runLater(()->{
+            map.OpponentDisconnection();
+            try {
+                map.backToLobbySceneChange();
+                loginController.rematch();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
 
     }
 
@@ -159,7 +181,10 @@ public class GuiInput extends Input {
         synchronized (this)
         {
             System.out.println("scegli il numero di giocatori");
-            notifyAll();
+
+            /*Platform.runLater(()->{
+                Event.fireEvent(loginController.getSlide1(),new UpdateEvent(Javafx.etype));
+            });*/
 
             if(loginController.isNicknameSent())
             {
@@ -202,11 +227,25 @@ public class GuiInput extends Input {
     @Override
     public void playAgain() {
 
+        Platform.runLater(()->{
+            boolean result = map.askPlayAgain();
+            try {
+                map.backToLobbySceneChange();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(result) {
+                try {
+                    loginController.rematch();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    @Override
-    public void lobbyWait() {
-
+    public void setMap(Mappa map) {
+        this.map = map;
     }
 
     public void setLoginController(Lobby loginController) {

@@ -23,7 +23,6 @@ import static org.junit.Assert.assertEquals;
 
 public class PoseidonTest {
 
-    //TODO aggiungere nuovi test, correggere quelli che ci sono già
 
     public static Match match;
     public static Player player;

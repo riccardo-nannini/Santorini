@@ -132,6 +132,8 @@ public class PermaLobby implements Runnable{
         return null;
     }
 
+
+    //TODO killare il thread clientlistener del relativo client disconnesso invece che lasciarlo girare
     /**
      * takes a disconnection from the client in the setup moment of the game
      * if the socket interested is the first, it must repeat setupIter() with another client
@@ -147,6 +149,7 @@ public class PermaLobby implements Runnable{
         listenerList.remove(socket);
         usernameMap.remove(getUsernameFromSocket(socket));
         map.remove(socket);
+        fillByClient.remove(socket);
         try {
             socket.close();
         } catch (IOException e) {
@@ -157,6 +160,8 @@ public class PermaLobby implements Runnable{
         {
             setupIter();
         }
+
+        notifyAll();
     }
 
     /**
@@ -252,8 +257,16 @@ public class PermaLobby implements Runnable{
             e.printStackTrace();
         }
 
+        if(matchHandler == null)
+            return;
+
         ViewObserver viewObserver = new ViewObserver(matchHandler);
         ClientListener.setViewObserver(viewObserver);
+
+        for(ClientListener listener : listenerList.values())
+        {
+            listener.setMsgDispatcher();
+        }
 
         System.out.println("Setup routine ended successfully");
         start = true;
@@ -309,6 +322,8 @@ public class PermaLobby implements Runnable{
         while(usernameMap.size()<playersNumber) {
             try {
                 wait();
+                if(socketList.size()<playersNumber)
+                    return null;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

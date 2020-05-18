@@ -220,6 +220,27 @@ public class Lobby implements Initializable{
             slide1.setVisible(true);
         });
         timeline.play();
+
+        waitLabel.setText("Please wait until a match is found...");
+        waitLabel.setVisible(true);
+    }
+
+    public void rematch() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
+        Scene scene = parent.getScene();
+
+        root.translateXProperty().set(scene.getWidth());
+        parent.getChildren().add(root);
+
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(container.translateXProperty(),230, Interpolator.EASE_IN);
+
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(event1 -> {
+            slide.setVisible(true);
+        });
+        timeline.play();
     }
 
     @FXML
@@ -273,6 +294,10 @@ public class Lobby implements Initializable{
 
     public boolean isNicknameSent() {
         return nicknameSent;
+    }
+
+    public void setGuiInput(GuiInput guiInput) {
+        this.guiInput = guiInput;
     }
 
 }

@@ -56,5 +56,17 @@
          </opaqueInsets>
       </AnchorPane>
       <Button fx:id="selectBuilderBtn" layoutX="20.0" layoutY="60.0" mnemonicParsing="false" onAction="#selectBuilder" prefHeight="60.0" prefWidth="118.0" text="SELECT A BUILDER" />
+      <TextArea layoutX="500.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0" text="Prova prova prova" />
+      <ImageView fitHeight="124.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@baloon.png" />
+         </image>
+      </ImageView>
+      <TextArea prefHeight="124.0" prefWidth="158.0" styleClass="txtArea" />
+      <ImageView fitHeight="229.0" fitWidth="191.0" layoutX="20.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@title_poseidon.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

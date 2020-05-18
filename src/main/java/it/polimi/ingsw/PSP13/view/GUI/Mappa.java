@@ -1,30 +1,36 @@
 package it.polimi.ingsw.PSP13.view.GUI;
 
 import it.polimi.ingsw.PSP13.immutables.MapVM;
-import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
-import it.polimi.ingsw.PSP13.view.CLI.BuilderColor;
-import it.polimi.ingsw.PSP13.view.CLI.MapPrinter;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class Mappa {
+public class Mappa implements Initializable {
+
+
+    private GuiInput guiInput;
+    private TurnStatus status;
 
 
     @FXML
@@ -58,8 +64,6 @@ public class Mappa {
     @FXML
     private TextArea godName;
 
-    private GuiInput guiInput;
-
     private String clientGodName;
     private String clientGodEffect;
     private String god2;
@@ -80,9 +84,15 @@ public class Mappa {
 
 
     @FXML
-    public void initialize() {
+    public void selectCell(MouseEvent e) {
+        Node source = (Node)e.getSource() ;
+        int colIndex = ( GridPane.getColumnIndex(source) != null ? GridPane.getColumnIndex(source) : 0);
+        int rowIndex = ( GridPane.getRowIndex(source) != null ? GridPane.getRowIndex(source) : 0);
 
+        status.selectCell(new Coords(colIndex,rowIndex));
+        grid.setDisable(true);
     }
+
 
     //TODO sistemare invio dell'effetto dei Dei mettendo tutti gli effetti in MessageCLientsInfoCV
     //TODO e sistemare quindi l'assegnazione di effect2 e effect3 e godEffectClient
@@ -176,15 +186,6 @@ public class Mappa {
     }
 
 
-
-    @FXML
-    public void builderSetUpInput() {
-        turnPhase = 0;
-        textInfo.setText("Click on a cell to place your workers");
-        //fare in modo che le celle già occupate da altri giocatori non siano cliccabili
-    }
-
-
     //le pedine che non sono pane possono creare problemi???
     //essendo loro figli di grid
     //grid.removeAll() pulisce la griglia dagli edifici precedenti, ma le pedine che fine fanno
@@ -227,11 +228,6 @@ public class Mappa {
         }
     }
 
-
-    public void setGuiInput(GuiInput guiInput) {
-        this.guiInput = guiInput;
-    }
-
     public void setPaneClickable(ArrayList<Coords> coordsList) {
         for (Node pane : grid.getChildren()) {
             Integer x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
@@ -245,36 +241,175 @@ public class Mappa {
         }
     }
 
-    int turnPhase;
 
-    @FXML
-    public void clickPane(MouseEvent e) {
-        if (turnPhase == 0) {
-            Node source = (Node) e.getSource();
-            Integer colIndex = (GridPane.getColumnIndex(source) != null ? GridPane.getColumnIndex(source) : 0);
-            Integer rowIndex = (GridPane.getRowIndex(source) != null ? GridPane.getRowIndex(source) : 0);
-            Coords clickedCoords = new Coords(rowIndex,colIndex);
-            guiInput.getController().notifySetupBuilder(clickedCoords);
-        }
-
-
-    }
-
-
-
+    //TODO sistemare
     @FXML
     public void released(MouseEvent e) {
-
+        for (Node pane : grid.getChildren()) {
+            pane.getStyleClass().clear();
+        }
     }
 
     @FXML
-    public void initializeMap() {
+    public void initializeMap(MouseEvent e) {
+        textInfo1.setText("Tony");
+        textInfo2.setText("Nanno");
+        textInfo3.setText("Simone");
+
+        File file1 = new File("resources/podium-characters-Jason.png");
+        Image image1 = new Image(file1.toURI().toString());
+        imageInfo1.setImage(image1);
+
+        File file2 = new File("resources/podium-characters-Minotaur.png");
+        Image image2 = new Image(file2.toURI().toString());
+        imageInfo2.setImage(image2);
+
+        File file3 = new File("resources/podium-characters-Morpheus.png");
+        Image image3 = new Image(file3.toURI().toString());
+        imageInfo3.setImage(image3);
+
+        grid.setDisable(false);
 
     }
 
 
+    public void OpponentDisconnection() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "A player disconnected from the game, you will be put in the lobby again", ButtonType.OK);
+        alert.showAndWait();
+    }
+
+    public void backToLobbySceneChange() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+
+        AnchorPane pane = loader.<AnchorPane>load();
+        Scene lobby = new Scene(pane);
+        lobby.getStylesheets().add("lobby.css");
+
+        Stage stage = (Stage) (grid.getScene().getWindow());
+        stage.setScene(lobby);
+
+        Lobby lobby1 = loader.<Lobby>getController();
+        lobby1.setGuiInput(guiInput);
+        guiInput.setLoginController(lobby1);
+    }
+
+    public boolean askPlayAgain() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to play again?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES){
+            TurnStatus.map.getGuiInput().getController().notifyPlayAgain("yes");
+            return true;
+        }
+        else {
+            TurnStatus.map.getGuiInput().getController().notifyPlayAgain("no");
+        }
+
+        return false;
+
+    }
+
+    public void askEffect(String god) {
+        textInfo.setText("Do you want to use the effect of " + god + " ?");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to use the effect of " + god + " ?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            TurnStatus.map.getGuiInput().getController().notifyEffect("yes");
+            textInfo.setText("you selected yes");
+        }
+        else {
+            TurnStatus.map.getGuiInput().getController().notifyEffect("no");
+            textInfo.setText("you selected no");
+        }
+
+    }
 
 
+    public void removeBlock(List<Coords> removableBlocks, boolean error) {
+        if(error)
+            textInfo.setText("There was an error with your last selection, please try again.");
+        else
+            textInfo.setText("You can remove a block only from the highlighted cells.");
+
+        highlightCells(removableBlocks);
+
+        grid.setDisable(false);
+    }
+
+    private void highlightCells(List<Coords> checkMoveCells) {
+        for (Node pane : grid.getChildren()) {
+            int xx = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
+            int yy = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
+            Coords tempCoords = new Coords(xx, yy);
+            if (checkMoveCells.contains(tempCoords)) {
+                pane.getStyleClass().add("highlighted");
+            }
+        }
+    }
+
+    public void build(List<Coords> checkBuildCells, boolean error) {
+        if(error)
+            textInfo.setText("There was an error with your last selection, please try again.");
+        else
+            textInfo.setText("Now, you have to build a block. You can build on the highlighted cells.");
+
+        highlightCells(checkBuildCells);
+
+        grid.setDisable(false);
+    }
+
+    public void move(List<Coords> checkMoveCells, boolean error) {
+
+        if(error)
+            textInfo.setText("There was an error with your last selection, please try again.");
+        else
+            textInfo.setText("It's time to move your worker! You can move him only on the highlighted cells");
+
+        highlightCells(checkMoveCells);
+
+        grid.setDisable(false);
+    }
+
+    public void chooseBuilder() {
+
+        textInfo.setText("It's your turn! Please select one of your builders");
+        grid.setDisable(false);
+    }
+
+    //TODO fare in modo che le celle già occupate da altri giocatori non siano cliccabili
+    public void builderSetup(boolean callnumber, boolean error){
+        if(!callnumber)
+            textInfo.setText("It's your turn! Please place your first builder");
+        else
+            textInfo.setText("Please, place your second builder");
+
+        if(error)
+            textInfo.setText("There was an error with your last selection, please try again.");
+
+        grid.setDisable(false);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        TurnStatus.setMap(this);
+    }
+
+
+
+    public void setStatus(TurnStatus status) {
+        this.status = status;
+    }
+
+    public GuiInput getGuiInput() {
+        return guiInput;
+    }
+
+    public void setGuiInput(GuiInput guiInput) {
+        this.guiInput = guiInput;
+    }
 
 
 }

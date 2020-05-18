@@ -28,6 +28,11 @@
 
 }
 
+GridPane > Pane:hover{
+    -fx-opacity: 0.5;
+    -fx-background-color: #fffc32;
+}
+
 
 .sfondoAres {
     -fx-background-image: url("/Icons/Ares.png");

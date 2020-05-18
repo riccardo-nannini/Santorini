@@ -103,6 +103,23 @@ public class GodDispatcherGUI {
         popup.showAndWait();
     }
 
+    public void gameBoardSceneChange() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+
+        AnchorPane pane = loader.<AnchorPane>load();
+        Scene lobby = new Scene(pane);
+        lobby.getStylesheets().add("lobby.css");
+
+        Stage stage = (Stage) (anchorPane1.getScene().getWindow());
+        stage.setScene(lobby);
+
+        Mappa map = loader.<Mappa>getController();
+        map.setGuiInput(guiInput);
+        guiInput.setMap(map);
+    }
+
+
     public void setGuiInput(GuiInput guiInput) {
         this.guiInput = guiInput;
     }

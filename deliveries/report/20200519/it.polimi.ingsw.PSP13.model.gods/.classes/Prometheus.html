@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Prometheus</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Prometheus (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Prometheus</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,1%
+  </span>
+  <span class="absValue">
+    (27/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class Prometheus extends Turn {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private Boolean usedEffect;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Sets the effect description
+<i>17</i>&nbsp;     */
+<b class="fc"><i>18</i>&nbsp;    public Prometheus() {</b>
+<b class="fc"><i>19</i>&nbsp;        usedEffect = false;</b>
+<b class="fc"><i>20</i>&nbsp;        effect = &quot; If your Worker does not move up, it may build both before and after moving&quot; +</b>
+<i>21</i>&nbsp;                &quot;\n\u001B[1mATTENTION\u001B[0m: if you decide to use the effect, \u001B[1mFIRST\u001B[0m of all you will be asked to insert \u001B[1mWHERE YOU WANT TO MOVE\u001B[0m&quot; +
+<i>22</i>&nbsp;                &quot;\nand \u001B[1mTHEN\u001B[0m you will be asked to insert the coordinates of \u001B[1mTHE BEFORE-MOVING BUILD\u001B[0m that will be done only if it &quot; +
+<i>23</i>&nbsp;                &quot;respects Prometheus effect&quot;;
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public void start(String player) throws IOException {
+<b class="fc"><i>30</i>&nbsp;        usedEffect = turnHandler.getInputUseEffect(player, &quot;Prometheus&quot;);</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * In addition to turn&#39;s move allows the builder to build both before and after
+<i>36</i>&nbsp;     * moving if he does not move up.
+<i>37</i>&nbsp;     * @param builder builder that is currently moving
+<i>38</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public void move(Builder builder, Coords coords) throws IOException {
+<b class="fc"><i>42</i>&nbsp;        if (usedEffect) {</b>
+<b class="fc"><i>43</i>&nbsp;            List&lt;Coords&gt; possibleBuilds = getCellBuilds(builder);</b>
+<b class="fc"><i>44</i>&nbsp;            if (!possibleBuilds.isEmpty()) {</b>
+<b class="fc"><i>45</i>&nbsp;                Coords firstBuildCoords = turnHandler.getInputBuild(builder,possibleBuilds);</b>
+<b class="fc"><i>46</i>&nbsp;                int heightFirstBuild = match.getHeight(firstBuildCoords);</b>
+<b class="fc"><i>47</i>&nbsp;                int heightBuilder = match.getHeight(builder.getCoords());</b>
+<b class="fc"><i>48</i>&nbsp;                if (!(coords.equals(firstBuildCoords) &amp;&amp; (heightFirstBuild == 3 || heightFirstBuild == heightBuilder))) {</b>
+<b class="fc"><i>49</i>&nbsp;                    build(builder, firstBuildCoords);</b>
+<i>50</i>&nbsp;                }
+<b class="fc"><i>51</i>&nbsp;            } else usedEffect = false;</b>
+<i>52</i>&nbsp;        }
+<b class="fc"><i>53</i>&nbsp;        super.move(builder,coords);</b>
+<b class="fc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Unlike turn&#39;s checkmove, if the player uses Prometheus effect he cannot
+<i>59</i>&nbsp;     * move up
+<i>60</i>&nbsp;     * @param builder builder that is currently moving
+<i>61</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>62</i>&nbsp;     * @return true if builder can move into coords&#39; cell, else return false
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords) {
+<b class="fc"><i>66</i>&nbsp;        if (checkUseEffect(builder)) {</b>
+<b class="fc"><i>67</i>&nbsp;            if (usedEffect) {</b>
+<b class="fc"><i>68</i>&nbsp;                if (!Map.isLegal(coords)) {</b>
+<b class="nc"><i>69</i>&nbsp;                    throw new IllegalArgumentException();</b>
+<i>70</i>&nbsp;                } else {
+<b class="fc"><i>71</i>&nbsp;                    int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());</b>
+<b class="fc"><i>72</i>&nbsp;                    return match.getAdjacent(builder.getCoords()).contains(coords) &amp;&amp; !match.isOccupied(coords) &amp;&amp; diff &lt;= 0;</b>
+<i>73</i>&nbsp;                }
+<b class="fc"><i>74</i>&nbsp;            } else return super.checkMove(builder, coords);</b>
+<i>75</i>&nbsp;        }
+<b class="nc"><i>76</i>&nbsp;        usedEffect = false;</b>
+<b class="nc"><i>77</i>&nbsp;        return super.checkMove(builder, coords);</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * @param builder moving builder
+<i>82</i>&nbsp;     * @return true if there&#39;s a free cell near the builder with a height &lt;= the height of builder&#39;s cell
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public boolean checkUseEffect(Builder builder) {
+<b class="fc"><i>85</i>&nbsp;        for (Coords adjacentCoords : match.getAdjacent(builder.getCoords())) {</b>
+<b class="fc"><i>86</i>&nbsp;            if (!match.isOccupied(adjacentCoords) &amp;&amp; match.getHeight(adjacentCoords) &lt;= match.getHeight(builder.getCoords())) {</b>
+<b class="fc"><i>87</i>&nbsp;                return true;</b>
+<i>88</i>&nbsp;            }
+<b class="fc"><i>89</i>&nbsp;        }</b>
+<b class="nc"><i>90</i>&nbsp;        return false;</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-18 23:20</div>
+</div>
+</body>
+</html>

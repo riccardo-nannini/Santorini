@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Match</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Match (it.polimi.ingsw.PSP13.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Match</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (16/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (45/ 50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.controller.VirtualView;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Cell;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Level;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Player;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.io.IOException;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.List;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;public class Match {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    private List&lt;Player&gt; players;
+<i>19</i>&nbsp;    private Map map;
+<i>20</i>&nbsp;    private ViewObservable observable;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * starts a new match and initializes all the needed components
+<i>25</i>&nbsp;     */
+<b class="fc"><i>26</i>&nbsp;    public Match() {</b>
+<b class="fc"><i>27</i>&nbsp;        map = new Map();</b>
+<b class="fc"><i>28</i>&nbsp;        players = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public void start(VirtualView virtualView) throws IOException {
+<b class="fc"><i>32</i>&nbsp;        observable = new ViewObservable(this, virtualView);</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public Map getMap() {
+<b class="fc"><i>36</i>&nbsp;        return this.map;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * @param player
+<i>42</i>&nbsp;     * adds a new player to this match player list
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public void addPlayer(Player player)
+<i>45</i>&nbsp;    {
+<b class="fc"><i>46</i>&nbsp;        players.add(player);</b>
+<b class="fc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    public void end()
+<i>50</i>&nbsp;    {
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * @param coords
+<i>56</i>&nbsp;     * @return true if the cell related to the coordinates has a dome on it or
+<i>57</i>&nbsp;     * at least a player has got a worker which coordinates are equal to coords, false otherwise
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public boolean isOccupied(Coords coords)
+<i>60</i>&nbsp;    {
+<b class="fc"><i>61</i>&nbsp;        if(coords == null || !Map.isLegal(coords))</b>
+<b class="fc"><i>62</i>&nbsp;            return true;</b>
+<b class="fc"><i>63</i>&nbsp;        if(map.getCell(coords).getDome())</b>
+<i>64</i>&nbsp;        {
+<b class="fc"><i>65</i>&nbsp;            return true;</b>
+<i>66</i>&nbsp;        }
+<b class="fc"><i>67</i>&nbsp;        for(Player p : players)</b>
+<i>68</i>&nbsp;        {
+<b class="fc"><i>69</i>&nbsp;            if(coords.equals(p.getBuilders()[0].getCoords()) || coords.equals(p.getBuilders()[1].getCoords()))</b>
+<b class="fc"><i>70</i>&nbsp;                return true;</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        }</b>
+<b class="fc"><i>73</i>&nbsp;        return false;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    /**
+<i>77</i>&nbsp;     * @param coords
+<i>78</i>&nbsp;     * @return the call to map.getAdjacent
+<i>79</i>&nbsp;     */
+<i>80</i>&nbsp;    public List&lt;Coords&gt; getAdjacent(Coords coords)
+<i>81</i>&nbsp;    {
+<b class="fc"><i>82</i>&nbsp;        return map.getAdjacent(coords);</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     *
+<i>87</i>&nbsp;     * @param coords
+<i>88</i>&nbsp;     * @param level
+<i>89</i>&nbsp;     * call to map.setCell
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    public void setCellLevel(Coords coords, Level level)
+<i>92</i>&nbsp;    {
+<b class="fc"><i>93</i>&nbsp;        map.setCell(coords, level);</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;    public Cell getCell(Coords coords) { return this.map.getCell(coords); }</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    public int getHeight(Coords coords)
+<i>99</i>&nbsp;    {
+<b class="fc"><i>100</i>&nbsp;        return map.getCell(coords).getLevel().getHeight();</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public List&lt;Player&gt; getPlayers() {
+<b class="fc"><i>104</i>&nbsp;        return players;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /**
+<i>108</i>&nbsp;     * @param coords
+<i>109</i>&nbsp;     * @return the builder which coordinates are param
+<i>110</i>&nbsp;     * @throws IllegalArgumentException if there is not builder is coords
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    public Builder getBuilderByCoords(Coords coords) throws IllegalArgumentException
+<i>113</i>&nbsp;    {
+<b class="fc"><i>114</i>&nbsp;        for(Player p : players)</b>
+<i>115</i>&nbsp;        {
+<b class="fc"><i>116</i>&nbsp;            if(p.getBuilders()[0].getCoords().equals(coords))</b>
+<b class="fc"><i>117</i>&nbsp;                return p.getBuilders()[0];</b>
+<b class="fc"><i>118</i>&nbsp;            if(p.getBuilders()[1].getCoords().equals(coords))</b>
+<b class="fc"><i>119</i>&nbsp;                return p.getBuilders()[1];</b>
+<b class="fc"><i>120</i>&nbsp;        }</b>
+<i>121</i>&nbsp;
+<b class="fc"><i>122</i>&nbsp;        throw new IllegalArgumentException();</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     *
+<i>127</i>&nbsp;     * @param builder
+<i>128</i>&nbsp;     * @return the player owning builder by param
+<i>129</i>&nbsp;     * @throws IllegalArgumentException if param is not a valid builder
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    public Player getPlayerByBuilder(Builder builder) throws IllegalArgumentException
+<i>132</i>&nbsp;    {
+<b class="fc"><i>133</i>&nbsp;        for(Player p : players)</b>
+<i>134</i>&nbsp;        {
+<b class="fc"><i>135</i>&nbsp;            if(p.getBuilders()[0]==(builder) || p.getBuilders()[1]==(builder))</b>
+<b class="fc"><i>136</i>&nbsp;                return p;</b>
+<b class="fc"><i>137</i>&nbsp;        }</b>
+<i>138</i>&nbsp;
+<b class="fc"><i>139</i>&nbsp;        throw new IllegalArgumentException();</b>
+<i>140</i>&nbsp;    }
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    /**
+<i>143</i>&nbsp;     * @param builder
+<i>144</i>&nbsp;     * @return the other builder of builder&#39;s player
+<i>145</i>&nbsp;     */
+<i>146</i>&nbsp;    public Builder getOtherBuilder(Builder builder) {
+<b class="fc"><i>147</i>&nbsp;        if (getPlayerByBuilder(builder).getBuilders()[0] == builder) {</b>
+<b class="fc"><i>148</i>&nbsp;            return getPlayerByBuilder(builder).getBuilders()[1];</b>
+<i>149</i>&nbsp;        } else {
+<b class="fc"><i>150</i>&nbsp;            return getPlayerByBuilder(builder).getBuilders()[0];</b>
+<i>151</i>&nbsp;        }
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    public void notifyMap() throws IOException {
+<b class="fc"><i>155</i>&nbsp;        observable.notifyMap();</b>
+<b class="fc"><i>156</i>&nbsp;    };</b>
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    public void notifyBuilder(Builder builder1, Builder builder2) throws IOException {
+<b class="fc"><i>159</i>&nbsp;        observable.notifyBuilder(builder1,builder2);</b>
+<b class="fc"><i>160</i>&nbsp;    }</b>
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    public void removeBuilder(Player player) throws IOException {
+<b class="nc"><i>163</i>&nbsp;        observable.removeBuilder(player);</b>
+<b class="nc"><i>164</i>&nbsp;    }</b>
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * @param username username of the player looked for
+<i>168</i>&nbsp;     * @return username&#39;s player , null if there are no corresponding player
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;    public Player getPlayerByUsername(String username) {
+<b class="fc"><i>171</i>&nbsp;        for (Player player : players) {</b>
+<b class="fc"><i>172</i>&nbsp;            if (player.getUsername().equals(username)) return player;</b>
+<b class="nc"><i>173</i>&nbsp;        }</b>
+<b class="nc"><i>174</i>&nbsp;        return null;</b>
+<i>175</i>&nbsp;    }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-18 23:20</div>
+</div>
+</body>
+</html>

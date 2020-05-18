@@ -12,14 +12,14 @@ public class ClientGodSelBehavior extends ClientBuildBehavior {
 
 
         int godsNumber = messageCV.getGodsNumber();
+        List<String> godsList = messageCV.getStringList();
 
         if (godsNumber != 0) {
-            List<String> godsList = messageCV.getStringList();
             boolean error = messageCV.isError();
             input.godSelectionInput(godsList,godsNumber,error);
         } else {
             String challenger = messageCV.getString();
-            input.printWaitGodsSelection(challenger);
+            input.printWaitGodsSelection(challenger, godsList);
         }
 
 

@@ -123,13 +123,13 @@ public abstract class Input {
      * for the match
      * @param challenger username of the challenger
      */
-    public void printWaitGodsSelection(String challenger) {}
+    public void printWaitGodsSelection(String challenger, List<String> godsList) {}
 
     /**
      * Informs clients that player is choosing his god
      * @param player player's username
      */
-    public void printWaitGodSelection(String player) {}
+    public void printWaitGodSelection(String player, List<String> chosenGods) {}
 
     /**
      * Inform client which god the server assigned him

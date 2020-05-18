@@ -8,12 +8,13 @@ import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Platform;
 
+import java.io.IOException;
 import java.util.List;
 
 public class GuiInput extends Input {
 
     private Lobby loginController;
-    private GodSelectionGUI godSelection = null;
+    private GodDispatcherGUI godDispatcher = null;
     private Mappa mappaController;
 
 
@@ -91,7 +92,13 @@ public class GuiInput extends Input {
 
     @Override
     public void godInput(List<String> chosenGods, boolean error) {
-
+        Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
+            try {
+                godDispatcher.setSceneGodInput(chosenGods, true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -109,8 +116,19 @@ public class GuiInput extends Input {
     public void godSelectionInput(List<String> godsList, int godsNumber, boolean error) {
         Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
             try {
-                loginController.sceneChangeGodSelection(godsList, godsNumber);
+                loginController.sceneChangeGodSelection(godsList, godsNumber, true);
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void starterInput(boolean error, List<String> usernames) {
+        Platform.runLater(() -> {
+            try {
+                godDispatcher.setScenePopUp(usernames);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -158,21 +176,27 @@ public class GuiInput extends Input {
     }
 
     @Override
-    public void printWaitGodsSelection(String challenger) {
+    public void printWaitGodsSelection(String challenger, List<String> godsList) {
 
-        /*Platform.runLater(()->{
+        Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
             try {
-                loginController.sceneChange();
+                loginController.sceneChangeGodSelection(godsList,0, false );
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });*/
+        });
 
     }
 
     @Override
-    public void printWaitGodSelection(String player) {
-
+    public void printWaitGodSelection(String player, List<String> chosenGods) {
+        Platform.runLater(()->{
+            try {
+                godDispatcher.setSceneGodInput(chosenGods, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -189,8 +213,8 @@ public class GuiInput extends Input {
         this.loginController = loginController;
     }
 
-    public void setGodSelection(GodSelectionGUI godSelection) {
-        this.godSelection = godSelection;
+    public void setGodDispatcher(GodDispatcherGUI godDispatcher) {
+        this.godDispatcher = godDispatcher;
     }
 
     public ObservableToController getController()

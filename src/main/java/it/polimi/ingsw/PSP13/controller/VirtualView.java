@@ -122,7 +122,7 @@ public class VirtualView {
     public void godInput(String player, List<String> chosenGods, boolean error) throws IOException {
 
         MessageFromControllerToView message =
-                new MessageFromControllerToView(MessageID.processGodChoice,error,null,null,chosenGods,false,-1);
+                new MessageFromControllerToView(MessageID.processGodChoice,error,null,null,chosenGods,false,1);
 
         try {
             outputMap.get(player).writeObject(message);
@@ -132,9 +132,8 @@ public class VirtualView {
 
         if (chosenGods.size() > 1) {
             MessageFromControllerToView messageOpponents;
-            List<String> emptyList = new ArrayList<>();
             messageOpponents =
-                    new MessageFromControllerToView(MessageID.processGodChoice,false,player,null,emptyList,false,-1);
+                    new MessageFromControllerToView(MessageID.processGodChoice,false,player,null,chosenGods,false,-1);
             for (ObjectOutputStream output : outputMap.values()) {
                 if (!output.equals(outputMap.get(player))) {
                     try{
@@ -186,7 +185,7 @@ public class VirtualView {
         }
 
         MessageFromControllerToView messageOpponents =
-                new MessageFromControllerToView(MessageID.processGodsSelection,false,challenger,null,null,false,0);
+                new MessageFromControllerToView(MessageID.processGodsSelection,false,challenger,null,godsList,false,0);
 
         for(ObjectOutputStream output : outputMap.values()) {
             if (!output.equals(outputMap.get(challenger))) {

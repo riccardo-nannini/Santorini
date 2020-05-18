@@ -256,12 +256,12 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void printWaitGodsSelection(String challenger) {
+    public void printWaitGodsSelection(String challenger, List<String>  godsList) {
         System.out.println("Please wait, " + challenger + " is choosing the gods... ... ...");
     }
 
     @Override
-    public void printWaitGodSelection(String player) {
+    public void printWaitGodSelection(String player, List<String> godsList) {
         System.out.println("Please wait, " + player + " is choosing his god... ... ...");
     }
 

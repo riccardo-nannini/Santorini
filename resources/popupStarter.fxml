@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="popupPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="344.0" styleClass="background" stylesheets="@god_selection.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.PopupGUI">
+   <children>
+      <Label fx:id="popupText" layoutY="-1.0" prefHeight="94.0" prefWidth="305.0" text="Label" />
+      <Spinner fx:id="nameSpinner" layoutX="14.0" layoutY="93.0" prefHeight="26.0" prefWidth="198.0" />
+      <ImageView fitHeight="61.0" fitWidth="54.0" layoutX="251.0" layoutY="79.0" onMouseClicked="#starterSelected" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Confirm.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

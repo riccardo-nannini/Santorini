@@ -50,7 +50,7 @@ public class MatchHandler {
         //TODO gestire eccezioni invece di throws
         Random r = new Random();
         challenger = match.getPlayers().get(r.nextInt(numPlayers));
-        String godsString = "Apollo, Ares, Artemis, Athena, Atlas, Demeter, Hephaestus, Zeus, Hypnus, Minotaur, Pan ,Poseidon, Prometheus, Hera";
+        String godsString = "Apollo, Zeus, Artemis, Athena, Atlas, Minotaur, Hephaestus, Ares, Hypnus, Demeter, Pan ,Poseidon, Prometheus, Hera";
         List<String> godsList = new ArrayList<String>(Arrays.asList(godsString.split("\\s*,\\s*")));
 
         boolean error = false;

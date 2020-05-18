@@ -14,11 +14,11 @@ public class ClientGodBehavior extends ClientBuildBehavior {
 
         if (chosenGods.size()==1) {
             input.printAssignedGod(chosenGods.get(0));
-        } else if (!chosenGods.isEmpty()) {
+        } else if (messageCV.getGodsNumber() == 1) {
             boolean error = messageCV.isError();
             input.godInput(chosenGods, error);
         } else {
-            input.printWaitGodSelection(messageCV.getString());
+            input.printWaitGodSelection(messageCV.getString(), chosenGods);
         }
     }
 

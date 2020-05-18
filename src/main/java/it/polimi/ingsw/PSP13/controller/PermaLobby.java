@@ -168,7 +168,7 @@ public class PermaLobby implements Runnable{
 
         Socket socket = serverSocket.accept();
         System.out.println("connected to: " + socket.getInetAddress());
-        socket.setSoTimeout(20000);
+        //socket.setSoTimeout(20000);
 
         ObjectOutputStream obj = new ObjectOutputStream(socket.getOutputStream());
         fillByClient.put(socket,obj);

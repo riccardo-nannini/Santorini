@@ -4,34 +4,23 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -94,8 +83,6 @@ public class Lobby implements Initializable{
 
     public void sceneChange() throws Exception {
 
-        nextScene = true;
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:./resources/game.fxml"));
 
@@ -110,19 +97,21 @@ public class Lobby implements Initializable{
         game.setGuiInput(guiInput);
     }
 
-    public void sceneChangeGodSelection(List<String> godsList, int godsNumber) throws IOException {
-        nextScene = true;
+    public void sceneChangeGodSelection(List<String> godsList, int godsNumber, boolean isChallenger) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:./resources/godSelection.fxml"));
         AnchorPane pane = loader.<AnchorPane>load();
 
-        GodSelectionGUI godSelection = loader.<GodSelectionGUI>getController();
+        GodDispatcherGUI godDispatcher = loader.<GodDispatcherGUI>getController();
+        GodSelection godSelection = new GodSelection(godDispatcher);
+        godDispatcher.setGodHandler(godSelection);
         godSelection.setGodsList(godsList);
         godSelection.setGodsNumber(godsNumber);
-        godSelection.upload();
-        godSelection.setGuiInput(guiInput);
-        guiInput.setGodSelection(godSelection);
+        godSelection.setIsChallenger(isChallenger);
+        godDispatcher.upload();
+        godDispatcher.setGuiInput(guiInput);
+        guiInput.setGodDispatcher(godDispatcher);
 
         Scene selectionScene = new Scene(pane);
         selectionScene.getStylesheets().add("god_selection.css");
@@ -133,8 +122,6 @@ public class Lobby implements Initializable{
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
-
-
     }
 
     @FXML

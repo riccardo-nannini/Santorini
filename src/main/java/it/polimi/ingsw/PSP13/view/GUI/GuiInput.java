@@ -1,6 +1,9 @@
 package it.polimi.ingsw.PSP13.view.GUI;
 
+import it.polimi.ingsw.PSP13.immutables.BuilderVM;
+import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Platform;
@@ -11,8 +14,57 @@ public class GuiInput extends Input {
 
     private Lobby loginController;
     private GodSelectionGUI godSelection = null;
+    private Mappa mappaController;
 
 
+    public void setMapController(Mappa mapController) {
+        this.mappaController = mapController;
+    }
+
+    @Override
+    public void setEffectDescription(String effect) {
+        Platform.runLater(() -> {
+            try {
+                mappaController.setClientEffectDescription(effect);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void updateBuilders(BuilderVM builderVM){
+        Platform.runLater(() -> {
+            try {
+                mappaController.updateBuiders(builderVM.getColor(), builderVM.getBuilders());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void updateMap(MapVM mapVM) {
+        Platform.runLater(() -> {
+            try {
+                mappaController.updateMap(mapVM);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
+        Platform.runLater(() -> {
+            try {
+                mappaController.setUpClientsInfo(messageClientsInfoCV);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    
     @Override
     public void moveInput(List<Coords> checkMoveCells, boolean error) {
 
@@ -44,7 +96,13 @@ public class GuiInput extends Input {
 
     @Override
     public void builderSetUpInput(boolean callNumber, boolean error) {
-
+        Platform.runLater(() -> {
+            try {
+                mappaController.builderSetUpInput();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override

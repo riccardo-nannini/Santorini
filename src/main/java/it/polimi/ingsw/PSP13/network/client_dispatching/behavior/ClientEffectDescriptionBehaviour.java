@@ -11,7 +11,7 @@ public class ClientEffectDescriptionBehaviour extends ClientDispatcherBehavior {
 
         String effect = messageCV.getString();
 
-        input.getEffectDescription(effect);
+        input.setEffectDescription(effect);
     }
 
     public ClientEffectDescriptionBehaviour(Input input)

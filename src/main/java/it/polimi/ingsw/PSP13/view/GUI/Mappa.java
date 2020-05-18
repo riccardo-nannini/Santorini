@@ -1,8 +1,16 @@
 package it.polimi.ingsw.PSP13.view.GUI;
 
+import it.polimi.ingsw.PSP13.immutables.MapVM;
+import it.polimi.ingsw.PSP13.model.board.Level;
+import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.view.CLI.BuilderColor;
+import it.polimi.ingsw.PSP13.view.CLI.MapPrinter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -13,6 +21,7 @@ import javafx.scene.layout.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Mappa {
@@ -49,31 +58,93 @@ public class Mappa {
     @FXML
     private TextArea godName;
 
-    /*
-    //GET COORDINATES FROM A MOUSE CLICK ON THE MAP
+    private GuiInput guiInput;
+
+    private String clientGodName;
+    private String clientGodEffect;
+    private String god2;
+    private String effect2;
+    private String god3;
+    private String effect3;
+
+    HashMap<Color, ArrayList<ImageView>> buildersImages = new HashMap<>();
+
+    private final String level1 = "resources/Buildings/Level1.png";
+    private final String level2 = "resources/Buildings/Level2.png";
+    private final String level3 = "resources/Buildings/Level3.png";
+    private final String level1Dome = "resources/Buildings/Level1_Dome.png";
+    private final String level2Dome = "resources/Buildings/Level2_Dome.png";
+    private final String level3Dome = "resources/Buildings/Level3_Dome.png";
+    private final String dome = "resources/Buildings/Dome.png";
+
+
+
     @FXML
-    public void clickPane(MouseEvent e) {
-        Node source = (Node)e.getSource() ;
-        Integer colIndex = ( GridPane.getColumnIndex(source) != null ? GridPane.getColumnIndex(source) : 0);
-        Integer rowIndex = ( GridPane.getRowIndex(source) != null ? GridPane.getRowIndex(source) : 0);
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
-        ImageView v1 = new ImageView("resources/podium-characters-Jason.png");
-        v1.setFitHeight(75);
-        v1.setFitWidth(75);
-        grid.add(v1,colIndex,rowIndex);
+    public void initialize() {
+
     }
 
-     */
+    //TODO sistemare invio dell'effetto dei Dei mettendo tutti gli effetti in MessageCLientsInfoCV
+    //TODO e sistemare quindi l'assegnazione di effect2 e effect3 e godEffectClient
+    public void setUpClientsInfo(MessageClientsInfoCV clientsInfo) {
+
+        textInfo1.setText(clientsInfo.getClientUsername());
+        clientGodName = clientsInfo.getClientGod();
+        File file1 = new File("resources/Icons/"+clientGodName+".png");
+        Image image1 = new Image(file1.toURI().toString());
+        imageInfo1.setImage(image1);
+
+
+        god2 = clientsInfo.getOpponentsGod().get(0);
+        File file2 = new File("resources/Icons/"+god2+".png");
+        Image image2 = new Image(file2.toURI().toString());
+        imageInfo2.setImage(image2);
+        textInfo2.setText(clientsInfo.getOpponentsUsernames().get(0));
+        setBuildersImages(clientsInfo.getOpponentsColors().get(0),clientsInfo.getOpponentsUsernames().get(0));
+        effect2 = "";
+
+
+        if (clientsInfo.getOpponentsUsernames().size() == 2) {
+            god3 = clientsInfo.getOpponentsGod().get(1);
+            File file3 = new File("resources/Icons/"+god3+".png");
+            Image image3 = new Image(file3.toURI().toString());
+            imageInfo3.setImage(image3);
+            textInfo3.setText(clientsInfo.getOpponentsUsernames().get(1));
+            setBuildersImages(clientsInfo.getOpponentsColors().get(1),clientsInfo.getOpponentsUsernames().get(1));
+            effect3 = "";
+
+        }
+    }
+
+
+    public void setClientEffectDescription(String effect) {
+        this.clientGodEffect = effect;
+    }
+
+
+    public void setBuildersImages(Color color, String god) {
+        ImageView i1 = new ImageView("resources/Icons/"+god+".png");
+        ImageView i2 = new ImageView("resources/Icons/"+god+".png");
+        i1.setFitHeight(75);
+        i1.setFitWidth(75);
+        i2.setFitHeight(75);
+        i2.setFitWidth(75);
+        ArrayList<ImageView> i = new ArrayList<>();
+        i.add(i1);
+        i.add(i2);
+        buildersImages.put(color,i);
+    }
+
+
+    @FXML
+    public void updateBuiders(Color color, Coords[] coords) {
+        grid.getChildren().remove(buildersImages.get(color).get(0));
+        grid.getChildren().remove(buildersImages.get(color).get(1));
+        grid.add(buildersImages.get(color).get(0),coords[0].getX(),coords[0].getY());
+        grid.add(buildersImages.get(color).get(1),coords[1].getX(),coords[1].getY());
+    }
 
     String imageShowed = "";
-    String god1 = "APOLLO";
-    String effect1 ="Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated";
-    String god2 = "ARES";
-    String effect2 ="You may remove an unoccupied block (not dome) neighboring your unmoved Worker";
-    String god3 = "ARTEMIS";
-    String effect3 ="Your Worker may move one additional time, but not back to the space it started on";
-
-
     @FXML
     public void showEffect(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -85,8 +156,8 @@ public class Mappa {
         } else {
             switch (id) {
                 case "imageInfo1":
-                    godName.setText(god1);
-                    textEffect.setText(effect1);
+                    godName.setText(clientGodName);
+                    textEffect.setText(clientGodEffect);
                     break;
                 case "imageInfo2":
                     godName.setText(god2);
@@ -106,62 +177,101 @@ public class Mappa {
 
 
 
+    @FXML
+    public void builderSetUpInput() {
+        turnPhase = 0;
+        textInfo.setText("Click on a cell to place your workers");
+        //fare in modo che le celle già occupate da altri giocatori non siano cliccabili
+    }
+
+
+    //le pedine che non sono pane possono creare problemi???
+    //essendo loro figli di grid
+    //grid.removeAll() pulisce la griglia dagli edifici precedenti, ma le pedine che fine fanno
+    //soluzione ricaricare tutti i builders ma servirebbe salvarsi le posizioni
+    public void updateMap(MapVM mapVM) {
+        grid.getChildren().removeAll();
+        for (Node pane : grid.getChildren()) {
+            Integer x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
+            Integer y = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
+            String buildingUrl = "";
+            int cellHeight = mapVM.getMap()[x][y].getLevel().getHeight();
+            boolean isDome = mapVM.getMap()[x][y].getDome();
+            switch (cellHeight) {
+                case 0:
+                    buildingUrl = isDome ? dome : "clear";
+                    break;
+                case 1:
+                    buildingUrl = isDome ? level1Dome : level1;
+                    break;
+                case 2:
+                    buildingUrl = isDome ? level2Dome : level2;
+                    break;
+                case 3:
+                    buildingUrl = isDome ? level3Dome: level3;
+                    break;
+            }
+            if (!buildingUrl.equals("clear")) {
+                ImageView building = new ImageView(buildingUrl);
+                building.setFitHeight(100);
+                building.setFitWidth(100);
+                grid.add(building,x,y);
+            }
+            if (mapVM.getMap()[x][y].getDome()) {
+                ImageView domeImage = new ImageView(dome);
+                //check dimensioni
+                domeImage.setFitWidth(50);
+                domeImage.setFitHeight(50);
+                grid.add(domeImage,x,y);
+            }
+        }
+    }
+
+
+    public void setGuiInput(GuiInput guiInput) {
+        this.guiInput = guiInput;
+    }
+
+    public void setPaneClickable(ArrayList<Coords> coordsList) {
+        for (Node pane : grid.getChildren()) {
+            Integer x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
+            Integer y = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
+            Coords gridCoords = new Coords(x, y);
+            if (coordsList.contains(gridCoords)) {
+                pane.setMouseTransparent(false);
+            } else {
+                pane.setMouseTransparent(true);
+            }
+        }
+    }
+
+    int turnPhase;
 
     @FXML
     public void clickPane(MouseEvent e) {
-        Node source = (Node) e.getSource();
-        Integer colIndex = (GridPane.getColumnIndex(source) != null ? GridPane.getColumnIndex(source) : 0);
-        Integer rowIndex = (GridPane.getRowIndex(source) != null ? GridPane.getRowIndex(source) : 0);
+        if (turnPhase == 0) {
+            Node source = (Node) e.getSource();
+            Integer colIndex = (GridPane.getColumnIndex(source) != null ? GridPane.getColumnIndex(source) : 0);
+            Integer rowIndex = (GridPane.getRowIndex(source) != null ? GridPane.getRowIndex(source) : 0);
+            Coords clickedCoords = new Coords(rowIndex,colIndex);
+            guiInput.getController().notifySetupBuilder(clickedCoords);
+        }
 
-        List<Coords> adjacents = new ArrayList();
-        int x = colIndex - 1;
-        int y = rowIndex - 1;
-        Coords clickedCoords = new Coords(colIndex, rowIndex);
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Coords temp = new Coords(x + i, y + j);
-                adjacents.add(temp);
-            }
-        }
-        adjacents.remove(clickedCoords);
-        for (Node pane : grid.getChildren()) {
-            Integer xx = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
-            Integer yy = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
-            Coords tempCoords = new Coords(xx, yy);
-            if (adjacents.contains(tempCoords)) {
-                pane.getStyleClass().add("highlighted");
-            }
-        }
+
     }
-    @FXML
-    public void released(MouseEvent e) {
-        for (Node pane : grid.getChildren()) {
-            pane.getStyleClass().clear();
-        }
-    }
+
 
 
     @FXML
-    public void initializeMap(MouseEvent e) {
-        textInfo1.setText("Tony");
-        textInfo2.setText("Nanno");
-        textInfo3.setText("Simone");
-
-        File file1 = new File("resources/podium-characters-Jason.png");
-        Image image1 = new Image(file1.toURI().toString());
-        imageInfo1.setImage(image1);
-
-        File file2 = new File("resources/podium-characters-Minotaur.png");
-        Image image2 = new Image(file2.toURI().toString());
-        imageInfo2.setImage(image2);
-
-        File file3 = new File("resources/podium-characters-Morpheus.png");
-        Image image3 = new Image(file3.toURI().toString());
-        imageInfo3.setImage(image3);
-
-
+    public void released(MouseEvent e) {
 
     }
+
+    @FXML
+    public void initializeMap() {
+
+    }
+
 
 
 

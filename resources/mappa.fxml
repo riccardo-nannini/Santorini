@@ -84,7 +84,7 @@
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="97.0" layoutX="963.0" layoutY="138.0">
          <image>
-            <Image url="@../../../UNIVERSITA'/TERZO%20ANNO/SECONDO%20SEMESTRE/PROGETTO%20INGEGNERIA%20DEL%20SOFTWARE/RisorseGrafiche-Santorini/RisorseGrafiche-Santorini2/santorini_risorse-grafiche-2/Sprite/bg_panelEdgeLeft.png" />
+            <Image url="@bg_panelEdgeLeft.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="400.0" fitWidth="200.0" layoutX="884.0" layoutY="-2.0" preserveRatio="true">

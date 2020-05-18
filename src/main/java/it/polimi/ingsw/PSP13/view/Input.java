@@ -149,7 +149,7 @@ public abstract class Input {
      * Saves in MapPrinter the effect description of player's god
      * @param effect description of the effect
      */
-    public void getEffectDescription(String effect) {}
+    public void setEffectDescription(String effect) {}
 
     public abstract void playAgain();
 

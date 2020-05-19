@@ -80,11 +80,6 @@ public class GodSelection implements GodHandlerInterface {
 
             System.out.println("Click " + id);
         }
-        if (((MouseEvent) event).getButton() == MouseButton.SECONDARY) {
-            Image cardImage = new Image("Cards/" + id + ".png");
-            godDispatcher.card.setImage(cardImage);
-            System.out.println("Click dx");
-        }
     }
 
     @Override

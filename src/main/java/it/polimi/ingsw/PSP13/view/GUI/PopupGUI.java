@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class PopupGUI {
 
     public void starterSelected() {
         guiInput.getController().notifyStarterSelection(nameSpinner.getValue());
+        Stage stage = (Stage) popupPane.getScene().getWindow();
+        stage.close();
     }
 
     public void setGuiInput(GuiInput guiInput) {

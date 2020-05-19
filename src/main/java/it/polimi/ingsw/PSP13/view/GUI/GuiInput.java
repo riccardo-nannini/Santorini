@@ -21,10 +21,11 @@ public class GuiInput extends Input {
 
 
     @Override
-    public void setEffectDescription(String effect) {
+    public void setEffectDescription(String effect, List<String> godsEffect) {
         Platform.runLater(() -> {
             try {
-                map.setClientEffectDescription(effect);
+                if (godDispatcher != null) godDispatcher.setGodEffects(godsEffect);
+                //map.setClientEffectDescription(effect);
             } catch (Exception e) {
                 e.printStackTrace();
             }

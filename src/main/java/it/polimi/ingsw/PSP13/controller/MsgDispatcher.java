@@ -41,11 +41,10 @@ public class MsgDispatcher {
         map.put(updateStarter,new StarterDispatch(lobby, viewObserver));
         map.put(rematch, new RematchDispatch(lobby, viewObserver, socket));
         map.put(gameOver, new HearthbeatDispatch(lobby, viewObserver));
-
     }
 
     public void dispatch(MessageFromViewToController msg) {
-        System.out.println(msg.getMessageID());
+
         ServerDispatchBehavior dispatcher = map.get(msg.getMessageID());
 
         dispatcher.behavior(msg);

@@ -26,15 +26,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GodDispatcherGUI {
 
     private GodHandlerInterface godHandler;
-
+    private Map<String,String> godEffects = null;
     private GuiInput guiInput;
 
     private Stage stage = null;
@@ -45,13 +45,20 @@ public class GodDispatcherGUI {
     public TextArea descriptionBox;
     public ImageView godIcon1, godIcon2, godIcon3, godIcon4, godIcon5, godIcon6, godIcon7, godIcon8, godIcon9,
             godIcon10, godIcon11, godIcon12, godIcon13, godIcon14, godIcon15, godIcon16;
+    //TODO generare le icone da codice?
 
     public void upload() {
         godHandler.upload();
     }
 
     public void godClicked(Event event) {
-        godHandler.godClicked(event);
+        if (((MouseEvent) event).getButton() == MouseButton.SECONDARY) {
+            String id = ((MouseEvent) event).getPickResult().getIntersectedNode().getId();
+            Image cardImage = new Image("Cards/" + id + ".png");
+            card.setImage(cardImage);
+            if (godEffects != null) descriptionBox.setText(godEffects.get(id));
+            System.out.println("Click dx");
+        } else godHandler.godClicked(event);
     }
 
     public void confirmClicked() {
@@ -75,6 +82,7 @@ public class GodDispatcherGUI {
         godInput.setIsChoosing(isChoosing);
         godDispatcher.upload();
         godDispatcher.setGuiInput(guiInput);
+        guiInput.setGodDispatcher(godDispatcher);
 
         Scene selectionScene = new Scene(pane);
         selectionScene.getStylesheets().add("god_selection.css");
@@ -101,18 +109,18 @@ public class GodDispatcherGUI {
         popup.initModality(Modality.APPLICATION_MODAL);
         popup.setTitle("Starting player");
         popup.setScene(starterScene);
-        popup.showAndWait();
+        popup.show();
     }
 
     public void setSceneGameBoard() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:./resources/mappa.fxml"));
-        //Stage stage = (Stage) (anchorPane1.getScene().getWindow());
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene lobby = new Scene(pane);
         lobby.getStylesheets().add("mappa.css");
 
+        if (stage == null) stage = (Stage) (anchorPane1.getScene().getWindow());
         stage.setScene(lobby);
 
         Mappa map = loader.<Mappa>getController();
@@ -131,6 +139,16 @@ public class GodDispatcherGUI {
 
     public GuiInput getGuiInput() {
         return guiInput;
+    }
+
+    public void setGodEffects(List<String> godEffects) {
+        if (this.godEffects != null) return;
+        Map<String, String> effects = new HashMap<>();
+        for (String effect : godEffects) {
+            String[] splitted = effect.split("\\s*;\\s*");
+            effects.put(splitted[0], splitted[1]);
+        }
+        this.godEffects = effects;
     }
 
 }

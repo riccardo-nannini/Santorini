@@ -230,7 +230,7 @@ public class CliInput extends Input {
     }
 
     @Override
-    public void setEffectDescription(String effect) {
+    public void setEffectDescription(String effect, List<String> godEffects) {
         MapPrinter.setGodEffect(effect);
     }
 

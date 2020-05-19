@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP13.controller;
 
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
+import it.polimi.ingsw.PSP13.model.gods.*;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
@@ -24,6 +25,7 @@ public class MatchHandler {
     private Coords coords = null;
     private Player challenger = null;
     private String selectedStarter = null;
+    private static List<Class> gods;
 
     public MatchHandler () {
         match = new Match();
@@ -33,6 +35,7 @@ public class MatchHandler {
         numPlayers = match.getPlayers().size();
         turnHandler = new TurnHandler(virtualView);
         turnHandler.setMatchHandler(this);
+        initializeGods();
         Turn.setMatch(match);
         Turn.setTurnHandler(turnHandler);
         match.start(virtualView);
@@ -50,13 +53,13 @@ public class MatchHandler {
         //TODO gestire eccezioni invece di throws
         Random r = new Random();
         challenger = match.getPlayers().get(r.nextInt(numPlayers));
-        String godsString = "Apollo, Zeus, Artemis, Athena, Atlas, Minotaur, Hephaestus, Ares, Hypnus, Demeter, Pan ,Poseidon, Prometheus, Hera";
-        List<String> godsList = new ArrayList<String>(Arrays.asList(godsString.split("\\s*,\\s*")));
+        List<String> godsList = godNames();
 
         boolean error = false;
         List<String> godsInput;
         do {
             virtualView.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);
+            virtualView.sendGodEffectDescription(godEffects());
             error = false;
             while (godsReceived == null && disconnectedPlayers.isEmpty()) {
                 try {
@@ -112,6 +115,7 @@ public class MatchHandler {
             if (chosenGods.size() > 1) {
                 do {
                     virtualView.godInput(player, chosenGods, error);
+                    virtualView.sendGodEffectDescription(godEffects());
                     while (selectedGod == null && disconnectedPlayers.isEmpty()) {
                         try {
                             wait();
@@ -148,7 +152,7 @@ public class MatchHandler {
             Player currentPlayer = match.getPlayers().get(i);
             currentPlayer.setGod((Turn) god);
             virtualView.setGod(player,receivedGod);
-            //virtualView.sendGodEffectDescription(player,match.getPlayers().get(i).getEffect());
+            //virtualView.sendGodEffectDescription(match.getPlayers().get(i).getEffect(), godEffects());
         }
     }
 
@@ -401,5 +405,44 @@ public class MatchHandler {
         this.selectedStarter = starter;
         notifyAll();
     }
+
+    private void initializeGods() {
+        gods = new ArrayList<>();
+        gods.add(Apollo.class);
+        gods.add(Zeus.class);
+        gods.add(Artemis.class);
+        gods.add(Athena.class);
+        gods.add(Atlas.class);
+        gods.add(Minotaur.class);
+        gods.add(Hephaestus.class);
+        gods.add(Ares.class);
+        gods.add(Hypnus.class);
+        gods.add(Demeter.class);
+        gods.add(Pan.class);
+        gods.add(Poseidon.class);
+        gods.add(Prometheus.class);
+        gods.add(Hera.class);
+     }
+
+     private List<String> godNames() {
+        List<String> names = new ArrayList<>();
+        for (Class god : gods) {
+            String[] splitted = god.toString().split("\\s* \\s*");
+            String name = splitted[1].replace("it.polimi.ingsw.PSP13.model.gods.", "");
+            names.add(name);
+        }
+        return names;
+     }
+
+     private List<String> godEffects() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+         List<String> names = new ArrayList<>();
+         for (Class god : gods) {
+             Turn currentGod = (Turn) god.getDeclaredConstructor().newInstance();
+             String[] splitted = god.toString().split("\\s* \\s*");
+             String name = splitted[1].replace("it.polimi.ingsw.PSP13.model.gods.", "");
+             names.add(name + ";" + currentGod.getEffect());
+         }
+         return names;
+     }
 
 }

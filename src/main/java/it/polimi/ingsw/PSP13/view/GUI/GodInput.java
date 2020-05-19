@@ -97,10 +97,6 @@ public class GodInput implements GodHandlerInterface {
                 selectedImage.setBlendMode(BlendMode.MULTIPLY);
             }
         }
-        if (((MouseEvent) event).getButton() == MouseButton.SECONDARY) {
-            Image cardImage = new Image("Cards/" + id + ".png");
-            godDispatcher.card.setImage(cardImage);
-        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
+import java.util.List;
 
 public class MainProva extends Application {
 

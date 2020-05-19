@@ -12,6 +12,7 @@ import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -133,7 +134,7 @@ public class VirtualView {
         if (chosenGods.size() > 1) {
             MessageFromControllerToView messageOpponents;
             messageOpponents =
-                    new MessageFromControllerToView(MessageID.processGodChoice,false,player,null,chosenGods,false,-1);
+                    new MessageFromControllerToView(MessageID.processGodChoice,false,player,null, Collections.unmodifiableList(new ArrayList<>(chosenGods)),false,-1);
             for (ObjectOutputStream output : outputMap.values()) {
                 if (!output.equals(outputMap.get(player))) {
                     try{
@@ -325,18 +326,18 @@ public class VirtualView {
     }
 
     /**
-     * Sends to player's client a message containing the
-     * description of the effect of his god
-     * @param player player username
-     * @param effect a String containing the effect description
+     * Sends to all players a message containing the gods' effect
+     * @param godEffects a List containing the effects description
      */
-    public void sendGodEffectDescription(String player, String effect) throws IOException {
+    public void sendGodEffectDescription(List<String> godEffects) throws IOException {
         MessageFromControllerToView message =
-                new MessageFromControllerToView(MessageID.effectDescription,false,effect,null,null,false,-1);
-        try {
-            outputMap.get(player).writeObject(message);
-        } catch (IOException e){
-            notifyDisconnection();
+                new MessageFromControllerToView(MessageID.effectDescription,false, null,null,godEffects,false,-1);
+        for(ObjectOutputStream output : outputMap.values()) {
+                try {
+                    output.writeObject(message);
+                } catch (IOException e) {
+                    notifyDisconnection();
+                }
         }
     }
 

@@ -17,11 +17,10 @@ public class Apollo extends Turn {
     }
 
     /**
-     * @param apollo
      * @param coords
      * @return true if coords' cell is occupied by a player instead of a dome or it's not occupied
      */
-    private boolean apolloCheck(Builder apollo, Coords coords)
+    private boolean apolloCheck(Coords coords)
     {
         if(!match.isOccupied(coords))
             return true;
@@ -52,7 +51,7 @@ public class Apollo extends Turn {
             } else {
                 otherBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];
             }
-            return Turn.match.getAdjacent(builder.getCoords()).contains(coords) && diff <= 1 && apolloCheck(builder, coords) && !otherBuilder.getCoords().equals(coords);
+            return Turn.match.getAdjacent(builder.getCoords()).contains(coords) && diff <= 1 && apolloCheck(coords) && !otherBuilder.getCoords().equals(coords);
         }
 
     }

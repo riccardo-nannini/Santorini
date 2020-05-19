@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.view.GUI;
 
+import it.polimi.ingsw.PSP13.view.GUI.status.SetupStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -103,15 +104,15 @@ public class GodDispatcherGUI {
         popup.showAndWait();
     }
 
-    public void gameBoardSceneChange() throws IOException {
+    public void setSceneGameBoard() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+        loader.setLocation(new URL("file:./resources/mappa.fxml"));
+        //Stage stage = (Stage) (anchorPane1.getScene().getWindow());
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene lobby = new Scene(pane);
-        lobby.getStylesheets().add("lobby.css");
+        lobby.getStylesheets().add("mappa.css");
 
-        Stage stage = (Stage) (anchorPane1.getScene().getWindow());
         stage.setScene(lobby);
 
         Mappa map = loader.<Mappa>getController();

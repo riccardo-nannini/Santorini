@@ -69,7 +69,7 @@ public class PermaLobby implements Runnable{
     public synchronized void validateNickname(Socket socket, String nickname)
     {
         System.out.println("received nickname " + nickname + " from: " + socket.getInetAddress());
-        if(!usernameMap.containsKey(nickname))
+        if(!usernameMap.containsKey(nickname) && nickname.length() <= 16)
         {
             usernameMap.put(nickname,socket);
             listenerList.get(socket).setUsername(nickname);

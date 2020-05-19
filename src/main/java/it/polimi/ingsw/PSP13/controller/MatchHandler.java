@@ -37,7 +37,7 @@ public class MatchHandler {
         Turn.setTurnHandler(turnHandler);
         match.start(virtualView);
         godSelection(virtualView);
-        virtualView.notifyClientsInfo();
+        //virtualView.notifyClientsInfo();
         starterSelection(virtualView);
         builderSetUp(virtualView);
     }
@@ -148,8 +148,7 @@ public class MatchHandler {
             Player currentPlayer = match.getPlayers().get(i);
             currentPlayer.setGod((Turn) god);
             virtualView.setGod(player,receivedGod);
-            virtualView.sendGodEffectDescription(player,match.getPlayers().get(i).getEffect());
-
+            //virtualView.sendGodEffectDescription(player,match.getPlayers().get(i).getEffect());
         }
     }
 

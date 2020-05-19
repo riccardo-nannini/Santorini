@@ -17,6 +17,7 @@ public class GuiInput extends Input {
     private Lobby loginController;
     private GodDispatcherGUI godDispatcher = null;
     private Mappa map;
+    private boolean mapInitialization = true;
 
 
     @Override
@@ -45,6 +46,10 @@ public class GuiInput extends Input {
     public void updateMap(MapVM mapVM) {
         Platform.runLater(() -> {
             try {
+                if (mapInitialization) {
+                    godDispatcher.setSceneGameBoard();
+                    mapInitialization = false;
+                }
                 map.updateMap(mapVM);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -44,6 +44,7 @@ public class MapPrinter {
         MapPrinter.clientUsername = clientsInfo.getClientUsername();
         MapPrinter.clientBuilderColor = builderColorFromColor(clientsInfo.getClientColor());
         MapPrinter.clientGod = clientsInfo.getClientGod();
+        MapPrinter.godEffectDescription = clientsInfo.getClientEffect();
         MapPrinter.opponentsUsernames = clientsInfo.getOpponentsUsernames();
         MapPrinter.opponentsColors = new ArrayList<>();
         for (Color color : clientsInfo.getOpponentsColors()) {

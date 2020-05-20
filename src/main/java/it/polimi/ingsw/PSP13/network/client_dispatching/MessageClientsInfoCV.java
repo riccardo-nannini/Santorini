@@ -15,9 +15,11 @@ public class MessageClientsInfoCV implements Serializable {
     private String clientUsername;
     private Color clientColor;
     private String clientGod;
+    private String clientEffect;
     private List<String> opponentsUsernames;
     private List<Color> opponentsColors;
     private List<String> opponentsGod;
+    private List<String> opponentsEffects;
 
     public MessageClientsInfoCV() {
         opponentsUsernames = new ArrayList<>();
@@ -75,5 +77,22 @@ public class MessageClientsInfoCV implements Serializable {
 
     public void setClientColor(Color clientColor) {
         this.clientColor = clientColor;
+    }
+
+
+    public List<String> getOpponentsEffects() {
+        return opponentsEffects;
+    }
+
+    public void setOpponentsEffects(List<String> opponentsEffects) {
+        this.opponentsEffects = opponentsEffects;
+    }
+
+    public String getClientEffect() {
+        return clientEffect;
+    }
+
+    public void setClientEffect(String clientEffect) {
+        this.clientEffect = clientEffect;
     }
 }

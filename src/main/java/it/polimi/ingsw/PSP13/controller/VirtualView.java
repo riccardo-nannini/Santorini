@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP13.controller;
 
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
+import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.MessageID;
@@ -269,7 +270,8 @@ public class VirtualView {
         } catch (IOException e) {
             notifyDisconnection();
         }
-        this.notifyClientsInfo();
+        //TODO PERCHE' RIMANDIAMO LE INFO??????????
+        //this.notifyClientsInfo();
     }
 
     public void addColor(String username,Color color) {
@@ -289,9 +291,9 @@ public class VirtualView {
      * information about them
      * @throws IOException if an I/O error occurs while writing stream header
      */
-    public void notifyClientsInfo() throws IOException {
+    public void notifyClientsInfo(HashMap<String,String> effectsMap) throws IOException {
         for (String username : colorsMap.keySet()) {
-            MessageClientsInfoCV message = generateMessageClientsInfoCV(username);
+            MessageClientsInfoCV message = generateMessageClientsInfoCV(username, effectsMap);
             try {
                 outputMap.get(username).writeObject(message);
             } catch (IOException e) {
@@ -304,26 +306,31 @@ public class VirtualView {
      * @param username username of the player the message will be sent to
      * @return a MessageClientsInfoCV containing clients information
      */
-    public MessageClientsInfoCV generateMessageClientsInfoCV(String username) {
+    public MessageClientsInfoCV generateMessageClientsInfoCV(String username, HashMap<String,String> effectsMap) {
         MessageClientsInfoCV message = new MessageClientsInfoCV();
         message.setClientUsername(username);
         message.setClientColor(colorsMap.get(username));
         message.setClientGod(godsMap.get(username));
+        message.setClientEffect(effectsMap.get(username));
         List<String> opponentsUsernames = new ArrayList<>();
         List<Color> opponentsColors = new ArrayList<>();
         List<String> opponentsGod = new ArrayList<>();
+        List<String> opponentsEffects = new ArrayList<>();
         for (String opponentUsername : colorsMap.keySet()) {
             if (!opponentUsername.equals(username)) {
                 opponentsUsernames.add(opponentUsername);
                 opponentsColors.add(colorsMap.get(opponentUsername));
                 opponentsGod.add(godsMap.get(opponentUsername));
+                opponentsEffects.add(effectsMap.get(opponentUsername));
             }
         }
         message.setOpponentsUsernames(opponentsUsernames);
         message.setOpponentsColors(opponentsColors);
         message.setOpponentsGod(opponentsGod);
+        message.setOpponentsEffects(opponentsEffects);
         return message;
     }
+
 
     /**
      * Sends to all players a message containing the gods' effect

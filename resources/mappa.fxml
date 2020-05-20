@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.Mappa">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.Mappa">
    <children>
       <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="1162.0" layoutY="394.0" preserveRatio="true">
          <image>
@@ -44,31 +49,31 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="105.0" prefWidth="101.0" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Pane onMouseClicked="#selectCell" onMouseExited="#released" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Pane onMouseClicked="#selectCell" prefHeight="105.0" prefWidth="101.0" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
          </children>
       </GridPane>
       <ImageView fx:id="img00" fitHeight="400.0" fitWidth="200.0" layoutX="689.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
@@ -95,9 +100,9 @@
          <font>
             <Font name="Papyrus" size="22.0" />
          </font></TextArea>
-      <TextArea fx:id="textInfo" editable="false" layoutX="703.0" layoutY="522.0" prefHeight="105.0" prefWidth="558.0" stylesheets="@mappa.css" text="Now you have to move a builder, please select&#10; an highlighted cell" wrapText="true">
+      <TextArea fx:id="textInfo" editable="false" layoutX="703.0" layoutY="522.0" prefHeight="105.0" prefWidth="558.0" stylesheets="@mappa.css" wrapText="true">
          <font>
-            <Font name="Papyrus" size="20.0" />
+            <Font name="Papyrus" size="25.0" />
          </font>
          <opaqueInsets>
             <Insets />
@@ -120,11 +125,6 @@
       <ImageView fx:id="imageInfo1" fitHeight="107.0" fitWidth="106.0" layoutX="742.0" layoutY="158.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imageInfo2" fitHeight="94.0" fitWidth="95.0" layoutX="945.0" layoutY="165.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imageInfo3" fitHeight="107.0" fitWidth="102.0" layoutX="1130.0" layoutY="154.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="550.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#initializeMap" prefHeight="48.0" prefWidth="113.0" text="Initialize">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </Button>
       <TextArea fx:id="godName" layoutX="728.0" layoutY="431.0" prefHeight="91.0" prefWidth="498.0" stylesheets="@mappa.css" visible="false">
          <font>
             <Font name="Papyrus" size="28.0" />

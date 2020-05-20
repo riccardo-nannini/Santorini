@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.view.GUI.status.SetupStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,8 +29,8 @@ import java.util.ResourceBundle;
 
 public class Mappa implements Initializable {
 
-
     private GuiInput guiInput;
+
     private TurnStatus status;
 
 
@@ -73,15 +74,16 @@ public class Mappa implements Initializable {
 
     HashMap<Color, ArrayList<ImageView>> buildersImages = new HashMap<>();
 
-    private final String level1 = "resources/Buildings/Level1.png";
-    private final String level2 = "resources/Buildings/Level2.png";
-    private final String level3 = "resources/Buildings/Level3.png";
-    private final String level1Dome = "resources/Buildings/Level1_Dome.png";
-    private final String level2Dome = "resources/Buildings/Level2_Dome.png";
-    private final String level3Dome = "resources/Buildings/Level3_Dome.png";
-    private final String dome = "resources/Buildings/Dome.png";
+    private Pane[][] panes = new Pane[5][5];
+
+    private final int BUILDERS_IMAGES_OFFSET = 27;
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        savePane();
+        TurnStatus.setMap(this);
+    }
 
     @FXML
     public void selectCell(MouseEvent e) {
@@ -93,9 +95,9 @@ public class Mappa implements Initializable {
         grid.setDisable(true);
     }
 
-
     //TODO sistemare invio dell'effetto dei Dei mettendo tutti gli effetti in MessageCLientsInfoCV
     //TODO e sistemare quindi l'assegnazione di effect2 e effect3 e godEffectClient
+
     public void setUpClientsInfo(MessageClientsInfoCV clientsInfo) {
 
         textInfo1.setText(clientsInfo.getClientUsername());
@@ -103,15 +105,16 @@ public class Mappa implements Initializable {
         File file1 = new File("resources/Icons/"+clientGodName+".png");
         Image image1 = new Image(file1.toURI().toString());
         imageInfo1.setImage(image1);
-
+        setBuildersImages(clientsInfo.getClientColor(),clientsInfo.getClientGod());
+        clientGodEffect = clientsInfo.getClientEffect();
 
         god2 = clientsInfo.getOpponentsGod().get(0);
         File file2 = new File("resources/Icons/"+god2+".png");
         Image image2 = new Image(file2.toURI().toString());
         imageInfo2.setImage(image2);
         textInfo2.setText(clientsInfo.getOpponentsUsernames().get(0));
-        setBuildersImages(clientsInfo.getOpponentsColors().get(0),clientsInfo.getOpponentsUsernames().get(0));
-        effect2 = "";
+        setBuildersImages(clientsInfo.getOpponentsColors().get(0),clientsInfo.getOpponentsGod().get(0));
+        effect2 = clientsInfo.getOpponentsEffects().get(0);
 
 
         if (clientsInfo.getOpponentsUsernames().size() == 2) {
@@ -120,8 +123,8 @@ public class Mappa implements Initializable {
             Image image3 = new Image(file3.toURI().toString());
             imageInfo3.setImage(image3);
             textInfo3.setText(clientsInfo.getOpponentsUsernames().get(1));
-            setBuildersImages(clientsInfo.getOpponentsColors().get(1),clientsInfo.getOpponentsUsernames().get(1));
-            effect3 = "";
+            setBuildersImages(clientsInfo.getOpponentsColors().get(1),clientsInfo.getOpponentsGod().get(1));
+            effect3 = clientsInfo.getOpponentsEffects().get(1);
 
         }
     }
@@ -135,26 +138,43 @@ public class Mappa implements Initializable {
     public void setBuildersImages(Color color, String god) {
         ImageView i1 = new ImageView("resources/Icons/"+god+".png");
         ImageView i2 = new ImageView("resources/Icons/"+god+".png");
-        i1.setFitHeight(75);
-        i1.setFitWidth(75);
-        i2.setFitHeight(75);
-        i2.setFitWidth(75);
+        i1.setFitHeight(50);
+        i1.setFitWidth(50);
+        i2.setFitHeight(50);
+        i2.setFitWidth(50);
+        i1.setMouseTransparent(true);
+        i2.setMouseTransparent(true);
+        i1.setTranslateX(BUILDERS_IMAGES_OFFSET);
+        i2.setTranslateX(BUILDERS_IMAGES_OFFSET);
         ArrayList<ImageView> i = new ArrayList<>();
         i.add(i1);
         i.add(i2);
         buildersImages.put(color,i);
     }
 
+    Boolean firstUpdateBuilders = true;
 
     @FXML
     public void updateBuiders(Color color, Coords[] coords) {
-        grid.getChildren().remove(buildersImages.get(color).get(0));
-        grid.getChildren().remove(buildersImages.get(color).get(1));
-        grid.add(buildersImages.get(color).get(0),coords[0].getX(),coords[0].getY());
-        grid.add(buildersImages.get(color).get(1),coords[1].getX(),coords[1].getY());
+        if (!firstUpdateBuilders) {
+            grid.getChildren().remove(buildersImages.get(color).get(0));
+            grid.getChildren().remove(buildersImages.get(color).get(1));
+        } else {
+            firstUpdateBuilders = false;
+        }
+        grid.add(buildersImages.get(color).get(0), coords[0].getX(), coords[0].getY());
+        grid.add(buildersImages.get(color).get(1), coords[1].getX(), coords[1].getY());
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                panes[i][j].getStyleClass().removeAll("highlighted");
+            }
+        }
     }
 
+
     String imageShowed = "";
+
     @FXML
     public void showEffect(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -186,44 +206,33 @@ public class Mappa implements Initializable {
     }
 
 
-    //le pedine che non sono pane possono creare problemi???
-    //essendo loro figli di grid
-    //grid.removeAll() pulisce la griglia dagli edifici precedenti, ma le pedine che fine fanno
-    //soluzione ricaricare tutti i builders ma servirebbe salvarsi le posizioni
     public void updateMap(MapVM mapVM) {
-        grid.getChildren().removeAll();
-        for (Node pane : grid.getChildren()) {
-            Integer x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
-            Integer y = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
-            String buildingUrl = "";
-            int cellHeight = mapVM.getMap()[x][y].getLevel().getHeight();
-            boolean isDome = mapVM.getMap()[x][y].getDome();
-            switch (cellHeight) {
-                case 0:
-                    buildingUrl = isDome ? dome : "clear";
-                    break;
-                case 1:
-                    buildingUrl = isDome ? level1Dome : level1;
-                    break;
-                case 2:
-                    buildingUrl = isDome ? level2Dome : level2;
-                    break;
-                case 3:
-                    buildingUrl = isDome ? level3Dome: level3;
-                    break;
+        int cellHeight;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                cellHeight = mapVM.getMap()[i][j].getLevel().getHeight();
+                boolean isDome = mapVM.getMap()[i][j].getDome();
+                String buildingStyle = "";
+                switch (cellHeight) {
+                    case 0:
+                        buildingStyle = isDome ? "dome" : "clear";
+                        break;
+                    case 1:
+                        buildingStyle = isDome ? "level1Dome" : "level1";
+                        break;
+                    case 2:
+                        buildingStyle = isDome ? "level2Dome" : "level2";
+                        break;
+                    case 3:
+                        buildingStyle = isDome ? "level3Dome" : "level3";
+                        break;
+                }
+                if (!buildingStyle.equals("clear")) panes[i][j].getStyleClass().add(buildingStyle);
             }
-            if (!buildingUrl.equals("clear")) {
-                ImageView building = new ImageView(buildingUrl);
-                building.setFitHeight(100);
-                building.setFitWidth(100);
-                grid.add(building,x,y);
-            }
-            if (mapVM.getMap()[x][y].getDome()) {
-                ImageView domeImage = new ImageView(dome);
-                //check dimensioni
-                domeImage.setFitWidth(50);
-                domeImage.setFitHeight(50);
-                grid.add(domeImage,x,y);
+        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                panes[i][j].getStyleClass().removeAll("highlighted");
             }
         }
     }
@@ -242,34 +251,13 @@ public class Mappa implements Initializable {
     }
 
 
-    //TODO sistemare
-    @FXML
-    public void released(MouseEvent e) {
-        for (Node pane : grid.getChildren()) {
-            pane.getStyleClass().clear();
+    public void savePane() {
+        int i,j;
+        for (Node child : grid.getChildren()) {
+            i = ( GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0);
+            j = ( GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0);
+            panes[i][j] = (Pane) child;
         }
-    }
-
-    @FXML
-    public void initializeMap(MouseEvent e) {
-        textInfo1.setText("Tony");
-        textInfo2.setText("Nanno");
-        textInfo3.setText("Simone");
-
-        File file1 = new File("resources/podium-characters-Jason.png");
-        Image image1 = new Image(file1.toURI().toString());
-        imageInfo1.setImage(image1);
-
-        File file2 = new File("resources/podium-characters-Minotaur.png");
-        Image image2 = new Image(file2.toURI().toString());
-        imageInfo2.setImage(image2);
-
-        File file3 = new File("resources/podium-characters-Morpheus.png");
-        Image image3 = new Image(file3.toURI().toString());
-        imageInfo3.setImage(image3);
-
-        grid.setDisable(false);
-
     }
 
 
@@ -350,23 +338,18 @@ public class Mappa implements Initializable {
         }
     }
 
-    public void build(List<Coords> checkBuildCells, boolean error) {
-        if(error)
-            textInfo.setText("There was an error with your last selection, please try again.");
-        else
-            textInfo.setText("Now, you have to build a block. You can build on the highlighted cells.");
+    public void build(List<Coords> checkBuildCells) {
+
+        textInfo.setText("Now, you have to build a block. You can build on the highlighted cells.");
 
         highlightCells(checkBuildCells);
 
         grid.setDisable(false);
     }
 
-    public void move(List<Coords> checkMoveCells, boolean error) {
+    public void move(List<Coords> checkMoveCells) {
 
-        if(error)
-            textInfo.setText("There was an error with your last selection, please try again.");
-        else
-            textInfo.setText("It's time to move your worker! You can move him only on the highlighted cells");
+        textInfo.setText("It's time to move your worker! You can move him only on the highlighted cells");
 
         highlightCells(checkMoveCells);
 
@@ -378,23 +361,14 @@ public class Mappa implements Initializable {
         textInfo.setText("It's your turn! Please select one of your builders");
         grid.setDisable(false);
     }
-
     //TODO fare in modo che le celle già occupate da altri giocatori non siano cliccabili
-    public void builderSetup(boolean callnumber, boolean error){
+
+    public void builderSetup(boolean callnumber){
         if(!callnumber)
-            textInfo.setText("It's your turn! Please place your first builder");
-        else
             textInfo.setText("Please, place your second builder");
-
-        if(error)
-            textInfo.setText("There was an error with your last selection, please try again.");
-
+        else
+            textInfo.setText("It's your turn! Please place your first builder");
         grid.setDisable(false);
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        TurnStatus.setMap(this);
     }
 
 

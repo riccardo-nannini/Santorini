@@ -40,9 +40,17 @@ public class MatchHandler {
         Turn.setTurnHandler(turnHandler);
         match.start(virtualView);
         godSelection(virtualView);
-        //virtualView.notifyClientsInfo();
+        notifyClientsInfo();
         starterSelection(virtualView);
         builderSetUp(virtualView);
+    }
+
+    public void notifyClientsInfo() throws IOException {
+        HashMap<String,String> effectsMap = new HashMap<>();
+        for (Player player : match.getPlayers()) {
+            effectsMap.put(player.getUsername(),player.getGod().getEffect());
+        }
+        virtualView.notifyClientsInfo(effectsMap);
     }
 
     public void addPlayer(Player player) {

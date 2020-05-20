@@ -61,6 +61,14 @@ public class GuiInput extends Input {
     @Override
     public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
         Platform.runLater(() -> {
+            if (mapInitialization) {
+                try {
+                    godDispatcher.setSceneGameBoard();
+                    mapInitialization = false;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
                 map.setUpClientsInfo(messageClientsInfoCV);
             } catch (Exception e) {
@@ -74,7 +82,7 @@ public class GuiInput extends Input {
 
         map.setStatus(new MoveStatus());
         Platform.runLater(()->{
-            map.move(checkMoveCells, error);
+            map.move(checkMoveCells);
         });
 
     }
@@ -83,7 +91,7 @@ public class GuiInput extends Input {
     public void buildInput(List<Coords> checkBuildCells, boolean error) {
         map.setStatus(new BuildStatus());
         Platform.runLater(()->{
-            map.build(checkBuildCells, error);
+            map.build(checkBuildCells);
         });
     }
 
@@ -113,9 +121,19 @@ public class GuiInput extends Input {
     @Override
     public void builderSetUpInput(boolean callNumber, boolean error) {
 
-        map.setStatus(new SetupStatus());
+
         Platform.runLater(()->{
-            map.builderSetup(callNumber, error);
+            if (mapInitialization)  {
+                try {
+                    godDispatcher.setSceneGameBoard();
+                    mapInitialization = false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            map.setStatus(new SetupStatus());
+            map.builderSetup(callNumber);
         });
 
     }

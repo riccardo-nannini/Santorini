@@ -34,9 +34,40 @@ GridPane > Pane:hover{
 }
 
 
-.sfondoAres {
-    -fx-background-image: url("/Icons/Ares.png");
+.level1 {
+    -fx-background-image: url("/Buildings/Level1.png");
     -fx-background-size: 100% 100%;
-
 }
+
+.level2 {
+    -fx-background-image: url("/Buildings/Level2.png");
+    -fx-background-size: 100% 100%;
+}
+
+.level3 {
+    -fx-background-image: url("/Buildings/Level3.png");
+    -fx-background-size: 100% 100%;
+}
+
+.dome {
+    -fx-background-image: url("/Buildings/Dome.png");
+    -fx-background-size: 100% 100%;
+}
+
+.level1Dome {
+    -fx-background-image: url("/Buildings/Level1_Dome.png");
+    -fx-background-size: 100% 100%;
+}
+
+.level2Dome {
+    -fx-background-image: url("/Buildings/Level2_Dome.png");
+    -fx-background-size: 100% 100%;
+}
+
+.level3Dome {
+    -fx-background-image: url("/Buildings/Level3_Dome.png");
+    -fx-background-size: 100% 100%;
+}
+
+
 

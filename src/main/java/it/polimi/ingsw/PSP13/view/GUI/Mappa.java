@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,13 +86,16 @@ public class Mappa implements Initializable {
         TurnStatus.setMap(this);
     }
 
+    //TODO ho scambiato row con column nella penultima riga per vedere di sistamre
     @FXML
     public void selectCell(MouseEvent e) {
+        clear();
+
         Node source = (Node)e.getSource() ;
         int colIndex = ( GridPane.getColumnIndex(source) != null ? GridPane.getColumnIndex(source) : 0);
         int rowIndex = ( GridPane.getRowIndex(source) != null ? GridPane.getRowIndex(source) : 0);
 
-        status.selectCell(new Coords(colIndex,rowIndex));
+        status.selectCell(new Coords(rowIndex,colIndex));
         grid.setDisable(true);
     }
 
@@ -136,8 +140,8 @@ public class Mappa implements Initializable {
 
 
     public void setBuildersImages(Color color, String god) {
-        ImageView i1 = new ImageView("resources/Icons/"+god+".png");
-        ImageView i2 = new ImageView("resources/Icons/"+god+".png");
+        ImageView i1 = new ImageView("Icons/"+god+".png");
+        ImageView i2 = new ImageView("Icons/"+god+".png");
         i1.setFitHeight(50);
         i1.setFitWidth(50);
         i2.setFitHeight(50);
@@ -154,6 +158,7 @@ public class Mappa implements Initializable {
 
     Boolean firstUpdateBuilders = true;
 
+    //TODO ho scambiato getx e gety per vedere di aggiustare
     @FXML
     public void updateBuiders(Color color, Coords[] coords) {
         if (!firstUpdateBuilders) {
@@ -162,8 +167,8 @@ public class Mappa implements Initializable {
         } else {
             firstUpdateBuilders = false;
         }
-        grid.add(buildersImages.get(color).get(0), coords[0].getX(), coords[0].getY());
-        grid.add(buildersImages.get(color).get(1), coords[1].getX(), coords[1].getY());
+        grid.add(buildersImages.get(color).get(0), coords[0].getY(), coords[0].getX());
+        grid.add(buildersImages.get(color).get(1), coords[1].getY(), coords[1].getX());
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -172,9 +177,7 @@ public class Mappa implements Initializable {
         }
     }
 
-
     String imageShowed = "";
-
     @FXML
     public void showEffect(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -206,6 +209,7 @@ public class Mappa implements Initializable {
     }
 
 
+    //TODO ho scambiato j e i nell'ultimo if per vedere di aggiustare
     public void updateMap(MapVM mapVM) {
         int cellHeight;
         for (int i = 0; i < 5; i++) {
@@ -227,7 +231,7 @@ public class Mappa implements Initializable {
                         buildingStyle = isDome ? "level3Dome" : "level3";
                         break;
                 }
-                if (!buildingStyle.equals("clear")) panes[i][j].getStyleClass().add(buildingStyle);
+                if (!buildingStyle.equals("clear")) panes[j][i].getStyleClass().add(buildingStyle);
             }
         }
         for (int i = 0; i < 5; i++) {
@@ -250,13 +254,35 @@ public class Mappa implements Initializable {
         }
     }
 
+    @FXML
+    public void initializeMap(MouseEvent e) {
+        textInfo1.setText("Tony");
+        textInfo2.setText("Nanno");
+        textInfo3.setText("Simone");
 
+        File file1 = new File("resources/podium-characters-Jason.png");
+        Image image1 = new Image(file1.toURI().toString());
+        imageInfo1.setImage(image1);
+
+        File file2 = new File("resources/podium-characters-Minotaur.png");
+        Image image2 = new Image(file2.toURI().toString());
+        imageInfo2.setImage(image2);
+
+        File file3 = new File("resources/podium-characters-Morpheus.png");
+        Image image3 = new Image(file3.toURI().toString());
+        imageInfo3.setImage(image3);
+
+        grid.setDisable(false);
+
+    }
+
+    //TODO ho scambiato j e i nell'ultima riga per vedere di aggiustare
     public void savePane() {
         int i,j;
         for (Node child : grid.getChildren()) {
             i = ( GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0);
             j = ( GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0);
-            panes[i][j] = (Pane) child;
+            panes[j][i] = (Pane) child;
         }
     }
 
@@ -327,13 +353,22 @@ public class Mappa implements Initializable {
         grid.setDisable(false);
     }
 
+    private void clear() {
+        for (Node pane : grid.getChildren()) {
+            pane.getStyleClass().clear();
+            pane.setDisable(true);
+        }
+    }
+
+    //TODO ho scambiato xx e yy nelle iniz per vedere di sistemare
     private void highlightCells(List<Coords> checkMoveCells) {
         for (Node pane : grid.getChildren()) {
-            int xx = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
-            int yy = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
+            int yy = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
+            int xx = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
             Coords tempCoords = new Coords(xx, yy);
             if (checkMoveCells.contains(tempCoords)) {
                 pane.getStyleClass().add("highlighted");
+                pane.setDisable(false);
             }
         }
     }
@@ -361,17 +396,49 @@ public class Mappa implements Initializable {
         textInfo.setText("It's your turn! Please select one of your builders");
         grid.setDisable(false);
     }
-    //TODO fare in modo che le celle già occupate da altri giocatori non siano cliccabili
 
-    public void builderSetup(boolean callnumber){
-        if(!callnumber)
+
+    public void builderSetup(boolean callnumber) {
+        if (!callnumber)
             textInfo.setText("Please, place your second builder");
         else
             textInfo.setText("It's your turn! Please place your first builder");
+
+        setupHighlight();
+
         grid.setDisable(false);
     }
 
+    //TODO ho cambiato x e y nella penultima riga per vedere di sistemare
+    /**
+     * this cycles all the grid panes and check if any pane has an ImageView as child. if it does checks its url.
+     * if the pane doesn't have an image or it's url is clear, a new Coords is created and added to checkSetupList
+     */
+    private void setupHighlight() {
+        List<Coords> checkSetupList = new ArrayList<>();
 
+        for(int i=0;i<5;i++)
+        {
+            for(int j=0;j<5;j++)
+                checkSetupList.add(new Coords(i,j));
+        }
+
+        for(Node pane : grid.getChildren()) {
+            int x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
+            int y = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
+
+            ImageView img = null;
+            if(pane instanceof ImageView)
+                img = (ImageView)pane;
+            else
+                continue;
+
+            if(!img.getImage().getUrl().equals("clear"))
+                checkSetupList.remove(new Coords(y,x));
+        }
+
+        highlightCells(checkSetupList);
+    }
 
     public void setStatus(TurnStatus status) {
         this.status = status;

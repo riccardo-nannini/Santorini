@@ -29,8 +29,8 @@
 }
 
 GridPane > Pane:hover{
-    -fx-opacity: 0.5;
-    -fx-background-color: #fffc32;
+    /*-fx-opacity: 0.5;
+    -fx-background-color: #fffc32;*/
 }
 
 

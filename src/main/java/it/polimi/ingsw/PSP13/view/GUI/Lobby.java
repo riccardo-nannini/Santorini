@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -62,6 +64,7 @@ public class Lobby implements Initializable{
     public void nicknameError(){
         nicknameError.setText("The nickname you have chosen\nis not available for this match,\nplease insert another nickname");
         nicknameError.setVisible(true);
+        nicknameSent = false;
     }
 
     //public static EventType<UpdateEvent> etype = new EventType<>(EventType.ROOT,"prova");
@@ -78,6 +81,33 @@ public class Lobby implements Initializable{
 
         SpinnerValueFactory<Integer> numbers = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,3,3);
         spinner.setValueFactory(numbers);
+
+    }
+
+    public void goBacktoNickname() {
+
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Insert your nickname");
+        popup.setMinWidth(300);
+
+        Label label = new Label("The nickname you have chosen\nis not available for this match,\nplease insert another nickname");
+        TextField field = new TextField();
+        Button send = new Button("OK");
+        send.setOnAction(e -> {
+            if(!field.getText().equals("")){
+                guiInput.getController().notifyNickname(field.getText());
+                popup.close();
+            }
+        });
+
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(label,field,send);
+        vBox.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vBox);
+        popup.setScene(scene);
+        popup.showAndWait();
 
     }
 
@@ -221,8 +251,6 @@ public class Lobby implements Initializable{
         });
         timeline.play();
 
-        waitLabel.setText("Please wait until a match is found...");
-        waitLabel.setVisible(true);
     }
 
     public void rematch() throws IOException {

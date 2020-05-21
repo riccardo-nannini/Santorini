@@ -76,7 +76,7 @@ public class MatchHandlerTest {
 
     }
 
-    @Test
+    //@Test
     public void MatchInitTest(){
 
         player2 = new Player(Color.Red,"addPlayer");
@@ -117,7 +117,7 @@ public class MatchHandlerTest {
     /**
      * l'eccezione non passa nel catch
      */
-    //@Test
+    @Test
     public void matchInitDisconnectionTest()
     {
         boolean thrown = false;

@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Platform;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 public class GuiInput extends Input {
@@ -100,6 +101,8 @@ public class GuiInput extends Input {
         Platform.runLater(() -> {
             if(error)
             {
+                if(first)
+                    loginController.goBacktoNickname();
                 loginController.nicknameError();
             }
 

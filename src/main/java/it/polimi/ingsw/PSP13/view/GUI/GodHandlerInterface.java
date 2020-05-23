@@ -2,15 +2,17 @@ package it.polimi.ingsw.PSP13.view.GUI;
 
 import javafx.event.Event;
 
+import java.io.IOException;
+
 public interface GodHandlerInterface {
 
-    public void initialization();
+    void initialization();
 
-    public void upload();
+    void upload();
 
-    public void godClicked(Event event);
+    void godClicked(Event event);
 
-    public void confirmClicked();
+    void confirmClicked(Event event);
 
-    public void helperClicked();
+    void helperClicked(Event event) throws IOException;
 }

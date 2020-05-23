@@ -40,9 +40,12 @@ public class GodDispatcherGUI {
     private Stage stage = null;
     public AnchorPane anchorPane1;
     public ImageView card;
+    public ImageView godFrame;
+    public ImageView godBanner;
     public ImageView confirm;
+    public TextFlow godName;
     public TextFlow infoBox;
-    public TextArea descriptionBox;
+    public TextFlow descriptionBox;
     public ImageView godIcon1, godIcon2, godIcon3, godIcon4, godIcon5, godIcon6, godIcon7, godIcon8, godIcon9,
             godIcon10, godIcon11, godIcon12, godIcon13, godIcon14, godIcon15, godIcon16;
     //TODO generare le icone da codice?
@@ -53,20 +56,37 @@ public class GodDispatcherGUI {
 
     public void godClicked(Event event) {
         if (((MouseEvent) event).getButton() == MouseButton.SECONDARY) {
+            godBanner.setImage(new Image("nameBanner.png"));
+            godFrame.setImage(new Image("godCardFrame.png"));
             String id = ((MouseEvent) event).getPickResult().getIntersectedNode().getId();
             Image cardImage = new Image("Cards/" + id + ".png");
             card.setImage(cardImage);
-            if (godEffects != null) descriptionBox.setText(godEffects.get(id));
-            System.out.println("Click dx");
+            godName.getChildren().clear();
+            Text name = new Text(id);
+            name.setStyle("-fx-fill: WHITE;");
+            godName.getChildren().add(name);
+            if (godEffects != null) {
+                Text text = new Text(godEffects.get(id));
+                descriptionBox.getChildren().clear();
+                descriptionBox.getChildren().add(text);
+            }
         } else godHandler.godClicked(event);
     }
 
-    public void confirmClicked() {
-        godHandler.confirmClicked();
+    public void confirmClicked(Event event) {
+        godHandler.confirmClicked(event);
     }
 
-    public void helperClicked() {
-        godHandler.helperClicked();
+    public void helperClicked(Event event) throws IOException {
+        godHandler.helperClicked(event);
+    }
+
+    public void buttonPressed(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            Node selectedImage = event.getPickResult().getIntersectedNode();
+            selectedImage.setBlendMode(BlendMode.MULTIPLY);
+        }
+
     }
 
     public void setSceneGodInput(List<String> chosenGods, boolean isChoosing) throws IOException {
@@ -110,6 +130,27 @@ public class GodDispatcherGUI {
         popup.setTitle("Starting player");
         popup.setScene(starterScene);
         popup.show();
+    }
+
+    public void HelperPopUp(Event event, List<String> message) throws IOException {
+        Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();
+        selectedImage.setBlendMode(BlendMode.SRC_OVER);
+        Stage helper = new Stage();
+
+        Font.loadFont( GodDispatcherGUI.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/helper.fxml"));
+        AnchorPane helperPane = loader.<AnchorPane>load();
+
+        HelperGUI helperGUI = loader.<HelperGUI>getController();
+        helperGUI.setText(message);
+
+        Scene starterScene = new Scene(helperPane);
+        starterScene.getStylesheets().add("god_selection.css");
+        helper.initModality(Modality.APPLICATION_MODAL);
+        helper.setTitle("Helper");
+        helper.setScene(starterScene);
+        helper.show();
     }
 
     public void setSceneGameBoard() throws IOException {

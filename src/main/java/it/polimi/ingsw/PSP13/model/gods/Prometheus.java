@@ -17,10 +17,7 @@ public class Prometheus extends Turn {
      */
     public Prometheus() {
         usedEffect = false;
-        effect = " If your Worker does not move up, it may build both before and after moving" +
-                "\n\u001B[1mATTENTION\u001B[0m: if you decide to use the effect, \u001B[1mFIRST\u001B[0m of all you will be asked to insert \u001B[1mWHERE YOU WANT TO MOVE\u001B[0m" +
-                "\nand \u001B[1mTHEN\u001B[0m you will be asked to insert the coordinates of \u001B[1mTHE BEFORE-MOVING BUILD\u001B[0m that will be done only if it " +
-                "respects Prometheus effect";
+        effect = " If your Worker does not move up, it may build both before and after moving";
     }
 
 

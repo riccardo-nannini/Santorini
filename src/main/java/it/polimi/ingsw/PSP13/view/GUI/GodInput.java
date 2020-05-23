@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +43,14 @@ public class GodInput implements GodHandlerInterface {
     @Override
     public void upload() {
         initialization();
-        godDispatcher.descriptionBox.setEditable(false);
+        godDispatcher.descriptionBox.setDisable(false);
         godDispatcher.infoBox.setDisable(true);
+        godDispatcher.godName.setDisable(true);
         Text text = new Text();
         if (isChoosing) {
-            text.setText("   Select your god!");
+            text.setText("Select your god!");
         } else {
-            text.setText("  Wait while the opponent is chosing his god..");
+            text.setText("Wait while the opponent is chosing his god..");
         }
         godDispatcher.infoBox.getChildren().add(text);
         if (godsList.size() == 2) {
@@ -100,7 +102,9 @@ public class GodInput implements GodHandlerInterface {
     }
 
     @Override
-    public void confirmClicked() {
+    public void confirmClicked(Event event) {
+        Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();
+        selectedImage.setBlendMode(BlendMode.SRC_OVER);
         if (!isChoosing) return;
         if (selectedGod == null) {
             if (godDispatcher.infoBox.getChildren().size() < 2) {
@@ -116,8 +120,13 @@ public class GodInput implements GodHandlerInterface {
     }
 
     @Override
-    public void helperClicked() {
-        System.out.println("Helper clicked!");
+    public void helperClicked(Event event) throws IOException {
+        List<String> message = new ArrayList<>();
+        if (isChoosing) {
+            message.add("Left click: selects a god");
+        }
+        message.add("\nRight click: shows god info");
+        godDispatcher.HelperPopUp(event, message);
     }
 
     public void setGodsList(List<String> godsList) {

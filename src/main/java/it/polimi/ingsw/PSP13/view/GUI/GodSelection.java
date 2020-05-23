@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,13 +49,14 @@ public class GodSelection implements GodHandlerInterface {
     @Override
     public void upload() {
         initialization();
-        godDispatcher.descriptionBox.setEditable(false);
+        godDispatcher.descriptionBox.setDisable(false);
         godDispatcher.infoBox.setDisable(true);
+        godDispatcher.godName.setDisable(true);
         Text text = new Text();
         if (isChallenger) {
-            text.setText("   Select " + godsNumber +" gods");
+            text.setText("Select " + godsNumber +" gods");
         } else {
-            text.setText("  Wait while the challenger is chosing the gods..");
+            text.setText("Wait while the challenger is chosing the gods..");
         }
         godDispatcher.infoBox.getChildren().add(text);
         for (int godsIndex=0; godsIndex < godsList.size(); godsIndex++) {
@@ -77,13 +79,13 @@ public class GodSelection implements GodHandlerInterface {
                 selectedGods.add(id);
                 selectedImage.setBlendMode(BlendMode.MULTIPLY);
             }
-
-            System.out.println("Click " + id);
         }
     }
 
     @Override
-    public void confirmClicked() {
+    public void confirmClicked(Event event) {
+        Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();
+        selectedImage.setBlendMode(BlendMode.SRC_OVER);
         if (!isChallenger) return;
         if (selectedGods.size() != godsNumber) {
             if (godDispatcher.infoBox.getChildren().size() < 2) {
@@ -94,7 +96,6 @@ public class GodSelection implements GodHandlerInterface {
             }
         } else {
             godDispatcher.getGuiInput().getController().notifyGodSelection(List2String(selectedGods));
-            System.out.println("Confermato");
         }
     }
 
@@ -107,8 +108,13 @@ public class GodSelection implements GodHandlerInterface {
         return result.toString();
     }
 
-    public void helperClicked() {
-        System.out.println("Helper clicked");
+    public void helperClicked(Event event) throws IOException {
+        List<String> message = new ArrayList<>();
+        if (isChallenger) {
+            message.add("Left click: selects a god");
+        }
+        message.add("\nRight click: shows god info");
+        godDispatcher.HelperPopUp(event, message);
     }
 
     public void setGodsList(List<String> godsList) {

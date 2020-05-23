@@ -5,12 +5,16 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="popupPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="344.0" styleClass="background" stylesheets="@god_selection.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.PopupGUI">
    <children>
-      <Label fx:id="popupText" layoutY="-1.0" prefHeight="94.0" prefWidth="305.0" text="Label" />
-      <Spinner fx:id="nameSpinner" layoutX="14.0" layoutY="93.0" prefHeight="26.0" prefWidth="198.0" />
-      <ImageView fitHeight="61.0" fitWidth="54.0" layoutX="251.0" layoutY="79.0" onMouseClicked="#starterSelected" pickOnBounds="true" preserveRatio="true">
+      <Label fx:id="popupText" layoutX="16.0" layoutY="3.0" prefHeight="94.0" prefWidth="289.0" textAlignment="CENTER">
+         <font>
+            <Font name="Roboto Condensed" size="22.0" />
+         </font></Label>
+      <Spinner fx:id="nameSpinner" layoutX="16.0" layoutY="92.0" prefHeight="27.0" prefWidth="209.0" />
+      <ImageView fx:id="confirm" fitHeight="49.0" fitWidth="46.0" layoutX="256.0" layoutY="82.0" onMousePressed="#buttonPressed" onMouseReleased="#starterSelected" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Confirm.png" />
          </image>

@@ -169,7 +169,7 @@ public class PermaLobby implements Runnable{
      * then it fills some data structures and computers boolean for the cycle.
      * @throws IOException
      */
-    private void  socketAccept() throws IOException {
+    private void socketAccept() throws IOException {
 
         Socket socket = serverSocket.accept();
         System.out.println("connected to: " + socket.getInetAddress());

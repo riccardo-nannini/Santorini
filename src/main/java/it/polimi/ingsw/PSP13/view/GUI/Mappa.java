@@ -209,7 +209,6 @@ public class Mappa implements Initializable {
     }
 
 
-    //TODO ho scambiato j e i nell'ultimo if per vedere di aggiustare
     public void updateMap(MapVM mapVM) {
         int cellHeight;
         for (int i = 0; i < 5; i++) {
@@ -231,7 +230,7 @@ public class Mappa implements Initializable {
                         buildingStyle = isDome ? "level3Dome" : "level3";
                         break;
                 }
-                if (!buildingStyle.equals("clear")) panes[j][i].getStyleClass().add(buildingStyle);
+                if (!buildingStyle.equals("clear")) panes[i][j].getStyleClass().add(buildingStyle);
             }
         }
         for (int i = 0; i < 5; i++) {

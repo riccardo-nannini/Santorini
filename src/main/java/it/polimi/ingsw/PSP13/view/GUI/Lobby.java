@@ -272,6 +272,12 @@ public class Lobby implements Initializable{
             slide.setVisible(true);
         });
         timeline.play();
+
+        okSlide.setDisable(true);
+        nicknameText.setText("***");
+        nicknameError.setText("Please wait\nuntil a match is found...");
+        nicknameError.setVisible(true);
+        nicknameSent = true;
     }
 
     @FXML

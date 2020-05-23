@@ -48,6 +48,8 @@ public class Lobby implements Initializable{
     @FXML
     private Button ok;
     @FXML
+    private Button okFirst;
+    @FXML
     private Button okSlide;
     @FXML
     private Label errorLabel;
@@ -157,6 +159,7 @@ public class Lobby implements Initializable{
     @FXML
     public void gameStart(ActionEvent event) throws Exception
     {
+        okSlide.setDisable(true);
         if(nicknameSent)
             return;
         nicknameError.setVisible(false);
@@ -169,7 +172,7 @@ public class Lobby implements Initializable{
             chooseP();
         else
         {
-            nicknameError.setText("Please wait until a match is found...");
+            nicknameError.setText("Please wait\nuntil a match is found...");
             nicknameError.setVisible(true);
         }
 
@@ -228,9 +231,9 @@ public class Lobby implements Initializable{
 
     @FXML
     public void sendPnumber()
-    {
+    {   okFirst.setDisable(true);
         guiInput.getController().notifyPlayersNumber((Integer)spinner.getValue());
-        waitLabel.setText("Please wait until a match is found...");
+        waitLabel.setText("Please wait\nuntil a match is found...");
         waitLabel.setVisible(true);
     }
 
@@ -273,7 +276,7 @@ public class Lobby implements Initializable{
 
     @FXML
     public void connect(ActionEvent event) throws IOException {
-
+        ok.setDisable(true);
         errorLabel.setVisible(false);
 
         Pattern p = Pattern.compile("((\\d{1,3}[.]){3}\\d{1,3})");

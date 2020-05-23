@@ -394,6 +394,23 @@ public class Mappa implements Initializable {
     public void chooseBuilder() {
 
         textInfo.setText("It's your turn! Please select one of your builders");
+
+        List<Coords> checkSetupList = new ArrayList<>();
+        for(Node pane : grid.getChildren()) {
+            int y = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
+            int x = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
+
+            ImageView img = null;
+            if(pane instanceof ImageView)
+                img = (ImageView)pane;
+            else
+                continue;
+
+            if(!img.getImage().getUrl().equals("resources/Icons/"+clientGodName+".png"))
+                checkSetupList.add(new Coords(x,y));
+        }
+        highlightCells(checkSetupList);
+
         grid.setDisable(false);
     }
 

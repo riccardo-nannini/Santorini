@@ -24,7 +24,7 @@
       <AnchorPane fx:id="slide" prefHeight="400.0" prefWidth="230.0" visible="false">
          <children>
             <Button id="okSlide" fx:id="okSlide" disable="true" layoutX="126.0" layoutY="222.0" mnemonicParsing="false" onAction="#gameStart" styleClass="textEmpty" text="OK" textFill="#b0b0b0" />
-            <Label layoutX="22.0" layoutY="121.0" styleClass="prova" text="Insert your nickname">
+            <Label layoutX="22.0" layoutY="121.0" prefHeight="26.0" prefWidth="197.0" styleClass="prova" text="Insert your nickname">
                <font>
                   <Font size="17.0" />
                </font></Label>

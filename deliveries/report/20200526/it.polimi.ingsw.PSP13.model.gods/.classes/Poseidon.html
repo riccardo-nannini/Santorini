@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Poseidon</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Poseidon (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Poseidon</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/ 19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.controller.TurnHandler;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class Poseidon extends Turn {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    private Builder unmovedBuilder;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Sets the effect description
+<i>16</i>&nbsp;     */
+<b class="fc"><i>17</i>&nbsp;    public Poseidon() {</b>
+<b class="fc"><i>18</i>&nbsp;        this.unmovedBuilder = null;</b>
+<b class="fc"><i>19</i>&nbsp;        effect = &quot;If your unmoved Worker is on the ground level, it may build up to three times in neighboring spaces&quot;;</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * In addiction to turn&#39;s move, sets the unmoved builder
+<i>25</i>&nbsp;     * @param builder builder that is currently moving
+<i>26</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public void move(Builder builder, Coords coords) throws IOException {
+<b class="fc"><i>30</i>&nbsp;        if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {</b>
+<b class="fc"><i>31</i>&nbsp;            unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];</b>
+<i>32</i>&nbsp;        } else {
+<b class="fc"><i>33</i>&nbsp;            unmovedBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];</b>
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;        super.move(builder,coords);</b>
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * If the unmoved builder is on the ground level, it can build
+<i>40</i>&nbsp;     * up to three times in neighbouring cells
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    @Override
+<i>43</i>&nbsp;    public void end() throws IOException {
+<b class="fc"><i>44</i>&nbsp;        if (match.getHeight(unmovedBuilder.getCoords()) == 0) {</b>
+<b class="fc"><i>45</i>&nbsp;            if (!getCellBuilds(unmovedBuilder).isEmpty()) {</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;                Coords buildCoords;
+<b class="fc"><i>48</i>&nbsp;                int i = 0;</b>
+<b class="fc"><i>49</i>&nbsp;                String username = match.getPlayerByBuilder(unmovedBuilder).getUsername();</b>
+<b class="fc"><i>50</i>&nbsp;                while((i&lt;3) &amp;&amp; turnHandler.getInputUseEffect(username,&quot;Poseidon&quot;) &amp;&amp; !getCellBuilds(unmovedBuilder).isEmpty())</b>
+<i>51</i>&nbsp;                {
+<b class="fc"><i>52</i>&nbsp;                    buildCoords = turnHandler.getInputBuild(unmovedBuilder, getCellBuilds(unmovedBuilder));</b>
+<b class="fc"><i>53</i>&nbsp;                    super.build(unmovedBuilder, buildCoords);</b>
+<b class="fc"><i>54</i>&nbsp;                    i++;</b>
+<i>55</i>&nbsp;                }
+<b class="fc"><i>56</i>&nbsp;                match.notifyMap();</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;            }
+<i>60</i>&nbsp;        }
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-26 01:50</div>
+</div>
+</body>
+</html>

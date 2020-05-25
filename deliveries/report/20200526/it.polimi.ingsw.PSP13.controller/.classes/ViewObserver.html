@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ViewObserver</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ViewObserver (it.polimi.ingsw.PSP13.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ViewObserver</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Color;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Player;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * this is the controller observer class which is subscribed to the view
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class ViewObserver {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private final MatchHandler handler;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public ViewObserver(MatchHandler matchHandler)
+<b class="nc"><i>19</i>&nbsp;    {</b>
+<b class="nc"><i>20</i>&nbsp;        this.handler = matchHandler;</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * sets the value of the god to the player instance and updates the list of gods left
+<i>25</i>&nbsp;     * @param god the god chosen by user
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    public void updateGod(String god)
+<i>28</i>&nbsp;    {
+<b class="nc"><i>29</i>&nbsp;        handler.setSelectedGod(god);</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * sets the gods available for this match
+<i>34</i>&nbsp;     * @param gods
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public void updateGodSelection(String gods)
+<i>37</i>&nbsp;    {
+<b class="nc"><i>38</i>&nbsp;        handler.setGodsReceived(gods);</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * sets the initial coordinates of player builders
+<i>43</i>&nbsp;     * @param builder
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public void updateSetupBuilder(Coords builder)
+<i>46</i>&nbsp;    {
+<b class="nc"><i>47</i>&nbsp;        handler.setCoords(builder);</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * selects the builder chosen by the user
+<i>52</i>&nbsp;     * @param builder
+<i>53</i>&nbsp;     */
+<b class="nc"><i>54</i>&nbsp;    public void updateBuilderChoice(Coords builder){ handler.getTurnHandler().setBuilderPos(builder);}</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * sets the new position of a given builder
+<i>58</i>&nbsp;     * @param cellToMoveOn
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public void updateMoveInput(Coords cellToMoveOn){
+<b class="nc"><i>61</i>&nbsp;        handler.getTurnHandler().setMoveCoords(cellToMoveOn);</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * sets the new structure level of the chosen position
+<i>66</i>&nbsp;     * @param cellToBuildOn
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public void updateBuildInput(Coords cellToBuildOn){
+<b class="nc"><i>69</i>&nbsp;        handler.getTurnHandler().setBuildCoords(cellToBuildOn);</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * selects the answer of the player in using the effect (yes or no)
+<i>74</i>&nbsp;     * @param effect
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public void updateEffect(String effect)
+<i>77</i>&nbsp;    {
+<b class="nc"><i>78</i>&nbsp;        handler.getTurnHandler().setUseEffect(effect);</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * selects the cell to remove a block from
+<i>83</i>&nbsp;     * @param cellToRemoveBlock
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;    public void updateRemoveInput(Coords cellToRemoveBlock)
+<i>86</i>&nbsp;    {
+<b class="nc"><i>87</i>&nbsp;        handler.getTurnHandler().setRemoveCoords(cellToRemoveBlock);</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    public void updateDisconnection(String player) {
+<b class="nc"><i>91</i>&nbsp;        handler.getTurnHandler().addDisconnectedPlayer(player);</b>
+<b class="nc"><i>92</i>&nbsp;        handler.addDisconnectedPlayer(player);</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public void updateStarter(String starter) {
+<b class="nc"><i>96</i>&nbsp;        handler.setSelectedStarter(starter);</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-26 01:50</div>
+</div>
+</body>
+</html>

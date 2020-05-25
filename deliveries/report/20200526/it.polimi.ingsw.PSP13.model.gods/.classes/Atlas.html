@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Atlas</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Atlas (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Atlas</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.controller.TurnHandler;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Level;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.io.IOException;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class Atlas extends Turn {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Sets the effect description
+<i>15</i>&nbsp;     */
+<b class="fc"><i>16</i>&nbsp;    public Atlas() {</b>
+<b class="fc"><i>17</i>&nbsp;        effect = &quot;Your Worker may build a dome at any level including the ground&quot;;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Adds to the standard build Atlas&#39; effect:
+<i>22</i>&nbsp;     * the builder can build a dome at any level
+<i>23</i>&nbsp;     * @param builder builder that is currently building
+<i>24</i>&nbsp;     * @param buildingPosition coordinates of the cell where the builder wants to build
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    @Override
+<i>27</i>&nbsp;    public void build(Builder builder, Coords buildingPosition) throws IOException {
+<b class="fc"><i>28</i>&nbsp;        String username = match.getPlayerByBuilder(builder).getUsername();</b>
+<b class="fc"><i>29</i>&nbsp;        boolean useEffect = turnHandler.getInputUseEffect(username,&quot;Atlas&quot;);</b>
+<b class="fc"><i>30</i>&nbsp;        if (useEffect) {</b>
+<b class="fc"><i>31</i>&nbsp;            match.getCell(buildingPosition).setDome(true);</b>
+<i>32</i>&nbsp;        } else {
+<b class="fc"><i>33</i>&nbsp;            match.setCellLevel(buildingPosition, Level.findLevelByHeight(match.getHeight(buildingPosition)+1));</b>
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;        match.notifyMap();</b>
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-26 01:50</div>
+</div>
+</body>
+</html>

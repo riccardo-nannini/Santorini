@@ -13,6 +13,7 @@
 @font-face {
     src: url("fonts/Tempus_Sans_ITC_Regular.ttf");
 }
+
 Button
 {
     -fx-padding: 12px 12px;
@@ -48,17 +49,17 @@ Button
     -fx-background-size: 100% 100%;
 }
 
-.helperText {
-    -fx-font-family: "RobotoCondensed";
+.helperText, .errorText {
+    -fx-font-family: "Tempus Sans ITC";
     -fx-font-size: 20px;
-    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-insets: 0, 0 0 0 0 ;
     -fx-background-radius: 0 ;
     -fx-text-alignment: center;
 }
 
 .popupText {
     -fx-font-family: "RobotoCondensed";
-    -fx-font-size: 18px;
+    -fx-font-size: 20px;
     -fx-background-insets: 0, 0 0 1 0 ;
     -fx-background-radius: 0 ;
     -fx-text-alignment: center;

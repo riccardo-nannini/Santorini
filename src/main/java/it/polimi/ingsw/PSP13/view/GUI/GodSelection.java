@@ -26,6 +26,9 @@ public class GodSelection implements GodHandlerInterface {
         this.godDispatcher = godDispatcher;
     }
 
+    /**
+     * Initialized the icons list with the ones required in this view
+     */
     @Override
     public void initialization() {
         icons.add(godDispatcher.godIcon1);
@@ -46,6 +49,9 @@ public class GodSelection implements GodHandlerInterface {
         icons.add(godDispatcher.godIcon16);
     }
 
+    /**
+     * Initializes the view using the attributes setted up in the object
+     */
     @Override
     public void upload() {
         initialization();
@@ -66,6 +72,12 @@ public class GodSelection implements GodHandlerInterface {
         }
     }
 
+    /**
+     * If the player is the challenger, the invocation of this methods saves the clicked god in the list of the
+     * selected gods and colors the god's icon with a black shadow in order to improve the visual feedback
+     * of the view
+     * @param event the event that caused the method invocation
+     */
     @Override
     public void godClicked(Event event) {
         String id = ((MouseEvent) event).getPickResult().getIntersectedNode().getId();
@@ -82,23 +94,28 @@ public class GodSelection implements GodHandlerInterface {
         }
     }
 
+    /**
+     * The method checks if the player already selected the right number of gods.
+     * If so it notifies the observable, otherwise it displays an error message
+     * @param event the event that caused the method invocation
+     */
     @Override
-    public void confirmClicked(Event event) {
+    public void confirmClicked(Event event) throws IOException {
         Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();
         selectedImage.setBlendMode(BlendMode.SRC_OVER);
         if (!isChallenger) return;
         if (selectedGods.size() != godsNumber) {
-            if (godDispatcher.infoBox.getChildren().size() < 2) {
-                Text text = new Text();
-                text.setStyle("-fx-fill: RED;");
-                text.setText("\nPlease select the right number of gods");
-                godDispatcher.infoBox.getChildren().add(text);
-            }
+            godDispatcher.setSceneErrorPopup("Please select the right number of gods!");
         } else {
             godDispatcher.getGuiInput().getController().notifyGodSelection(List2String(selectedGods));
         }
     }
 
+    /**
+     * Covertes a List of Strings into a single String where the elements are separated by a comma
+     * @param list the list to be converted
+     * @return the comma separated string
+     */
     private String List2String(List<String> list) {
         StringBuilder result = new StringBuilder();
         for (int element = 0; element < list.size(); element++) {
@@ -108,13 +125,18 @@ public class GodSelection implements GodHandlerInterface {
         return result.toString();
     }
 
+    /**
+     * Shows a popup with a custom help message for the user
+     * @param event the event that caused the method invocation
+     * @throws IOException
+     */
     public void helperClicked(Event event) throws IOException {
         List<String> message = new ArrayList<>();
         if (isChallenger) {
             message.add("Left click: selects a god");
         }
         message.add("\nRight click: shows god info");
-        godDispatcher.HelperPopUp(event, message);
+        godDispatcher.setSceneHelperPopup(event, message);
     }
 
     public void setGodsList(List<String> godsList) {

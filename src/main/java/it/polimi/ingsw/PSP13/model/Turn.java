@@ -48,6 +48,16 @@ public class Turn {
     public void start(String player) throws IOException {}
 
     /**
+     * Checks if the builder belongs to the player
+     * @param player current player
+     * @param builder selected builder
+     * @return true if the builder belongs to the player, false otherwise
+     */
+    public boolean builderSelection(String player, Builder builder) {
+        return player.equals(match.getPlayerByBuilder(builder).getUsername());
+    }
+
+    /**
      * Moves builder into the cell's coordinates
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
@@ -138,7 +148,7 @@ public class Turn {
 
     /**
      *
-     * @param builder
+     * @param builder current builder
      * @return a list of adjacent cells where a builder can move in
      */
     public List<Coords> getCellMoves(Builder builder)

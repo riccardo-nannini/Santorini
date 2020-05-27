@@ -113,23 +113,9 @@ public class Lobby implements Initializable{
 
     }
 
-    public void sceneChange() throws Exception {
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/game.fxml"));
-
-        AnchorPane pane = loader.<AnchorPane>load();
-        Scene gameBoard = new Scene(pane);
-        gameBoard.getStylesheets().add("gameStyle.css");
-
-        Stage stage = (Stage) (parent.getScene().getWindow());
-        stage.setScene(gameBoard);
-
-        Game game = loader.<Game>getController();
-        game.setGuiInput(guiInput);
-    }
-
     public void sceneChangeGodSelection(List<String> godsList, int godsNumber, boolean isChallenger) throws IOException {
+
+        if (guiInput.getGodDispatcher() != null) return;
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:./resources/godSelection.fxml"));

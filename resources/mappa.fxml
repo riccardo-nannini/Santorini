@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,20 +9,29 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.Mappa">
    <children>
-      <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="1162.0" layoutY="394.0" preserveRatio="true">
-         <image>
-            <Image url="@bg_panelMid.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="757.0" fitWidth="1285.0" layoutX="-270.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@SantoriniBoard.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="926.0" layoutY="394.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
+      <ImageView fx:id="imageInfo2" fitHeight="270.0" fitWidth="185.0" layoutX="910.0" layoutY="83.0" onMouseClicked="#showEffect" pickOnBounds="true" />
+      <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="1085.0" layoutY="56.0" preserveRatio="true">
+         <image>
+            <Image url="@bg_panelMid.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imageInfo3" fitHeight="270.0" fitWidth="178.0" layoutX="1084.0" layoutY="81.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageInfo1" fitHeight="270.0" fitWidth="178.0" layoutX="688.0" layoutY="82.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="1162.0" layoutY="394.0" preserveRatio="true">
+         <image>
+            <Image url="@bg_panelMid.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="925.0" layoutY="394.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
          <image>
             <Image url="@bg_panelMid.png" />
          </image>
@@ -76,59 +84,34 @@
             <Pane onMouseClicked="#selectCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
          </children>
       </GridPane>
-      <ImageView fx:id="img00" fitHeight="400.0" fitWidth="200.0" layoutX="689.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
+      <ImageView fitHeight="446.0" fitWidth="198.0" layoutX="689.0" layoutY="-2.0" mouseTransparent="true" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
+         <image>
+            <Image url="@Map/fg_panel1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="446.0" fitWidth="198.0" layoutX="887.0" layoutY="-2.0" mouseTransparent="true" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
+         <image>
+            <Image url="@Map/fg_panel5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="446.0" fitWidth="198.0" layoutX="1084.0" layoutY="-2.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Map/fg_panel5.png" />
+         </image>
+      </ImageView>
+      <TextFlow id="godName" fx:id="godName1" layoutX="716.0" layoutY="98.0" prefHeight="21.0" prefWidth="119.0" stylesheets="@mappa.css" />
+      <TextFlow id="godName" fx:id="godName2" layoutX="939.0" layoutY="98.0" prefHeight="21.0" prefWidth="119.0" stylesheets="@mappa.css" />
+      <TextFlow id="godName" fx:id="godName3" layoutX="1112.0" layoutY="98.0" prefHeight="21.0" prefWidth="119.0" stylesheets="@mappa.css" />
+      <ImageView fx:id="enableIf2" fitHeight="446.0" fitWidth="198.0" layoutX="1085.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" visible="false">
          <image>
             <Image url="@bg_panelEdgeLeft.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="97.0" layoutX="963.0" layoutY="138.0">
-         <image>
-            <Image url="@bg_panelEdgeLeft.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="400.0" fitWidth="200.0" layoutX="884.0" layoutY="-2.0" preserveRatio="true">
-         <image>
-            <Image url="@bg_panelEdgeLeft.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="400.0" fitWidth="200.0" layoutX="1080.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT">
-         <image>
-            <Image url="@bg_panelEdgeLeft.png" />
-         </image>
-      </ImageView>
-      <TextArea fx:id="textEffect" editable="false" layoutX="718.0" layoutY="497.0" prefHeight="204.0" prefWidth="546.0" stylesheets="@mappa.css" text="&#10;" visible="false" wrapText="true">
+      <Label id="godEffectText" fx:id="textEffect" alignment="CENTER" layoutX="725.0" layoutY="513.0" prefHeight="182.0" prefWidth="520.0" stylesheets="@mappa.css" textAlignment="CENTER" wrapText="true" />
+      <Label id="godNameText" fx:id="textGodName" alignment="CENTER" layoutX="795.0" layoutY="468.0" prefHeight="73.0" prefWidth="381.0" stylesheets="@mappa.css" textAlignment="CENTER" wrapText="true">
          <font>
-            <Font name="Papyrus" size="22.0" />
-         </font></TextArea>
-      <TextArea fx:id="textInfo" editable="false" layoutX="703.0" layoutY="522.0" prefHeight="105.0" prefWidth="558.0" stylesheets="@mappa.css" wrapText="true">
-         <font>
-            <Font name="Papyrus" size="25.0" />
-         </font>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets></TextArea>
-      <TextArea id="info1" fx:id="textInfo1" editable="false" layoutX="712.0" layoutY="86.0" prefHeight="61.0" prefWidth="151.0" stylesheets="@mappa.css" wrapText="true">
-         <font>
-            <Font name="Papyrus" size="22.0" />
-         </font>
-      </TextArea>
-      <TextArea id="info1" fx:id="textInfo2" editable="false" layoutX="913.0" layoutY="87.0" prefHeight="66.0" prefWidth="151.0" stylesheets="@mappa.css" wrapText="true">
-         <font>
-            <Font name="Papyrus" size="22.0" />
-         </font>
-      </TextArea>
-      <TextArea id="info1" fx:id="textInfo3" editable="false" layoutX="1102.0" layoutY="89.0" prefHeight="53.0" prefWidth="151.0" stylesheets="@mappa.css" wrapText="true">
-         <font>
-            <Font name="Papyrus" size="22.0" />
-         </font>
-      </TextArea>
-      <ImageView fx:id="imageInfo1" fitHeight="107.0" fitWidth="106.0" layoutX="742.0" layoutY="158.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imageInfo2" fitHeight="94.0" fitWidth="95.0" layoutX="945.0" layoutY="165.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imageInfo3" fitHeight="107.0" fitWidth="102.0" layoutX="1130.0" layoutY="154.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
-      <TextArea fx:id="godName" layoutX="728.0" layoutY="431.0" prefHeight="91.0" prefWidth="498.0" stylesheets="@mappa.css" visible="false">
-         <font>
-            <Font name="Papyrus" size="28.0" />
-         </font>
-      </TextArea>
+            <Font size="19.0" />
+         </font></Label>
+      <Label id="turnInfoText" fx:id="textInfo" alignment="CENTER" layoutX="738.0" layoutY="477.0" prefHeight="202.0" prefWidth="496.0" stylesheets="@mappa.css" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

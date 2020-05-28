@@ -1,36 +1,43 @@
-
-.text-area
-{
-    -fx-background-color: transparent;
+@font-face {
+    src: url("fonts/DisneyHeroic.ttf");
 }
 
-.text-area .scroll-pane {
-    -fx-background-color: transparent;
-}
 
-.text-area .scroll-pane .viewport{
-    -fx-background-color: transparent;
-}
-
-.text-area .scroll-pane .content{
-    -fx-background-color: transparent;
-}
-
-.highlighted{
-
-    -fx-opacity: 0.5;
-    -fx-background-color: #fffc32;
-
-}
-
-.text-area *.text {
+#godName {
+    -fx-font-family: "Disney Heroic";
+    -fx-font-weight: bold;
+    -fx-font-size: 17px;
+    -fx-background-insets: 0, 0, 0, 0 ;
+    -fx-background-radius: 0 ;
     -fx-text-alignment: center;
-
 }
 
-GridPane > Pane:hover{
-    /*-fx-opacity: 0.5;
-    -fx-background-color: #fffc32;*/
+#godNameText {
+    -fx-font-family: "Disney Heroic";
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+    -fx-background-insets: 0, 0, 0, 0 ;
+    -fx-background-radius: 0 ;
+    -fx-text-alignment: center;
+}
+
+
+#godEffectText {
+    -fx-font-family: "Disney Heroic";
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-background-insets: 0, 0, 0, 0 ;
+    -fx-background-radius: 0 ;
+    -fx-text-alignment: center;
+}
+
+#turnInfoText {
+    -fx-font-family: "Disney Heroic";
+    -fx-font-weight: bold;
+    -fx-font-size: 23px;
+    -fx-background-insets: 0, 0, 0, 0 ;
+    -fx-background-radius: 0 ;
+    -fx-text-alignment: center;
 }
 
 
@@ -67,6 +74,23 @@ GridPane > Pane:hover{
 .level3Dome {
     -fx-background-image: url("/Buildings/Level3_Dome.png");
     -fx-background-size: 100% 100%;
+}
+
+.highlighted{
+
+    -fx-opacity: 0.5;
+    -fx-background-color: #fffc32;
+
+}
+
+GridPane > Pane:hover{
+    /*-fx-opacity: 0.5;
+    -fx-background-color: #fffc32;*/
+}
+
+.discolour{
+    -fx-opacity: 0.5;
+    -fx-background-color: #010101;
 }
 
 

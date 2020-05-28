@@ -15,6 +15,8 @@ public class Player {
 
     public String getEffect() { return god.getEffect(); }
 
+    public boolean builderSelection(Builder builder) { return god.builderSelection(username, builder); }
+
     public boolean checkMove(Builder builder, Coords coords) { return god.checkMove(builder, coords); }
 
     public void start() throws IOException {god.start(username);}

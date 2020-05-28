@@ -50,10 +50,19 @@ public class GodDispatcherGUI {
             godIcon10, godIcon11, godIcon12, godIcon13, godIcon14, godIcon15, godIcon16;
     //TODO generare le icone da codice?
 
+    /**
+     * The invocation is reflected to the current GodHandler object following a state pattern logic
+     */
     public void upload() {
         godHandler.upload();
     }
 
+    /**
+     * If the event is a mouse right click, a window showing the god's card and the description of this effect
+     * is showed. If the event is a mouse left click the invocation is reflected to the current GodHandler object
+     * that handles the event following a state pattern logic
+     * @param event the event that caused the method invocation
+     */
     public void godClicked(Event event) {
         if (((MouseEvent) event).getButton() == MouseButton.SECONDARY) {
             godBanner.setImage(new Image("nameBanner.png"));
@@ -73,14 +82,27 @@ public class GodDispatcherGUI {
         } else godHandler.godClicked(event);
     }
 
-    public void confirmClicked(Event event) {
+    /**
+     * The invocation is reflected to the current GodHandler object following a state pattern logic
+     * @param event the event that caused the method invocation
+     */
+    public void confirmClicked(Event event) throws IOException {
         godHandler.confirmClicked(event);
     }
 
+    /**
+     * The invocation is reflected to the current GodHandler object following a state pattern logic
+     * @param event the event that caused the method invocation
+     * @throws IOException
+     */
     public void helperClicked(Event event) throws IOException {
         godHandler.helperClicked(event);
     }
 
+    /**
+     * The icon being pressed is colored with a black shadow in order to add a more responsive look
+     * @param event the event that caused the method invocation
+     */
     public void buttonPressed(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             Node selectedImage = event.getPickResult().getIntersectedNode();
@@ -89,6 +111,13 @@ public class GodDispatcherGUI {
 
     }
 
+    /**
+     * Changes the current scene and updates the GodHandler attribute with a GodInput
+     * object following a state pattern logic
+     * @param chosenGods the gods chosen for this match
+     * @param isChoosing true is the player is chosing is god, false if he is spectating
+     * @throws IOException
+     */
     public void setSceneGodInput(List<String> chosenGods, boolean isChoosing) throws IOException {
         AnchorPane root = anchorPane1;
         FXMLLoader loader = new FXMLLoader();
@@ -112,12 +141,17 @@ public class GodDispatcherGUI {
         stage.show();
     }
 
-    public void setScenePopUp(List<String> players) throws IOException {
+    /**
+     * Opens a popup where the player is asked to choose the starting player for the match
+     * @param players list of players for this match
+     * @throws IOException
+     */
+    public void setSceneStarterSelection(List<String> players) throws IOException {
         Stage popup = new Stage();
 
         Font.loadFont( GodDispatcherGUI.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/popupStarter.fxml"));
+        loader.setLocation(new URL("file:./resources/starterPopup.fxml"));
         AnchorPane popupPane = loader.<AnchorPane>load();
 
         PopupGUI popupGUI = loader.<PopupGUI>getController();
@@ -132,7 +166,13 @@ public class GodDispatcherGUI {
         popup.show();
     }
 
-    public void HelperPopUp(Event event, List<String> message) throws IOException {
+    /**
+     * Opens a popup that shows some tips on how to use the GUI
+     * @param event the event that caused the method invocation
+     * @param message the messages that are going to be written in the popup
+     * @throws IOException
+     */
+    public void setSceneHelperPopup (Event event, List<String> message) throws IOException {
         Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();
         selectedImage.setBlendMode(BlendMode.SRC_OVER);
         Stage helper = new Stage();
@@ -150,9 +190,38 @@ public class GodDispatcherGUI {
         helper.initModality(Modality.APPLICATION_MODAL);
         helper.setTitle("Helper");
         helper.setScene(starterScene);
+
         helper.show();
     }
 
+    /**
+     * Opens a popup showing an error message
+     * @param message string being printed in the popup
+     * @throws IOException
+     */
+    public void setSceneErrorPopup(String message) throws IOException {
+        Stage error = new Stage();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/error.fxml"));
+        AnchorPane errorPane = loader.<AnchorPane>load();
+
+        ErrorGUI errorGUI = loader.<ErrorGUI>getController();
+        errorGUI.setText(message);
+
+        Scene starterScene = new Scene(errorPane);
+        starterScene.getStylesheets().add("god_selection.css");
+        error.initModality(Modality.APPLICATION_MODAL);
+        error.setTitle("Error");
+        error.setScene(starterScene);
+
+        error.show();
+    }
+
+    /**
+     * Changes the scene to the game board
+     * @throws IOException
+     */
     public void setSceneGameBoard() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:./resources/mappa.fxml"));
@@ -182,6 +251,11 @@ public class GodDispatcherGUI {
         return guiInput;
     }
 
+    /**
+     * Converts a List of Strings in the format "GodName;godeffect" in Map where GodName is the key and the
+     * effect is the object
+     * @param godEffects the list to be converted
+     */
     public void setGodEffects(List<String> godEffects) {
         if (this.godEffects != null) return;
         Map<String, String> effects = new HashMap<>();

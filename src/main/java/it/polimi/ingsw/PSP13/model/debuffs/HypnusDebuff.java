@@ -11,75 +11,119 @@ import java.util.List;
 
 public class HypnusDebuff extends Decorator {
 
-    private Player player;
     public HypnusDebuff(Turn god) {
         super(god);
     }
 
+    /**
+     * The HypnusDebuff decorator uses the player's god start method
+     * @param player
+     * @throws IOException
+     */
     @Override
     public void start(String player) throws IOException {
         god.start(player);
     }
 
+    /**
+     * In addition to the player's god builderSelection method, checks if the player being choosed is higher than
+     * the other player's builder
+     * @param player current player
+     * @param builder selected builder
+     * @return true if the builder belongs to the player and is not higher than the other, false otherwise
+     */
+    @Override
+    public boolean builderSelection(String player, Builder builder) {
+        if (god.builderSelection(player, builder)) {
+            if (!this.isHigher(builder)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * The HypnusDebuff decorator uses the player's god move method
+     * @param builder builder that is currently moving
+     * @param coords coordinates of the cell where the builder wants to move
+     * @throws IOException
+     */
     @Override
     public void move(Builder builder, Coords coords) throws IOException {
         god.move(builder, coords);
     }
 
+    /**
+     * The HypnusDebuff decorator uses the player's god move method
+     * @param builder builder that is currently moving
+     * @param coords coordinates of the cell where the builder wants to move
+     * @return
+     */
     @Override
     public boolean checkMove(Builder builder, Coords coords) {
-        if (this.isHigher(builder)) {
-            return false;
-        }
-        return super.checkMove(builder, coords);
+        return god.checkMove(builder, coords);
     }
 
+    /**
+     * @param builder builder considered
+     * @return true if the builder is higher than the player's other builder, false otherwise
+     */
     private boolean isHigher(Builder builder) {
-        player = match.getPlayerByBuilder(builder);
+        Player player = match.getPlayerByBuilder(builder);
         Builder otherBuilder = player.getBuilders()[0] == builder ? player.getBuilders()[1] : player.getBuilders()[0];
         return builder.getHeight() > otherBuilder.getHeight();
     }
 
+    /**
+     * The HypnusDebuff decorator uses the player's god build method
+     * @param builder builder that is currently building
+     * @param buildingPosition coordinates of the cell where the builder wants to build
+     * @throws IOException
+     */
     @Override
     public void build(Builder builder, Coords buildingPosition) throws IOException {
         god.build(builder, buildingPosition);
     }
 
+    /**
+     * The HypnusDebuff decorator uses the player's god checkBuild method
+     * @param builder builder that is currently building
+     * @param buildingPosition coordinates of the cell where the builder wants to build
+     * @return
+     */
     @Override
     public boolean checkBuild(Builder builder, Coords buildingPosition) {
         return god.checkBuild(builder, buildingPosition);
     }
 
+    /**
+     * The HypnusDebuff decorator uses the player's god checkWin method
+     * @param builder builder that was involved in the current turn
+     * @param precedentPosition position occupied by the builder before moving
+     * @param currentPosition position currently occupied by the builder
+     * @return
+     */
     @Override
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition) {
         return god.checkWin(builder,precedentPosition,currentPosition);
     }
 
+    /**
+     * The HypnusDebuff decorator uses the player's god getCellMoves method
+     * @param builder current builder
+     * @return a list of adjacent cells where a builder can move in
+     */
     @Override
     public List<Coords> getCellMoves(Builder builder) {
-        List<Coords> adjacents = match.getAdjacent(builder.getCoords());
-        List<Coords> possibleMove = new ArrayList<>();
-
-        for(Coords coords : adjacents)
-        {
-            if(this.checkMove(builder, coords))
-                possibleMove.add(coords);
-        }
-        return possibleMove;
-    }
-
-    @Override
-    public List<Coords> getCellBuilds(Builder builder) {
-        return god.getCellBuilds(builder);
+        return god.getCellMoves(builder);
     }
 
     /**
-     * Removes the AthenaDebuff decorator since the effect only applies for one turn
+     * The HypnusDebuff decorator uses the player's god getCellBuilds method
+     * @param builder current builder
+     * @return a list of adjacent cells where a builder can build on
      */
     @Override
-    public void end() throws IOException {
-        god.end();
-        removeDecorator(player);
+    public List<Coords> getCellBuilds(Builder builder) {
+        return god.getCellBuilds(builder);
     }
 }
 

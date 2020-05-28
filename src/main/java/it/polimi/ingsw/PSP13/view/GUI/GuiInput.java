@@ -10,7 +10,6 @@ import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Platform;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public class GuiInput extends Input {
@@ -143,7 +142,7 @@ public class GuiInput extends Input {
 
     @Override
     public void godSelectionInput(List<String> godsList, int godsNumber, boolean error) {
-        Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
+        Platform.runLater(()->{
             try {
                 loginController.sceneChangeGodSelection(godsList, godsNumber, true);
             } catch (Exception e) {
@@ -156,7 +155,7 @@ public class GuiInput extends Input {
     public void starterInput(boolean error, List<String> usernames) {
         Platform.runLater(() -> {
             try {
-                godDispatcher.setScenePopUp(usernames);
+                godDispatcher.setSceneStarterSelection(usernames);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -287,4 +286,6 @@ public class GuiInput extends Input {
     {
         return controller;
     }
+
+    public GodDispatcherGUI getGodDispatcher() { return godDispatcher; }
 }

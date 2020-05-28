@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class GodInput implements GodHandlerInterface {
     private List<String> godsList;
     private String selectedGod = null;
     private boolean isChoosing;
-    private List<ImageView> icons = new ArrayList<>();
+    private final List<ImageView> icons = new ArrayList<>();
     private final int offsetIcon1 = 40;
     private final int offsetIcon2 = 275;
     private final int offsetIcon3 = 540;
@@ -33,6 +32,9 @@ public class GodInput implements GodHandlerInterface {
         this.godDispatcher = godDispatcher;
     }
 
+    /**
+     * Initialized the icons list with the ones required in this view
+     */
     @Override
     public void initialization() {
         icons.add(godDispatcher.godIcon8);
@@ -40,6 +42,9 @@ public class GodInput implements GodHandlerInterface {
         icons.add(godDispatcher.godIcon6);
     }
 
+    /**
+     * Initializes the view using the attributes setted up in the object
+     */
     @Override
     public void upload() {
         initialization();
@@ -81,6 +86,12 @@ public class GodInput implements GodHandlerInterface {
 
     }
 
+    /**
+     * If the player is the one choosing his god, the invocation of this methods saves the clicked god as the selected
+     * one from the player and colors the god's icon with a black shadow in order to improve the visual feedback
+     * of the view
+     * @param event the event that caused the method invocation
+     */
     @Override
     public void godClicked(Event event) {
         String id = ((MouseEvent) event).getPickResult().getIntersectedNode().getId();
@@ -101,24 +112,29 @@ public class GodInput implements GodHandlerInterface {
         }
     }
 
+    /**
+     * The method checks if the player already selected a god. If so it notifies the observable, otherwise it
+     * displays an error message
+     * @param event the event that caused the method invocation
+     */
     @Override
-    public void confirmClicked(Event event) {
+    public void confirmClicked(Event event) throws IOException {
         Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();
         selectedImage.setBlendMode(BlendMode.SRC_OVER);
         if (!isChoosing) return;
         if (selectedGod == null) {
-            if (godDispatcher.infoBox.getChildren().size() < 2) {
-                Text text = new Text();
-                text.setStyle("-fx-fill: RED;");
-                text.setText("\nPlease select a god");
-                godDispatcher.infoBox.getChildren().add(text);
-            }
+            godDispatcher.setSceneErrorPopup("Please select a god!");
         } else {
             godDispatcher.getGuiInput().getController().notifyGod(selectedGod);
 
         }
     }
 
+    /**
+     * Shows a popup with a custom help message for the user
+     * @param event the event that caused the method invocation
+     * @throws IOException
+     */
     @Override
     public void helperClicked(Event event) throws IOException {
         List<String> message = new ArrayList<>();
@@ -126,7 +142,7 @@ public class GodInput implements GodHandlerInterface {
             message.add("Left click: selects a god");
         }
         message.add("\nRight click: shows god info");
-        godDispatcher.HelperPopUp(event, message);
+        godDispatcher.setSceneHelperPopup(event, message);
     }
 
     public void setGodsList(List<String> godsList) {

@@ -52,7 +52,7 @@ public class TurnHandler {
                     virtualView.notifyDisconnection();
                 }
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
-                valid = player == matchHandler.getMatch().getPlayerByBuilder(builder);
+                valid = player.builderSelection(builder);
                 if (valid && player.getCellMoves(builder).isEmpty()) {
                     Builder otherBuilder = player.getBuilders()[0] == builder ? player.getBuilders()[1] : player.getBuilders()[0];
                     builderPos = otherBuilder.getCoords();

@@ -26,10 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Mappa implements Initializable {
 
@@ -83,7 +80,11 @@ public class Mappa implements Initializable {
     private String god3;
     private String effect3;
 
-    HashMap<Color, ArrayList<ImageView>> buildersImages = new HashMap<>();
+    private HashMap<Color, ArrayList<ImageView>> buildersImages = new HashMap<>();
+
+    private Coords[] clientBuildersPositions;
+
+    private Color clientColor;
 
     private Pane[][] panes = new Pane[5][5];
 
@@ -92,10 +93,22 @@ public class Mappa implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         savePane();
         TurnStatus.setMap(this);
-
 /*
+        panes[2][3].getStyleClass().add("highlight");
+        panes[2][2].getStyleClass().add("highlight");
+        panes[2][1].getStyleClass().add("highlight");
+        panes[1][3].getStyleClass().add("highlight");
+        panes[3][3].getStyleClass().add("highlight");
+        panes[2][4].getStyleClass().add("level2Dome");
+        panes[4][3].getStyleClass().add("level2Dome");
+        panes[2][3].getStyleClass().add("level2Dome");
+        panes[4][3].getStyleClass().add("highlight");
+        grid.setDisable(false);
+/*
+
         File file3 = new File("resources/Cards/Hera.png");
         Image image3 = new Image(file3.toURI().toString());
         imageInfo3.setImage(image3);
@@ -128,8 +141,12 @@ public class Mappa implements Initializable {
         textGodName.setVisible(true);
         textEffect.setVisible(true);
 
- */
+
         textInfo.setText("è iò tuo turno adesso devi selezionere un builder");
+
+
+ */
+
     }
 
     //TODO ho scambiato row con column nella penultima riga per vedere di sistamre
@@ -158,6 +175,7 @@ public class Mappa implements Initializable {
         imageInfo1.setImage(image1);
         setBuildersImages(clientsInfo.getClientColor(),clientsInfo.getClientGod());
         clientGodEffect = clientsInfo.getClientEffect();
+        clientColor = clientsInfo.getClientColor();
 
         god2 = clientsInfo.getOpponentsGod().get(0);
         File file2 = new File("resources/Cards/"+god2+".png");
@@ -218,10 +236,8 @@ public class Mappa implements Initializable {
         grid.add(buildersImages.get(color).get(0), coords[0].getY(), coords[0].getX());
         grid.add(buildersImages.get(color).get(1), coords[1].getY(), coords[1].getX());
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                panes[i][j].getStyleClass().removeAll("highlighted");
-            }
+        if (color == clientColor) {
+            clientBuildersPositions = coords;
         }
     }
 
@@ -230,8 +246,6 @@ public class Mappa implements Initializable {
     public void showEffect(MouseEvent e) {
         Node source = (Node) e.getSource();
         String id = source.getId();
-        String name = "";
-        String effect = "";
         if (imageShowed.equals(id)) {
             textInfo.setVisible(true);
             textEffect.setVisible(false);
@@ -281,25 +295,14 @@ public class Mappa implements Initializable {
                         buildingStyle = isDome ? "level3Dome" : "level3";
                         break;
                 }
-                if (!buildingStyle.equals("clear")) panes[i][j].getStyleClass().add(buildingStyle);
+                panes[i][j].getStyleClass().clear();
+                panes[i][j].getStyleClass().add(buildingStyle);
+
             }
         }
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 panes[i][j].getStyleClass().removeAll("highlighted");
-            }
-        }
-    }
-
-    public void setPaneClickable(ArrayList<Coords> coordsList) {
-        for (Node pane : grid.getChildren()) {
-            Integer x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
-            Integer y = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
-            Coords gridCoords = new Coords(x, y);
-            if (coordsList.contains(gridCoords)) {
-                pane.setMouseTransparent(false);
-            } else {
-                pane.setMouseTransparent(true);
             }
         }
     }
@@ -371,22 +374,23 @@ public class Mappa implements Initializable {
     }
 
 
-    public void removeBlock(List<Coords> removableBlocks, boolean error) {
-        if(error)
-            textInfo.setText("There was an error with your last selection, please try again.");
-        else
-            textInfo.setText("You can remove a block only from the highlighted cells.");
+    public void removeBlock(List<Coords> removableBlocks) {
+
+        textInfo.setText("You can remove a block only from the highlighted cells");
 
         highlightCells(removableBlocks);
 
         grid.setDisable(false);
     }
 
+
     //TODO FIX
     private void clear() {
-        for (Node pane : grid.getChildren()) {
-            pane.getStyleClass().clear();
-            pane.setDisable(true);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                panes[i][j].getStyleClass().removeAll("highlight");
+                panes[i][j].setDisable(true);
+            }
         }
     }
 
@@ -395,19 +399,29 @@ public class Mappa implements Initializable {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Coords tempCoords = new Coords(i, j);
-                if (!checkMoveCells.contains(tempCoords)) {
-                    panes[i][j].getStyleClass().add("discolour");
-                } else {
+                if (checkMoveCells.contains(tempCoords)) {
+                    panes[i][j].getStyleClass().add("highlight");
+                    panes[i][j].setDisable(false);
+
+                }
+            }
+        }
+    }
+
+    private void disableCells(List<Coords> setupCells) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                Coords tempCoords = new Coords(i, j);
+                if (setupCells.contains(tempCoords)) {
                     panes[i][j].setDisable(false);
                 }
-
             }
         }
     }
 
     public void build(List<Coords> checkBuildCells) {
 
-        textInfo.setText("Now, you have to build a block. You can build on the highlighted cells.");
+        textInfo.setText("Now you have to build a block\nChoose a cell from the highlighted ones");
 
         highlightCells(checkBuildCells);
 
@@ -416,7 +430,7 @@ public class Mappa implements Initializable {
 
     public void move(List<Coords> checkMoveCells) {
 
-        textInfo.setText("It's time to move your worker! You can move him only on the highlighted cells");
+        textInfo.setText("It's time to move your worker\nChoose a cell from the highlighted ones");
 
         highlightCells(checkMoveCells);
 
@@ -425,23 +439,9 @@ public class Mappa implements Initializable {
 
     public void chooseBuilder() {
 
-        textInfo.setText("It's your turn! Please select one of your builders");
+        textInfo.setText("It's your turn!\nPlease select a worker");
 
-        List<Coords> checkSetupList = new ArrayList<>();
-        for(Node pane : grid.getChildren()) {
-            int y = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
-            int x = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
-
-            ImageView img = null;
-            if(pane instanceof ImageView)
-                img = (ImageView)pane;
-            else
-                continue;
-
-            if(!img.getImage().getUrl().equals("resources/Icons/"+clientGodName+".png"))
-                checkSetupList.add(new Coords(x,y));
-        }
-        highlightCells(checkSetupList);
+        disableCells(Arrays.asList(clientBuildersPositions));
 
         grid.setDisable(false);
     }
@@ -449,9 +449,11 @@ public class Mappa implements Initializable {
 
     public void builderSetup(boolean callnumber) {
         if (!callnumber)
-            textInfo.setText("Please, place your second builder");
-        else
-            textInfo.setText("It's your turn! Please place your first builder");
+            textInfo.setText("Choose the position of your second builder");
+        else {
+            textInfo.setText("It's your turn! Choose the position of your first builder");
+            clear();
+        }
 
         setupHighlight();
 
@@ -466,8 +468,7 @@ public class Mappa implements Initializable {
     private void setupHighlight() {
         List<Coords> checkSetupList = new ArrayList<>();
 
-        for(int i=0;i<5;i++)
-        {
+        for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++)
                 checkSetupList.add(new Coords(i,j));
         }
@@ -476,17 +477,10 @@ public class Mappa implements Initializable {
             int x = (GridPane.getColumnIndex(pane) != null ? GridPane.getColumnIndex(pane) : 0);
             int y = (GridPane.getRowIndex(pane) != null ? GridPane.getRowIndex(pane) : 0);
 
-            ImageView img = null;
-            if(pane instanceof ImageView)
-                img = (ImageView)pane;
-            else
-                continue;
-
-            if(!img.getImage().getUrl().equals("clear"))
-                checkSetupList.remove(new Coords(y,x));
+            if(pane instanceof ImageView) checkSetupList.remove(new Coords(y, x));
         }
 
-        highlightCells(checkSetupList);
+        disableCells(checkSetupList);
     }
 
     public void setStatus(TurnStatus status) {

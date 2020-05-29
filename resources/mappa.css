@@ -76,6 +76,7 @@
     -fx-background-size: 100% 100%;
 }
 
+
 .highlighted{
 
     -fx-opacity: 0.5;
@@ -84,14 +85,18 @@
 }
 
 GridPane > Pane:hover{
-    /*-fx-opacity: 0.5;
-    -fx-background-color: #fffc32;*/
+    -fx-opacity: 0.5;
+    -fx-background-color: aliceblue;
 }
 
-.discolour{
-    -fx-opacity: 0.5;
-    -fx-background-color: #010101;
-}
+
+.highlight{
+    -fx-opacity: 0.6;
+    -fx-background-color: #fffc32;
+    -fx-background-radius: 6%;
+ }
+
+
 
 
 

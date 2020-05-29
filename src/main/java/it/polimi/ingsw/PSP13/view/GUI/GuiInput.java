@@ -182,7 +182,7 @@ public class GuiInput extends Input {
     public void removeBlock(List<Coords> removableBlocks, boolean error) {
         map.setStatus(new RemoveBlockStatus());
         Platform.runLater(()->{
-            map.removeBlock(removableBlocks, error);
+            map.removeBlock(removableBlocks);
         });
     }
 

@@ -25,7 +25,7 @@ public class Main extends Application {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("lobby.css");
 
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setTitle("Santorini");
         primaryStage.getIcons().add(new Image("island.png"));
         primaryStage.setScene(scene);

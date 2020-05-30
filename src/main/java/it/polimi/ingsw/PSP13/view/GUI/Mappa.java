@@ -340,16 +340,34 @@ public class Mappa implements Initializable {
         guiInput.setLoginController(lobby1);
     }
 
+    public void endgameSceneChange() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/endgame.fxml"));
+
+        AnchorPane pane = loader.<AnchorPane>load();
+        Scene endgame = new Scene(pane);
+        endgame.getStylesheets().add("endgame.css");
+
+        Stage stage = (Stage) (grid.getScene().getWindow());
+        stage.setScene(endgame);
+        stage.centerOnScreen();
+        EndGame endGame = loader.<EndGame>getController();
+        endGame.setGuiInput(guiInput);
+
+        if(guiInput.ranking)
+            endGame.win();
+    }
+
     public boolean askPlayAgain() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to play again?", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES){
-            TurnStatus.map.getGuiInput().getController().notifyPlayAgain("yes");
+            getGuiInput().getController().notifyPlayAgain("yes");
             return true;
         }
         else {
-            TurnStatus.map.getGuiInput().getController().notifyPlayAgain("no");
+            getGuiInput().getController().notifyPlayAgain("no");
         }
 
         return false;

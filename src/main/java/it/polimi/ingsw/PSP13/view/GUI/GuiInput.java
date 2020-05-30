@@ -18,6 +18,7 @@ public class GuiInput extends Input {
     private GodDispatcherGUI godDispatcher = null;
     private Mappa map;
     private boolean mapInitialization = true;
+    public boolean ranking = false;
 
 
     @Override
@@ -251,23 +252,21 @@ public class GuiInput extends Input {
     }
 
     @Override
+    public void notifyWin() {
+        ranking = true;
+    }
+
+    @Override
     public void playAgain() {
 
         Platform.runLater(()->{
-            boolean result = map.askPlayAgain();
             try {
-                map.backToLobbySceneChange();
+                map.endgameSceneChange();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(result) {
-                try {
-                    loginController.rematch();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         });
+
     }
 
     public void setMap(Mappa map) {

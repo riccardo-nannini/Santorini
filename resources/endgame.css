@@ -1,0 +1,22 @@
+@font-face {
+    src: url("fonts/DisneyHeroic.ttf");
+}
+
+Label {
+    -fx-font-family: "Disney Heroic";
+}
+
+Button
+{
+    -fx-padding: 12px 12px;
+    -fx-border-width:2;
+    -fx-border-radius: 16;
+    -fx-font-family: "Disney Heroic";
+    -fx-font-size: 17px;
+    -fx-cursor: pointer;
+    -fx-background-radius: 16;
+    -fx-font-weight: bold;
+    -fx-background-color: #D13639;
+    -fx-border-color: #D13639;
+    -fx-text-fill: white;
+}

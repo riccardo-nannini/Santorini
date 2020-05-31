@@ -35,7 +35,11 @@ public class EndGame {
     public void initialize() {
         label1.setText("DEFEAT\nYOU LOST..");
         label1.setTextAlignment(TextAlignment.CENTER);
+        label1.setMaxWidth(Double.MAX_VALUE);
+        label1.setAlignment(Pos.CENTER);
         label.setTextAlignment(TextAlignment.CENTER);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
     }
 
     public void win() throws MalformedURLException {

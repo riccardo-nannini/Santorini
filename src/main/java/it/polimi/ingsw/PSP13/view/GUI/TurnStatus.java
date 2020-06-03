@@ -6,6 +6,10 @@ public abstract class TurnStatus {
 
     protected static Mappa map;
 
+    /**
+     * Handles a cell click calling the right observable to controller method
+     * @param coords clicked cell coordinates
+     */
     public abstract void selectCell(Coords coords);
 
     public static void setMap(Mappa map) {

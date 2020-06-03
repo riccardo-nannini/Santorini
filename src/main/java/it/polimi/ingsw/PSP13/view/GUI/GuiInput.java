@@ -287,4 +287,12 @@ public class GuiInput extends Input {
     }
 
     public GodDispatcherGUI getGodDispatcher() { return godDispatcher; }
+
+    @Override
+    public void turnEnded() {
+        Platform.runLater(()->{
+            map.turnEnded();
+        });
+    }
+
 }

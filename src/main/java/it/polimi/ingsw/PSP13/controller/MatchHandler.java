@@ -338,6 +338,7 @@ public class MatchHandler {
                 coords = turnHandler.getInputBuild(currentBuilder, possibleBuilds);
                 currentPlayer.build(currentBuilder, coords);
                 currentPlayer.end();
+                virtualView.notifyTurnEnded(currentPlayer.getUsername());
             }
         }
         this.notifyWinners(winner.getUsername());

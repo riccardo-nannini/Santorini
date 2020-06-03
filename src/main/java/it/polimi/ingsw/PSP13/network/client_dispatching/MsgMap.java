@@ -39,6 +39,7 @@ public class MsgMap {
         dispatcher.put(clientStarter, new ClientStarterBehaviour(input));
         dispatcher.put(processPlayersNumber, new ClientPlayerNumBehavior(input));
         dispatcher.put(lobbyFull, new ClientWaitQueueBehavior(input));
+        dispatcher.put(turnEnded,new ClientTurnEndedBehavior(input));
     }
 
 

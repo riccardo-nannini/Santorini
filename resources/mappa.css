@@ -25,7 +25,7 @@
 #godEffectText {
     -fx-font-family: "Disney Heroic";
     -fx-font-weight: bold;
-    -fx-font-size: 15px;
+    -fx-font-size: 20px;
     -fx-background-insets: 0, 0, 0, 0 ;
     -fx-background-radius: 0 ;
     -fx-text-alignment: center;
@@ -92,7 +92,7 @@ GridPane > Pane:hover{
 
 .highlight{
     -fx-opacity: 0.6;
-    -fx-background-color: #fffc32;
+    -fx-background-color: aliceblue;
     -fx-background-radius: 6%;
  }
 

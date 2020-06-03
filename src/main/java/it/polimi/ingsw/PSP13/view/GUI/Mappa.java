@@ -91,11 +91,18 @@ public class Mappa implements Initializable {
     private final int BUILDERS_IMAGES_OFFSET = 27;
 
 
+    /**
+     * Initialize map status and save grid's panes
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         savePane();
         TurnStatus.setMap(this);
+        textInfo.setText("Please wait your turn...");
+
 /*
         panes[2][3].getStyleClass().add("highlight");
         panes[2][2].getStyleClass().add("highlight");
@@ -149,7 +156,11 @@ public class Mappa implements Initializable {
 
     }
 
-    //TODO ho scambiato row con column nella penultima riga per vedere di sistamre
+
+    /**
+     * Handles a cell click based on the map controller "status"
+     * @param e the event that caused the method invocation
+     */
     @FXML
     public void selectCell(MouseEvent e) {
         clear();
@@ -163,7 +174,10 @@ public class Mappa implements Initializable {
     }
 
 
-
+    /**
+     * Sets the players information (name, god, god effect, images..) in the map view
+     * @param clientsInfo  message containing players information
+     */
     public void setUpClientsInfo(MessageClientsInfoCV clientsInfo) {
 
         Text name1 = new Text(clientsInfo.getClientUsername());
@@ -205,6 +219,11 @@ public class Mappa implements Initializable {
     }
 
 
+    /**
+     * Sets workers images (ImageView) belonging to "color" player
+     * @param color player's color
+     * @param god player's god
+     */
     public void setBuildersImages(Color color, String god) {
         ImageView i1 = new ImageView("Icons/"+god+".png");
         ImageView i2 = new ImageView("Icons/"+god+".png");
@@ -224,7 +243,11 @@ public class Mappa implements Initializable {
 
     Boolean firstUpdateBuilders = true;
 
-    //TODO ho scambiato getx e gety per vedere di aggiustare
+    /**
+     * Updates the workers position of the "color" player in the map view
+     * @param color player's color
+     * @param coords updated coordinates of the workers
+     */
     @FXML
     public void updateBuiders(Color color, Coords[] coords) {
         if (!firstUpdateBuilders) {
@@ -242,6 +265,11 @@ public class Mappa implements Initializable {
     }
 
     String imageShowed = "";
+
+    /**
+     * Shows the effect of the god you clicked on
+     * @param e the event that caused the method invocation
+     */
     @FXML
     public void showEffect(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -273,7 +301,10 @@ public class Mappa implements Initializable {
     }
 
 
-
+    /**
+     * Update the images of blocks and domes of each cell according to the received mapVM
+     * @param mapVM Immutable map sent from the model
+     */
     public void updateMap(MapVM mapVM) {
         int cellHeight;
         for (int i = 0; i < 5; i++) {
@@ -307,7 +338,9 @@ public class Mappa implements Initializable {
         }
     }
 
-    //TODO ho scambiato j e i nell'ultima riga per vedere di aggiustare
+    /**
+     * Save the Pane object of each cell of the grid
+     */
     public void savePane() {
         int i,j;
         for (Node child : grid.getChildren()) {
@@ -374,6 +407,10 @@ public class Mappa implements Initializable {
 
     }
 
+    /**
+     * Shows a popup asking if the player wants to use his god effect
+     * @param god name of the god
+     */
     public void askEffect(String god) {
         textInfo.setText("Do you want to use the effect of " + god + " ?");
 
@@ -392,6 +429,10 @@ public class Mappa implements Initializable {
     }
 
 
+    /**
+     * Informs the player that he has to select a cell to remove a block and highlights the selectable cells
+     * @param removableBlocks list of the cells that the player can choose to remove a block
+     */
     public void removeBlock(List<Coords> removableBlocks) {
 
         textInfo.setText("You can remove a block only from the highlighted cells");
@@ -401,8 +442,9 @@ public class Mappa implements Initializable {
         grid.setDisable(false);
     }
 
-
-    //TODO FIX
+    /**
+     * Removes the highlight from the cells
+     */
     private void clear() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -412,12 +454,15 @@ public class Mappa implements Initializable {
         }
     }
 
-    //TODO ho scambiato xx e yy nelle iniz per vedere di sistemare
-    private void highlightCells(List<Coords> checkMoveCells) {
+    /**
+     * Highlights cells
+     * @param cells cells that have to be highlighted
+     */
+    private void highlightCells(List<Coords> cells) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Coords tempCoords = new Coords(i, j);
-                if (checkMoveCells.contains(tempCoords)) {
+                if (cells.contains(tempCoords)) {
                     panes[i][j].getStyleClass().add("highlight");
                     panes[i][j].setDisable(false);
 
@@ -426,6 +471,10 @@ public class Mappa implements Initializable {
         }
     }
 
+    /**
+     * Disables cells making them not clickable
+     * @param setupCells cells that have to be disabled
+     */
     private void disableCells(List<Coords> setupCells) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -437,6 +486,11 @@ public class Mappa implements Initializable {
         }
     }
 
+    /**
+     * Informs the player that he has to choose a cell to build a block on it and
+     * highlights the selectable cells
+     * @param checkBuildCells cells among which the player can choose to build
+     */
     public void build(List<Coords> checkBuildCells) {
 
         textInfo.setText("Now you have to build a block\nChoose a cell from the highlighted ones");
@@ -446,6 +500,11 @@ public class Mappa implements Initializable {
         grid.setDisable(false);
     }
 
+    /**
+     * Informs the player that he has to choose a cell to move in and
+     * highlights the selectable cells
+     * @param checkMoveCells cells among which the player can choose to move
+     */
     public void move(List<Coords> checkMoveCells) {
 
         textInfo.setText("It's time to move your worker\nChoose a cell from the highlighted ones");
@@ -455,6 +514,10 @@ public class Mappa implements Initializable {
         grid.setDisable(false);
     }
 
+    /**
+     * Informs the player that he has to choose a builder and
+     * disables the not selectable cells
+     */
     public void chooseBuilder() {
 
         textInfo.setText("It's your turn!\nPlease select a worker");
@@ -465,6 +528,11 @@ public class Mappa implements Initializable {
     }
 
 
+    /**
+     * Informs the player that he has place a builder and
+     * disables the not selectable cells
+     * @param callnumber number of the worker the player has to place (first/second)
+     */
     public void builderSetup(boolean callnumber) {
         if (!callnumber)
             textInfo.setText("Choose the position of your second builder");
@@ -478,10 +546,10 @@ public class Mappa implements Initializable {
         grid.setDisable(false);
     }
 
-    //TODO ho cambiato x e y nella penultima riga per vedere di sistemare
+
     /**
-     * this cycles all the grid panes and check if any pane has an ImageView as child. if it does checks its url.
-     * if the pane doesn't have an image or it's url is clear, a new Coords is created and added to checkSetupList
+     * Cycles all the grid panes and check if any pane has an ImageView as child. If it does checks its url.
+     * If the pane doesn't have an image or it's url is clear, a new Coords is created and added to checkSetupList
      */
     private void setupHighlight() {
         List<Coords> checkSetupList = new ArrayList<>();
@@ -513,5 +581,18 @@ public class Mappa implements Initializable {
         this.guiInput = guiInput;
     }
 
+    /**
+     * Informs the player that his turn is finished and he has to wait
+     */
+    public void turnEnded() {
+        textInfo.setText("Your turn is over\nPlease wait...");
+    }
+
+    /**
+     * Informs the player that he has to wait for his turn
+     */
+    public void printWait() {
+        textInfo.setText("Please wait your turn...");
+    }
 
 }

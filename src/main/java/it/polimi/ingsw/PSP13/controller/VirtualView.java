@@ -390,9 +390,21 @@ public class VirtualView {
                 }
             }
         }
+    }
 
-
-
+    /**
+     * Sends to the player's client a MessageCV
+     * informing him his turn is finished
+     * @param player player username
+     * @throws IOException if an I/O error occurs while writing stream header
+     */
+    public void notifyTurnEnded(String player) throws IOException {
+        MessageFromControllerToView message =  new MessageFromControllerToView(MessageID.turnEnded,false, null, null, null, false, 0);
+        try {
+            outputMap.get(player).writeObject(message);
+        } catch (IOException e) {
+            notifyDisconnection();
+        }
     }
 
 }

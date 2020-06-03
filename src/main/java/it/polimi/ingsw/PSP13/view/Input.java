@@ -178,5 +178,10 @@ public abstract class Input {
         return first;
     }
 
+    /**
+     * Informs the client that his turn is finished
+     */
+    public void turnEnded() {}
+
 
 }

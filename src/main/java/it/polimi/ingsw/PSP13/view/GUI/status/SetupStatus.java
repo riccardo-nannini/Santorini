@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP13.view.GUI.TurnStatus;
 public class SetupStatus extends TurnStatus {
     @Override
     public void selectCell(Coords coords) {
+        map.printWait();
         map.getGuiInput().getController().notifySetupBuilder(coords);
     }
 }

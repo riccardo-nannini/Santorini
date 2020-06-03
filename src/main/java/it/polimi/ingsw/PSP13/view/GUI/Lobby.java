@@ -164,19 +164,7 @@ public class Lobby implements Initializable{
 
     }
 
-    @FXML
-    public void minimizeApp(MouseEvent event)
-    {
 
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    public void closeApp(MouseEvent event)
-    {
-        System.exit(0);
-    }
 
     @FXML
     public void textCheckNickname(KeyEvent event)

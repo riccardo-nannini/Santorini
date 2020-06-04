@@ -167,7 +167,11 @@ public class GuiInput extends Input {
     public void effectInput(String god) {
 
         Platform.runLater(()->{
-            map.askEffect(god);
+            try {
+                map.askEffect(god);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 

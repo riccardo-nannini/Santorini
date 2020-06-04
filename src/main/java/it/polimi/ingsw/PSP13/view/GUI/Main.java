@@ -28,6 +28,7 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setTitle("Santorini");
         primaryStage.getIcons().add(new Image("island.png"));
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
 

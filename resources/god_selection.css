@@ -65,7 +65,7 @@ Button
     -fx-text-alignment: center;
 }
 .infoBox {
-    -fx-font-family: "RobotoCondensed-Bold";
+    -fx-font-family: "Tempus Sans ITC";
     -fx-font-size: 20px;
     -fx-font-weight: 200;
     -fx-background-insets: 0, 0 0 1 0 ;

@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -411,21 +412,23 @@ public class Mappa implements Initializable {
      * Shows a popup asking if the player wants to use his god effect
      * @param god name of the god
      */
-    public void askEffect(String god) {
-        textInfo.setText("Do you want to use the effect of " + god + " ?");
+    public void askEffect(String god) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/effectPopup.fxml"));
+        AnchorPane effectPane = loader.<AnchorPane>load();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to use the effect of " + god + " ?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
+        EffectInput effectInput = loader.<EffectInput>getController();
+        effectInput.setGuiInput(guiInput);
+        effectInput.upload(god);
 
-        if (alert.getResult() == ButtonType.YES) {
-            TurnStatus.map.getGuiInput().getController().notifyEffect("yes");
-            textInfo.setText("you selected yes");
-        }
-        else {
-            TurnStatus.map.getGuiInput().getController().notifyEffect("no");
-            textInfo.setText("you selected no");
-        }
+        Scene scene = new Scene(effectPane);
+        scene.getStylesheets().add("effectInput.css");
 
+        stage.setTitle("Effect");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.show();
     }
 
 

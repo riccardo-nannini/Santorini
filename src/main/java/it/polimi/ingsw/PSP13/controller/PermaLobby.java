@@ -18,12 +18,14 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class PermaLobby implements Runnable{
 
     private ServerSocket serverSocket;
+    private static ViewObserver viewObserver;
     private BlockingQueue<ClientHandler> socketList = new LinkedBlockingDeque<>();
     private Map<String, Socket> usernameMap = new HashMap<>();
     private Map<Socket, ClientHandler> map = new HashMap<>();
     private Map<Socket, ClientListener> listenerList = new HashMap<>();
     private Map<Socket, ObjectOutputStream> fillByClient = new HashMap<>();
     private Map<Socket,Boolean> rematchMap = new HashMap<>();
+    private List<Thread> listenerThreads = new ArrayList<>();
     private int playersNumber = 3;
     private boolean lobbySetupDone = false;
     private boolean start = false;
@@ -37,7 +39,7 @@ public class PermaLobby implements Runnable{
         try {
             serverSocket = new ServerSocket(Server.PORT);
         } catch (IOException e) {
-            System.out.println("cannot open server socket");
+            System.out.println("Cannot open server socket");
             System.exit(1);
             return;
         }
@@ -68,7 +70,7 @@ public class PermaLobby implements Runnable{
      */
     public synchronized void validateNickname(Socket socket, String nickname)
     {
-        System.out.println("received nickname " + nickname + " from: " + socket.getInetAddress());
+        System.out.println("Received nickname " + nickname + " from: " + socket.getInetAddress());
         if(!usernameMap.containsKey(nickname) && nickname.length() <= 16)
         {
             usernameMap.put(nickname,socket);
@@ -132,6 +134,13 @@ public class PermaLobby implements Runnable{
         return null;
     }
 
+    public synchronized void listenerThreadsShutdown(String username) {
+        for (Thread thread : listenerThreads) {
+            if (thread.isAlive()) thread.interrupt();
+        }
+        viewObserver.updateDisconnection(username);
+    }
+
 
     //TODO killare il thread clientlistener del relativo client disconnesso invece che lasciarlo girare
     /**
@@ -141,8 +150,7 @@ public class PermaLobby implements Runnable{
      */
     public synchronized void takeSetupDisconnection(Socket socket)
     {
-        if(start)
-            return;
+        if(start) return;
 
         boolean isFirst = map.get(socket) == socketList.peek();
         socketList.remove(map.get(socket));
@@ -173,7 +181,7 @@ public class PermaLobby implements Runnable{
 
         Socket socket = serverSocket.accept();
         System.out.println("connected to: " + socket.getInetAddress());
-        //socket.setSoTimeout(20000);
+        socket.setSoTimeout(20000);
 
         ObjectOutputStream obj = new ObjectOutputStream(socket.getOutputStream());
         fillByClient.put(socket,obj);
@@ -184,6 +192,7 @@ public class PermaLobby implements Runnable{
         ClientListener listener = new ClientListener(socket, this);
         listenerList.put(socket,listener);
         Thread thread = new Thread(listener);
+        listenerThreads.add(thread);
         thread.start();
 
         if(socketList.size() > playersNumber)
@@ -235,12 +244,11 @@ public class PermaLobby implements Runnable{
      * given all the data structures filled and a matchHandler instance this method starts the match
      * @throws NoSuchMethodException
      * @throws InstantiationException
-     * @throws IOException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
      */
-    private void createMatch() throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private void createMatch() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         int diff = socketList.size() - playersNumber;
         if(diff > 0)
         {
@@ -260,8 +268,9 @@ public class PermaLobby implements Runnable{
         if(matchHandler == null)
             return;
 
-        ViewObserver viewObserver = new ViewObserver(matchHandler);
-        ClientListener.setViewObserver(viewObserver);
+        ViewObserver observer = new ViewObserver(matchHandler);
+        viewObserver = observer;
+        ClientListener.setViewObserver(observer);
 
         for(ClientListener listener : listenerList.values())
         {
@@ -275,13 +284,26 @@ public class PermaLobby implements Runnable{
             matchHandler.init();
             matchHandler.play();
         } catch (IOException e) {
-            System.out.println("A client disconnected during the game");
-            checkReady();
+            System.out.println("Restarting the game");
+            init();
+            setupIter();
             return;
         }
         rematchMap.clear();
         start = false;
         playAgain();
+    }
+
+    private synchronized void init() {
+        socketList.clear();
+        usernameMap.clear();
+        map.clear();
+        listenerList.clear();
+        fillByClient.clear();
+        rematchMap.clear();
+        lobbySetupDone = false;
+        start = false;
+        listenerThreads.clear();
     }
 
     private synchronized void playAgain() {

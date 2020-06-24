@@ -268,7 +268,8 @@ public class CliInput extends Input {
 
     @Override
     public void disconnectionMessage() {
-        System.out.println("The match ended due to a disconnection");
+        String newlines = "\n\n\n\n\n\n\n\n\n\n\n\n";
+        System.out.println("The match ended due to a disconnection" + newlines);
     }
 
     @Override

@@ -164,8 +164,6 @@ public class Lobby implements Initializable{
 
     }
 
-
-
     @FXML
     public void textCheckNickname(KeyEvent event)
     {
@@ -297,7 +295,6 @@ public class Lobby implements Initializable{
 
 
     }
-
 
     public AnchorPane getSlide1() {
         return slide1;

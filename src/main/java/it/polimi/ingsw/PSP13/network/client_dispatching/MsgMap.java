@@ -14,9 +14,11 @@ public class MsgMap {
 
     private EnumMap<MessageID,ClientDispatcherBehavior> dispatcher;
     private Input input;
+    private UpdateListener updateListener;
 
-    public MsgMap(Input input)
+    public MsgMap(Input input, UpdateListener updateListener)
     {
+        this.updateListener = updateListener;
         this.input = input;
         init();
     }
@@ -34,7 +36,7 @@ public class MsgMap {
         dispatcher.put(selectBuilder,new ClientChooseBuilderBehavior(input));
         dispatcher.put(removeBlock,new ClientRmvBlockBehavior(input));
         dispatcher.put(gameOver, new ClientEndGameBehavior(input));
-        dispatcher.put(disconnection,new ClientDisconnectionBehavior(input));
+        dispatcher.put(disconnection,new ClientDisconnectionBehavior(input, updateListener));
         dispatcher.put(effectDescription,new ClientEffectDescriptionBehaviour(input));
         dispatcher.put(clientStarter, new ClientStarterBehaviour(input));
         dispatcher.put(processPlayersNumber, new ClientPlayerNumBehavior(input));

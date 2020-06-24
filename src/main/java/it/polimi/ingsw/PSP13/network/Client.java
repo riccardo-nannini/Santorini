@@ -1,17 +1,10 @@
 package it.polimi.ingsw.PSP13.network;
 
-import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
-import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
-import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
 import it.polimi.ingsw.PSP13.view.CLI.CliInput;
-import it.polimi.ingsw.PSP13.view.GUI.GuiInput;
 import it.polimi.ingsw.PSP13.view.GUI.Main;
 import it.polimi.ingsw.PSP13.view.Input;
-import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Application;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
@@ -33,13 +26,11 @@ public class Client {
 
         if(answer.toLowerCase().equals("cli")){
             input = new CliInput();
+            input.setup();
         }
         else {
             Application.launch(Main.class);
         }
-
-        input.setup();
-
     }
 
 }

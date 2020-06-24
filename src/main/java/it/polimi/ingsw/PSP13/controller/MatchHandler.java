@@ -235,8 +235,6 @@ public class MatchHandler {
         }
     }
 
-
-
     /**
      * Handles the set up of the builders for each players
      * @param virtualView

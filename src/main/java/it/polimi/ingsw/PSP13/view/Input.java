@@ -23,14 +23,13 @@ public abstract class Input {
 
     public void setup(){};
 
-    public void connectToServer(String serverIp) throws IOException{
+    public void connectToServer(String serverIp) throws IOException {
 
         socket = new Socket(serverIp, PORT);
 
         ControllerCallback callback = new ControllerCallback(socket);
         controller = new ObservableToController(callback);
-        UpdateListener updateListener = new UpdateListener(socket, this);
-        new Thread(new HearthBeat(callback)).start();
+        UpdateListener updateListener = new UpdateListener(socket, this, callback);
         Thread thread = new Thread(updateListener, "listener");
         thread.start();
     }

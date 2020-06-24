@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP13.network.client_dispatching.MsgMap;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.nio.channels.ClosedByInterruptException;
 
 public class ClientListener implements Runnable {
 
@@ -35,11 +36,26 @@ public class ClientListener implements Runnable {
         try {
             handleClientConnection();
         } catch (IOException e) {
+            try {
+                input.close();
+            } catch (IOException ioException) {
+                System.out.println("Unable to close the stream");
+            }
+
+            if (Thread.currentThread().isInterrupted()) {
+                System.out.println("Closing ClientListener for disconnected client");
+
+                return;
+            }
+
             System.out.println("Connection dropped from " + username);
 
-            lobby.takeSetupDisconnection(socket);
-            if(lobby.isStart())
-                viewObserver.updateDisconnection(username);
+            if(lobby.isStart()) {
+                lobby.listenerThreadsShutdown(username);
+            } else {
+                lobby.takeSetupDisconnection(socket);
+            }
+
         }
     }
 

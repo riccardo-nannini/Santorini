@@ -5,7 +5,7 @@ import it.polimi.ingsw.PSP13.view.Input;
 
 import java.util.List;
 
-public class ClientStarterBehaviour extends ClientBuildBehavior {
+public class ClientStarterBehaviour extends ClientDispatcherBehavior {
 
 
     @Override

@@ -355,7 +355,7 @@ public class Mappa implements Initializable {
     public void OpponentDisconnection() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "A player disconnected from the game, you will be put in the lobby again", ButtonType.OK);
         alert.showAndWait();
-        //
+
     }
 
     public void backToLobbySceneChange() throws IOException {

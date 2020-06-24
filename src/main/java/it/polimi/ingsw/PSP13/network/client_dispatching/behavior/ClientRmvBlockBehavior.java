@@ -6,7 +6,7 @@ import it.polimi.ingsw.PSP13.view.Input;
 
 import java.util.List;
 
-public class ClientRmvBlockBehavior extends ClientChooseBuilderBehavior {
+public class ClientRmvBlockBehavior extends ClientDispatcherBehavior {
 
     @Override
     public void behavior(MessageFromControllerToView messageCV) {

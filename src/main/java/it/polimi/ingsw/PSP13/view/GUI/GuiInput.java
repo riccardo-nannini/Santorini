@@ -26,7 +26,6 @@ public class GuiInput extends Input {
         Platform.runLater(() -> {
             try {
                 if (godDispatcher != null) godDispatcher.setGodEffects(godsEffect);
-                //map.setClientEffectDescription(effect);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -195,6 +194,15 @@ public class GuiInput extends Input {
     public void disconnectionMessage() {
 
         Platform.runLater(()->{
+            if (mapInitialization) {
+                godDispatcher.OpponentDisconnection();
+            } else {
+                map.OpponentDisconnection();
+            }
+            Platform.exit();
+        });
+
+        /*Platform.runLater(()->{
             map.OpponentDisconnection();
             try {
                 map.backToLobbySceneChange();
@@ -203,7 +211,7 @@ public class GuiInput extends Input {
                 e.printStackTrace();
             }
 
-        });
+        });*/
 
     }
 

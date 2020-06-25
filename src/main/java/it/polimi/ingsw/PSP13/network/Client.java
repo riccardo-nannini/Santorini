@@ -15,21 +15,14 @@ public class Client {
 
     public static void main(String[] args) {
 
-        System.out.println("Choose the graphic mode (insert \u001B[1mGUI\u001B[0m or \u001B[1mCLI\u001B[0m):");
-        String answer = scanner.nextLine();
-
-        while(!(answer.toLowerCase().equals("cli")|| answer.toLowerCase().equals("gui")))
-        {
-            System.out.println("\u001B[31mWRONG INPUT, type [gui/cli]\u001B[0m:");
-            answer = scanner.nextLine();
-        }
-
-        if(answer.toLowerCase().equals("cli")){
-            input = new CliInput();
-            input.setup();
-        }
-        else {
+        if (args.length > 0) {
+            if (args[0].equals("--cli") || args[0].equals("-c")) {
+                input = new CliInput();
+                input.setup();
+            }
+        } else {
             Application.launch(Main.class);
+            System.exit(0);
         }
     }
 

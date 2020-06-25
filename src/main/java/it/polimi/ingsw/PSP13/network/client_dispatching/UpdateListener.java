@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.network.Client;
 import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
 import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
+import it.polimi.ingsw.PSP13.view.CLI.CliInput;
 import it.polimi.ingsw.PSP13.view.Input;
 import javafx.scene.layout.HBox;
 
@@ -58,7 +59,12 @@ public class UpdateListener implements Runnable{
             System.out.println("Unable to close the stream");
         }
         hearthBeat.interrupt();
-        Client.main(new String[0]);
+        if (input instanceof CliInput) {
+            input = new CliInput();
+            input.setup();
+        } else {
+            //TODO GUI
+        }
     }
 
 

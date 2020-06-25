@@ -8,6 +8,7 @@ import it.polimi.ingsw.PSP13.view.GUI.status.SetupStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,6 +22,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -35,6 +37,8 @@ public class Mappa implements Initializable {
 
     private TurnStatus status;
 
+    @FXML
+    private AnchorPane mapPane;
 
     @FXML
     private ImageView imageInfo1;
@@ -372,6 +376,28 @@ public class Mappa implements Initializable {
         Lobby lobby1 = loader.<Lobby>getController();
         lobby1.setGuiInput(guiInput);
         guiInput.setLoginController(lobby1);
+    }
+
+    public void setSceneLogin() throws IOException {
+        AnchorPane root = mapPane;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+        AnchorPane pane = loader.<AnchorPane>load();
+
+        Scene scene = new Scene(pane);
+        scene.getStylesheets().add("god_selection.css");
+
+        Stage stage = (Stage) (root.getScene().getWindow());
+
+        stage.setTitle("Santorini");
+        stage.getIcons().add(new Image("island.png"));
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
     }
 
     public void endgameSceneChange() throws IOException {

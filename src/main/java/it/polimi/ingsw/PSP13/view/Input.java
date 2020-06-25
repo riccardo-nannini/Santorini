@@ -26,7 +26,6 @@ public abstract class Input {
     public void connectToServer(String serverIp) throws IOException {
 
         socket = new Socket(serverIp, PORT);
-
         ControllerCallback callback = new ControllerCallback(socket);
         controller = new ObservableToController(callback);
         UpdateListener updateListener = new UpdateListener(socket, this, callback);

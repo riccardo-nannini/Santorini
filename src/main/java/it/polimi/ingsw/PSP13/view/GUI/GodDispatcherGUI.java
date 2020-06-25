@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,9 +21,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +87,28 @@ public class GodDispatcherGUI {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "A player disconnected from the game, you will be put in the lobby again", ButtonType.OK);
         alert.showAndWait();
 
+    }
+
+    public void setSceneLogin() throws IOException {
+        AnchorPane root = anchorPane1;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+        AnchorPane pane = loader.<AnchorPane>load();
+
+        Scene scene = new Scene(pane);
+        scene.getStylesheets().add("god_selection.css");
+
+        if (stage == null) stage = (Stage) (root.getScene().getWindow());
+
+        stage.setTitle("Santorini");
+        stage.getIcons().add(new Image("island.png"));
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
     }
 
     /**

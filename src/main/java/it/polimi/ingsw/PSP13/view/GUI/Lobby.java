@@ -32,7 +32,6 @@ public class Lobby implements Initializable{
 
     private GuiInput guiInput;
 
-
     @FXML
     private AnchorPane container;
     @FXML

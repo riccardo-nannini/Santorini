@@ -196,10 +196,19 @@ public class GuiInput extends Input {
         Platform.runLater(()->{
             if (mapInitialization) {
                 godDispatcher.OpponentDisconnection();
+                try {
+                    godDispatcher.setSceneLogin();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 map.OpponentDisconnection();
+                try {
+                    map.setSceneLogin();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            Platform.exit();
         });
 
         /*Platform.runLater(()->{

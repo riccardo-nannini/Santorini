@@ -8,6 +8,14 @@ public class ClientNickBehavior extends ClientDispatcherBehavior{
 
     @Override
     public void behavior(MessageFromControllerToView messageCV) {
+
+        if(messageCV.getString() != null && messageCV.getString().equals("ok")) {
+            if(!input.isFirst())
+                input.lobbyWait();
+
+            return;
+        }
+
         input.nicknameInput(messageCV.isError());
     }
 

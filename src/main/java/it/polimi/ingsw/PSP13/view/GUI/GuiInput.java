@@ -163,6 +163,13 @@ public class GuiInput extends Input {
     }
 
     @Override
+    public void waitQueueMsg() {
+        Platform.runLater(() -> {
+            loginController.waitQueue();
+        });
+    }
+
+    @Override
     public void effectInput(String god) {
 
         Platform.runLater(()->{
@@ -226,6 +233,7 @@ public class GuiInput extends Input {
 
     @Override
     public void choosePlayerNum(boolean error) {
+        System.out.println("rpova");
         synchronized (this)
         {
             System.out.println("scegli il numero di giocatori");
@@ -236,6 +244,7 @@ public class GuiInput extends Input {
 
             if(loginController.isNicknameSent())
             {
+                System.out.println("rematch");
                 Platform.runLater(()->{
                     try {
                         loginController.chooseP();

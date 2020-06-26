@@ -20,6 +20,7 @@ public abstract class Input {
     protected ObservableToController controller;
     protected boolean first = false;
     protected Socket socket;
+    public UpdateListener listener;
 
     public void setup(){};
 
@@ -28,8 +29,8 @@ public abstract class Input {
         socket = new Socket(serverIp, PORT);
         ControllerCallback callback = new ControllerCallback(socket);
         controller = new ObservableToController(callback);
-        UpdateListener updateListener = new UpdateListener(socket, this, callback);
-        Thread thread = new Thread(updateListener, "listener");
+        listener = new UpdateListener(socket, this, callback);
+        Thread thread = new Thread(listener, "listener");
         thread.start();
     }
 
@@ -167,6 +168,8 @@ public abstract class Input {
 
     public void lobbyWait() {};
 
+    public abstract void waitQueueMsg();
+
 
     public void setFirst(boolean first) {
         this.first = first;
@@ -180,6 +183,13 @@ public abstract class Input {
      * Informs the client that his turn is finished
      */
     public void turnEnded() {}
+
+    public void copy(Input input) {
+        input.controller = this.controller;
+        input.socket = this.socket;
+        input.listener = this.listener;
+        input.first = this.first;
+    }
 
 
 }

@@ -75,6 +75,7 @@ public class PermaLobby implements Runnable{
         {
             usernameMap.put(nickname,socket);
             listenerList.get(socket).setUsername(nickname);
+            map.get(socket).confirmNickname();
             if(lobbySetupDone)
                 notifyAll();
 
@@ -374,9 +375,11 @@ public class PermaLobby implements Runnable{
         matchHandler.setNumPlayers(playersNumber);
 
         HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();
+
         for(Map.Entry entry : usernameMap.entrySet())
         {
-            outputMap.put((String)entry.getKey(),fillByClient.get(entry.getValue()));
+            if(usernames.contains(entry.getKey()))
+                outputMap.put((String)entry.getKey(),fillByClient.get(entry.getValue()));
         }
 
         VirtualView virtualView = new VirtualView(outputMap);

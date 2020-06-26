@@ -52,8 +52,7 @@ public class CliInput extends Input {
             System.out.println("\u001B[31mThe nickname you have chosen is not available for this match, please insert another nickname:\u001b[0m");
         input = scanner.nextLine();
         super.controller.notifyNickname(input);
-        if(!first)
-            lobbyWait();
+
     }
 
 
@@ -350,6 +349,11 @@ public class CliInput extends Input {
     public void lobbyWait()
     {
         System.out.println("Please wait until a match is found...");
+    }
+
+    @Override
+    public void waitQueueMsg() {
+        System.out.println("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
     }
 
     @Override

@@ -14,6 +14,16 @@ public class ClientHandler {
         this.out = out;
     }
 
+    public void confirmNickname()
+    {
+        MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processNickname, false, "ok", null, null, false, 0);
+        try {
+            out.writeObject(msg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * asks the client to choose a username
      * @param error true if there was an error with previous request

@@ -36,8 +36,7 @@ public class PanTest {
     @BeforeClass
     public static void setup()
     {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
@@ -85,7 +84,6 @@ public class PanTest {
 
     @Before
     public void setUp() {
-        player.setGod(new Pan());
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 2)));
     }
 
@@ -119,7 +117,7 @@ public class PanTest {
     }
 
     @Test
-    public void WinNoEffect_CorrectInput_PlayerWin() {
+    public void WinWithoutEffect_CorrectInput_PlayerWin() {
         Coords movedTo = new Coords(1,3);
         Coords movedFrom = builder1.getCoords();
         if (player.getGod().checkMove(builder1,movedTo)) {

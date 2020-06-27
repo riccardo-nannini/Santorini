@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP13.modelTests;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
-import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Cell;
@@ -42,32 +40,31 @@ public class PlayerTest {
 
 
     @Test
-    public void startTest()
+    public void start_CorrectInput_CorrectBehaviour()
     {
         try {
             player.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
-    public void setNicknameTest()
+    public void setUsername_NewUsername_UsernameSetCorrectly()
     {
         player.setUsername("setNickname");
         assertEquals(player.getUsername(),"setNickname");
     }
 
     @Test
-    public void setColorTest()
+    public void setColor_PlayerColor_ColorSetCorrectly()
     {
         player.setColor(Color.Red);
         assertEquals(player.getColor(), Color.Red);
     }
 
     @Test
-    public void checkMoveCellTest()
+    public void getCellMoves_CorrectInput_CorrectBehaviour()
     {
         List<Coords> test = player.getCellMoves(build);
         assertTrue(test.equals(turn.getCellMoves(build)));
@@ -75,7 +72,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void checkBuildCellTest()
+    public void getCellBuilds_CorrectInput_CorrectBehaviour()
     {
         List<Coords> test = player.getCellBuilds(build);
         assertEquals(test,turn.getCellBuilds(build));

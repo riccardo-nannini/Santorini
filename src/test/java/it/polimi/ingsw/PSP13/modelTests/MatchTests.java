@@ -37,14 +37,14 @@ public class MatchTests {
     }
 
     @Test()
-    public void OccupiedTestException()
+    public void isOccupied_IllegalCoords_ShouldReturnTrue()
     {
         boolean bool = match.isOccupied(new Coords(-1,-1));
         assertTrue(bool);
     }
 
     @Test
-    public void OccupiedTestTrue()
+    public void isOccupied_OccupiedCell_ShouldReturnTrue()
     {
         boolean result;
 
@@ -59,7 +59,7 @@ public class MatchTests {
     }
 
     @Test
-    public void OccupiedTestFalse()
+    public void isOccupied_NotOccupiedCell_ShouldReturnFalse()
     {
         boolean result;
 
@@ -69,13 +69,13 @@ public class MatchTests {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getBuilderByCoordsException()
+    public void getBuilderByCoords_CoordsOfAnUnoccupiedCell_ShouldThrowException()
     {
         match.getBuilderByCoords(new Coords(1,4));
     }
 
     @Test
-    public void getBuilderByCoordsTest()
+    public void getBuilderByCoords_OccupiedCellCoords_ShouldReturnTheCoordsBuilder()
     {
         Builder test;
         test = match.getBuilderByCoords(new Coords(4,4));
@@ -83,14 +83,14 @@ public class MatchTests {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getPlayerByBuilderException()
+    public void getPlayerByBuilder_NotExistentBuilder_ShouldThrowException()
     {
         Player test;
         test = match.getPlayerByBuilder(new Builder());
     }
 
     @Test
-    public void getPlayerByBuilderTest()
+    public void getPlayerByBuilder_Builder_PlayerOfTheBuilder()
     {
         Player test;
         test = match.getPlayerByBuilder(match.getPlayers().get(0).getBuilders()[1]);

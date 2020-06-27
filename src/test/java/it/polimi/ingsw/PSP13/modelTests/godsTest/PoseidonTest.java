@@ -33,8 +33,7 @@ public class PoseidonTest {
 
     @BeforeClass
     public static void setup() {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
 
         player = new Player(Color.Blue, "Mario");
@@ -70,13 +69,15 @@ public class PoseidonTest {
 
     @Before
     public void setUp() {
+        match.setCellLevel(new Coords(2,4), Level.Floor);
+
         player.getBuilders()[0].setCell(match.getCell(new Coords(1, 1)));
         player.getBuilders()[1].setCell(match.getCell(new Coords(2, 3)));
         player.setGod(new Poseidon());
     }
 
     @Test
-    public void noEffectTest()
+    public void moveWithoutEffect_CorrectInput_CorrectMove()
     {
         Coords toMove = new Coords(1,2);
         handler.setUseEffect("no");
@@ -103,7 +104,7 @@ public class PoseidonTest {
 
 
     @Test
-    public void tripleBuildTest() {
+    public void tripleBuild_CorrectInput_CorrectTripleBuild() {
 
         Runnable runnable =
                 new Runnable(){

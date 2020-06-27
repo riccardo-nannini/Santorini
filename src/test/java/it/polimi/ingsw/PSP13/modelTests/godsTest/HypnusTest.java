@@ -75,7 +75,7 @@ public class HypnusTest {
     }
 
     @Test
-    public void AppliedDebuff_OpponentTest() {
+    public void applyDebuffOnTheOpponent_CorrectInput_DebuffAppliedCorrectly() {
         try {
             player.setup(player.getBuilders()[0], player.getBuilders()[1],
                     new Coords(0,0), new Coords(0,1));
@@ -86,7 +86,7 @@ public class HypnusTest {
     }
 
     @Test
-    public void NotAppliedDebuff_SamePlayerTest() {
+    public void notAppliedDebuffOnHypnusPlayer_CorrectInput_DebuffNotAppliedCorrectly() {
         try {
             player.setup(player.getBuilders()[0], player.getBuilders()[1],
                     new Coords(0,0), new Coords(0,1));

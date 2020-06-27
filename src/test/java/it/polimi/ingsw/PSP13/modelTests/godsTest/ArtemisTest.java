@@ -23,8 +23,6 @@ import static org.junit.Assert.assertEquals;
 
 public class ArtemisTest {
 
-    //TODO coverage a 50% su sta classe, aggiungere test
-
     public static Match match;
     public static Player player;
     public static Builder builder1;
@@ -35,8 +33,7 @@ public class ArtemisTest {
     @BeforeClass
     public static void setup() {
 
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
 
         player = new Player(Color.Blue, "Mario");
@@ -75,11 +72,12 @@ public class ArtemisTest {
     public void setUp() {
         player.getBuilders()[0].setCell(match.getCell(new Coords(1, 1)));
         player.getBuilders()[1].setCell(match.getCell(new Coords(1, 1)));
+        player.setGod(new Artemis());
     }
 
     @Test
-    public void NoAdditionalMoveTest() {
-        player.setGod(new Artemis());
+    public void NoAdditionalMove_CorrectInput_CorrectBehaviour() {
+
         handler.setUseEffect("no");
         Coords movedTo = new Coords(2, 4);
         try {
@@ -93,9 +91,8 @@ public class ArtemisTest {
     }
 
     @Test
-    public void AdditionalMoveTest() {
+    public void AdditionalMove_CorrectInput_CorrectBehaviour() {
         Coords effectCoords = new Coords(1,4);
-        player.setGod(new Artemis());
         handler.setUseEffect("yes");
         handler.setMoveCoords(effectCoords);
         Coords movedTo = new Coords(2, 4);

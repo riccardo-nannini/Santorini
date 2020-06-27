@@ -37,8 +37,7 @@ public class AresTest {
     @BeforeClass
     public static void setup() {
 
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
 
         player = new Player(Color.Blue, "Mario");
@@ -62,10 +61,8 @@ public class AresTest {
 
         new Turn(match, handler);
 
-
         match.addPlayer(player);
         match.addPlayer(opponentPlayer);
-
 
         builder1 = new Builder();
         builder2 = new Builder();
@@ -101,7 +98,7 @@ public class AresTest {
     @Test
     public void RemoveBlock_CorrectInput_CorrectBehaviour() {
         Coords removeCoords = new Coords(1,3);
-        player.setGod(new Ares());
+
         handler.setUseEffect("yes");
         handler.setRemoveCoords(removeCoords);
 
@@ -119,7 +116,7 @@ public class AresTest {
     @Test
     public void RemoveBlock2_CorrectInput_CorrectBehaviour() {
         Coords removeCoords = new Coords(2,2);
-        player.setGod(new Ares());
+
         handler.setUseEffect("yes");
         handler.setRemoveCoords(removeCoords);
         Coords movedTo = new Coords(3, 2);
@@ -134,9 +131,9 @@ public class AresTest {
     }
 
     @Test
-    public void RemoveBlock3_WrongInput_CorrectBehaviour() {
+    public void RemoveBlock3_CorrectInput_CorrectBehaviour() {
         Coords removeCoords = new Coords(1,2);
-        player.setGod(new Ares());
+
         handler.setUseEffect("yes");
         handler.setRemoveCoords(removeCoords);
         Coords movedTo = new Coords(2, 4);
@@ -150,25 +147,4 @@ public class AresTest {
         assertSame(match.getHeight(removeCoords), 0);
     }
 
-    /**
-     * this test cannot be done because the ir and error in the input and that prevents the correct
-     * execution of player.end(). see getInputRemoveBlock in TurnHandler
-     */
-    //@Test
-    public void RemoveBlock_WrongInput_NothingRemoved() {
-        Coords removeCoords = new Coords(3,3);
-        player.setGod(new Ares());
-        handler.setUseEffect("yes");
-        handler.setRemoveCoords(removeCoords);
-        Coords movedTo = new Coords(3, 2);
-        try {
-            player.move(builder1, movedTo);
-            player.end();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        assertSame(match.getHeight(removeCoords), 3);
-        assertTrue(match.getCell(removeCoords).getDome());
-    }
 }

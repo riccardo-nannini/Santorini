@@ -68,7 +68,7 @@ public class ZeusTest {
     }
 
     @Test
-    public void checkBuildTrue()
+    public void ZeusCheckBuild_BuildOnHisOwnBlockOfLevelZero_BuildAllowed()
     {
         boolean result;
         match.setCellLevel(new Coords(3, 0), Level.Floor);
@@ -81,7 +81,7 @@ public class ZeusTest {
     }
 
     @Test
-    public void checkBuildFalse()
+    public void ZeusCheckBuild_BuildOnHisOwnBlockOfLevelThree_BuildNotAllowed()
     {
         boolean result;
         match.setCellLevel(new Coords(3, 0), Level.Top);

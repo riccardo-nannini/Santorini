@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP13.modelTests.godsTest;
 
+import it.polimi.ingsw.PSP13.controller.MatchHandler;
+import it.polimi.ingsw.PSP13.controller.TurnHandler;
+import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
@@ -13,9 +16,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 public class AthenaDebuffTest {
 
@@ -23,15 +28,32 @@ public class AthenaDebuffTest {
     public static Player player;
     public static Builder builder1;
     public static Builder builder2;
+    public static TurnHandler handler;
+    public static VirtualView view;
 
     @BeforeClass
     public static void setup() {
-        match = new Match();
+        MatchHandler matchHandler = new MatchHandler();
+        match = matchHandler.getMatch();
+
+        player = new Player(Color.Blue, "Mario");
+
+        HashMap<String, ObjectOutputStream> outputMap = new HashMap<>();
+        ObjectOutputStream stream;
+
         try {
-            match.start(null);
+            stream = new ObjectOutputStream(System.out);
+            outputMap.put(player.getUsername(),stream);
+            view = new VirtualView(outputMap);
+
+            handler = new TurnHandler(view);
+            handler.setMatchHandler(matchHandler);
+            match.start(view);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         player = new Player(Color.Blue, "Mario");
 
         match.addPlayer(player);
@@ -43,39 +65,39 @@ public class AthenaDebuffTest {
         AthenaDebuff debuff = new AthenaDebuff(new Turn());
         player.setGod(debuff);
 
-        player.getBuilders()[0].setCell(match.getCell(new Coords(1, 1)));
-        match.setCellLevel(new Coords(3,3), Level.Medium);
-        match.setCellLevel(new Coords(2,3), Level.Medium);
-        match.setCellLevel(new Coords(3,4), Level.Base);
-        match.setCellLevel(new Coords(2,4), Level.Top);
-        match.setCellLevel(new Coords(2, 2), Level.Top);
     }
 
     @Before
     public void setUp() {
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
         player.getBuilders()[1].setCell(match.getCell(new Coords(4, 3)));
+        match.setCellLevel(new Coords(1,1), Level.Top);
+        match.setCellLevel(new Coords(3,3), Level.Medium);
+        match.setCellLevel(new Coords(2,3), Level.Medium);
+        match.setCellLevel(new Coords(3,4), Level.Base);
+        match.setCellLevel(new Coords(2,4), Level.Top);
+        match.setCellLevel(new Coords(2, 2), Level.Top);
         AthenaDebuff debuff = new AthenaDebuff(new Turn());
         player.setGod(debuff);
     }
 
     @Test
-    public void MovingSameLevel_ExpectedTrue(){
+    public void SameLevelMove_CorrectInput_ExpectedTrue(){
         assertTrue(player.checkMove(player.getBuilders()[0], new Coords(3,3)));
     }
 
     @Test
-    public void MovingDown_ExpectedTrue(){
+    public void MovingDown_CorrectInput_ExpectedTrue(){
         assertTrue(player.checkMove(player.getBuilders()[0], new Coords(3,4)));
     }
 
     @Test
-    public void MovingUp_ExpectedFalse(){
+    public void MovingUp_CorrectInput_ExpectedFalse(){
         assertFalse(player.checkMove(player.getBuilders()[0], new Coords(2,4)));
     }
 
     @Test
-    public void endOfTurn_DecoretorRemoveExpected(){
+    public void endOfTurn_CorrectInput_DecoretorRemovedExpected(){
         player.checkMove(player.getBuilders()[0], new Coords(3,3));
         try {
             player.end();
@@ -84,4 +106,38 @@ public class AthenaDebuffTest {
         }
         assertFalse(player.getGod() instanceof AthenaDebuff);
     }
+
+    @Test
+    public void completeTurn_CorrectInput_CorrectBehaviour() {
+        Coords moveCoords = new Coords(3,3);
+        Coords buildCoords = new Coords(2,3);
+
+        try {
+            player.start();
+
+            if (player.checkMove(builder1,moveCoords)) {
+                if (player.getCellMoves(builder1).contains(moveCoords)) {
+                    player.getCellMoves(builder1);
+                    player.move(builder1, moveCoords);
+                }
+            }
+            if (player.checkBuild(builder1,buildCoords)) {
+                if (player.getCellBuilds(builder1).contains(buildCoords)) {
+                    player.build(builder1, buildCoords);
+                }
+            }
+
+            player.end();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(builder1.getCoords(),new Coords(3,3));
+        assertSame(match.getHeight(new Coords(2, 3)), 3);
+    }
+
+
+
+
+
 }

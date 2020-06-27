@@ -37,8 +37,7 @@ public class PrometheusTest {
     @BeforeClass
     public static void setup()
     {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
@@ -91,17 +90,16 @@ public class PrometheusTest {
         match.setCellLevel(new Coords(3,3), Level.Floor);
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
         match.setCellLevel(new Coords(1,2), Level.Base);
-
     }
 
-
     @Test
-    public void MoveNoEffectTest() {
+    public void MoveWithoutEffect_CorrectInput_CorrectOutput() {
 
         handler.setUseEffect("no");
         handler.setBuildCoords(new Coords(1,2));
         if (player.getGod().checkMove(player.getBuilders()[0],new Coords(3,3))) {
             try {
+                player.start();
                 player.move(builder1, new Coords(3, 3));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -112,7 +110,7 @@ public class PrometheusTest {
     }
 
     @Test
-    public void MoveWithEffect_CorrectInput_CorrectBuilding() {
+    public void MoveWithEffect_CorrectInput_CorrectBuildingBeforeMoving() {
 
         handler.setUseEffect("yes");
         handler.setBuildCoords(new Coords(1,2));
@@ -129,7 +127,7 @@ public class PrometheusTest {
     }
 
     @Test
-    public void MoveWithEffect2_CorrectInput_CorrectBuilding() {
+    public void MoveWithEffect2_CorrectInput_CorrectBuildingBeforeMoving() {
         match.setCellLevel(new Coords(3,3), Level.Base);
 
         handler.setUseEffect("yes");

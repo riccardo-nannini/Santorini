@@ -37,8 +37,8 @@ public class AtlasTest {
     @BeforeClass
     public static void setup()
     {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
@@ -86,14 +86,12 @@ public class AtlasTest {
 
     @Before
     public void setUp() {
-        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
         player.setGod(new Atlas());
     }
 
 
     @Test
     public void BuildNoEffect_CorrectInput_CorrectBuilding() {
-        player.setGod(new Atlas());
         handler.setUseEffect("no");
         try {
             player.build(builder1,new Coords(1,2));
@@ -105,8 +103,6 @@ public class AtlasTest {
 
     @Test
     public void BuildWithEffect_CorrectInput_CorrectBuilding() {
-
-        player.setGod(new Atlas());
         handler.setUseEffect("yes");
         try {
             player.build(builder1,new Coords(3,2));

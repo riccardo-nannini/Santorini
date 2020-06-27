@@ -26,15 +26,14 @@ public class ApolloTest {
     private static Match match;
     private static Player player, opponentPlayer;
     private static Builder builder1, builder2, opponentsbuilder1, opponentsbuilder2;
-    private static Turn turn,apollo;
+    private static Turn apollo;
     public static TurnHandler handler;
     public static VirtualView view;
 
     @BeforeClass
     public static void init()
     {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
 
 
@@ -105,13 +104,13 @@ public class ApolloTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void checkMoveException() throws IllegalArgumentException
+    public void checkMove_IllegalCoords_ShouldThrowException() throws IllegalArgumentException
     {
         apollo.checkMove(builder1,new Coords(5,5));
     }
 
     @Test
-    public void checkMoveTrue()
+    public void checkMove_OccupiedDestinationCell_MoveAllowed()
     {
         boolean result;
         result = apollo.checkMove(builder1,new Coords(4,0));
@@ -120,13 +119,20 @@ public class ApolloTest {
         result = apollo.checkMove(builder1,new Coords(2,0));
         assertTrue(result);
 
+    }
+
+    @Test
+    public void checkMove_UnoccupiedDestinationCell_MoveAllowed()
+    {
+        boolean result;
+
         result = apollo.checkMove(builder2,new Coords(2,1));
         assertTrue(result);
 
     }
 
     @Test
-    public void checkMoveFalse()
+    public void checkMove_UnReachableDestinationCells_MoveNotAllowed()
     {
         boolean result;
         result = apollo.checkMove(builder1,new Coords(4,4));
@@ -138,7 +144,7 @@ public class ApolloTest {
     }
 
     @Test
-    public void moveWithEffectTest()
+    public void moveWithEffect_MoveIntoAnOccupiedCell_OpponentBuilderMoved()
     {
         try
         {
@@ -153,7 +159,7 @@ public class ApolloTest {
     }
 
     @Test
-    public void moveNoEffectTest()
+    public void moveWithoutEffect_MoveIntoAnUnoccupiedCell_MoveAllowed()
     {
         try
         {

@@ -40,8 +40,7 @@ public class MinotaurTest {
     public static void setup()
     {
 
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
 
         player = new Player(Color.Blue, "Mario");
@@ -118,7 +117,7 @@ public class MinotaurTest {
 
 
     @Test
-    public void MoveWithEffect_CorrectInput_CorrectBehaviour(){
+    public void MoveWithEffect_MoveInAnOccupiedCell_CorrectMoveAndOpponentForcedCorrectly(){
         try {
             player.move(builder2, new Coords(3,3));
         } catch (IOException e) {
@@ -129,7 +128,7 @@ public class MinotaurTest {
     }
 
     @Test
-    public void MoveWithEffect3_CorrectInput_CorrectBehaviour(){
+    public void MoveWithEffect2_MoveInAnOccupiedCell_CorrectMoveAndOpponentForcedCorrectly(){
         match.setCellLevel(new Coords(2,4), Level.Floor);
         match.getCell(new Coords(2,4)).setDome(false);
         try {
@@ -143,7 +142,7 @@ public class MinotaurTest {
 
 
     @Test
-    public void MoveNoEffect_CorrectInput_CorrectBehaviour(){
+    public void MoveWithoutEffect_CorrectInput_CorrectBehaviour(){
         try {
             player.move(builder2, new Coords(2,1));
         } catch (IOException e) {
@@ -153,7 +152,7 @@ public class MinotaurTest {
     }
 
     @Test
-    public void checkMoveNormal_True()
+    public void checkMoveWithoutEffect_CorrectInput_CorrectBehaviour()
     {
         boolean result;
         result = player.getGod().checkMove(builder1,new Coords(2,1));
@@ -161,7 +160,7 @@ public class MinotaurTest {
     }
 
     @Test
-    public void checkMoveNormal_False()
+    public void checkMove_WrongInput_ShouldReturnFalse()
     {
         boolean result;
         result = player.getGod().checkMove(builder2,new Coords(3,4));
@@ -179,7 +178,7 @@ public class MinotaurTest {
     }
 
     @Test
-    public void checkMove_WithOpponent_True()
+    public void checkMove_MoveInAnOccupiedCell_ShouldReturnTrue()
     {
         boolean result;
         player.getBuilders()[1].setCell(match.getCell(new Coords(3, 3)));
@@ -188,7 +187,7 @@ public class MinotaurTest {
     }
 
     @Test
-    public void checkMove_WithOpponent_False()
+    public void checkMove2_WrongInput_ShouldReturnFalse()
     {
         boolean result;
         result = player.getGod().checkMove(builder2,new Coords(2,3));

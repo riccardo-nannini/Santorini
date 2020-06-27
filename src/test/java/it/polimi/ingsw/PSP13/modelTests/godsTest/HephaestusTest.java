@@ -36,8 +36,7 @@ public class HephaestusTest {
     @BeforeClass
     public static void setup()
     {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
@@ -79,12 +78,13 @@ public class HephaestusTest {
         opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
         opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
         player.getBuilders()[1].setCell(match.getCell(new Coords(0, 2)));
+
+        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 2)));
     }
 
     @Before
     public void setUp() {
         player.setGod(new Hephaestus());
-        player.getBuilders()[0].setCell(match.getCell(new Coords(2, 2)));
         match.setCellLevel(new Coords(3,2), Level.Floor);
         match.getCell(new Coords(3,2)).setDome(false);
     }
@@ -92,7 +92,7 @@ public class HephaestusTest {
 
     @Test
     public void BuildNoEffect_CorrectInput_CorrectBuilding() {
-        player.setGod(new Hephaestus());
+
         handler.setUseEffect("no");
         Coords buildTo = new Coords(3,2);
         player.checkBuild(builder1,buildTo);
@@ -105,8 +105,8 @@ public class HephaestusTest {
     }
 
     @Test
-    public void BuildWithEffect_CorrectInput_CorrectBuilding() {
-        player.setGod(new Hephaestus());
+    public void BuildWithEffect_CorrectInput_CorrectBuildingOnTheFirstBlock() {
+
         handler.setUseEffect("yes");
         Coords buildTo = new Coords(3,2);
         player.checkBuild(builder1,buildTo);

@@ -95,20 +95,39 @@ public class DemeterTest {
 
 
     @Test
-    public void DoubleBuildWithEffect_NotCorrectInput_BuiltOneTime() {
+    public void DoubleBuildWithEffect_CorrectInput_CorrectBehaviour() {
 
-        player.setGod(new Demeter());
         handler.setUseEffect("yes");
         handler.setBuildCoords(new Coords(3,3));
-        if (player.getGod().checkBuild(player.getBuilders()[0],new Coords(3,3))) {
+        if (player.getGod().checkBuild(player.getBuilders()[0],new Coords(1,2))) {
             try {
                 player.build(builder1, new Coords(1, 2));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            assertSame(match.getHeight(new Coords(3, 3)), 1);
         }
+
+        assertSame(match.getHeight(new Coords(3, 3)), 1);
+        assertSame(match.getHeight(new Coords(1, 2)), 2);
     }
+
+    @Test
+    public void BuildWithoutEffect_CorrectInput_CorrectBehaviour() {
+
+        handler.setUseEffect("no");
+        if (player.getGod().checkBuild(player.getBuilders()[0],new Coords(1,2))) {
+            try {
+                player.build(builder1, new Coords(1, 2));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        assertSame(match.getHeight(new Coords(3, 3)), 0);
+        assertSame(match.getHeight(new Coords(1, 2)), 2);
+    }
+
+
 
 
 }

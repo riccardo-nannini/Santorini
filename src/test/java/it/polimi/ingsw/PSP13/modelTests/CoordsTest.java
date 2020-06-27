@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class CoordsTest {
 
     @Test
-    public void setXTest()
+    public void setX_CorrectInput_CorrectBehaviour()
     {
         Coords coords = new Coords(3,2);
         coords.setX(5);
@@ -17,7 +17,7 @@ public class CoordsTest {
     }
 
     @Test
-    public void setYTest()
+    public void setY_CorrectInput_CorrectBehaviour()
     {
         Coords coords = new Coords(3,2);
         coords.setY(5);

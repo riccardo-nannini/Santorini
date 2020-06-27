@@ -35,8 +35,8 @@ public class HeraTest {
 
     @BeforeClass
     public static void setup() {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
         player = new Player(Color.Blue, "Mario");
         opponentPlayer = new Player(Color.Yellow, "Diego");
@@ -73,7 +73,7 @@ public class HeraTest {
     }
 
     @Test
-    public void AppliedDebuff_OpponentTest() {
+    public void applyDebuffOnTheOpponent_CorrectInput_DebuffAppliedCorrectly() {
         try {
             player.setup(player.getBuilders()[0], player.getBuilders()[1],
                     new Coords(0,0), new Coords(0,1));
@@ -84,7 +84,7 @@ public class HeraTest {
     }
 
     @Test
-    public void NotAppliedDebuff_SamePlayerTest() {
+    public void notAppliedDebuffOnHeraPlayer_CorrectInput_DebuffNotAppliedCorrectly() {
         try {
             player.setup(player.getBuilders()[0], player.getBuilders()[1],
                     new Coords(0,0), new Coords(0,1));

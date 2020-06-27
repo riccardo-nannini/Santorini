@@ -21,7 +21,7 @@ public class MapTest {
     }
 
     @Test
-    public void CheckIfLegalTrue()
+    public void checkIfLegal_LegalCoords_ExpectedAllLegal()
     {
         boolean result;
 
@@ -43,7 +43,7 @@ public class MapTest {
     }
 
     @Test
-    public void checkIfLegalFalse()
+    public void checkIfLegal_NotLegalCoords_ExpectedAllNotLegal()
     {
         boolean result;
 
@@ -67,19 +67,19 @@ public class MapTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void checkGetCellException()
+    public void getCell_NotLegalCoords_ShouldThrowException()
     {
         map.getCell(new Coords(-1,-1));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void TestAdjacentException()
+    public void getAdjacent_NotLegalCoords_ShouldThrowException()
     {
         map.getAdjacent(new Coords(-1,-1));
     }
 
     @Test
-    public void TestAdjacent()
+    public void getAdjacents_LegalCoords_CorrectBehaviour()
     {
         List<Coords> list;
 

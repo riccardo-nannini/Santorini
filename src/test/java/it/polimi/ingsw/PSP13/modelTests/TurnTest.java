@@ -33,8 +33,7 @@ public class TurnTest {
     @BeforeClass
     public static void init()
     {
-        MatchHandler matchHandler = null;
-        matchHandler = new MatchHandler();
+        MatchHandler matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
         Player test = new Player(Color.Blue,"test");
 
@@ -75,10 +74,11 @@ public class TurnTest {
             e.printStackTrace();
         }
         match.setCellLevel(new Coords(3,2), Level.Floor);
+        match.setCellLevel(new Coords(3,3), Level.Floor);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setupException()
+    public void setup_IllegalCoords_ShouldThrowException()
     {
         try {
             turn.setup(builders[0], builders[1],new Coords(-1,-1),new Coords(2,3));
@@ -88,7 +88,7 @@ public class TurnTest {
     }
 
     @Test
-    public void setupCorrect()
+    public void setup_CorrectInput_CorrectBehaviour()
     {
         try {
             turn.setup(builders[0], builders[1],new Coords(1,1),new Coords(4,3));
@@ -100,7 +100,7 @@ public class TurnTest {
     }
 
     @Test
-    public void moveCorrect()
+    public void move_CorrectInput_CorrectBehaviour()
     {
         try {
             turn.move(builders[0],new Coords(2,3));
@@ -111,13 +111,13 @@ public class TurnTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void checkMoveException()
+    public void checkMove_IllegalCoords_ShouldThrowException()
     {
         turn.checkMove(builders[0],new Coords(-1,-1));
     }
 
     @Test
-    public void checkMoveTrue()
+    public void checkMove_CorrectInput_CorrectBehaviour()
     {
         boolean result;
         result = turn.checkMove(builders[0],new Coords(2,3));
@@ -125,7 +125,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkMoveFalse()
+    public void checkMove_WrongInput_CorrectBehaviour()
     {
         boolean result;
         result = turn.checkMove(builders[0],new Coords(4,4));
@@ -133,7 +133,7 @@ public class TurnTest {
     }
 
     @Test
-    public void buildCorrect()
+    public void build_CorrectInput_CorrectBehaviour()
     {
         try {
             turn.build(builders[0],new Coords(2,1));
@@ -144,7 +144,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkBuildTrue()
+    public void checkBuild_CorrectInput_CorrectBehaviour()
     {
         boolean result;
         result = turn.checkBuild(builders[0],new Coords(2,1));
@@ -152,7 +152,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkBuildFalse()
+    public void checkBuild_WrongInput_CorrectBehaviour()
     {
         boolean result;
         result = turn.checkBuild(builders[0],new Coords(4,4));
@@ -160,7 +160,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkWinTrue()
+    public void checkWin_WinningInput_ExpectedWin()
     {
         boolean result;
         try {
@@ -175,7 +175,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkWinFalse()
+    public void checkWin_NotWinningInput_ExpectedNotWin()
     {
         boolean result;
         result = turn.checkWin(builders[0],new Coords(3,3),new Coords(2,3));
@@ -183,7 +183,7 @@ public class TurnTest {
     }
 
     @Test
-    public void getCellMovesTest()
+    public void getCellMoves_CorrectInput_CorrectBehaviour()
     {
         match.setCellLevel(new Coords(3,2), Level.Top);
 
@@ -199,7 +199,7 @@ public class TurnTest {
     }
 
     @Test
-    public void getCellBuildsTest()
+    public void getCellBuilds_CorrectInput_CorrectBehaviour()
     {
         match.setCellLevel(new Coords(3,2), Level.Top);
 

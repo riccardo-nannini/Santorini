@@ -79,6 +79,9 @@ public class EndGame {
         stage.setScene(lobby);
 
         Lobby lobby1 = loader.<Lobby>getController();
+
+        guiInput.setGodDispatcher(null);
+
         lobby1.setGuiInput(guiInput);
         guiInput.setLoginController(lobby1);
 

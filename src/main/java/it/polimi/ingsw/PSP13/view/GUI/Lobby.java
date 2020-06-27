@@ -62,6 +62,17 @@ public class Lobby implements Initializable{
     private boolean nicknameSent = false;
     private boolean nextScene = false;
 
+    public void waitQueue() {
+        nicknameError.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
+        errorLabel.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
+        waitLabel.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
+
+        nicknameError.setVisible(true);
+        errorLabel.setVisible(true);
+        waitLabel.setVisible(true);
+
+    }
+
     public void nicknameError(){
         nicknameError.setText("The nickname you have chosen\nis not available for this match,\nplease insert another nickname");
         nicknameError.setVisible(true);
@@ -305,6 +316,10 @@ public class Lobby implements Initializable{
 
     public void setGuiInput(GuiInput guiInput) {
         this.guiInput = guiInput;
+    }
+
+    public GuiInput getGuiInput() {
+        return guiInput;
     }
 
 }

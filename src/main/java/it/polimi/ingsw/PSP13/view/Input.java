@@ -20,10 +20,19 @@ public abstract class Input {
     protected ObservableToController controller;
     protected boolean first = false;
     protected Socket socket;
-    public UpdateListener listener;
+    protected UpdateListener listener;
 
+    /**
+     * connects the client to the server socket.
+     * a listener thread is started
+     */
     public void setup(){};
 
+    /**
+     * utility function to connect a client socket with the server socket
+     * @param serverIp the server ip
+     * @throws IOException if the connection fails
+     */
     public void connectToServer(String serverIp) throws IOException {
 
         socket = new Socket(serverIp, PORT);
@@ -165,9 +174,14 @@ public abstract class Input {
      */
     public void printWaitStarterSelection(String challenger) {}
 
-
+    /**
+     * prints a wait message
+     */
     public void lobbyWait() {};
 
+    /**
+     * prints a wait message related to the lobby being full
+     */
     public abstract void waitQueueMsg();
 
 
@@ -184,6 +198,10 @@ public abstract class Input {
      */
     public void turnEnded() {}
 
+    /**
+     * utility function that copies input attributes into another instance
+     * @param input
+     */
     public void copy(Input input) {
         input.controller = this.controller;
         input.socket = this.socket;

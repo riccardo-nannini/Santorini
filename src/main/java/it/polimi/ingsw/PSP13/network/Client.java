@@ -13,6 +13,10 @@ public class Client {
     private static Scanner scanner = new Scanner(System.in);
     private static Input input;
 
+    /**
+     * client main thread
+     * @param args eventually starts the CLI
+     */
     public static void main(String[] args) {
 
         if (args.length > 0) {

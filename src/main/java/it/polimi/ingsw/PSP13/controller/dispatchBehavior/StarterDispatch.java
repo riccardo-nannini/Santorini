@@ -9,6 +9,10 @@ public class StarterDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     *
+     * @param messageVC the message to perform the dispatch. the specific behavior will be executed
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getString() != null) viewObserver.updateStarter(messageVC.getString());

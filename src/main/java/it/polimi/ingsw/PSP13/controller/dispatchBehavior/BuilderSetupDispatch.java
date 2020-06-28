@@ -9,6 +9,10 @@ public class BuilderSetupDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * behavior related to the choice of the builders position
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getCoords() != null) viewObserver.updateSetupBuilder(messageVC.getCoords());

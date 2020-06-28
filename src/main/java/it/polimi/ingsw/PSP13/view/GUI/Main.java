@@ -13,6 +13,11 @@ import java.net.URL;
 
 public class Main extends Application {
 
+    /**
+     * starts the javaFX main thread
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception
     {

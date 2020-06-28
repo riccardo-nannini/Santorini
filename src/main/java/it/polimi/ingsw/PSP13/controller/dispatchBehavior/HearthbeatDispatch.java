@@ -9,6 +9,11 @@ public class HearthbeatDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * Hearthbeat behavior. the server needs to know if the client is alive, if it is this message
+     * is received and a timer is reset
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
 

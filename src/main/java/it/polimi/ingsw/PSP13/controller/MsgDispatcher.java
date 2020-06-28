@@ -26,6 +26,10 @@ public class MsgDispatcher {
         init();
     }
 
+    /**
+     * initializes the dispatcher map
+     * with all the dispatchBehavior classes
+     */
     private void init() {
         map = new EnumMap<>(MessageID.class);
         map.put(move,new MoveDispatch(lobby,viewObserver));
@@ -43,10 +47,13 @@ public class MsgDispatcher {
         map.put(gameOver, new HearthbeatDispatch(lobby, viewObserver));
     }
 
+    /**
+     * this methods finds the behavior related to the message protocol
+     * and starts its execution
+     * @param msg the message to decode
+     */
     public void dispatch(MessageFromViewToController msg) {
-
         ServerDispatchBehavior dispatcher = map.get(msg.getMessageID());
-
         dispatcher.behavior(msg);
     }
 

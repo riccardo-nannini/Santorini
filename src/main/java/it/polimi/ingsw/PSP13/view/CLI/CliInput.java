@@ -3,16 +3,10 @@ package it.polimi.ingsw.PSP13.view.CLI;
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
-import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
-import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
-import it.polimi.ingsw.PSP13.view.GUI.GuiInput;
 import it.polimi.ingsw.PSP13.view.Input;
-import it.polimi.ingsw.PSP13.view.ObservableToController;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -28,6 +22,7 @@ public class CliInput extends Input {
         mapPrinter = new MapPrinter();
     }
 
+
     @Override
     public void setup()
     {
@@ -42,6 +37,7 @@ public class CliInput extends Input {
         }
         nicknameInput(false);
     }
+
 
     @Override
     public synchronized void nicknameInput(boolean error)
@@ -346,6 +342,7 @@ public class CliInput extends Input {
             lobbyWait();
     }
 
+    @Override
     public void lobbyWait()
     {
         System.out.println("Please wait until a match is found...");

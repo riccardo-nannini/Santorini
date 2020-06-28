@@ -414,7 +414,7 @@ public class Mappa implements Initializable {
         EndGame endGame = loader.<EndGame>getController();
         endGame.setGuiInput(guiInput);
 
-        if(guiInput.ranking)
+        if(guiInput.isRanking())
             endGame.win();
     }
 

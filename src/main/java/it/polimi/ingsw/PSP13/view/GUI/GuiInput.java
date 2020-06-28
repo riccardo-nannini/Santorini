@@ -18,7 +18,7 @@ public class GuiInput extends Input {
     private GodDispatcherGUI godDispatcher = null;
     private Mappa map;
     private boolean mapInitialization = true;
-    public boolean ranking = false;
+    private boolean ranking = false;
 
 
     @Override
@@ -317,6 +317,10 @@ public class GuiInput extends Input {
     }
 
     public GodDispatcherGUI getGodDispatcher() { return godDispatcher; }
+
+    public boolean isRanking() {
+        return ranking;
+    }
 
     @Override
     public void turnEnded() {

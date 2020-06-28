@@ -62,6 +62,9 @@ public class Lobby implements Initializable{
     private boolean nicknameSent = false;
     private boolean nextScene = false;
 
+    /**
+     * the lobby is full and an error is printed
+     */
     public void waitQueue() {
         nicknameError.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
         errorLabel.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
@@ -73,6 +76,9 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * the nickname chosen isn't suitable and error is printed
+     */
     public void nicknameError(){
         nicknameError.setText("The nickname you have chosen\nis not available for this match,\nplease insert another nickname");
         nicknameError.setVisible(true);
@@ -81,6 +87,11 @@ public class Lobby implements Initializable{
 
     //public static EventType<UpdateEvent> etype = new EventType<>(EventType.ROOT,"prova");
 
+    /**
+     * initializes the spinner element
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /*slide1.addEventHandler(etype,updateEvent -> {
@@ -96,6 +107,9 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * utility function that swap back the scene to the nickname scene
+     */
     public void goBacktoNickname() {
 
         Stage popup = new Stage();
@@ -123,6 +137,13 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * sets the scene to the god selection scene
+     * @param godsList
+     * @param godsNumber
+     * @param isChallenger
+     * @throws IOException
+     */
     public void sceneChangeGodSelection(List<String> godsList, int godsNumber, boolean isChallenger) throws IOException {
 
         if (guiInput.getGodDispatcher() != null) return;
@@ -152,6 +173,11 @@ public class Lobby implements Initializable{
         stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
     }
 
+    /**
+     * sends the nickname to the server and eventually makes the user decide the player number
+     * @param event
+     * @throws Exception
+     */
     @FXML
     public void gameStart(ActionEvent event) throws Exception
     {
@@ -174,6 +200,10 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * checks if the nickname textbox is empty
+     * @param event event related to the user writing on the textbox
+     */
     @FXML
     public void textCheckNickname(KeyEvent event)
     {
@@ -192,6 +222,10 @@ public class Lobby implements Initializable{
         }
     }
 
+    /**
+     * checks if the nickname textbox is empty
+     * @param event event related to the user writing on the textbox
+     */
     @FXML
     public void textCheck(KeyEvent event)
     {
@@ -211,6 +245,9 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * utiltiy function that sends the user choice of players number to the server
+     */
     @FXML
     public void sendPnumber()
     {   okFirst.setDisable(true);
@@ -219,6 +256,10 @@ public class Lobby implements Initializable{
         waitLabel.setVisible(true);
     }
 
+    /**
+     * scene change to choose player number section
+     * @throws Exception
+     */
     public void chooseP() throws Exception{
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
         Scene scene = parent.getScene();
@@ -238,6 +279,10 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * rematch iter
+     * @throws IOException
+     */
     public void rematch() throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
         Scene scene = parent.getScene();
@@ -262,6 +307,11 @@ public class Lobby implements Initializable{
         nicknameSent = true;
     }
 
+    /**
+     * connects the client to the server
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void connect(ActionEvent event) throws IOException {
         ok.setDisable(true);

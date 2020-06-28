@@ -9,6 +9,10 @@ public class RemoveBlockDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * behavior related to the remove of a building on the map
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getCoords() != null) viewObserver.updateRemoveInput(messageVC.getCoords());

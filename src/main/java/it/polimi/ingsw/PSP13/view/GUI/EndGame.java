@@ -32,6 +32,9 @@ public class EndGame {
     private boolean choice = false;
     private GuiInput guiInput;
 
+    /**
+     * initializes all the messages and images with the lost status
+     */
     public void initialize() {
         label1.setText("DEFEAT\nYOU LOST..");
         label1.setTextAlignment(TextAlignment.CENTER);
@@ -42,7 +45,10 @@ public class EndGame {
         label.setAlignment(Pos.CENTER);
     }
 
-    public void win() throws MalformedURLException {
+    /**
+     * initializes the message and images with the win status
+     */
+    public void win() {
         label1.setText("CONGRATULATIONS\n   YOU WON!");
         File file = new File("resources/endgame_victorytrumpets.png");
         Image image = new Image(file.toURI().toString());
@@ -54,6 +60,11 @@ public class EndGame {
         gif.setImage(image1);
     }
 
+    /**
+     * the user selects if he wants to have a rematch
+     * @param e the event related to the user clicking to "yes" or "no" button
+     * @throws IOException if the communication with server fails
+     */
     @FXML
     public void playAgain(ActionEvent e) throws IOException {
         if(e.getSource() == yesButton) {
@@ -67,6 +78,10 @@ public class EndGame {
         backToLobbySceneChange();
     }
 
+    /**
+     * once the user choose what to do he will be put back to the lobby scene
+     * @throws IOException
+     */
     public void backToLobbySceneChange() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new URL("file:./resources/lobby.fxml"));

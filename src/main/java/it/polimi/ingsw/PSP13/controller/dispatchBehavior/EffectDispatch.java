@@ -9,6 +9,10 @@ public class EffectDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * behavior related the the user's choice to use its god effect
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getString() != null) viewObserver.updateEffect(messageVC.getString());

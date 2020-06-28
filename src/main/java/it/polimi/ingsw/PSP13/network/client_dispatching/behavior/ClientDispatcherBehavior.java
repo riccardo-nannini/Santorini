@@ -7,6 +7,10 @@ public abstract class ClientDispatcherBehavior {
 
     protected Input input;
 
+    /**
+     * executes a different set of instructions based on the message protocol
+     * @param messageCV
+     */
     public abstract void behavior(MessageFromControllerToView messageCV);
 
     public ClientDispatcherBehavior(Input input)

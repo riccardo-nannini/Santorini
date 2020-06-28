@@ -14,6 +14,10 @@ public class ClientHandler {
         this.out = out;
     }
 
+    /**
+     * sends a confirm message that the nickname setup has
+     * been successful
+     */
     public void confirmNickname()
     {
         MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processNickname, false, "ok", null, null, false, 0);

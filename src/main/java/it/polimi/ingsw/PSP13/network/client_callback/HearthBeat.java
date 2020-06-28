@@ -9,6 +9,10 @@ public class HearthBeat implements Runnable {
     public HearthBeat(ControllerCallback callback) {
         this.callback = callback;
     }
+
+    /**
+     * starts the hearthbeat side thread. this makes sure the server knows this client is still alive
+     */
     @Override
     public void run() {
         while(true) {

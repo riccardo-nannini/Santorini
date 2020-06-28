@@ -9,6 +9,10 @@ public class GodChoiceDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * behavior related to the user choice of its god for this match
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getString() != null) viewObserver.updateGod(messageVC.getString());

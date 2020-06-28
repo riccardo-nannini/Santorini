@@ -19,6 +19,10 @@ public class NicknameDispatch extends ServerDispatchBehavior {
         this.socket = socket;
     }
 
+    /**
+     * behavior related to the nickname choice
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getString() != null) lobby.validateNickname(socket,messageVC.getString());

@@ -19,6 +19,10 @@ public class RematchDispatch extends ServerDispatchBehavior {
         this.socket = socket;
     }
 
+    /**
+     * behavior related to the rematch iter
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getString() != null) lobby.fillPlayAgainMap(socket, messageVC.getString());

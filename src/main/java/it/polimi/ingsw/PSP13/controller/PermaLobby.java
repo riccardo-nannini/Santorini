@@ -45,6 +45,11 @@ public class PermaLobby implements Runnable{
         }
     }
 
+    /**
+     * this methods looks up for the socket related to the clienthandler
+     * @param clientHandler the client i need to loookup for the the socket
+     * @return the socket related to the clienthandler
+     */
     private Socket getSocketFromClientHandler(ClientHandler clientHandler)
     {
         for(Map.Entry entry : map.entrySet())
@@ -56,6 +61,9 @@ public class PermaLobby implements Runnable{
         return null;
     }
 
+    /**
+     * lobby thread that listens to incoming connections
+     */
     @Override
     public void run()
     {
@@ -84,6 +92,10 @@ public class PermaLobby implements Runnable{
             map.get(socket).nicknameIter(true);
     }
 
+    /**
+     * checks if the conditions to start a match are met
+     * and eventually starts a match
+     */
     private void checkReady()
     {
         if(lobbySetupDone && socketList.size()>=playersNumber) {
@@ -135,6 +147,10 @@ public class PermaLobby implements Runnable{
         return null;
     }
 
+    /**
+     * closes the listener thread related to player username
+     * @param username the player tat needs to be excluded
+     */
     public synchronized void listenerThreadsShutdown(String username) {
         for (Thread thread : listenerThreads) {
             if (thread.isAlive()) thread.interrupt();
@@ -211,6 +227,9 @@ public class PermaLobby implements Runnable{
 
     }
 
+    /**
+     * creates a loop the listen to incoming connections
+     */
     public void listening()
     {
         while(true)
@@ -295,6 +314,9 @@ public class PermaLobby implements Runnable{
         playAgain();
     }
 
+    /**
+     * resets the data structures
+     */
     private synchronized void init() {
         socketList.clear();
         usernameMap.clear();
@@ -307,6 +329,9 @@ public class PermaLobby implements Runnable{
         listenerThreads.clear();
     }
 
+    /**
+     * handles the rematch iter
+     */
     private synchronized void playAgain() {
         System.out.println("Rematch setup");
         while(rematchMap.size() < playersNumber)
@@ -389,6 +414,11 @@ public class PermaLobby implements Runnable{
         return matchHandler;
     }
 
+    /**
+     * fills a map with the client and its choice regarding rematch
+     * @param socket the client who made a choice
+     * @param choice client answer regarding if he wants to play again
+     */
     public synchronized void fillPlayAgainMap(Socket socket, String choice)
     {
         if(choice.equals("yes") || choice.equals("y"))

@@ -18,7 +18,6 @@ public class MessageFromViewToController implements Serializable {
     private final int playerNum;
 
 
-
     public MessageFromViewToController(MessageID messageID, String string, Coords coords, int playerNum)
     {
         this.messageID = messageID;

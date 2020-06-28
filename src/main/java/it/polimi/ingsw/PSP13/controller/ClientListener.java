@@ -30,6 +30,10 @@ public class ClientListener implements Runnable {
         this.msgDispatcher = new MsgDispatcher(lobby,viewObserver, socket);
     }
 
+    /**
+     * this methods runs the loop that listen to the socket input
+     * and catches all the exceptions
+     */
     @Override
     public void run()
     {
@@ -59,6 +63,10 @@ public class ClientListener implements Runnable {
         }
     }
 
+    /**
+     * this method starts a loop that listens to the socket
+     * @throws IOException when an error related to the socket is thrown
+     */
     private void handleClientConnection() throws IOException {
 
         try {
@@ -71,6 +79,10 @@ public class ClientListener implements Runnable {
         }
     }
 
+    /**
+     * decodes the messages received
+     * @param message the message to decode
+     */
     private void dispatcher(Object message) {
         if (! (message instanceof MessageFromViewToController)) return;
         MessageFromViewToController messageVC = (MessageFromViewToController) message;

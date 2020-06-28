@@ -9,6 +9,11 @@ public class SelectBuilderDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * behavior related to the player choice of one builder
+     * to use this turn
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getCoords() != null) viewObserver.updateBuilderChoice(messageVC.getCoords());

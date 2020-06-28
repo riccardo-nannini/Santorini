@@ -23,6 +23,10 @@ public class MsgMap {
         init();
     }
 
+    /**
+     * initializes the dispatcher map
+     * with all the dispatchBehavior classes
+     */
     private void init()
     {
         dispatcher = new EnumMap<>(MessageID.class);
@@ -44,11 +48,14 @@ public class MsgMap {
         dispatcher.put(turnEnded,new ClientTurnEndedBehavior(input));
     }
 
-
+    /**
+     * this methods finds the behavior related to the message protocol
+     * and starts its execution
+     * @param msg the message to decode
+     */
     public void dispatch(MessageFromControllerToView msg)
     {
         ClientDispatcherBehavior behavior = dispatcher.get(msg.getMessageID());
-
         behavior.behavior(msg);
     }
 

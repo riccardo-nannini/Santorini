@@ -17,6 +17,10 @@ public class ControllerCallback {
         }
     }
 
+    /**
+     * sends an object to the server
+     * @param object the object to be sent
+     */
     public void send(Object object)
     {
         try {

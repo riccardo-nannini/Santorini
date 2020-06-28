@@ -9,6 +9,10 @@ public class BuildDispatch extends ServerDispatchBehavior {
         super(lobby, viewObserver);
     }
 
+    /**
+     * performs the build iter. a user chose to build a building
+     * @param messageVC
+     */
     @Override
     public void behavior(MessageFromViewToController messageVC) {
         if (messageVC.getCoords() != null) viewObserver.updateBuildInput(messageVC.getCoords());

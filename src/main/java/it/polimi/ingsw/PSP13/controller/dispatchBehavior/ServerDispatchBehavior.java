@@ -9,12 +9,15 @@ public abstract class ServerDispatchBehavior {
     protected PermaLobby lobby;
     protected ViewObserver viewObserver;
 
-
     public ServerDispatchBehavior(PermaLobby lobby, ViewObserver viewObserver) {
         this.lobby = lobby;
         this.viewObserver = viewObserver;
     }
 
+    /**
+     * executes a set of instructions based on the message protocol
+     * @param messageVC the message to perform the dispatch. the specific behavior will be executed
+     */
     public abstract void behavior(MessageFromViewToController messageVC);
 
 }

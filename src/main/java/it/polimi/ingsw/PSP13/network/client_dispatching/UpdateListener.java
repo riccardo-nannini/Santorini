@@ -38,6 +38,11 @@ public class UpdateListener implements Runnable{
 
     }
 
+    /**
+     * this thread listens to the server updates.
+     * it starts another thread to execute the hearthbeat side process.
+     * this methods also catches all the network related exceptions
+     */
     @Override
     public void run() {
         Thread hearthBeat = new Thread(new HearthBeat(callback));
@@ -67,7 +72,10 @@ public class UpdateListener implements Runnable{
         }
     }
 
-
+    /**
+     * the object is dispatched and message is decoded
+     * @param obj the object received from the socket
+     */
     private void dispatch(Object obj)
     {
         if(obj instanceof MessageFromControllerToView)

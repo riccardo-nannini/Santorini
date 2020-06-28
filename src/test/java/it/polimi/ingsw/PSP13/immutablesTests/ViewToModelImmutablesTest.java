@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class VMTest {
+public class ViewToModelImmutablesTest {
 
     private static BuilderVM builder;
     private static CellVM cell;
@@ -46,7 +46,7 @@ public class VMTest {
     }
 
     @Test
-    public void BuilderTest()
+    public void BuilderVM_CorrectInput_CorrectBehaviour()
     {
         Color color = builder.getColor();
         assertEquals(color,Color.Blue);
@@ -61,7 +61,7 @@ public class VMTest {
     }
 
     @Test
-    public void CellTest()
+    public void CellVm_CorrectInput_CorrectBehaviour()
     {
         boolean result = cell.getDome();
         assertFalse(result);
@@ -72,7 +72,7 @@ public class VMTest {
     }
 
     @Test
-    public void MapTest()
+    public void MapVM_CorrectInput_CorrectBehaviour()
     {
         CellVM[][] matrix = new CellVM[5][5];
         for(int i=0;i<5;i++)

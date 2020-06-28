@@ -21,7 +21,7 @@ public class MessagesTest {
     }
 
     @Test
-    public void VCTest()
+    public void MessageFromViewToController_MessageVC_CorrectGetterBehaviour()
     {
         assertNull(vc.getCoords());
         assertEquals(vc.getString(), "test");
@@ -30,7 +30,7 @@ public class MessagesTest {
     }
 
     @Test
-    public void CVTest()
+    public void MessageFromControllerToView_MessageCV_CorrectGetterBehaviour()
     {
         assertNull(cv.getCoordsList());
         assertNull(cv.getStringList());

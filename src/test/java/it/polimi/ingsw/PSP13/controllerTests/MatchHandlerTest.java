@@ -10,10 +10,7 @@ import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
@@ -28,22 +25,22 @@ public class MatchHandlerTest {
     private static MatchHandler matchHandler;
     private static Player player1;
     private static Player player2;
-    private static Player player3;
     private static Match match;
     private static TurnHandler handler;
     private static VirtualView view;
     private static HashMap<String, ObjectOutputStream> outputMap;
     private static ObjectOutputStream stream;
 
-    @BeforeClass
-    public static void init()
-    {
+
+    @Before
+    public void before() {
+
         matchHandler = new MatchHandler();
         match = matchHandler.getMatch();
 
-        player1 = new Player(Color.Blue, "primo");
-        //player2 = new Player(Color.Red, "secondo");
-        //player3 = new Player(Color.Yellow, "terzo");
+        player1 = new Player(Color.Red, "Antonio");
+        //player2 = new Player(Color.Yellow, "Riccardo");
+        //player3 = new Player(Color.Blue, "Simone");
 
         outputMap = new HashMap<>();
 
@@ -76,17 +73,18 @@ public class MatchHandlerTest {
 
     }
 
-    @Test
-    public void MatchInitTest(){
 
-        player2 = new Player(Color.Red,"addPlayer");
+    @Test
+    public void init_CorrectInput_CorrectBehaviour(){
+
+        player2 = new Player(Color.Yellow,"Riccardo");
         matchHandler.addPlayer(player2);
         outputMap.put(player2.getUsername(),stream);
         assertTrue(match.getPlayers().contains(player2));
 
         matchHandler.setGodsReceived("Apollo, Ares");
         matchHandler.setSelectedGod("Apollo");
-        matchHandler.setSelectedStarter("primo");
+        matchHandler.setSelectedStarter("Antonio");
         matchHandler.setCoords(new Coords(0,4));
 
         Runnable runnable = ()->{
@@ -111,37 +109,82 @@ public class MatchHandlerTest {
 
         assertTrue(match.getPlayers().get(0).getGod() instanceof Apollo || match.getPlayers().get(1).getGod() instanceof Apollo);
 
-
     }
 
-    /**
-     * l'eccezione non passa nel catch
-     */
-    //@Test
-    public void matchInitDisconnectionTest()
-    {
-        boolean thrown = false;
+    @Test
+    public void sortPlayers_ThreePlayerList_ListSortedCorrectly() {
+        match.getPlayers().clear();
 
-        matchHandler.setGodsReceived("Apollo, Ares");
-        matchHandler.setSelectedGod("Apollo");
-        matchHandler.setSelectedStarter("primo");
-        matchHandler.setCoords(new Coords(0,4));
+        Player simone = new Player(Color.Blue,"Simone");
+        Player antonio = new Player(Color.Red,"Antonio");
+        Player riccardo = new Player(Color.Yellow,"Riccardo");
 
-        matchHandler.addDisconnectedPlayer("primo");
+        match.addPlayer(simone);
+        match.addPlayer(antonio);
+        match.addPlayer(riccardo);
 
-        try {
-            matchHandler.init();
-        } catch (InvocationTargetException | IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            thrown = true;
-        }
+        matchHandler.setNumPlayers(3);
 
-        assertTrue(thrown);
+        assertEquals(simone,match.getPlayers().get(0));
 
+        matchHandler.setSelectedStarter("Antonio");
 
+        matchHandler.sortPlayers();
+
+        assertEquals(antonio,match.getPlayers().get(0));
+        assertEquals(riccardo,match.getPlayers().get(1));
+        assertEquals(simone,match.getPlayers().get(2));
     }
+
+    @Test
+    public void sortPlayers2_ThreePlayerList_ListSortedCorrectly() {
+        match.getPlayers().clear();
+
+        Player simone = new Player(Color.Blue,"Simone");
+        Player antonio = new Player(Color.Red,"Antonio");
+        Player riccardo = new Player(Color.Yellow,"Riccardo");
+
+        match.addPlayer(simone);
+        match.addPlayer(antonio);
+        match.addPlayer(riccardo);
+
+        matchHandler.setNumPlayers(3);
+
+        assertEquals(simone,match.getPlayers().get(0));
+
+        matchHandler.setSelectedStarter("Riccardo");
+
+        matchHandler.sortPlayers();
+
+        assertEquals(riccardo,match.getPlayers().get(0));
+        assertEquals(simone,match.getPlayers().get(1));
+        assertEquals(antonio,match.getPlayers().get(2));
+    }
+
+
+    @Test
+    public void sortPlayers_TwoPlayerList_ListSortedCorrectly() {
+        match.getPlayers().clear();
+
+        Player simone = new Player(Color.Blue,"Simone");
+        Player antonio = new Player(Color.Red,"Antonio");
+
+        match.addPlayer(simone);
+        match.addPlayer(antonio);
+
+        matchHandler.setNumPlayers(2);
+
+        assertEquals(simone,match.getPlayers().get(0));
+
+        matchHandler.setSelectedStarter("Antonio");
+
+        matchHandler.sortPlayers();
+
+        assertEquals(antonio,match.getPlayers().get(0));
+        assertEquals(simone,match.getPlayers().get(1));
+    }
+
+
 
 
 

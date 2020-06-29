@@ -1,13 +1,8 @@
 package it.polimi.ingsw.PSP13.view.GUI;
 
-import it.polimi.ingsw.PSP13.view.GUI.status.SetupStatus;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,10 +18,8 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -262,7 +255,7 @@ public class GodDispatcherGUI {
         if (stage == null) stage = (Stage) (anchorPane1.getScene().getWindow());
         stage.setScene(lobby);
 
-        Mappa map = loader.<Mappa>getController();
+        GameMap map = loader.<GameMap>getController();
         map.setGuiInput(guiInput);
         guiInput.setMap(map);
     }

@@ -4,7 +4,7 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 
 public abstract class TurnStatus {
 
-    protected static Mappa map;
+    protected static GameMap map;
 
     /**
      * Handles a cell click calling the right observable to controller method
@@ -12,7 +12,7 @@ public abstract class TurnStatus {
      */
     public abstract void selectCell(Coords coords);
 
-    public static void setMap(Mappa map) {
+    public static void setMap(GameMap map) {
         TurnStatus.map = map;
     }
 

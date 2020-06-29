@@ -47,6 +47,7 @@ public class GodSelection implements GodHandlerInterface {
         icons.add(godDispatcher.godIcon14);
         icons.add(godDispatcher.godIcon15);
         icons.add(godDispatcher.godIcon16);
+        selectedGods.clear();
     }
 
     /**

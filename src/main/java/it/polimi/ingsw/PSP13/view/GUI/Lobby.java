@@ -15,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -31,6 +30,7 @@ import java.util.regex.Pattern;
 public class Lobby implements Initializable{
 
     private GuiInput guiInput;
+    private boolean nicknameSent = false;
 
     @FXML
     private AnchorPane container;
@@ -59,16 +59,15 @@ public class Lobby implements Initializable{
     @FXML
     private Spinner<Integer> spinner;
 
-    private boolean nicknameSent = false;
-    private boolean nextScene = false;
+
 
     /**
      * the lobby is full and an error is printed
      */
-    public void waitQueue() {
-        nicknameError.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
-        errorLabel.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
-        waitLabel.setText("Players limit has been reached for this match, you can wait in queue or disconnect. your priority is hold.");
+    public void FullLobbyWaitMsg() {
+        nicknameError.setText("Players limit has been reached for this match,\nyou can wait in queue or disconnect.\nyour priority is hold.");
+        errorLabel.setText("Players limit has been reached for this match,\nyou can wait in queue or disconnect.\nyour priority is hold.");
+        waitLabel.setText("Players limit has been reached for this match,\nyou can wait in queue or disconnect.\nyour priority is hold.");
 
         nicknameError.setVisible(true);
         errorLabel.setVisible(true);
@@ -85,7 +84,6 @@ public class Lobby implements Initializable{
         nicknameSent = false;
     }
 
-    //public static EventType<UpdateEvent> etype = new EventType<>(EventType.ROOT,"prova");
 
     /**
      * initializes the spinner element
@@ -94,13 +92,6 @@ public class Lobby implements Initializable{
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*slide1.addEventHandler(etype,updateEvent -> {
-            try {
-                chooseP();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });*/
 
         SpinnerValueFactory<Integer> numbers = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,3,3);
         spinner.setValueFactory(numbers);
@@ -110,7 +101,7 @@ public class Lobby implements Initializable{
     /**
      * utility function that swap back the scene to the nickname scene
      */
-    public void goBacktoNickname() {
+    public void goBacktoNicknameSceneChange() {
 
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
@@ -191,13 +182,29 @@ public class Lobby implements Initializable{
 
 
         if(guiInput.isFirst())
-            chooseP();
+            choosePlayerNum();
         else
         {
             nicknameError.setText("Please wait\nuntil a match is found...");
             nicknameError.setVisible(true);
         }
 
+    }
+
+    private void textCheck(TextField textField, Button button) {
+        if(textField.getText().equals(""))
+        {
+            button.getStyleClass().clear();
+            button.getStyleClass().add("textEmpty");
+            button.setDisable(true);
+
+        }
+        else
+        {
+            button.getStyleClass().remove("textEmpty");
+            button.getStyleClass().add("textFilled");
+            button.setDisable(false);
+        }
     }
 
     /**
@@ -207,19 +214,7 @@ public class Lobby implements Initializable{
     @FXML
     public void textCheckNickname(KeyEvent event)
     {
-        if(nicknameText.getText().equals(""))
-        {
-            okSlide.getStyleClass().clear();
-            okSlide.getStyleClass().add("textEmpty");
-            okSlide.setDisable(true);
-
-        }
-        else
-        {
-            okSlide.getStyleClass().remove("textEmpty");
-            okSlide.getStyleClass().add("textFilled");
-            okSlide.setDisable(false);
-        }
+        textCheck(nicknameText, okSlide);
     }
 
     /**
@@ -227,29 +222,16 @@ public class Lobby implements Initializable{
      * @param event event related to the user writing on the textbox
      */
     @FXML
-    public void textCheck(KeyEvent event)
+    public void textCheckServer(KeyEvent event)
     {
-        if(serverText.getText().equals(""))
-        {
-            ok.getStyleClass().clear();
-            ok.getStyleClass().add("textEmpty");
-            ok.setDisable(true);
-
-        }
-        else
-        {
-            ok.getStyleClass().remove("textEmpty");
-            ok.getStyleClass().add("textFilled");
-            ok.setDisable(false);
-        }
-
+        textCheck(serverText, ok);
     }
 
     /**
      * utiltiy function that sends the user choice of players number to the server
      */
     @FXML
-    public void sendPnumber()
+    public void sendPlayerNum()
     {   okFirst.setDisable(true);
         guiInput.getController().notifyPlayersNumber((Integer)spinner.getValue());
         waitLabel.setText("Please wait\nuntil a match is found...");
@@ -260,7 +242,7 @@ public class Lobby implements Initializable{
      * scene change to choose player number section
      * @throws Exception
      */
-    public void chooseP() throws Exception{
+    public void choosePlayerNum() throws Exception{
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
         Scene scene = parent.getScene();
 
@@ -354,10 +336,6 @@ public class Lobby implements Initializable{
         timeline.play();
 
 
-    }
-
-    public AnchorPane getSlide1() {
-        return slide1;
     }
 
     public boolean isNicknameSent() {

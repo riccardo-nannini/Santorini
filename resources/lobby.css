@@ -48,12 +48,5 @@ TextField:focused {
 }
 
 .gradient{
-
-    -fx-background-color: linear-gradient(to top left, #20bf55 0%, #01baef 74%);
-    -fx-background-color: linear-gradient(to top left, #f9ea8f 0%, #aff1da 74%);
-
-    -fx-background-color: linear-gradient(to top left, #fce043 0%, #fb7ba2 74%);/* mio preferito*/
-    -fx-background-color: linear-gradient(to top left, #f9c5d1 30%, #9795ef 74%);/* mio preferito*/
-    -fx-background-color: linear-gradient(to top left, #eec0c6 30%, #7ee8fa 74%);/* mio preferito*/
-
+    -fx-background-color: linear-gradient(to top left, #eec0c6 30%, #7ee8fa 74%);
 }

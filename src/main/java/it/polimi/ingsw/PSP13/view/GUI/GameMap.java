@@ -31,7 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
-public class Mappa implements Initializable {
+public class GameMap implements Initializable {
 
     private GuiInput guiInput;
 
@@ -107,57 +107,6 @@ public class Mappa implements Initializable {
         savePane();
         TurnStatus.setMap(this);
         textInfo.setText("Please wait your turn...");
-
-/*
-        panes[2][3].getStyleClass().add("highlight");
-        panes[2][2].getStyleClass().add("highlight");
-        panes[2][1].getStyleClass().add("highlight");
-        panes[1][3].getStyleClass().add("highlight");
-        panes[3][3].getStyleClass().add("highlight");
-        panes[2][4].getStyleClass().add("level2Dome");
-        panes[4][3].getStyleClass().add("level2Dome");
-        panes[2][3].getStyleClass().add("level2Dome");
-        panes[4][3].getStyleClass().add("highlight");
-        grid.setDisable(false);
-/*
-
-        File file3 = new File("resources/Cards/Hera.png");
-        Image image3 = new Image(file3.toURI().toString());
-        imageInfo3.setImage(image3);
-        Text name3 = new Text("Hera");
-        name3.setStyle("-fx-fill: WHITE;");
-        godName3.getChildren().add(name3);
-
-        File file1 = new File("resources/Cards/Apollo.png");
-        Image image1 = new Image(file1.toURI().toString());
-        imageInfo1.setImage(image1);
-        Text name = new Text("Apollo");
-        name.setStyle("-fx-fill: WHITE;");
-        godName1.getChildren().add(name);
-
-        File file2 = new File("resources/Cards/Minotaur.png");
-        Image image2 = new Image(file2.toURI().toString());
-        imageInfo2.setImage(image2);
-        Text name2 = new Text("Minotaur");
-        name2.setStyle("-fx-fill: WHITE;");
-        godName2.getChildren().add(name2);
-
-
-
-
-        textGodName.setText("Prometheus");
-        textEffect.setText("If your Worker does not move up, it may build both before and after moving" +
-                                "\nATTENTION: if you decide to use the effect, first of all you will be asked to insert where you want to move" +
-                                "\nand if the movement respects prometheus effect you will be asked to insert the coordinates of the before-moving build");
-        //textEffect.setText("Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level");
-        textGodName.setVisible(true);
-        textEffect.setVisible(true);
-
-
-        textInfo.setText("è iò tuo turno adesso devi selezionere un builder");
-
-
- */
 
     }
 

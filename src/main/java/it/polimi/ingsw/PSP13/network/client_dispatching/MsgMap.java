@@ -55,8 +55,8 @@ public class MsgMap {
      */
     public void dispatch(MessageFromControllerToView msg)
     {
-        ClientDispatcherBehavior behavior = dispatcher.get(msg.getMessageID());
-        behavior.behavior(msg);
+        ClientDispatcherBehavior dispatcherBehavior = dispatcher.get(msg.getMessageID());
+        dispatcherBehavior.behavior(msg);
     }
 
 

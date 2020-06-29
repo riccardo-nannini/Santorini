@@ -32,6 +32,7 @@ public class MatchHandler {
     }
 
     public void init() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+        disconnectedPlayers.clear();
         numPlayers = match.getPlayers().size();
         turnHandler = new TurnHandler(virtualView);
         turnHandler.setMatchHandler(this);

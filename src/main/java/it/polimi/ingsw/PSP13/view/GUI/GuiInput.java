@@ -16,7 +16,7 @@ public class GuiInput extends Input {
 
     private Lobby loginController;
     private GodDispatcherGUI godDispatcher = null;
-    private Mappa map;
+    private GameMap map;
     private boolean mapInitialization = true;
     private boolean ranking = false;
 
@@ -101,7 +101,7 @@ public class GuiInput extends Input {
             if(error)
             {
                 if(first)
-                    loginController.goBacktoNickname();
+                    loginController.goBacktoNicknameSceneChange();
                 loginController.nicknameError();
             }
 
@@ -165,7 +165,7 @@ public class GuiInput extends Input {
     @Override
     public void waitQueueMsg() {
         Platform.runLater(() -> {
-            loginController.waitQueue();
+            loginController.FullLobbyWaitMsg();
         });
     }
 
@@ -247,7 +247,7 @@ public class GuiInput extends Input {
                 System.out.println("rematch");
                 Platform.runLater(()->{
                     try {
-                        loginController.chooseP();
+                        loginController.choosePlayerNum();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -296,10 +296,10 @@ public class GuiInput extends Input {
                 e.printStackTrace();
             }
         });
-
+        mapInitialization = true;
     }
 
-    public void setMap(Mappa map) {
+    public void setMap(GameMap map) {
         this.map = map;
     }
 

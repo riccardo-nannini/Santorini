@@ -72,7 +72,11 @@ public class EndGame {
             guiInput.getController().notifyPlayAgain("yes");
         }
         else
+        {
             guiInput.getController().notifyPlayAgain("no");
+            System.exit(0);
+        }
+
 
 
         backToLobbySceneChange();
@@ -99,6 +103,7 @@ public class EndGame {
 
         lobby1.setGuiInput(guiInput);
         guiInput.setLoginController(lobby1);
+        guiInput.setMap(null);
 
         if(choice) {
             lobby1.rematch();

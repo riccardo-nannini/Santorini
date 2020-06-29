@@ -17,6 +17,7 @@ public class ClientListener implements Runnable {
     private static ViewObserver viewObserver;
     private PermaLobby lobby;
     private MsgDispatcher msgDispatcher;
+    private boolean alive = true;
 
     public ClientListener (Socket socket, PermaLobby lobby) throws IOException {
         this.socket = socket;
@@ -29,6 +30,7 @@ public class ClientListener implements Runnable {
     public void setMsgDispatcher() {
         this.msgDispatcher = new MsgDispatcher(lobby,viewObserver, socket);
     }
+
 
     /**
      * this methods runs the loop that listen to the socket input
@@ -70,7 +72,7 @@ public class ClientListener implements Runnable {
     private void handleClientConnection() throws IOException {
 
         try {
-            while (true) {
+            while (alive) {
                 Object next = input.readObject();
                 dispatcher(next);
             }
@@ -96,6 +98,10 @@ public class ClientListener implements Runnable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
 

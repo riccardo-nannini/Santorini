@@ -340,6 +340,8 @@ public class CliInput extends Input {
         controller.notifyPlayAgain(input.toLowerCase());
         if(input.toLowerCase().equals("yes") || input.toLowerCase().equals("y"))
             lobbyWait();
+        else
+            System.exit(0);
     }
 
     @Override

@@ -13,7 +13,7 @@
    <children>
       <AnchorPane id="container" fx:id="container" prefHeight="400.0" prefWidth="230.0">
          <children>
-            <TextField id="serverText" fx:id="serverText" layoutX="26.0" layoutY="154.0" onInputMethodTextChanged="#textCheck" onKeyTyped="#textCheck" />
+            <TextField id="serverText" fx:id="serverText" layoutX="26.0" layoutY="154.0" onInputMethodTextChanged="#textCheckServer" onKeyTyped="#textCheckServer" />
             <Label fx:id="label1" layoutX="26.0" layoutY="121.0" prefHeight="27.0" prefWidth="149.0" text="Insert Server IP">
                <font>
                   <Font name="Roboto Condensed" size="17.0" />
@@ -39,7 +39,7 @@
       <AnchorPane fx:id="slide1" prefHeight="400.0" prefWidth="230.0" visible="false">
          <children>
             <Spinner fx:id="spinner" layoutX="40.0" layoutY="170.0" />
-            <Button id="okSlide" fx:id="okFirst" layoutX="126.0" layoutY="222.0" mnemonicParsing="false" onAction="#sendPnumber" styleClass="textFilled" text="OK" textFill="#b0b0b0" />
+            <Button id="okSlide" fx:id="okFirst" layoutX="126.0" layoutY="222.0" mnemonicParsing="false" onAction="#sendPlayerNum" styleClass="textFilled" text="OK" textFill="#b0b0b0" />
             <Label layoutX="14.0" layoutY="121.0" styleClass="prova" text="Choose the player number">
                <font>
                   <Font size="17.0" />

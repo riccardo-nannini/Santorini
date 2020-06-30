@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Client {
 
-    public static final int PORT=7777;
+    public static int PORT=7777;
     private static Scanner scanner = new Scanner(System.in);
     private static Input input;
 

@@ -1,14 +1,23 @@
 package it.polimi.ingsw.PSP13.controller;
 
+import it.polimi.ingsw.PSP13.network.Client;
+
+import java.util.Scanner;
+
 public class Server {
 
-    public static final int PORT=7777;
+    public static int PORT=7777;
 
     /**
      * server main thread
-     * @param
+     * @param args contains indications for the CLI usage
      */
     public static void main(String[] args) {
+
+        System.out.println("Insert the port number: ");
+        Scanner scanner = new Scanner(System.in);
+        String port = scanner.nextLine();
+        Server.PORT = Integer.parseInt(port);
 
         System.out.println("Server online.");
 

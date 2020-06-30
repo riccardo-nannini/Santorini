@@ -331,16 +331,6 @@ public class PermaLobby implements Runnable{
      */
     private synchronized void playAgain() {
         System.out.println("Rematch setup");
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                for(Socket socket : usernameMap.values()) {
-                    rematchMap.put(socket,false);
-                }
-            }
-        };
-        timer.schedule(task, 5*60*1000);
 
         while(rematchMap.size() < playersNumber)
         {
@@ -350,8 +340,7 @@ public class PermaLobby implements Runnable{
                 e.printStackTrace();
             }
         }
-        task.cancel();
-        timer.cancel();
+
         for(Socket socket : rematchMap.keySet())
         {
             if(rematchMap.get(socket).equals(false))

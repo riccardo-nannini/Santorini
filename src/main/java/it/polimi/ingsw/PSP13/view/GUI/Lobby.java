@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP13.view.GUI;
 
+import it.polimi.ingsw.PSP13.network.Client;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -40,6 +41,8 @@ public class Lobby implements Initializable{
     private AnchorPane slide;
     @FXML
     private AnchorPane slide1;
+    @FXML
+    private TextField portText;
     @FXML
     private TextField serverText;
     @FXML
@@ -191,20 +194,37 @@ public class Lobby implements Initializable{
 
     }
 
+    /**
+     * disables a button and style it properly
+     * @param button the button to be disabled
+     */
+    private void clearButton(Button button) {
+        button.getStyleClass().clear();
+        button.getStyleClass().add("textEmpty");
+        button.setDisable(true);
+    }
+
+    /**
+     * enavles a button and styles it properly
+     * @param button the button to be enabled
+     */
+    private void highlightButton(Button button) {
+        button.getStyleClass().remove("textEmpty");
+        button.getStyleClass().add("textFilled");
+        button.setDisable(false);
+    }
+
+    /**
+     * this method checks if the textfield is empty and
+     * style a button in accordance with its status
+     * @param textField to check the emptiness
+     * @param button the button to style
+     */
     private void textCheck(TextField textField, Button button) {
         if(textField.getText().equals(""))
-        {
-            button.getStyleClass().clear();
-            button.getStyleClass().add("textEmpty");
-            button.setDisable(true);
-
-        }
+            clearButton(button);
         else
-        {
-            button.getStyleClass().remove("textEmpty");
-            button.getStyleClass().add("textFilled");
-            button.setDisable(false);
-        }
+            highlightButton(button);
     }
 
     /**
@@ -224,7 +244,10 @@ public class Lobby implements Initializable{
     @FXML
     public void textCheckServer(KeyEvent event)
     {
-        textCheck(serverText, ok);
+        if(serverText.getText().equals("") || portText.getText().equals(""))
+            clearButton(ok);
+        else
+            highlightButton(ok);
     }
 
     /**
@@ -301,6 +324,8 @@ public class Lobby implements Initializable{
 
         Pattern p = Pattern.compile("((\\d{1,3}[.]){3}\\d{1,3})");
         String text = serverText.getText();
+        String port = portText.getText();
+        Client.PORT = Integer.parseInt(port);
         if(!p.matcher(text).matches())
         {
             errorLabel.setText("Invalid format,\ninsert an IP address!");

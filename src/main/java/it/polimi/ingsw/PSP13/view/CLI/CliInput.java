@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP13.view.CLI;
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.network.Client;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 import it.polimi.ingsw.PSP13.view.Input;
 
@@ -28,6 +29,10 @@ public class CliInput extends Input {
     {
         System.out.println("Type the ip address of the \u001B[1mSERVER\u001B[0m:");
         String server = scanner.nextLine();
+        System.out.println("Type the \u001B[1mPORT\u001B[0m number:");
+        String port = scanner.nextLine();
+        Client.PORT = Integer.parseInt(port);
+
         try {
             connectToServer(server);
         } catch (IOException e) {

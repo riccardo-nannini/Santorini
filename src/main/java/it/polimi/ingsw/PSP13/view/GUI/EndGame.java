@@ -13,10 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class EndGame {
 
@@ -50,14 +47,12 @@ public class EndGame {
      */
     public void win() {
         label1.setText("CONGRATULATIONS\n   YOU WON!");
-        File file = new File("resources/endgame_victorytrumpets.png");
-        Image image = new Image(file.toURI().toString());
-        trumpet1.setImage(image);
+        Image trumpets = new Image("EndGame/endgame_victorytrumpets.png");
+        trumpet1.setImage(trumpets);
         trumpet1.setScaleX(-1);
-        trumpet2.setImage(image);
-        File file1 = new File("resources/confetti.gif");
-        Image image1 = new Image(file1.toURI().toString());
-        gif.setImage(image1);
+        trumpet2.setImage(trumpets);
+        Image confetti = new Image("EndGame/confetti.gif");
+        gif.setImage(confetti);
     }
 
     /**
@@ -88,7 +83,7 @@ public class EndGame {
      */
     public void backToLobbySceneChange() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+        loader.setLocation(EndGame.class.getResource("/lobby.fxml"));
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene lobby = new Scene(pane);

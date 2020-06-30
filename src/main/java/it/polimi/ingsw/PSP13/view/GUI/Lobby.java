@@ -140,7 +140,7 @@ public class Lobby implements Initializable{
         if (guiInput.getGodDispatcher() != null) return;
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/godSelection.fxml"));
+        loader.setLocation(Lobby.class.getResource("/godSelection.fxml"));
         AnchorPane pane = loader.<AnchorPane>load();
 
         GodDispatcherGUI godDispatcher = loader.<GodDispatcherGUI>getController();
@@ -243,7 +243,7 @@ public class Lobby implements Initializable{
      * @throws Exception
      */
     public void choosePlayerNum() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
+        Parent root = FXMLLoader.load(Lobby.class.getResource("/lobby.fxml"));
         Scene scene = parent.getScene();
 
         root.translateXProperty().set(scene.getWidth());
@@ -266,7 +266,7 @@ public class Lobby implements Initializable{
      * @throws IOException
      */
     public void rematch() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
+        Parent root = FXMLLoader.load(Lobby.class.getResource("/lobby.fxml"));
         Scene scene = parent.getScene();
 
         root.translateXProperty().set(scene.getWidth());
@@ -319,7 +319,7 @@ public class Lobby implements Initializable{
         }
 
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("lobby.fxml"));
+        Parent root = FXMLLoader.load(Lobby.class.getResource("/lobby.fxml"));
         Scene scene = ((Node)event.getSource()).getScene();
 
         root.translateXProperty().set(scene.getWidth());

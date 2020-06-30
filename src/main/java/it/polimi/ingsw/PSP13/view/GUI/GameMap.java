@@ -4,21 +4,19 @@ import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
-import it.polimi.ingsw.PSP13.view.GUI.status.SetupStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
@@ -27,7 +25,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -138,17 +135,15 @@ public class GameMap implements Initializable {
         name1.setStyle("-fx-fill: WHITE;");
         godName1.getChildren().add(name1);
         clientGodName = clientsInfo.getClientGod();
-        File file1 = new File("resources/Cards/"+clientGodName+".png");
-        Image image1 = new Image(file1.toURI().toString());
-        imageInfo1.setImage(image1);
+        Image godimg1 = new Image("Cards/" +clientGodName+".png");
+        imageInfo1.setImage(godimg1);
         setBuildersImages(clientsInfo.getClientColor(),clientsInfo.getClientGod());
         clientGodEffect = clientsInfo.getClientEffect();
         clientColor = clientsInfo.getClientColor();
 
         god2 = clientsInfo.getOpponentsGod().get(0);
-        File file2 = new File("resources/Cards/"+god2+".png");
-        Image image2 = new Image(file2.toURI().toString());
-        imageInfo2.setImage(image2);
+        Image godimg2 = new Image("Cards/" +god2+".png");
+        imageInfo2.setImage(godimg2);
         Text name2 = new Text(clientsInfo.getOpponentsUsernames().get(0));
         name2.setStyle("-fx-fill: WHITE;");
         godName2.getChildren().add(name2);
@@ -158,9 +153,8 @@ public class GameMap implements Initializable {
 
         if (clientsInfo.getOpponentsUsernames().size() == 2) {
             god3 = clientsInfo.getOpponentsGod().get(1);
-            File file3 = new File("resources/Cards/"+god3+".png");
-            Image image3 = new Image(file3.toURI().toString());
-            imageInfo3.setImage(image3);
+            Image godimg3 = new Image("Cards/" +god3+".png");
+            imageInfo3.setImage(godimg3);
             Text name3 = new Text(clientsInfo.getOpponentsUsernames().get(1));
             name3.setStyle("-fx-fill: WHITE;");
             godName3.getChildren().add(name3);
@@ -305,32 +299,10 @@ public class GameMap implements Initializable {
     }
 
 
-    public void OpponentDisconnection() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "A player disconnected from the game, you will be put in the lobby again", ButtonType.OK);
-        alert.showAndWait();
-
-    }
-
-    public void backToLobbySceneChange() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/lobby.fxml"));
-
-        AnchorPane pane = loader.<AnchorPane>load();
-        Scene lobby = new Scene(pane);
-        lobby.getStylesheets().add("lobby.css");
-
-        Stage stage = (Stage) (grid.getScene().getWindow());
-        stage.setScene(lobby);
-
-        Lobby lobby1 = loader.<Lobby>getController();
-        lobby1.setGuiInput(guiInput);
-        guiInput.setLoginController(lobby1);
-    }
-
     public void setSceneLogin() throws IOException {
         AnchorPane root = mapPane;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+        loader.setLocation(GameMap.class.getResource("/lobby.fxml"));
         AnchorPane pane = loader.<AnchorPane>load();
 
         Scene scene = new Scene(pane);
@@ -351,7 +323,7 @@ public class GameMap implements Initializable {
 
     public void endgameSceneChange() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/endgame.fxml"));
+        loader.setLocation(GameMap.class.getResource("/endgame.fxml"));
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene endgame = new Scene(pane);
@@ -359,28 +331,16 @@ public class GameMap implements Initializable {
 
         Stage stage = (Stage) (grid.getScene().getWindow());
         stage.setScene(endgame);
-        stage.centerOnScreen();
+
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
+
         EndGame endGame = loader.<EndGame>getController();
         endGame.setGuiInput(guiInput);
 
         if(guiInput.isRanking())
             endGame.win();
-    }
-
-    public boolean askPlayAgain() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to play again?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.YES){
-            getGuiInput().getController().notifyPlayAgain("yes");
-            return true;
-        }
-        else {
-            getGuiInput().getController().notifyPlayAgain("no");
-        }
-
-        return false;
-
     }
 
     /**
@@ -390,7 +350,7 @@ public class GameMap implements Initializable {
     public void askEffect(String god) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/effectPopup.fxml"));
+        loader.setLocation(GameMap.class.getResource("/effectPopup.fxml"));
         AnchorPane effectPane = loader.<AnchorPane>load();
 
         EffectInput effectInput = loader.<EffectInput>getController();

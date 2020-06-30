@@ -8,8 +8,15 @@ import it.polimi.ingsw.PSP13.view.GUI.status.*;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class GuiInput extends Input {
@@ -197,37 +204,38 @@ public class GuiInput extends Input {
         });
     }
 
+    private void OpponentDisconnection() throws IOException {
+        Stage discPopUp = new Stage();
+
+        Font.loadFont( GodDispatcherGUI.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(GuiInput.class.getResource("/disconnection.fxml"));
+        AnchorPane disconnectionPane = loader.<AnchorPane>load();
+
+        Scene scene = new Scene(disconnectionPane);
+        scene.getStylesheets().add("god_selection.css");
+        discPopUp.initModality(Modality.APPLICATION_MODAL);
+        discPopUp.setTitle("Disconnection");
+        discPopUp.setScene(scene);
+
+        discPopUp.showAndWait();
+    }
+
     @Override
     public void disconnectionMessage() {
 
         Platform.runLater(()->{
-            if (mapInitialization) {
-                godDispatcher.OpponentDisconnection();
-                try {
-                    godDispatcher.setSceneLogin();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                map.OpponentDisconnection();
-                try {
-                    map.setSceneLogin();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        /*Platform.runLater(()->{
-            map.OpponentDisconnection();
             try {
-                map.backToLobbySceneChange();
-                loginController.rematch();
+                OpponentDisconnection();
+                if (mapInitialization) {
+                    godDispatcher.setSceneLogin();
+                } else {
+                    map.setSceneLogin();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        });*/
+        });
 
     }
 

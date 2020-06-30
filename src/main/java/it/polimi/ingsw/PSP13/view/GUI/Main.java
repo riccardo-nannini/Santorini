@@ -21,10 +21,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Font.loadFont( Main.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
+        Font.loadFont(Main.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:./resources/lobby.fxml"));
+        loader.setLocation(Main.class.getResource("/lobby.fxml"));
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene scene = new Scene(pane);

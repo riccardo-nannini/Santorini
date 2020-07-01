@@ -147,7 +147,6 @@ public class Turn {
     public void end() throws IOException {}
 
     /**
-     *
      * @param builder current builder
      * @return a list of adjacent cells where a builder can move in
      */
@@ -165,8 +164,7 @@ public class Turn {
     }
 
     /**
-     *
-     * @param builder
+     * @param builder current builder
      * @return a list of adjacent cells where the builder can build on
      */
     public List<Coords> getCellBuilds(Builder builder)

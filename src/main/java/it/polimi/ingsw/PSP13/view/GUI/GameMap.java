@@ -23,7 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -77,10 +76,10 @@ public class GameMap implements Initializable {
 
     private String clientGodName;
     private String clientGodEffect;
-    private String god2;
-    private String effect2;
-    private String god3;
-    private String effect3;
+    private String opponentGod1;
+    private String opponentEffect1;
+    private String opponentGod2;
+    private String opponentEffect2;
 
     private HashMap<Color, ArrayList<ImageView>> buildersImages = new HashMap<>();
 
@@ -141,25 +140,25 @@ public class GameMap implements Initializable {
         clientGodEffect = clientsInfo.getClientEffect();
         clientColor = clientsInfo.getClientColor();
 
-        god2 = clientsInfo.getOpponentsGod().get(0);
-        Image godimg2 = new Image("Cards/" +god2+".png");
+        opponentGod1 = clientsInfo.getOpponentsGod().get(0);
+        Image godimg2 = new Image("Cards/" +opponentGod1+".png");
         imageInfo2.setImage(godimg2);
         Text name2 = new Text(clientsInfo.getOpponentsUsernames().get(0));
         name2.setStyle("-fx-fill: WHITE;");
         godName2.getChildren().add(name2);
         setBuildersImages(clientsInfo.getOpponentsColors().get(0),clientsInfo.getOpponentsGod().get(0));
-        effect2 = clientsInfo.getOpponentsEffects().get(0);
+        opponentEffect1 = clientsInfo.getOpponentsEffects().get(0);
 
 
         if (clientsInfo.getOpponentsUsernames().size() == 2) {
-            god3 = clientsInfo.getOpponentsGod().get(1);
-            Image godimg3 = new Image("Cards/" +god3+".png");
+            opponentGod2 = clientsInfo.getOpponentsGod().get(1);
+            Image godimg3 = new Image("Cards/" +opponentGod2+".png");
             imageInfo3.setImage(godimg3);
             Text name3 = new Text(clientsInfo.getOpponentsUsernames().get(1));
             name3.setStyle("-fx-fill: WHITE;");
             godName3.getChildren().add(name3);
             setBuildersImages(clientsInfo.getOpponentsColors().get(1),clientsInfo.getOpponentsGod().get(1));
-            effect3 = clientsInfo.getOpponentsEffects().get(1);
+            opponentEffect2 = clientsInfo.getOpponentsEffects().get(1);
 
         } else {
             enableIf2.setVisible(true);
@@ -223,6 +222,7 @@ public class GameMap implements Initializable {
         Node source = (Node) e.getSource();
         String id = source.getId();
         if (imageShowed.equals(id)) {
+            imageShowed = "";
             textInfo.setVisible(true);
             textEffect.setVisible(false);
             textGodName.setVisible(false);
@@ -233,12 +233,12 @@ public class GameMap implements Initializable {
                     textEffect.setText(clientGodEffect);
                     break;
                 case "imageInfo2":
-                    textGodName.setText(god2);
-                    textEffect.setText(effect2);
+                    textGodName.setText(opponentGod1);
+                    textEffect.setText(opponentEffect1);
                     break;
                 case "imageInfo3":
-                    textGodName.setText(god3);
-                    textEffect.setText(effect3);
+                    textGodName.setText(opponentGod2);
+                    textEffect.setText(opponentEffect2);
                     break;
             }
                 imageShowed = id;

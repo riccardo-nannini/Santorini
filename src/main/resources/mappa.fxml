@@ -12,21 +12,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.GameMap">
+<AnchorPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.GameMap">
    <children>
       <ImageView fitHeight="757.0" fitWidth="1285.0" layoutX="-270.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@SantoriniBoard.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imageInfo2" fitHeight="270.0" fitWidth="185.0" layoutX="910.0" layoutY="83.0" onMouseClicked="#showEffect" pickOnBounds="true" />
+      <ImageView fx:id="imageInfo2" fitHeight="270.0" fitWidth="185.0" layoutX="910.0" layoutY="83.0" onMouseClicked="#showEffect" pickOnBounds="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
       <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="1085.0" layoutY="56.0" preserveRatio="true">
          <image>
             <Image url="@bg_panelMid.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imageInfo3" fitHeight="270.0" fitWidth="178.0" layoutX="1084.0" layoutY="81.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imageInfo1" fitHeight="270.0" fitWidth="178.0" layoutX="688.0" layoutY="82.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageInfo3" fitHeight="270.0" fitWidth="178.0" layoutX="1084.0" layoutY="81.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
+      <ImageView fx:id="imageInfo1" fitHeight="270.0" fitWidth="178.0" layoutX="688.0" layoutY="82.0" onMouseClicked="#showEffect" pickOnBounds="true" preserveRatio="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
       <ImageView fitHeight="330.0" fitWidth="238.0" layoutX="1162.0" layoutY="394.0" preserveRatio="true">
          <image>
             <Image url="@bg_panelMid.png" />

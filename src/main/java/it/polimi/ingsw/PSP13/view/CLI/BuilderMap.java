@@ -62,6 +62,14 @@ public class BuilderMap {
         return null;
     }
 
+    /**
+     * Removes all data from BuilderMap
+     */
+    public void clear() {
+        map.clear();
+    }
+
+
 
 
 

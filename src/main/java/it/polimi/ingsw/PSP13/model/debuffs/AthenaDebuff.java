@@ -1,10 +1,7 @@
 package it.polimi.ingsw.PSP13.model.debuffs;
 
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.*;
-import it.polimi.ingsw.PSP13.model.Match;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ public class AthenaDebuff extends Decorator{
 
     /**
      * The AthenaDebuff decorator uses the player's god start method
-     * @param player
+     * @param player current player
      * @throws IOException
      */
     @Override
@@ -103,12 +100,12 @@ public class AthenaDebuff extends Decorator{
     }
 
     /**
-     * The AthenaDebuff decorator uses the player's god getCellMoves method
+     * The AthenaDebuff decorator uses the player's god getPossibleMoves method
      * @param builder
      * @return
      */
     @Override
-    public List<Coords> getCellMoves(Builder builder) {
+    public List<Coords> getPossibleMoves(Builder builder) {
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
         List<Coords> possibleMove = new ArrayList<>();
 
@@ -121,13 +118,13 @@ public class AthenaDebuff extends Decorator{
     }
 
     /**
-     * The AthenaDebuff decorator uses the player's god getCellBuilds method
+     * The AthenaDebuff decorator uses the player's god getBuildableCells method
      * @param builder
      * @return
      */
     @Override
-    public List<Coords> getCellBuilds(Builder builder) {
-        return god.getCellBuilds(builder);
+    public List<Coords> getBuildableCells(Builder builder) {
+        return god.getBuildableCells(builder);
     }
 
     /**

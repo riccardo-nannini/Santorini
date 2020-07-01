@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,12 +19,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GodDispatcherGUI {
+public class GodDispatcher {
 
     private GodHandlerInterface godHandler;
     private Map<String,String> godEffects = null;
@@ -76,10 +74,14 @@ public class GodDispatcherGUI {
         } else godHandler.godClicked(event);
     }
 
+    /**
+     * Changes the current scene with the Login one
+     * @throws IOException
+     */
     public void setSceneLogin() throws IOException {
         AnchorPane root = anchorPane1;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(GodDispatcherGUI.class.getResource("/lobby.fxml"));
+        loader.setLocation(GodDispatcher.class.getResource("/lobby.fxml"));
         AnchorPane pane = loader.<AnchorPane>load();
 
         Scene scene = new Scene(pane);
@@ -137,10 +139,10 @@ public class GodDispatcherGUI {
     public void setSceneGodInput(List<String> chosenGods, boolean isChoosing) throws IOException {
         AnchorPane root = anchorPane1;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(GodDispatcherGUI.class.getResource("/godSelection.fxml"));
+        loader.setLocation(GodDispatcher.class.getResource("/godSelection.fxml"));
         AnchorPane pane = loader.<AnchorPane>load();
 
-        GodDispatcherGUI godDispatcher = loader.<GodDispatcherGUI>getController();
+        GodDispatcher godDispatcher = loader.<GodDispatcher>getController();
         GodInput godInput = new GodInput(godDispatcher);
         godDispatcher.setGodHandler(godInput);
         godInput.setGodsList(chosenGods);
@@ -165,14 +167,14 @@ public class GodDispatcherGUI {
     public void setSceneStarterSelection(List<String> players) throws IOException {
         Stage popup = new Stage();
 
-        Font.loadFont(GodDispatcherGUI.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
+        Font.loadFont(GodDispatcher.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(GodDispatcherGUI.class.getResource("/starterPopup.fxml"));
+        loader.setLocation(GodDispatcher.class.getResource("/starterPopup.fxml"));
         AnchorPane popupPane = loader.<AnchorPane>load();
 
-        PopupGUI popupGUI = loader.<PopupGUI>getController();
-        popupGUI.upload(players);
-        popupGUI.setGuiInput(guiInput);
+        Starter starter = loader.<Starter>getController();
+        starter.upload(players);
+        starter.setGuiInput(guiInput);
 
         Scene starterScene = new Scene(popupPane);
         starterScene.getStylesheets().add("god_selection.css");
@@ -193,12 +195,12 @@ public class GodDispatcherGUI {
         selectedImage.setBlendMode(BlendMode.SRC_OVER);
         Stage helper = new Stage();
 
-        Font.loadFont(GodDispatcherGUI.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
+        Font.loadFont(GodDispatcher.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(GodDispatcherGUI.class.getResource("/helper.fxml"));
+        loader.setLocation(GodDispatcher.class.getResource("/helper.fxml"));
         AnchorPane helperPane = loader.<AnchorPane>load();
 
-        HelperGUI helperGUI = loader.<HelperGUI>getController();
+        Helper helperGUI = loader.<Helper>getController();
         helperGUI.setText(message);
 
         Scene starterScene = new Scene(helperPane);
@@ -219,10 +221,10 @@ public class GodDispatcherGUI {
         Stage error = new Stage();
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(GodDispatcherGUI.class.getResource("/error.fxml"));
+        loader.setLocation(GodDispatcher.class.getResource("/error.fxml"));
         AnchorPane errorPane = loader.<AnchorPane>load();
 
-        ErrorGUI errorGUI = loader.<ErrorGUI>getController();
+        Error errorGUI = loader.<Error>getController();
         errorGUI.setText(message);
 
         Scene starterScene = new Scene(errorPane);
@@ -240,7 +242,7 @@ public class GodDispatcherGUI {
      */
     public void setSceneGameBoard() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(GodDispatcherGUI.class.getResource("/mappa.fxml"));
+        loader.setLocation(GodDispatcher.class.getResource("/mappa.fxml"));
 
         AnchorPane pane = loader.<AnchorPane>load();
         Scene lobby = new Scene(pane);

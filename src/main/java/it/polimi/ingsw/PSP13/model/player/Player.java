@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP13.model.player;
 
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.Turn;
 
 import java.io.IOException;
 import java.util.List;
@@ -94,21 +93,21 @@ public class Player {
     public void end() throws IOException { god.end(); }
 
     /**
-     * Calls the getCellMoves method of player's god
+     * Calls the getPossibleMoves method of player's god
      * @param builder current builder
      * @return a list of adjacent cells where a builder can move in
      */
-    public List<Coords> getCellMoves(Builder builder) {
-        return god.getCellMoves(builder);
+    public List<Coords> getPossibleMoves(Builder builder) {
+        return god.getPossibleMoves(builder);
     }
 
     /**
-     * Calls the getCellBuilds method of player's god
+     * Calls the getBuildableCells method of player's god
      * @param builder current builder
      * @return a list of adjacent cells where the builder can build on
      */
-    public List<Coords> getCellBuilds(Builder builder) {
-        return god.getCellBuilds(builder);
+    public List<Coords> getBuildableCells(Builder builder) {
+        return god.getBuildableCells(builder);
     }
 
     /**
@@ -158,7 +157,5 @@ public class Player {
     public void setUsername(String username) {
         this.username = username;
     }
-
-
 
 }

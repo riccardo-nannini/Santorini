@@ -300,7 +300,7 @@ public class PermaLobby implements Runnable{
         try {
             matchHandler.init();
             matchHandler.play();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Restarting the game");
             init();
             setupIter();

@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.debuffs.AthenaDebuff;
 import it.polimi.ingsw.PSP13.model.debuffs.HypnusDebuff;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -119,13 +118,13 @@ public class HypnusDebuffTest {
             player.start();
 
             if (player.checkMove(builder2,moveCoords)) {
-                if (player.getCellMoves(builder2).contains(moveCoords)) {
-                    player.getCellMoves(builder2);
+                if (player.getPossibleMoves(builder2).contains(moveCoords)) {
+                    player.getPossibleMoves(builder2);
                     player.move(builder2, moveCoords);
                 }
             }
             if (player.checkBuild(builder2,buildCoords)) {
-                if (player.getCellBuilds(builder2).contains(buildCoords)) {
+                if (player.getBuildableCells(builder2).contains(buildCoords)) {
                     player.build(builder2, buildCoords);
                 }
             }

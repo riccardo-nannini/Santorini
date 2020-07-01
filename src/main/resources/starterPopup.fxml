@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="popupPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="344.0" styleClass="background" stylesheets="@god_selection.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.PopupGUI">
+<AnchorPane fx:id="popupPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="344.0" styleClass="background" stylesheets="@god_selection.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.Starter">
    <children>
       <Label fx:id="popupText" layoutX="16.0" layoutY="3.0" prefHeight="94.0" prefWidth="289.0" textAlignment="CENTER">
          <font>

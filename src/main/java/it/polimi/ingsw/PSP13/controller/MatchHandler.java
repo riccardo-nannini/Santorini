@@ -31,6 +31,16 @@ public class MatchHandler {
         match = new Match();
     }
 
+    /**
+     * The method is responsible for the initialization of the game, in particular the selection of the gods for each
+     * player, the selection of the starter and the placement of the builders
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IOException
+     */
     public void init() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
         disconnectedPlayers.clear();
         numPlayers = match.getPlayers().size();
@@ -46,6 +56,10 @@ public class MatchHandler {
         builderSetUp(virtualView);
     }
 
+    /**
+     * Notifies the clients with the explanation of the chosen gods effects
+     * @throws IOException
+     */
     public void notifyClientsInfo() throws IOException {
         HashMap<String,String> effectsMap = new HashMap<>();
         for (Player player : match.getPlayers()) {
@@ -58,8 +72,17 @@ public class MatchHandler {
         match.addPlayer(player);
     }
 
+    /**
+     * The method handles the selection of the gods by the players
+     * @param virtualView
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
     public synchronized void godSelection(VirtualView virtualView) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, IOException {
-        //TODO gestire eccezioni invece di throws
         Random r = new Random();
         challenger = match.getPlayers().get(r.nextInt(numPlayers));
         List<String> godsList = godNames();
@@ -73,8 +96,7 @@ public class MatchHandler {
             while (godsReceived == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
-                    //TODO
+                } catch (InterruptedException ignored) {
                 }
             }
             if (!disconnectedPlayers.isEmpty()) {
@@ -82,8 +104,7 @@ public class MatchHandler {
                     while (godsReceived == null && !disconnectedPlayers.contains(challenger.getUsername())) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }
@@ -106,6 +127,18 @@ public class MatchHandler {
         godAssignment(virtualView, challenger, godsInput);
     }
 
+    /**
+     *
+     * @param virtualView
+     * @param challenger the challenger player
+     * @param chosenGods list of gods chosen for this game
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IOException
+     */
     public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         boolean error;
         String receivedGod;
@@ -113,9 +146,9 @@ public class MatchHandler {
         int challengerPos = playerList.indexOf(challenger);
         //sort match.getPlayers() putting challenger in the last position
         if (challengerPos != (numPlayers-1)) {
-            Player app = playerList.get(numPlayers-1);
+            Player last = playerList.get(numPlayers-1);
             playerList.set(numPlayers-1,playerList.get(challengerPos));
-            playerList.set(challengerPos,app);
+            playerList.set(challengerPos,last);
         }
 
         for (int i = 0; i < numPlayers; i++) {
@@ -128,8 +161,7 @@ public class MatchHandler {
                     while (selectedGod == null && disconnectedPlayers.isEmpty()) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                     if (!disconnectedPlayers.isEmpty()) {
@@ -137,8 +169,7 @@ public class MatchHandler {
                             while (selectedGod == null && !disconnectedPlayers.contains(player)) {
                                 try {
                                     wait();
-                                } catch (InterruptedException e) {
-                                    //TODO
+                                } catch (InterruptedException ignored) {
                                 }
                             }
                         }
@@ -161,7 +192,6 @@ public class MatchHandler {
             Player currentPlayer = match.getPlayers().get(i);
             currentPlayer.setGod((Turn) god);
             virtualView.setGod(player,receivedGod);
-            //virtualView.sendGodEffectDescription(match.getPlayers().get(i).getEffect(), godEffects());
         }
     }
 
@@ -178,18 +208,15 @@ public class MatchHandler {
             while (selectedStarter == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
-                    //TODO
+                } catch (InterruptedException ignored) {
                 }
             }
-            //TODO chiedere a nanno se si gestisce così la disconnesione
             if (!disconnectedPlayers.isEmpty()) {
                 if (!disconnectedPlayers.contains(challenger)) {
                     while (selectedStarter == null) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }
@@ -210,7 +237,6 @@ public class MatchHandler {
     }
 
 
-    //TODO OTTIMIZZABILE
     /**
      * Sorts player's list shifting starterPlayer in first position,
      * keeping the shift order used up to this point
@@ -260,8 +286,7 @@ public class MatchHandler {
                     while (coords == null && disconnectedPlayers.isEmpty()) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                     if (!disconnectedPlayers.isEmpty()) {
@@ -269,8 +294,7 @@ public class MatchHandler {
                             while (coords == null && !disconnectedPlayers.contains(currentPlayer.getUsername())) {
                                 try {
                                     wait();
-                                } catch (InterruptedException e) {
-                                    //TODO
+                                } catch (InterruptedException ignored) {
                                 }
                             }
                         }
@@ -318,7 +342,7 @@ public class MatchHandler {
                 builderPos = turnHandler.getInputBuilder(currentPlayer);
                 currentBuilder = match.getBuilderByCoords(builderPos);
                 currentPlayer.start();
-                possibleMoves = currentPlayer.getCellMoves(currentBuilder);
+                possibleMoves = currentPlayer.getPossibleMoves(currentBuilder);
                 if (possibleMoves.isEmpty()) {
                     this.notifyLoser(currentPlayer);
                     continue;
@@ -329,7 +353,7 @@ public class MatchHandler {
                     winner = currentPlayer;
                     break;
                 }
-                possibleBuilds = currentPlayer.getCellBuilds(currentBuilder);
+                possibleBuilds = currentPlayer.getBuildableCells(currentBuilder);
                 if (possibleBuilds.isEmpty()) {
                     this.notifyLoser(currentPlayer);
                     continue;
@@ -345,7 +369,7 @@ public class MatchHandler {
 
 
     /**
-     * Notifies the players that the game ended and tells them if they did win or lose.
+     * Notifies the winner that he won the game
      * @param winner username of the winner
      * @throws IOException
      */
@@ -357,6 +381,11 @@ public class MatchHandler {
         }
     }
 
+    /**
+     * Notifies the loser that he lost the game
+     * @param loser username of the loser
+     * @throws IOException
+     */
     public void notifyLoser(Player loser) throws IOException {
         virtualView.notifyLose(loser.getUsername());
         match.removeBuilder(loser);

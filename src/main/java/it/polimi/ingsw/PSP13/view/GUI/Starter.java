@@ -14,13 +14,17 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class PopupGUI {
+public class Starter {
 
     private GuiInput guiInput;
     public AnchorPane popupPane;
     public Label popupText;
     public Spinner<String> nameSpinner;
 
+    /**
+     * Initializes the starter popup scene
+     * @param players list of the current players
+     */
     public void upload(List<String> players) {
         popupText.setText("Choose the starting player:");
         setSpinner(players);
@@ -33,6 +37,10 @@ public class PopupGUI {
         nameSpinner.setValueFactory(names);
     }
 
+    /**
+     * Cosmetic effect when pressing a button
+     * @param event the event that caused the method invocation
+     */
     public void buttonPressed(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             Node selectedImage = event.getPickResult().getIntersectedNode();
@@ -41,6 +49,11 @@ public class PopupGUI {
 
     }
 
+    /**
+     * The method is invocated when the starter player is chosen.
+     * Closes the popup and communicates the result to the server.
+     * @param event the event that caused the method invocation
+     */
     public void starterSelected(MouseEvent event) {
         Node selectedImage = event.getPickResult().getIntersectedNode();
         selectedImage.setBlendMode(BlendMode.SRC_OVER);

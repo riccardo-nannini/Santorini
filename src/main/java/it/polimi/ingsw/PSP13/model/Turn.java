@@ -25,10 +25,10 @@ public class Turn {
 
     /**
      * Sets the position of builder1 to coords1 and builder2 to coords2
-     * @param builder1
-     * @param builder2
-     * @param coords1
-     * @param coords2
+     * @param builder1 the first player's builder
+     * @param builder2 the second player's builder
+     * @param coords1 the coordinates where the first builder will be placed
+     * @param coords2 the coordinates where the second builder will be placed
      * @throws IllegalArgumentException if params aren't legal
      */
     public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException, IOException {
@@ -150,7 +150,7 @@ public class Turn {
      * @param builder current builder
      * @return a list of adjacent cells where a builder can move in
      */
-    public List<Coords> getCellMoves(Builder builder)
+    public List<Coords> getPossibleMoves(Builder builder)
     {
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
         List<Coords> possibleMove = new ArrayList<>();
@@ -167,7 +167,7 @@ public class Turn {
      * @param builder current builder
      * @return a list of adjacent cells where the builder can build on
      */
-    public List<Coords> getCellBuilds(Builder builder)
+    public List<Coords> getBuildableCells(Builder builder)
     {
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
         List<Coords> possibleBuildingSite = new ArrayList<>();

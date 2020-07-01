@@ -37,7 +37,7 @@ public class Prometheus extends Turn {
     @Override
     public void move(Builder builder, Coords coords) throws IOException {
         if (usedEffect) {
-            List<Coords> possibleBuilds = getCellBuilds(builder);
+            List<Coords> possibleBuilds = getBuildableCells(builder);
             if (!possibleBuilds.isEmpty()) {
                 Coords firstBuildCoords = turnHandler.getInputBuild(builder,possibleBuilds);
                 int heightFirstBuild = match.getHeight(firstBuildCoords);

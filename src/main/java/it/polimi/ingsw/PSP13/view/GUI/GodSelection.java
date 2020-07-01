@@ -15,14 +15,14 @@ import java.util.List;
 
 public class GodSelection implements GodHandlerInterface {
 
-    private final GodDispatcherGUI godDispatcher;
+    private final GodDispatcher godDispatcher;
     private List<String> godsList;
     private List<ImageView> icons = new ArrayList<>();
     private int godsNumber;
     private List<String> selectedGods = new ArrayList<>();
     private boolean isChallenger;
 
-    public GodSelection(GodDispatcherGUI godDispatcher) {
+    public GodSelection(GodDispatcher godDispatcher) {
         this.godDispatcher = godDispatcher;
     }
 

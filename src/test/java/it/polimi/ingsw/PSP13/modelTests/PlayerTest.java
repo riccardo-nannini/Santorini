@@ -66,16 +66,16 @@ public class PlayerTest {
     @Test
     public void getCellMoves_CorrectInput_CorrectBehaviour()
     {
-        List<Coords> test = player.getCellMoves(build);
-        assertTrue(test.equals(turn.getCellMoves(build)));
+        List<Coords> test = player.getPossibleMoves(build);
+        assertTrue(test.equals(turn.getPossibleMoves(build)));
 
     }
 
     @Test
     public void getCellBuilds_CorrectInput_CorrectBehaviour()
     {
-        List<Coords> test = player.getCellBuilds(build);
-        assertEquals(test,turn.getCellBuilds(build));
+        List<Coords> test = player.getBuildableCells(build);
+        assertEquals(test,turn.getBuildableCells(build));
 
     }
 

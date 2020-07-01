@@ -116,13 +116,13 @@ public class AthenaDebuffTest {
             player.start();
 
             if (player.checkMove(builder1,moveCoords)) {
-                if (player.getCellMoves(builder1).contains(moveCoords)) {
-                    player.getCellMoves(builder1);
+                if (player.getPossibleMoves(builder1).contains(moveCoords)) {
+                    player.getPossibleMoves(builder1);
                     player.move(builder1, moveCoords);
                 }
             }
             if (player.checkBuild(builder1,buildCoords)) {
-                if (player.getCellBuilds(builder1).contains(buildCoords)) {
+                if (player.getBuildableCells(builder1).contains(buildCoords)) {
                     player.build(builder1, buildCoords);
                 }
             }

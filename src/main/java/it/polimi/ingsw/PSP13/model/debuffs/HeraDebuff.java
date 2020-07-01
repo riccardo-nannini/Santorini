@@ -3,10 +3,8 @@ package it.polimi.ingsw.PSP13.model.debuffs;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HeraDebuff extends Decorator {
@@ -17,7 +15,7 @@ public class HeraDebuff extends Decorator {
 
     /**
      * The HeraDebuff decorator uses the player's god start method
-     * @param player
+     * @param player current player
      * @throws IOException
      */
     @Override
@@ -127,22 +125,22 @@ public class HeraDebuff extends Decorator {
     }
 
     /**
-     * The HeraDebuff decorator uses the player's god getCellMoves method
+     * The HeraDebuff decorator uses the player's god getPossibleMoves method
      * @param builder
      * @return
      */
     @Override
-    public List<Coords> getCellMoves(Builder builder) {
-        return god.getCellMoves(builder);
+    public List<Coords> getPossibleMoves(Builder builder) {
+        return god.getPossibleMoves(builder);
     }
 
     /**
-     * The HeraDebuff decorator uses the player's god getCellBuilds method
+     * The HeraDebuff decorator uses the player's god getBuildableCells method
      * @param builder
      * @return
      */
     @Override
-    public List<Coords> getCellBuilds(Builder builder) {
-        return god.getCellBuilds(builder);
+    public List<Coords> getBuildableCells(Builder builder) {
+        return god.getBuildableCells(builder);
     }
 }

@@ -339,7 +339,7 @@ public class GameMap implements Initializable {
         EndGame endGame = loader.<EndGame>getController();
         endGame.setGuiInput(guiInput);
 
-        if(guiInput.isRanking())
+        if(guiInput.isWinner())
             endGame.win();
     }
 

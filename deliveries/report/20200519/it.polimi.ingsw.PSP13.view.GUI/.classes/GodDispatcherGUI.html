@@ -165,9 +165,9 @@
 <b class="nc"><i>91</i>&nbsp;        loader.setLocation(new URL(&quot;file:./resources/popupStarter.fxml&quot;));</b>
 <b class="nc"><i>92</i>&nbsp;        AnchorPane popupPane = loader.&lt;AnchorPane&gt;load();</b>
 <i>93</i>&nbsp;
-<b class="nc"><i>94</i>&nbsp;        PopupGUI popupGUI = loader.&lt;PopupGUI&gt;getController();</b>
-<b class="nc"><i>95</i>&nbsp;        popupGUI.upload(players);</b>
-<b class="nc"><i>96</i>&nbsp;        popupGUI.setGuiInput(guiInput);</b>
+<b class="nc"><i>94</i>&nbsp;        PopupGUI starter = loader.&lt;PopupGUI&gt;getController();</b>
+<b class="nc"><i>95</i>&nbsp;        starter.upload(players);</b>
+<b class="nc"><i>96</i>&nbsp;        starter.setGuiInput(guiInput);</b>
 <i>97</i>&nbsp;
 <b class="nc"><i>98</i>&nbsp;        Scene starterScene = new Scene(popupPane);</b>
 <b class="nc"><i>99</i>&nbsp;        starterScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>

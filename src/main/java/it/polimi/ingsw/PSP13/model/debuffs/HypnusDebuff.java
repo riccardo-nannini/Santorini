@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HypnusDebuff extends Decorator {
@@ -17,7 +16,7 @@ public class HypnusDebuff extends Decorator {
 
     /**
      * The HypnusDebuff decorator uses the player's god start method
-     * @param player
+     * @param player current player
      * @throws IOException
      */
     @Override
@@ -107,23 +106,23 @@ public class HypnusDebuff extends Decorator {
     }
 
     /**
-     * The HypnusDebuff decorator uses the player's god getCellMoves method
+     * The HypnusDebuff decorator uses the player's god getPossibleMoves method
      * @param builder current builder
      * @return a list of adjacent cells where a builder can move in
      */
     @Override
-    public List<Coords> getCellMoves(Builder builder) {
-        return god.getCellMoves(builder);
+    public List<Coords> getPossibleMoves(Builder builder) {
+        return god.getPossibleMoves(builder);
     }
 
     /**
-     * The HypnusDebuff decorator uses the player's god getCellBuilds method
+     * The HypnusDebuff decorator uses the player's god getBuildableCells method
      * @param builder current builder
      * @return a list of adjacent cells where a builder can build on
      */
     @Override
-    public List<Coords> getCellBuilds(Builder builder) {
-        return god.getCellBuilds(builder);
+    public List<Coords> getBuildableCells(Builder builder) {
+        return god.getBuildableCells(builder);
     }
 }
 

@@ -187,7 +187,7 @@ public class TurnTest {
     {
         match.setCellLevel(new Coords(3,2), Level.Top);
 
-        List<Coords> list = turn.getCellMoves(builders[0]);
+        List<Coords> list = turn.getPossibleMoves(builders[0]);
         assertThat(list, hasItems(new Coords(1,1)));
         assertThat(list, hasItems(new Coords(1,2)));
         assertThat(list, hasItems(new Coords(1,3)));
@@ -203,7 +203,7 @@ public class TurnTest {
     {
         match.setCellLevel(new Coords(3,2), Level.Top);
 
-        List<Coords> list = turn.getCellBuilds(builders[0]);
+        List<Coords> list = turn.getBuildableCells(builders[0]);
         assertThat(list, hasItems(new Coords(1,1)));
         assertThat(list, hasItems(new Coords(1,2)));
         assertThat(list, hasItems(new Coords(1,3)));
@@ -217,7 +217,7 @@ public class TurnTest {
         list.clear();
 
         match.getCell(new Coords(3,2)).setDome(true);
-        list = turn.getCellBuilds(builders[0]);
+        list = turn.getBuildableCells(builders[0]);
         assertThat(list, hasItems(new Coords(1,1)));
         assertThat(list, hasItems(new Coords(1,2)));
         assertThat(list, hasItems(new Coords(1,3)));

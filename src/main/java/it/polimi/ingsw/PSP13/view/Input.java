@@ -4,13 +4,11 @@ import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
-import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.List;
 
 import static it.polimi.ingsw.PSP13.network.Client.PORT;
@@ -26,7 +24,7 @@ public abstract class Input {
      * connects the client to the server socket.
      * a listener thread is started
      */
-    public void setup(){};
+    public abstract void setup();
 
     /**
      * utility function to connect a client socket with the server socket
@@ -67,7 +65,7 @@ public abstract class Input {
      * asks the player which god he wants to play with
      * @param chosenGods the gods available to be chosen
      */
-    public void godInput(List<String> chosenGods, boolean error){};
+    public abstract void godInput(List<String> chosenGods, boolean error);
 
     /**
      * asks the player the starting position of his builder
@@ -105,45 +103,45 @@ public abstract class Input {
      * Update view's map
      * @param mapVM Immutable map sent from the model
      */
-    public void updateMap(MapVM mapVM) {}
+    public abstract void updateMap(MapVM mapVM);
 
     /**
      * Update view's builders of the color of BuilerVM
      * @param builderVM Immutables couple of builders sent from the model
      */
-    public void updateBuilders(BuilderVM builderVM){}
+    public abstract void updateBuilders(BuilderVM builderVM);
 
     /**
      * Notifies the view that "username" won
      */
-    public void notifyWin() {}
+    public abstract void notifyWin();
 
-    public void notifyLose() {}
+    public abstract void notifyLose();
 
     /**
      * Updates cliet's CLI setting clients information (usernames, builders colors and gods)
      * @param messageClientsInfoCV contains clients information
      */
-    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {}
+    public abstract void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV);
 
     /**
      * Informs clients that the challenger is choosing gods
      * for the match
      * @param challenger username of the challenger
      */
-    public void printWaitGodsSelection(String challenger, List<String> godsList) {}
+    public abstract void printWaitGodsSelection(String challenger, List<String> godsList);
 
     /**
      * Informs clients that player is choosing his god
      * @param player player's username
      */
-    public void printWaitGodSelection(String player, List<String> chosenGods) {}
+    public abstract void printWaitGodSelection(String player, List<String> chosenGods);
 
     /**
      * Inform client which god the server assigned him
      * @param assignedGod name of the assigned god
      */
-    public void printAssignedGod(String assignedGod) {}
+    public abstract void printAssignedGod(String assignedGod);
 
     public abstract void disconnectionMessage();
 
@@ -157,7 +155,7 @@ public abstract class Input {
      * Saves in MapPrinter the effect description of player's god
      * @param effect description of the effect
      */
-    public void setEffectDescription(String effect, List<String> godsEffect) {}
+    public abstract void setEffectDescription(String effect, List<String> godsEffect);
 
     public abstract void playAgain();
 
@@ -166,18 +164,18 @@ public abstract class Input {
      * @param error true if the previous input generated an error
      * @param usernames players' usernames
      */
-    public void starterInput(boolean error, List<String> usernames) {}
+    public abstract void starterInput(boolean error, List<String> usernames);
 
     /**
      * Informs clients that the challenger is choosing the starter player
      * @param challenger challenger's username
      */
-    public void printWaitStarterSelection(String challenger) {}
+    public abstract void printWaitStarterSelection(String challenger);
 
     /**
      * prints a wait message
      */
-    public void lobbyWait() {};
+    public abstract void lobbyWait();
 
     /**
      * prints a wait message related to the lobby being full
@@ -196,18 +194,6 @@ public abstract class Input {
     /**
      * Informs the client that his turn is finished
      */
-    public void turnEnded() {}
-
-    /**
-     * utility function that copies input attributes into another instance
-     * @param input
-     */
-    public void copy(Input input) {
-        input.controller = this.controller;
-        input.socket = this.socket;
-        input.listener = this.listener;
-        input.first = this.first;
-    }
-
+    public abstract void turnEnded();
 
 }

@@ -32,17 +32,16 @@ public class Apollo extends Turn {
     }
 
     /**
-     * builder can move even if a cell is already occupied by another player's builder
+     * Apollo can move even if a cell is already occupied by another player's builder
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
-     * @return
-     * @throws IllegalArgumentException
+     * @return true if the movement is legal, false otherwise
      */
     @Override
-    public boolean checkMove(Builder builder, Coords coords) throws IllegalArgumentException
+    public boolean checkMove(Builder builder, Coords coords)
     {
         if (!Map.isLegal(coords) || builder == null) {
-            throw new IllegalArgumentException();
+            return false;
         } else {
             int diff = match.getCell(coords).getLevel().getHeight() - builder.getHeight();
             Builder otherBuilder;
@@ -57,7 +56,7 @@ public class Apollo extends Turn {
     }
 
     /**
-     * the opponent builder is forced to swap position if needed
+     * The opponent builder is forced to swap position if needed
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      */

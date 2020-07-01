@@ -22,11 +22,12 @@ public class Hera extends Turn {
     /**
      * Adds the HeraDebuff decorator to every opponent player in order to apply Hera's win
      * condition on them
-     * @param builder1
-     * @param builder2
-     * @param coords1
-     * @param coords2
+     * @param builder1 the first player's builder
+     * @param builder2 the second player's builder
+     * @param coords1 the coordinates where the first builder will be placed
+     * @param coords2 the coordinates where the second builder will be placed
      * @throws IllegalArgumentException
+     * @throws IOException
      */
     @Override
     public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException, IOException {

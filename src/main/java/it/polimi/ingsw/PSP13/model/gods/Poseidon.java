@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
@@ -42,14 +41,14 @@ public class Poseidon extends Turn {
     @Override
     public void end() throws IOException {
         if (match.getHeight(unmovedBuilder.getCoords()) == 0) {
-            if (!getCellBuilds(unmovedBuilder).isEmpty()) {
+            if (!getBuildableCells(unmovedBuilder).isEmpty()) {
 
                 Coords buildCoords;
                 int i = 0;
                 String username = match.getPlayerByBuilder(unmovedBuilder).getUsername();
-                while((i<3) && turnHandler.getInputUseEffect(username,"Poseidon") && !getCellBuilds(unmovedBuilder).isEmpty())
+                while((i<3) && turnHandler.getInputUseEffect(username,"Poseidon") && !getBuildableCells(unmovedBuilder).isEmpty())
                 {
-                    buildCoords = turnHandler.getInputBuild(unmovedBuilder, getCellBuilds(unmovedBuilder));
+                    buildCoords = turnHandler.getInputBuild(unmovedBuilder, getBuildableCells(unmovedBuilder));
                     super.build(unmovedBuilder, buildCoords);
                     i++;
                 }

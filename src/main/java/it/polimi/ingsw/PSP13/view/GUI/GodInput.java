@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GodInput implements GodHandlerInterface {
 
-    private final GodDispatcherGUI godDispatcher;
+    private final GodDispatcher godDispatcher;
     private List<String> godsList;
     private String selectedGod = null;
     private boolean isChoosing;
@@ -28,7 +28,7 @@ public class GodInput implements GodHandlerInterface {
 
 
 
-    public GodInput (GodDispatcherGUI godDispatcher) {
+    public GodInput (GodDispatcher godDispatcher) {
         this.godDispatcher = godDispatcher;
     }
 

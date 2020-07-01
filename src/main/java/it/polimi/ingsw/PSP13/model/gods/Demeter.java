@@ -25,7 +25,7 @@ public class Demeter extends Turn {
     @Override
     public void build(Builder builder, Coords coords) throws IOException {
         super.build(builder, coords);
-        List<Coords> possibleBuilds = getCellBuilds(builder);
+        List<Coords> possibleBuilds = getBuildableCells(builder);
         possibleBuilds.remove(coords);
         if (!possibleBuilds.isEmpty()) {
             String username = match.getPlayerByBuilder(builder).getUsername();

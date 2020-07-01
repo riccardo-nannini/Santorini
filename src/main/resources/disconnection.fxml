@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="disconnectionPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="345.0" styleClass="background" stylesheets="@god_selection.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.DisconnectionGUI">
+<AnchorPane fx:id="disconnectionPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="345.0" styleClass="background" stylesheets="@god_selection.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP13.view.GUI.Disconnection">
     <children>
       <Button fx:id="button" layoutX="148.0" layoutY="110.0" mnemonicParsing="false" onMouseClicked="#close" stylesheets="@god_selection.css" text="OK" />
       <TextFlow fx:id="disconnectionText" layoutX="106.0" layoutY="40.0" lineSpacing="5.0" prefHeight="60.0" prefWidth="232.0" styleClass="disconnectionText" stylesheets="@god_selection.css">

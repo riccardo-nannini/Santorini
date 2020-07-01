@@ -10,8 +10,6 @@ import java.util.List;
 
 public class TurnHandler {
 
-    //TODO volendo si può togliere il riferimento circolare a MatchHandler con qualche accorgimento
-
     private MatchHandler matchHandler;
     private List<String> disconnectedPlayers = new ArrayList<>();
     private String useEffect = null;
@@ -25,6 +23,12 @@ public class TurnHandler {
         this.virtualView = virtualView;
     }
 
+    /**
+     * The method asks the player which builder he wants to use this turn
+     * @param player the current player
+     * @return the coordinates of the chosen builder
+     * @throws IOException
+     */
     public synchronized Coords getInputBuilder(Player player) throws IOException {
         boolean valid;
         Builder builder;
@@ -35,8 +39,7 @@ public class TurnHandler {
                 while (builderPos == null && disconnectedPlayers.isEmpty()) {
                     try {
                         wait();
-                    } catch (InterruptedException e) {
-                        //TODO
+                    } catch (InterruptedException ignored) {
                     }
                 }
                 if (!disconnectedPlayers.isEmpty()) {
@@ -44,8 +47,7 @@ public class TurnHandler {
                         while (builderPos == null && !disconnectedPlayers.contains(player.getUsername())) {
                             try {
                                 wait();
-                            } catch (InterruptedException e) {
-                                //TODO
+                            } catch (InterruptedException ignored) {
                             }
                         }
                     }
@@ -53,7 +55,7 @@ public class TurnHandler {
                 }
                 builder = matchHandler.getMatch().getBuilderByCoords(builderPos);
                 valid = player.builderSelection(builder);
-                if (valid && player.getCellMoves(builder).isEmpty()) {
+                if (valid && player.getPossibleMoves(builder).isEmpty()) {
                     Builder otherBuilder = player.getBuilders()[0] == builder ? player.getBuilders()[1] : player.getBuilders()[0];
                     builderPos = otherBuilder.getCoords();
                 }
@@ -67,6 +69,13 @@ public class TurnHandler {
         return returnCoords;
     }
 
+    /**
+     * The method asks the player where he wants to move his builder
+     * @param builder the builder chosen for this turn
+     * @param legalMoves the possible choices for the move action
+     * @return the coordinates where the player wants to move the builder
+     * @throws IOException
+     */
     public synchronized Coords getInputMove(Builder builder, List<Coords> legalMoves) throws IOException {
         boolean error = false;
         Coords returnCoords;
@@ -76,8 +85,7 @@ public class TurnHandler {
             while (moveCoords == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
-                    //TODO
+                } catch (InterruptedException ignored) {
                 }
             }
             if (!disconnectedPlayers.isEmpty()) {
@@ -85,8 +93,7 @@ public class TurnHandler {
                     while (moveCoords == null && !disconnectedPlayers.contains(username)) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }
@@ -101,6 +108,13 @@ public class TurnHandler {
         return returnCoords;
     }
 
+    /**
+     * The method asks the player where he wants to build with his chosen builder
+     * @param builder the builder chosen for this turn
+     * @param legalBuilds the possible choices for the build action
+     * @return the coordinates where the player wants to build on
+     * @throws IOException
+     */
     public synchronized Coords getInputBuild(Builder builder, List<Coords> legalBuilds) throws IOException {
         boolean error = false;
         Coords returnCoords;
@@ -110,8 +124,7 @@ public class TurnHandler {
             while (buildCoords == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
-                    //TODO
+                } catch (InterruptedException ignored) {
                 }
             }
             if (!disconnectedPlayers.isEmpty()) {
@@ -119,8 +132,7 @@ public class TurnHandler {
                     while (buildCoords == null && !disconnectedPlayers.contains(username)) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }
@@ -133,6 +145,13 @@ public class TurnHandler {
         return returnCoords;
     }
 
+    /**
+     * This method asks the player if he wants to use the effect of his god in this turn
+     * @param player the current player
+     * @param god the player's god
+     * @return true if the player wants to use the effect, false otherwise
+     * @throws IOException
+     */
     public synchronized boolean getInputUseEffect(String player, String god) throws IOException {
         boolean valid = false;
         boolean returnValue;
@@ -141,8 +160,7 @@ public class TurnHandler {
             while (useEffect == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
-                    //TODO
+                } catch (InterruptedException ignored) {
                 }
             }
             if (!disconnectedPlayers.isEmpty()) {
@@ -150,8 +168,7 @@ public class TurnHandler {
                     while (useEffect == null && !disconnectedPlayers.contains(player)) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }
@@ -165,6 +182,13 @@ public class TurnHandler {
         return returnValue;
     }
 
+    /**
+     * This method asks the player which block he wants to remove
+     * @param builder current builder
+     * @param legalRemoves list of blocks that can be removed
+     * @return the coordinates of the block that the player wants to remove
+     * @throws IOException
+     */
     public synchronized Coords getInputRemoveBlock(Builder builder, List<Coords> legalRemoves) throws IOException {
         boolean error = false;
         Coords returnCoords;
@@ -174,8 +198,7 @@ public class TurnHandler {
             while (removeCoords == null && disconnectedPlayers.isEmpty()) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
-                    //TODO
+                } catch (InterruptedException ignored) {
                 }
             }
             if (!disconnectedPlayers.isEmpty()) {
@@ -183,8 +206,7 @@ public class TurnHandler {
                     while (removeCoords == null && !disconnectedPlayers.contains(username)) {
                         try {
                             wait();
-                        } catch (InterruptedException e) {
-                            //TODO
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }

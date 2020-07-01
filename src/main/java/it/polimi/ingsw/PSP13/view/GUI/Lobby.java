@@ -146,7 +146,7 @@ public class Lobby implements Initializable{
         loader.setLocation(Lobby.class.getResource("/godSelection.fxml"));
         AnchorPane pane = loader.<AnchorPane>load();
 
-        GodDispatcherGUI godDispatcher = loader.<GodDispatcherGUI>getController();
+        GodDispatcher godDispatcher = loader.<GodDispatcher>getController();
         GodSelection godSelection = new GodSelection(godDispatcher);
         godDispatcher.setGodHandler(godSelection);
         godSelection.setGodsList(godsList);

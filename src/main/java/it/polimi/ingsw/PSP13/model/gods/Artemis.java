@@ -30,7 +30,7 @@ public class Artemis extends Turn {
         super.move(builder, coords);
         if (checkWin(builder,startedCoords,coords)) return;
         Player player = match.getPlayerByBuilder(builder);
-        List<Coords> possibleMoves = player.getCellMoves(builder);
+        List<Coords> possibleMoves = player.getPossibleMoves(builder);
         possibleMoves.remove(startedCoords);
         if (!possibleMoves.isEmpty()) {
             boolean useEffect = turnHandler.getInputUseEffect(match.getPlayerByBuilder(builder).getUsername(), "Artemis");

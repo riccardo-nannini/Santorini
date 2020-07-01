@@ -103,10 +103,11 @@ public class ApolloTest {
         opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(4, 0)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void checkMove_IllegalCoords_ShouldThrowException() throws IllegalArgumentException
+    @Test
+    public void checkMove_IllegalCoords_MoveNotAllowed()
     {
-        apollo.checkMove(builder1,new Coords(5,5));
+        boolean result = apollo.checkMove(builder1,new Coords(5,5));
+        assertFalse(result);
     }
 
     @Test

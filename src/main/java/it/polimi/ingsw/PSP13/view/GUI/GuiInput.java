@@ -16,16 +16,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class GuiInput extends Input {
 
     private Lobby loginController;
-    private GodDispatcherGUI godDispatcher = null;
+    private GodDispatcher godDispatcher = null;
     private GameMap map;
     private boolean mapInitialization = true;
-    private boolean ranking = false;
+    private boolean isWinner;
 
 
     @Override
@@ -83,6 +82,9 @@ public class GuiInput extends Input {
             }
         });
     }
+
+    @Override
+    public void setup() {}
 
     @Override
     public void moveInput(List<Coords> checkMoveCells, boolean error) {
@@ -170,6 +172,12 @@ public class GuiInput extends Input {
     }
 
     @Override
+    public void printWaitStarterSelection(String challenger) {}
+
+    @Override
+    public void lobbyWait() {}
+
+    @Override
     public void waitQueueMsg() {
         Platform.runLater(() -> {
             loginController.FullLobbyWaitMsg();
@@ -207,7 +215,7 @@ public class GuiInput extends Input {
     private void OpponentDisconnection() throws IOException {
         Stage discPopUp = new Stage();
 
-        Font.loadFont( GodDispatcherGUI.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
+        Font.loadFont( GodDispatcher.class.getResource("/fonts/RobotoCondensed-Regular.ttf").toExternalForm(), 18);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(GuiInput.class.getResource("/disconnection.fxml"));
         AnchorPane disconnectionPane = loader.<AnchorPane>load();
@@ -290,8 +298,16 @@ public class GuiInput extends Input {
     }
 
     @Override
+    public void printAssignedGod(String assignedGod) {}
+
+    @Override
     public void notifyWin() {
-        ranking = true;
+        isWinner = true;
+    }
+
+    @Override
+    public void notifyLose() {
+        isWinner = false;
     }
 
     @Override
@@ -315,7 +331,7 @@ public class GuiInput extends Input {
         this.loginController = loginController;
     }
 
-    public void setGodDispatcher(GodDispatcherGUI godDispatcher) {
+    public void setGodDispatcher(GodDispatcher godDispatcher) {
         this.godDispatcher = godDispatcher;
     }
 
@@ -324,10 +340,10 @@ public class GuiInput extends Input {
         return controller;
     }
 
-    public GodDispatcherGUI getGodDispatcher() { return godDispatcher; }
+    public GodDispatcher getGodDispatcher() { return godDispatcher; }
 
-    public boolean isRanking() {
-        return ranking;
+    public boolean isWinner() {
+        return isWinner;
     }
 
     @Override

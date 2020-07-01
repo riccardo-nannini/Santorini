@@ -6,7 +6,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 
-public class ErrorGUI {
+public class Error {
 
     public Text errorText;
     public TextFlow errorTextFlow;

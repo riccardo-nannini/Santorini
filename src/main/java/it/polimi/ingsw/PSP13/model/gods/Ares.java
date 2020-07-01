@@ -41,7 +41,7 @@ public class Ares extends Turn {
      */
     @Override
     public void end() throws IOException {
-        List<Coords> possibleRemoves = getCellRemoves(unmovedBuilder);
+        List<Coords> possibleRemoves = getRemovableCells(unmovedBuilder);
         if (!possibleRemoves.isEmpty()) {
             String username = match.getPlayerByBuilder(unmovedBuilder).getUsername();
             boolean useEffect = turnHandler.getInputUseEffect(username,"Ares");
@@ -58,7 +58,7 @@ public class Ares extends Turn {
      * @param builder
      * @return a list of unoccupied cells with a level > 0 neighbouring builder
      */
-    public List<Coords> getCellRemoves(Builder builder) {
+    public List<Coords> getRemovableCells(Builder builder) {
 
         List<Coords> adjacents = match.getAdjacent(builder.getCoords());
         List<Coords> possibleRemoves = new ArrayList<>();

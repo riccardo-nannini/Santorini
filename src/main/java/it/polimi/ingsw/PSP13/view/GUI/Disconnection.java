@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class DisconnectionGUI {
+public class Disconnection {
 
     @FXML
     private AnchorPane disconnectionPane;

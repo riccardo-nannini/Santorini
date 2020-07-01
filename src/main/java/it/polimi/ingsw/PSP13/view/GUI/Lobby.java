@@ -325,7 +325,14 @@ public class Lobby implements Initializable{
         Pattern p = Pattern.compile("((\\d{1,3}[.]){3}\\d{1,3})");
         String text = serverText.getText();
         String port = portText.getText();
-        Client.PORT = Integer.parseInt(port);
+        try {
+            Client.PORT = Integer.parseInt(port);
+        }
+        catch(NumberFormatException e) {
+            errorLabel.setText("Invalid format,\ninsert a port number!");
+            errorLabel.setVisible(true);
+            return;
+        }
         if(!p.matcher(text).matches())
         {
             errorLabel.setText("Invalid format,\ninsert an IP address!");

@@ -31,7 +31,13 @@ public class CliInput extends Input {
         String server = scanner.nextLine();
         System.out.println("Type the \u001B[1mPORT\u001B[0m number:");
         String port = scanner.nextLine();
-        Client.PORT = Integer.parseInt(port);
+        try {
+            Client.PORT = Integer.parseInt(port);
+        } catch (NumberFormatException e) {
+            System.out.println("\u001B[31mWrong format!\u001b[0m");
+            setup();
+            return;
+        }
 
         try {
             connectToServer(server);
@@ -39,6 +45,7 @@ public class CliInput extends Input {
 
             System.out.println("\u001B[31mCannot establish a connection, you may be offline! (Or the server could... \uD83E\uDD14 )\u001b[0m");
             setup();
+            return;
         }
         nicknameInput(false);
     }

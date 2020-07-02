@@ -87,6 +87,14 @@ public class GuiInput extends Input {
     public void setup() {}
 
     @Override
+    public void notifySpectate() {
+
+        Platform.runLater(()->{
+            map.printSpectateMessage();
+        });
+    }
+
+    @Override
     public void moveInput(List<Coords> checkMoveCells, boolean error) {
 
         map.setStatus(new MoveStatus());

@@ -535,4 +535,8 @@ public class GameMap implements Initializable {
         textInfo.setText("Please wait your turn...");
     }
 
+    public void printSpectateMessage() {
+        textInfo.setText("You lost\n\nWait while the match is ending");
+    }
+
 }

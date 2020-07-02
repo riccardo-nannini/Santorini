@@ -26,6 +26,7 @@ public class MatchHandler {
     private Player challenger = null;
     private String selectedStarter = null;
     private static List<Class> gods;
+    private List<Player> originalsPlayers;
 
     public MatchHandler () {
         match = new Match();
@@ -86,6 +87,7 @@ public class MatchHandler {
         Random r = new Random();
         challenger = match.getPlayers().get(r.nextInt(numPlayers));
         List<String> godsList = godNames();
+        originalsPlayers = Collections.unmodifiableList(new ArrayList<>(match.getPlayers()));
 
         boolean error = false;
         List<String> godsInput;
@@ -376,8 +378,8 @@ public class MatchHandler {
     public void notifyWinners(String winner) throws IOException {
         endGame = true;
         virtualView.notifyWin(winner);
-        for (Player player : match.getPlayers()) {
-            if (!player.getUsername().equals(winner)) virtualView.notifyLose(player.getUsername());
+        for (Player player : originalsPlayers) {
+            if (!player.getUsername().equals(winner)) virtualView.notifyLose(player.getUsername(), true);
         }
     }
 
@@ -387,7 +389,7 @@ public class MatchHandler {
      * @throws IOException
      */
     public void notifyLoser(Player loser) throws IOException {
-        virtualView.notifyLose(loser.getUsername());
+        virtualView.notifyLose(loser.getUsername(), false);
         match.removeBuilder(loser);
         match.getPlayers().remove(loser);
     }

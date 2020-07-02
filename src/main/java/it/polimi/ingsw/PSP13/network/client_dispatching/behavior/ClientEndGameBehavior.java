@@ -12,11 +12,14 @@ public class ClientEndGameBehavior extends ClientDispatcherBehavior {
 
         if (endgame.equals("Win")) {
             input.notifyWin();
+            input.playAgain();
         } else if (endgame.equals("Lose")) {
             input.notifyLose();
+            input.playAgain();
+        } else if (endgame.equals("Lose_InGame")) {
+            input.notifyLose();
+            input.notifySpectate();
         }
-
-        input.playAgain();
 
     }
 

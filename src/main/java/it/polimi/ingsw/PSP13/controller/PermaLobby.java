@@ -23,7 +23,7 @@ public class PermaLobby implements Runnable{
     private Map<Socket, ObjectOutputStream> fillByClient = new HashMap<>();
     private Map<Socket,Boolean> rematchMap = new HashMap<>();
     private List<Thread> listenerThreads = new ArrayList<>();
-    private int playersNumber = 3;
+    private int playersNumber = 2;
     private boolean lobbySetupDone = false;
     private boolean start = false;
 
@@ -37,8 +37,7 @@ public class PermaLobby implements Runnable{
             serverSocket = new ServerSocket(Server.PORT);
         } catch (IOException e) {
             System.out.println("Cannot open server socket");
-            System.exit(1);
-            return;
+            System.exit(0);
         }
     }
 
@@ -193,12 +192,17 @@ public class PermaLobby implements Runnable{
     private void socketAccept() throws IOException {
 
         Socket socket = serverSocket.accept();
-        System.out.println("connected to: " + socket.getInetAddress());
+        System.out.println("Connected to: " + socket.getInetAddress());
         socket.setSoTimeout(20000);
 
         ObjectOutputStream obj = new ObjectOutputStream(socket.getOutputStream());
-        fillByClient.put(socket,obj);
         ClientHandler client = new ClientHandler(obj);
+        if(socketList.size() >= playersNumber)
+        {
+            client.playersLimitReached();
+            return;
+        }
+        fillByClient.put(socket,obj);
         socketList.add(client);
         handlermap.put(socket,client);
 
@@ -210,7 +214,7 @@ public class PermaLobby implements Runnable{
 
         if(socketList.size() > playersNumber)
         {
-            client.playersLimitReachedCanWait();
+            client.playersLimitReached();
             return;
         }
 
@@ -232,8 +236,8 @@ public class PermaLobby implements Runnable{
         {
             try {
                 socketAccept();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
+
             }
         }
     }
@@ -270,7 +274,7 @@ public class PermaLobby implements Runnable{
         {
             for(int i=0;i<diff;i++)
             {
-                ((ClientHandler)(socketList.toArray()[playersNumber+i])).playersLimitReachedCanWait();
+                ((ClientHandler)(socketList.toArray()[playersNumber+i])).playersLimitReached();
             }
         }
 

@@ -192,14 +192,14 @@ public class MapPrinter {
      * Prints the win message
      */
     public void notifyWin() {
-        System.out.println(" HAI VINTO, COMPLIMENTI");
+        System.out.println("YOU WON, CONGRATULATIONS");
     }
 
     /**
      * Prints the lose message
      */
     public void notifyLose() {
-        System.out.println("Hai perso!");
+        System.out.println("You lost...");
     }
 
     /**

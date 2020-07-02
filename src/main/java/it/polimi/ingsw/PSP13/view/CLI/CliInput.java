@@ -254,6 +254,10 @@ public class CliInput extends Input {
     public void notifyLose() { mapPrinter.notifyLose(); }
 
     @Override
+    public void notifySpectate() {
+        System.out.println("You can continue to spectate the match!"); }
+
+    @Override
     public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
         MapPrinter.setClientsInfo(messageClientsInfoCV);
     }
@@ -339,7 +343,7 @@ public class CliInput extends Input {
         String no = "no";
         String n = "n";
 
-        System.out.println("do you want to play again?");
+        System.out.println("Do you want to play again?");
         String input = scanner.nextLine();
 
         while(!(input.toLowerCase().equals(yes) || input.toLowerCase().equals(y)

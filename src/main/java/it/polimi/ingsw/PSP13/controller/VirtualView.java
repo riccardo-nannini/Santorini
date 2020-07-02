@@ -261,9 +261,15 @@ public class VirtualView {
         }
     }
 
-    public void notifyLose(String username) throws IOException {
+    public void notifyLose(String username, boolean ended) throws IOException {
         this.removePlayer(username);
-        MessageFromControllerToView message = new MessageFromControllerToView(MessageID.gameOver,false,"Lose",null,null,false,-1);
+        MessageFromControllerToView message;
+        if (ended) {
+            message = new MessageFromControllerToView(MessageID.gameOver,false,"Lose",null,null,false,-1);
+
+        } else {
+            message = new MessageFromControllerToView(MessageID.gameOver,false,"Lose_InGame",null,null,false,-1);
+        }
 
         try {
             outputMap.get(username).writeObject(message);

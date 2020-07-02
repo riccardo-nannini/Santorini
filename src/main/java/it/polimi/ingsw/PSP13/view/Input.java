@@ -42,6 +42,11 @@ public abstract class Input {
     }
 
     /**
+     * Notifies the client that he can continue to spectate the match
+     */
+    public abstract void notifySpectate();
+
+    /**
      * asks the player to choose a builder to move
      * @param checkMoveCells a list of cell the builder can move on
      * @param error true if the previous input generated an error

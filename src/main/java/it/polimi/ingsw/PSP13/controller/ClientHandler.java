@@ -60,27 +60,13 @@ public class ClientHandler {
      * notices the client that the first player chose to play with 2 players
      * and a client is left out
      */
-    public void lateClientMustDisconnect()
+    public void playersLimitReached()
     {
         MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.lobbyFull, false);
         try {
             out.writeObject(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        } catch (IOException ignored) {
 
-    /**
-     * notices the client that the first player chose to play with 2 players
-     * and a client is left out
-     */
-    public void playersLimitReachedCanWait()
-    {
-        MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.lobbyFull, false);
-        try {
-            out.writeObject(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

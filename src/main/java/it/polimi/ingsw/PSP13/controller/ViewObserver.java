@@ -1,12 +1,10 @@
 package it.polimi.ingsw.PSP13.controller;
 
-import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * this is the controller observer class which is subscribed to the view

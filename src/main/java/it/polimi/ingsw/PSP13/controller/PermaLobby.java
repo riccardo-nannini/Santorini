@@ -18,7 +18,7 @@ public class PermaLobby implements Runnable{
     private static ViewObserver viewObserver;
     private BlockingQueue<ClientHandler> socketList = new LinkedBlockingDeque<>();
     private Map<String, Socket> usernameMap = new HashMap<>();
-    private Map<Socket, ClientHandler> map = new HashMap<>();
+    private Map<Socket, ClientHandler> handlermap = new HashMap<>();
     private Map<Socket, ClientListener> listenerList = new HashMap<>();
     private Map<Socket, ObjectOutputStream> fillByClient = new HashMap<>();
     private Map<Socket,Boolean> rematchMap = new HashMap<>();
@@ -49,7 +49,7 @@ public class PermaLobby implements Runnable{
      */
     private Socket getSocketFromClientHandler(ClientHandler clientHandler)
     {
-        for(Map.Entry entry : map.entrySet())
+        for(Map.Entry entry : handlermap.entrySet())
         {
             if(entry.getValue() == clientHandler)
                 return (Socket)entry.getKey();
@@ -80,13 +80,13 @@ public class PermaLobby implements Runnable{
         {
             usernameMap.put(nickname,socket);
             listenerList.get(socket).setUsername(nickname);
-            map.get(socket).confirmNickname();
+            handlermap.get(socket).confirmNickname();
             if(lobbySetupDone)
                 notifyAll();
 
         }
         else
-            map.get(socket).nicknameIter(true);
+            handlermap.get(socket).nicknameIter(true);
     }
 
     /**
@@ -156,7 +156,6 @@ public class PermaLobby implements Runnable{
     }
 
 
-    //TODO killare il thread clientlistener del relativo client disconnesso invece che lasciarlo girare
     /**
      * takes a disconnection from the client in the setup moment of the game
      * if the socket interested is the first, it must repeat setupIter() with another client
@@ -166,11 +165,11 @@ public class PermaLobby implements Runnable{
     {
         if(start) return;
 
-        boolean isFirst = map.get(socket) == socketList.peek();
-        socketList.remove(map.get(socket));
+        boolean isFirst = handlermap.get(socket) == socketList.peek();
+        socketList.remove(handlermap.get(socket));
         listenerList.remove(socket);
         usernameMap.remove(getUsernameFromSocket(socket));
-        map.remove(socket);
+        handlermap.remove(socket);
         fillByClient.remove(socket);
         try {
             socket.close();
@@ -201,7 +200,7 @@ public class PermaLobby implements Runnable{
         fillByClient.put(socket,obj);
         ClientHandler client = new ClientHandler(obj);
         socketList.add(client);
-        map.put(socket,client);
+        handlermap.put(socket,client);
 
         ClientListener listener = new ClientListener(socket, this);
         listenerList.put(socket,listener);
@@ -317,7 +316,7 @@ public class PermaLobby implements Runnable{
     private synchronized void init() {
         socketList.clear();
         usernameMap.clear();
-        map.clear();
+        handlermap.clear();
         listenerList.clear();
         fillByClient.clear();
         rematchMap.clear();
@@ -336,8 +335,7 @@ public class PermaLobby implements Runnable{
         {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
             }
         }
 
@@ -345,11 +343,13 @@ public class PermaLobby implements Runnable{
         {
             if(rematchMap.get(socket).equals(false))
             {
-                socketList.remove(map.get(socket));
-                listenerList.get(socket).setAlive(false);
-                listenerList.remove(socket);
+                socketList.remove(handlermap.get(socket));
+                if (listenerList.containsKey(socket) && listenerList.get(socket)!=null) {
+                    listenerList.get(socket).setAlive(false);
+                    listenerList.remove(socket);
+                }
                 usernameMap.remove(getUsernameFromSocket(socket));
-                map.remove(socket);
+                handlermap.remove(socket);
                 lobbySetupDone = false;
             }
         }

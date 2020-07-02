@@ -42,7 +42,7 @@ public class GuiInput extends Input {
     public void updateBuilders(BuilderVM builderVM){
         Platform.runLater(() -> {
             try {
-                map.updateBuiders(builderVM.getColor(), builderVM.getBuilders());
+                map.updateBuilders(builderVM.getColor(), builderVM.getBuilders());
             } catch (Exception e) {
                 e.printStackTrace();
             }

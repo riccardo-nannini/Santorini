@@ -270,12 +270,6 @@ public class VirtualView {
         } catch (IOException e) {
             notifyDisconnection();
         }
-        //TODO PERCHE' RIMANDIAMO LE INFO??????????
-        //this.notifyClientsInfo();
-    }
-
-    public void addColor(String username,Color color) {
-        colorsMap.put(username,color);
     }
 
     public void setGod(String username,String god) {

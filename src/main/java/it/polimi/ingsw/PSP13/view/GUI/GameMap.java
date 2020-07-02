@@ -196,15 +196,17 @@ public class GameMap implements Initializable {
      * @param coords updated coordinates of the workers
      */
     @FXML
-    public void updateBuiders(Color color, Coords[] coords) {
+    public void updateBuilders(Color color, Coords[] coords) {
         if (!firstUpdateBuilders) {
             grid.getChildren().remove(buildersImages.get(color).get(0));
             grid.getChildren().remove(buildersImages.get(color).get(1));
         } else {
             firstUpdateBuilders = false;
         }
-        grid.add(buildersImages.get(color).get(0), coords[0].getY(), coords[0].getX());
-        grid.add(buildersImages.get(color).get(1), coords[1].getY(), coords[1].getX());
+        if (coords[0] != null && coords[1] != null) {
+            grid.add(buildersImages.get(color).get(0), coords[0].getY(), coords[0].getX());
+            grid.add(buildersImages.get(color).get(1), coords[1].getY(), coords[1].getX());
+        }
 
         if (color == clientColor) {
             clientBuildersPositions = coords;

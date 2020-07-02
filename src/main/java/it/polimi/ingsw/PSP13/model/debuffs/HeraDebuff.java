@@ -14,6 +14,20 @@ public class HeraDebuff extends Decorator {
     }
 
     /**
+     *
+     * @param builder1 the first player's builder
+     * @param builder2 the second player's builder
+     * @param coords1 the coordinates where the first builder will be placed
+     * @param coords2 the coordinates where the second builder will be placed
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
+    @Override
+    public void setup(Builder builder1, Builder builder2, Coords coords1, Coords coords2) throws IllegalArgumentException, IOException {
+        god.setup(builder1, builder2, coords1, coords2);
+    }
+
+    /**
      * The HeraDebuff decorator uses the player's god start method
      * @param player current player
      * @throws IOException
@@ -143,4 +157,10 @@ public class HeraDebuff extends Decorator {
     public List<Coords> getBuildableCells(Builder builder) {
         return god.getBuildableCells(builder);
     }
+
+    @Override
+    public void end() throws IOException {
+        god.end();
+    }
+
 }

@@ -40,7 +40,7 @@
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>11.0.2</version>
-      <classifier>linux</classifier>
+      <classifier>win</classifier>
     </dependency>
     <!--
     <dependency>

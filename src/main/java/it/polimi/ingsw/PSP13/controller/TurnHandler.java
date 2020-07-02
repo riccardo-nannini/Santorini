@@ -57,7 +57,7 @@ public class TurnHandler {
                 valid = player.builderSelection(builder);
                 if (valid && player.getPossibleMoves(builder).isEmpty()) {
                     Builder otherBuilder = player.getBuilders()[0] == builder ? player.getBuilders()[1] : player.getBuilders()[0];
-                    builderPos = otherBuilder.getCoords();
+                    if (player.builderSelection(otherBuilder)) builderPos = otherBuilder.getCoords();
                 }
             } catch (IllegalArgumentException e) {
                 valid = false;

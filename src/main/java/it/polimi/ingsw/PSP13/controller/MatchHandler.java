@@ -337,6 +337,7 @@ public class MatchHandler {
                 possibleMoves = currentPlayer.getPossibleMoves(currentBuilder);
                 if (possibleMoves.isEmpty()) {
                     this.notifyLoser(currentPlayer);
+                    currentPlayer.eliminated();
                     continue;
                 }
                 coords = turnHandler.getInputMove(currentBuilder, possibleMoves);
@@ -348,6 +349,7 @@ public class MatchHandler {
                 possibleBuilds = currentPlayer.getBuildableCells(currentBuilder);
                 if (possibleBuilds.isEmpty()) {
                     this.notifyLoser(currentPlayer);
+                    currentPlayer.eliminated();
                     continue;
                 }
                 coords = turnHandler.getInputBuild(currentBuilder, possibleBuilds);

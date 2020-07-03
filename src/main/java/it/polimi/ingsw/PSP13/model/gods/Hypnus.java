@@ -37,4 +37,12 @@ public class Hypnus extends Turn {
             }
         }
     }
+
+    @Override
+    public void eliminated() {
+        HypnusDebuff.setEliminated(true);
+        for (Player player : match.getPlayers()) {
+            player.eliminated();
+        }
+    }
 }

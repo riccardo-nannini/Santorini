@@ -4,13 +4,15 @@ import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
+import java.util.stream.Stream;
 
 public class ClientListener implements Runnable {
 
     private Socket socket;
     private String username;
-    private final ObjectInputStream input;
+    private ObjectInputStream input;
     private static ViewObserver viewObserver;
     private PermaLobby lobby;
     private MsgDispatcher msgDispatcher;
@@ -19,7 +21,10 @@ public class ClientListener implements Runnable {
 
     public ClientListener (Socket socket, PermaLobby lobby) throws IOException {
         this.socket = socket;
-        this.input = new ObjectInputStream(socket.getInputStream());
+        try {
+            this.input = new ObjectInputStream(socket.getInputStream());
+        } catch (StreamCorruptedException ignored) {
+        }
         this.lobby = lobby;
         this.username = null;
         this.ipAddress = socket.getInetAddress().toString();

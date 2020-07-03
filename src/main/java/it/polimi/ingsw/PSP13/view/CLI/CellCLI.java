@@ -80,7 +80,7 @@ public class CellCLI {
                     System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, "\u001B[34m" + this.dome + CellLevel.RESET, this.level + CellLevel.RESET);
                 } else {
                     if (builder != null) {
-                        System.out.printf("%s%6s%11s", this.level + CellLevel.RESET, this.builder + CellLevel.RESET, this.level + CellLevel.RESET);
+                        System.out.printf("%s %6s%11s", this.level + CellLevel.RESET, this.builder + CellLevel.RESET, this.level + CellLevel.RESET);
                     } else {
                         System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, this.level + CellLevel.RESET, this.level + CellLevel.RESET);
                     }

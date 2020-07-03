@@ -42,19 +42,19 @@
       <version>11.0.2</version>
       <classifier>win</classifier>
     </dependency>
-
+    <!--
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>11.0.2</version>
-      <classifier>win</classifier>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>11.0.2</version>
       <classifier>mac</classifier>
-    </dependency>
+    </dependency>    -->
   </dependencies>
 
   <build>

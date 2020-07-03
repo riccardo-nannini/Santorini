@@ -37,4 +37,12 @@ public class Hera extends Turn {
             }
         }
     }
+
+    @Override
+    public void eliminated() {
+        HeraDebuff.setEliminated(true);
+        for (Player player : match.getPlayers()) {
+            player.eliminated();
+        }
+    }
 }

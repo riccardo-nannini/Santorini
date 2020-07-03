@@ -126,7 +126,7 @@ public class GuiInput extends Input {
 
     @Override
     public void godInput(List<String> chosenGods, boolean error) {
-        Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
+        Platform.runLater(()->{
             try {
                 godDispatcher.setSceneGodInput(chosenGods, true);
             } catch (Exception e) {

@@ -7,6 +7,11 @@ public class Decorator extends Turn {
 
     protected Turn god;
 
+    public Decorator(Turn god)
+    {
+        this.god = god;
+    }
+
     /**
      * Removes the decorator from the player's god attribute.
      * @param player current player
@@ -16,8 +21,7 @@ public class Decorator extends Turn {
         player.setGod(god);
     }
 
-    public Decorator(Turn god)
-    {
+    public void setGod(Turn god) {
         this.god = god;
     }
 }

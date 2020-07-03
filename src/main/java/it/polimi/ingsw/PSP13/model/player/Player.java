@@ -111,6 +111,13 @@ public class Player {
     }
 
     /**
+     * The method handles the elimination of the player
+     */
+    public void eliminated() {
+        god.eliminated();
+    }
+
+    /**
      * @param color
      * @param username
      * initializes a new instance with the basic attributes

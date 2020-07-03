@@ -181,6 +181,8 @@ public class Turn {
         return possibleBuildingSite;
     }
 
+    public void eliminated() {}
+
     public static void setMatch(Match match) {
         Turn.match = match;
     }

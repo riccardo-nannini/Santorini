@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP13.model.debuffs;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
+import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +13,8 @@ public class HeraDebuff extends Decorator {
     public HeraDebuff(Turn god) {
         super(god);
     }
-
+    Player player;
+    private static boolean eliminated = false;
     /**
      * @param builder1 the first player's builder
      * @param builder2 the second player's builder
@@ -55,6 +57,7 @@ public class HeraDebuff extends Decorator {
      */
     @Override
     public void move(Builder builder, Coords coords) throws IOException {
+        player = match.getPlayerByBuilder(builder);
         god.move(builder, coords);
     }
 
@@ -157,9 +160,22 @@ public class HeraDebuff extends Decorator {
         return god.getBuildableCells(builder);
     }
 
+    public static void setEliminated(boolean eliminated) {
+        HeraDebuff.eliminated = eliminated;
+    }
+
     @Override
     public void end() throws IOException {
         god.end();
+    }
+
+    @Override
+    public void eliminated() {
+        if (eliminated) {
+            removeDecorator(player);
+        } else {
+            god.eliminated();
+        }
     }
 
 }

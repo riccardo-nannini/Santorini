@@ -10,26 +10,25 @@ public class ClientHandler {
 
     private ObjectOutputStream out;
 
-    public ClientHandler(ObjectOutputStream out) throws IOException {
+    public ClientHandler(ObjectOutputStream out) {
         this.out = out;
     }
 
     /**
-     * sends a confirm message that the nickname setup has
-     * been successful
+     * Sends a confirm message that the nickname setup has been successful
      */
     public void confirmNickname()
     {
         MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processNickname, false, "ok", null, null, false, 0);
         try {
             out.writeObject(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+
         }
     }
 
     /**
-     * asks the client to choose a username
+     * Asks the client to choose a username
      * @param error true if there was an error with previous request
      */
     public void nicknameIter(boolean error)
@@ -37,13 +36,13 @@ public class ClientHandler {
         MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processNickname, error);
         try {
             out.writeObject(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+
         }
     }
 
     /**
-     * asks the client to choose the number of players for this match
+     * Asks the client to choose the number of players for this match
      * @param error true if there was an error with previous request
      */
     public void playerNumberIter(boolean error)
@@ -51,13 +50,13 @@ public class ClientHandler {
         MessageFromControllerToView msg = new MessageFromControllerToView(MessageID.processPlayersNumber, error);
         try {
             out.writeObject(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+
         }
     }
 
     /**
-     * notices the client that the first player chose to play with 2 players
+     * Notices the client that the first player chose to play with 2 players
      * and a client is left out
      */
     public void playersLimitReached()

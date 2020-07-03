@@ -10,7 +10,7 @@ public class Map {
     public Cell[][] matrix;
 
     /**
-     * initializes a new matrix
+     * Initializes a new matrix
      */
     public Map()
     {
@@ -26,8 +26,7 @@ public class Map {
     }
 
     /**
-     *
-     * @param coords
+     * @param coords evaluated coords
      * @return false if coords' attributes break the matrix boundaries, true if coords is a legal object
      */
     public static boolean isLegal(Coords coords)
@@ -41,8 +40,7 @@ public class Map {
     }
 
     /**
-     *
-     * @param coords
+     * @param coords evaluated coords
      * @return a list of legal object coords that are adjacent to the param
      * @throws IllegalArgumentException if coords is not a legal object
      */
@@ -71,7 +69,7 @@ public class Map {
     }
 
     /**
-     * @param coords
+     * @param coords cell's coords
      * @return the cell corresponding to the matrix coordinates coords
      * @throws IllegalArgumentException if coords is not a legal object
      */
@@ -85,8 +83,8 @@ public class Map {
 
     /**
      *
-     * @param coords
-     * @param level
+     * @param coords cell's coords
+     * @param level cell's level
      * sets the height of the cell specified in the params
      * @throws IllegalArgumentException if coords is not a legal object
      */

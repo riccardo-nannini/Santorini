@@ -121,8 +121,6 @@ public class GuiInput extends Input {
                     loginController.goBacktoNicknameSceneChange();
                 loginController.nicknameError();
             }
-
-
         });
     }
 
@@ -139,7 +137,6 @@ public class GuiInput extends Input {
 
     @Override
     public void builderSetUpInput(boolean callNumber, boolean error) {
-
 
         Platform.runLater(()->{
             if (mapInitialization)  {
@@ -220,6 +217,10 @@ public class GuiInput extends Input {
         });
     }
 
+    /**
+     * Shows the disconnection popup
+     * @throws IOException
+     */
     private void OpponentDisconnection() throws IOException {
         Stage discPopUp = new Stage();
 
@@ -261,7 +262,6 @@ public class GuiInput extends Input {
         {
             if(loginController.isNicknameSent())
             {
-                System.out.println("rematch");
                 Platform.runLater(()->{
                     try {
                         loginController.choosePlayerNum();
@@ -277,7 +277,7 @@ public class GuiInput extends Input {
     @Override
     public void printWaitGodsSelection(String challenger, List<String> godsList) {
 
-        Platform.runLater(()->{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection
+        Platform.runLater(()->{
             try {
                 loginController.sceneChangeGodSelection(godsList,0, false );
             } catch (Exception e) {
@@ -317,8 +317,8 @@ public class GuiInput extends Input {
         Platform.runLater(()->{
             try {
                 map.endgameSceneChange();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
+
             }
         });
         mapInitialization = true;

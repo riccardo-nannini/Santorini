@@ -10,8 +10,8 @@ public class EffectDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related the the user's choice to use its god effect
-     * @param messageVC
+     * Behavior related the user's choice to use its god effect
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

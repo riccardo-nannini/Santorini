@@ -30,7 +30,7 @@ public class EndGame {
     private GuiInput guiInput;
 
     /**
-     * initializes all the messages and images with the lost status
+     * Initializes all the messages and images with the lost status
      */
     public void initialize() {
         label1.setText("DEFEAT\nYOU LOST..");
@@ -43,7 +43,7 @@ public class EndGame {
     }
 
     /**
-     * initializes the message and images with the win status
+     * Initializes the message and images with the win status
      */
     public void win() {
         label1.setText("CONGRATULATIONS\n   YOU WON!");
@@ -56,7 +56,7 @@ public class EndGame {
     }
 
     /**
-     * the user selects if he wants to have a rematch
+     * The user selects if he wants to have a rematch
      * @param e the event related to the user clicking to "yes" or "no" button
      * @throws IOException if the communication with server fails
      */
@@ -76,7 +76,7 @@ public class EndGame {
     }
 
     /**
-     * once the user choose what to do he will be put back to the lobby scene
+     * Once the user choose what to do he will be put back to the lobby scene
      * @throws IOException
      */
     public void backToLobbySceneChange() throws IOException {

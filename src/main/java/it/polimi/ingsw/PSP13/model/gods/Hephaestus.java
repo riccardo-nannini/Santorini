@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -18,8 +17,7 @@ public class Hephaestus extends Turn {
     }
 
     /**
-     * Builds a level in the specified position if useEffect == false,
-     * 2 level otherwise
+     * Builds a level in the specified position if useEffect == false, 2 level otherwise
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */

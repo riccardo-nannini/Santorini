@@ -75,8 +75,7 @@ public class GodSelection implements GodHandlerInterface {
 
     /**
      * If the player is the challenger, the invocation of this methods saves the clicked god in the list of the
-     * selected gods and colors the god's icon with a black shadow in order to improve the visual feedback
-     * of the view
+     * selected gods and colors the god's icon with a black shadow in order to improve the visual feedback of the view
      * @param event the event that caused the method invocation
      */
     @Override

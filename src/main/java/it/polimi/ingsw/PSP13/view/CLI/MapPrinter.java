@@ -41,22 +41,22 @@ public class MapPrinter {
     public static void setClientsInfo(MessageClientsInfo clientsInfo) {
         builder.clear();
         MapPrinter.clientUsername = clientsInfo.getClientUsername();
-        MapPrinter.clientBuilderColor = builderColorFromColor(clientsInfo.getClientColor());
+        MapPrinter.clientBuilderColor = builderColorFromPlayerColor(clientsInfo.getClientColor());
         MapPrinter.clientGod = clientsInfo.getClientGod();
         MapPrinter.godEffectDescription = clientsInfo.getClientEffect();
         MapPrinter.opponentsUsernames = clientsInfo.getOpponentsUsernames();
         MapPrinter.opponentsColors = new ArrayList<>();
         for (Color color : clientsInfo.getOpponentsColors()) {
-            MapPrinter.opponentsColors.add(builderColorFromColor(color));
+            MapPrinter.opponentsColors.add(builderColorFromPlayerColor(color));
         }
         MapPrinter.opponentsGods = clientsInfo.getOpponentsGod();
     }
 
     /**
-     * @param color
+     * @param color builders' color
      * @return the corresponding BuilderColor
      */
-    public static BuilderColor builderColorFromColor(Color color) {
+    public static BuilderColor builderColorFromPlayerColor(Color color) {
         switch (color) {
             case Blue:
                 return BuilderColor.Blue;
@@ -75,9 +75,8 @@ public class MapPrinter {
     }
 
     /**
-     * updates the instance of MapView and refreshes the video
-     *
-     * @param map
+     * Updates the instance of MapView and refreshes the video
+     * @param map immutable map
      */
     public void updateMapCLI(MapVM map) {
         MapPrinter.map = map;
@@ -85,9 +84,8 @@ public class MapPrinter {
     }
 
     /**
-     * updates the instance of BuilderView and refreshed the video
-     *
-     * @param builder
+     * Updates the instance of BuilderView and refreshed the video
+     * @param builder immutable builder
      */
     public void updateBuildersCLI(BuilderVM builder) {
         MapPrinter.builder.updateBuilder(builder);
@@ -95,7 +93,7 @@ public class MapPrinter {
     }
 
     /**
-     * stamps on video the current state of the board
+     * Prints on video the current state of the board
      */
     public static void printMap() {
 
@@ -180,7 +178,6 @@ public class MapPrinter {
     public static void setWaitOtherClients(boolean waitOtherClients) {
         MapPrinter.waitOtherClients = waitOtherClients;
     }
-
 
     public static void setShowEffect(boolean showEffect) {
         MapPrinter.showEffect = showEffect;

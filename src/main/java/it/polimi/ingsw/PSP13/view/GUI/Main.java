@@ -12,7 +12,7 @@ import javafx.stage.StageStyle;
 public class Main extends Application {
 
     /**
-     * starts the javaFX main thread
+     * Starts the javaFX main thread
      * @param primaryStage
      * @throws Exception
      */

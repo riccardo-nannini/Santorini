@@ -10,8 +10,8 @@ public class GodChoiceDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the user choice of its god for this match
-     * @param messageVC
+     * Behavior related to the user choice of its god for this match
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

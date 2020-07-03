@@ -19,8 +19,7 @@ public class Artemis extends Turn {
     }
 
     /**
-     * In addiction to turn's move allows the builder to move one additional
-     * time
+     * In addiction to turn's move allows the builder to move one additional time
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      */

@@ -107,7 +107,7 @@ public class AthenaDebuffTest {
      * Tests if, at the end of the turn, the AthenaDebuff decorator is correctly removed
      */
     @Test
-    public void endOfTurn_CorrectInput_DecoretorRemovedExpected(){
+    public void endOfTurn_CorrectInput_DecoratorRemovedExpected(){
         player.checkMove(player.getBuilders()[0], new Coords(3,3));
         try {
             player.end();

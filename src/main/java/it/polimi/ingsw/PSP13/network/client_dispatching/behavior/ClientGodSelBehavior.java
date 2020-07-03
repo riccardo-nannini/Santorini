@@ -10,7 +10,6 @@ public class ClientGodSelBehavior extends ClientBuildBehavior {
     @Override
     public void behavior(MessageFromControllerToView messageCV) {
 
-
         int godsNumber = messageCV.getGodsNumber();
         List<String> godsList = messageCV.getStringList();
 

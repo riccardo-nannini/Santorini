@@ -24,8 +24,7 @@ public class MsgMap {
     }
 
     /**
-     * initializes the dispatcher map
-     * with all the dispatchBehavior classes
+     * Initializes the dispatcher map with all the dispatchBehavior classes
      */
     private void init()
     {
@@ -49,8 +48,7 @@ public class MsgMap {
     }
 
     /**
-     * this methods finds the behavior related to the message protocol
-     * and starts its execution
+     * This methods finds the behavior related to the message protocol and starts its execution
      * @param msg the message to decode
      */
     public void dispatch(MessageFromControllerToView msg)

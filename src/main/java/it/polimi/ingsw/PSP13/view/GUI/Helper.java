@@ -25,6 +25,9 @@ public class Helper {
         if (message.size() == 1) helperText.setLayoutY(layoutSingleMessage);
     }
 
+    /**
+     * Close the helper window
+     */
     public void close() {
         Stage stage = (Stage) (helperPane.getScene().getWindow());
         stage.close();

@@ -16,7 +16,7 @@ public abstract class ServerDispatchBehavior {
 
     /**
      * executes a set of instructions based on the message protocol
-     * @param messageVC the message to perform the dispatch. the specific behavior will be executed
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     public abstract void behavior(MessageFromViewToController messageVC);
 

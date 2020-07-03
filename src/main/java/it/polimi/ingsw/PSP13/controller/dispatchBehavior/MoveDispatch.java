@@ -10,8 +10,8 @@ public class MoveDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the user move. the user chose to move a builder on a given cell
-     * @param messageVC
+     * Behavior related to the user move. The user chose to move a builder on a given cell
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

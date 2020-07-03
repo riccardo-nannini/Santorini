@@ -1,13 +1,9 @@
 package it.polimi.ingsw.PSP13.controller;
 
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.model.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * this is the controller observer class which is subscribed to the view
+ * This is the controller observer class which is subscribed to the view
  */
 public class ViewObserver {
 
@@ -19,7 +15,7 @@ public class ViewObserver {
     }
 
     /**
-     * sets the value of the god to the player instance and updates the list of gods left
+     * Sets the value of the god to the player instance and updates the list of gods left
      * @param god the god chosen by user
      */
     public void updateGod(String god)
@@ -28,7 +24,7 @@ public class ViewObserver {
     }
 
     /**
-     * sets the gods available for this match
+     * Sets the gods available for this match
      * @param gods
      */
     public void updateGodSelection(String gods)
@@ -37,7 +33,7 @@ public class ViewObserver {
     }
 
     /**
-     * sets the initial coordinates of player builders
+     * Sets the initial coordinates of player builders
      * @param builder
      */
     public void updateSetupBuilder(Coords builder)
@@ -46,13 +42,13 @@ public class ViewObserver {
     }
 
     /**
-     * selects the builder chosen by the user
+     * Selects the builder chosen by the user
      * @param builder
      */
     public void updateBuilderChoice(Coords builder){ handler.getTurnHandler().setBuilderPos(builder);}
 
     /**
-     * sets the new position of a given builder
+     * Sets the new position of a given builder
      * @param cellToMoveOn
      */
     public void updateMoveInput(Coords cellToMoveOn){
@@ -60,7 +56,7 @@ public class ViewObserver {
     }
 
     /**
-     * sets the new structure level of the chosen position
+     * Sets the new structure level of the chosen position
      * @param cellToBuildOn
      */
     public void updateBuildInput(Coords cellToBuildOn){
@@ -68,7 +64,7 @@ public class ViewObserver {
     }
 
     /**
-     * selects the answer of the player in using the effect (yes or no)
+     * Selects the answer of the player in using the effect (yes or no)
      * @param effect
      */
     public void updateEffect(String effect)
@@ -77,7 +73,7 @@ public class ViewObserver {
     }
 
     /**
-     * selects the cell to remove a block from
+     * Selects the cell to remove a block from
      * @param cellToRemoveBlock
      */
     public void updateRemoveInput(Coords cellToRemoveBlock)

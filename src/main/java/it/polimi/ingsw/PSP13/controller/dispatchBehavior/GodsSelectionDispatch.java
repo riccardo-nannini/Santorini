@@ -10,9 +10,9 @@ public class GodsSelectionDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the setup phase. the challenger chose a set of god
+     * Behavior related to the setup phase. the challenger chose a set of god
      * and it has been communicated
-     * @param messageVC
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

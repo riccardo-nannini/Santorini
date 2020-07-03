@@ -18,8 +18,7 @@ public class Athena extends Turn {
     }
 
     /**
-     * In addition to calling the player's god move the method checks if the builder is
-     * moving up.
+     * In addition to calling the player's god move the method checks if the builder is moving up.
      * If this is the case it will decorate other players' god with the AthenDebuff
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move to

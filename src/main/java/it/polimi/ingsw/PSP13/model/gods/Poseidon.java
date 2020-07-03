@@ -53,8 +53,6 @@ public class Poseidon extends Turn {
                     i++;
                 }
                 match.notifyMap();
-
-
             }
         }
     }

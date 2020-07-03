@@ -8,8 +8,8 @@ public abstract class ClientDispatcherBehavior {
     protected Input input;
 
     /**
-     * executes a different set of instructions based on the message protocol
-     * @param messageCV
+     * Executes a different set of instructions based on the message protocol
+     * @param messageCV controller to view message
      */
     public abstract void behavior(MessageFromControllerToView messageCV);
 

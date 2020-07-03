@@ -86,6 +86,7 @@ public class HephaestusTest {
     public void setUp() {
         player.setGod(new Hephaestus());
         match.setCellLevel(new Coords(3,2), Level.Floor);
+        match.setCellLevel(new Coords(4,2), Level.Medium);
         match.getCell(new Coords(3,2)).setDome(false);
     }
 

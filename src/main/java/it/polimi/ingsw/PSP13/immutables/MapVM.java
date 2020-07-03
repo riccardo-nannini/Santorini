@@ -11,7 +11,7 @@ public class MapVM implements Serializable {
 
         /**
          * Creates an immutable matrix of cells
-         * @param matrix
+         * @param matrix the model's map
          */
     public MapVM(Cell[][] matrix)
         {

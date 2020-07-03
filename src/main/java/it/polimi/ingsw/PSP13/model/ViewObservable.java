@@ -18,20 +18,19 @@ public class ViewObservable {
     public ViewObservable (Match match, VirtualView virtualView) throws IOException {
         this.match = match;
         this.virtualView = virtualView;
-        //notifyMap();
     }
 
     /**
-     * Notifies view's MapObserver sending a MapVM object
+     * Notifies view's ModelObserver sending a MapVM object
      */
     public void notifyMap() throws IOException {
         virtualView.updateMap(new MapVM(match.getMap().getMatrix()));
     };
 
     /**
-     * Notifies view's BuilderObserver sending a BuilderVM object
-     * @param builder1 builder used to construct BuilderVM
-     * @param builder2 builder used to construct BuilderVM
+     * Notifies view's ModelObserver sending a BuilderVM object
+     * @param builder1 first builder
+     * @param builder2 second builder
      */
     public void notifyBuilder(Builder builder1, Builder builder2) throws IOException {
         Coords[] builders = new Coords[2];
@@ -40,6 +39,11 @@ public class ViewObservable {
         virtualView.updateBuilders(new BuilderVM(builders, match.getPlayerByBuilder(builder1).getColor()));
     }
 
+    /**
+     * Notifies the remotion of a player's builder to the view's ModelObserver sending a BuilderVM object
+     * @param player eliminated player
+     * @throws IOException
+     */
     public void removeBuilder(Player player) throws IOException {
         Coords[] builders = new Coords[]{null, null};
         virtualView.updateBuilders(new BuilderVM(builders, player.getColor()));

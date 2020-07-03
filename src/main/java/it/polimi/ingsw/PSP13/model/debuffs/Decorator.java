@@ -9,7 +9,7 @@ public class Decorator extends Turn {
 
     /**
      * Removes the decorator from the player's god attribute.
-     * @param player
+     * @param player current player
      */
     public void removeDecorator(Player player)
     {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class CellVM implements Serializable {
 
@@ -14,7 +13,7 @@ public class CellVM implements Serializable {
 
     /**
      * Creates an immutable Cell
-     * @param cell
+     * @param cell the input model's cell
      */
     public CellVM(Cell cell)
     {

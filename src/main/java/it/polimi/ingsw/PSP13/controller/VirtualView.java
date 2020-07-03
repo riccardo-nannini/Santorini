@@ -73,8 +73,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the player's client a MessageCV
-     * representing a move input request
+     * Sends to the player's client a MessageCV representing a move input request
      * @param player player username
      * @param checkMoveCells list of legal coords that can be selected by the client for the move
      * @param error notifies the client that this message is sent due to a previous input error
@@ -92,8 +91,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the player's client a MessageCV
-     * representing a build input request
+     * Sends to the player's client a MessageCV representing a build input request
      * @param player player username
      * @param checkBuildCells list of legal coords that can be selected by the client for the build
      * @param error notifies the client that this message is sent due to a previous input error
@@ -200,8 +198,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the player's client a MessageCV
-     * representing a "useEffect" request
+     * Sends to the player's client a MessageCV representing a "useEffect" request
      * @param player player username
      * @param god name of the player's god
      * @throws IOException if an I/O error occurs while writing stream header
@@ -217,8 +214,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the player's client a MessageCV
-     * representing a choose builder request
+     * Sends to the player's client a MessageCV representing a choose builder request
      * @param player player username
      * @throws IOException if an I/O error occurs while writing stream header
      */
@@ -232,8 +228,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the player's client a MessageCV
-     * representing a remove block request
+     * Sends to the player's client a MessageCV representing a remove block request
      * @param player player username
      * @param removableBlocks list of legal coords that can be selected by the client for the removal
      * @param error notifies the client that this message is sent due to a previous input error
@@ -297,8 +292,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to every client a message containing
-     * information about them
+     * Sends to every client a message containing information about them
      * @throws IOException if an I/O error occurs while writing stream header
      */
     public void notifyClientsInfo(HashMap<String,String> effectsMap) throws IOException {
@@ -358,6 +352,10 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Notifies disconnection to the clients while playing
+     * @throws IOException
+     */
     public void notifyDisconnection() throws IOException {
         int i = 1;
         for(ObjectOutputStream output : outputMap.values()) {
@@ -375,8 +373,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the challenger's client a MessageCV
-     * representing a starter selection input request.
+     * Sends to the challenger's client a MessageCV representing a starter selection input request
      * @param challenger username of the challenger
      * @param error notifies the client that this message is sent due to a previous input error
      * @throws IOException if an I/O error occurs while writing stream header
@@ -403,8 +400,7 @@ public class VirtualView {
     }
 
     /**
-     * Sends to the player's client a MessageCV
-     * informing him his turn is finished
+     * Sends to the player's client a MessageCV informing him his turn is finished
      * @param player player username
      * @throws IOException if an I/O error occurs while writing stream header
      */

@@ -34,9 +34,7 @@ public class Ares extends Turn {
     }
 
     /**
-     * Removes an unoccupied block (not dome)
-     * neighbouring player's unmoved worker
-     * if useEffect = true
+     * Removes an unoccupied block (not dome) neighbouring player's unmoved worker if useEffect = true
      */
     @Override
     public void end() throws IOException {

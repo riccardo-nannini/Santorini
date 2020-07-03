@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -30,7 +29,7 @@ public class PermaLobby implements Runnable{
 
 
     /**
-     * initializes the ServerSocket
+     * Initializes the ServerSocket
      */
     private void setServerSocket()
     {
@@ -44,8 +43,8 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * this methods looks up for the socket related to the clienthandler
-     * @param clientHandler the client i need to loookup for the the socket
+     * This methods looks up for the socket related to the clienthandler
+     * @param clientHandler the client i need to lookup for the the socket
      * @return the socket related to the clienthandler
      */
     private Socket getSocketFromClientHandler(ClientHandler clientHandler)
@@ -60,7 +59,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * lobby thread that listens to incoming connections
+     * Lobby thread that listens to incoming connections
      */
     @Override
     public void run()
@@ -70,7 +69,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * validates the nickname received from a client. check if it's already taken
+     * Validates the nickname received from a client. check if it's already taken
      * @param socket the client who sent the nickname
      * @param nickname the username chosen
      */
@@ -91,7 +90,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * checks if the conditions to start a match are met
+     * Checks if the conditions to start a match are met
      * and eventually starts a match
      */
     private void checkReady()
@@ -110,7 +109,7 @@ public class PermaLobby implements Runnable{
 
 
     /**
-     * validate the playersNumber input chosen by the first player
+     * Validate the playersNumber input chosen by the first player
      * computes boolean value to get the listening cycle work correctly
      * @param playersNumber the number chosen by the first client
      */
@@ -128,7 +127,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * return the username from the usernameMap given a socket. given a value returns the key
+     * Return the username from the usernameMap given a socket. given a value returns the key
      * @param socket the value
      * @return the key
      */
@@ -144,13 +143,17 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * closes the listener thread related to player username
+     * Closes the listener thread related to player username
      * @param username the player tat needs to be excluded
      */
     public synchronized void listenerThreadsShutdown(String username) {
 
-        if(username == null)
+        if(username == null) {
+            ClientHandler[] clients = socketList.toArray(new ClientHandler[0]);
+            ClientHandler clientToRemove = clients[clients.length-1];
+            socketList.remove(clientToRemove);
             return;
+        }
 
         Socket socket = usernameMap.get(username);
         ClientHandler handler = handlermap.get(socket);
@@ -173,7 +176,7 @@ public class PermaLobby implements Runnable{
 
 
     /**
-     * takes a disconnection from the client in the setup moment of the game
+     * Takes a disconnection from the client in the setup moment of the game
      * if the socket interested is the first, it must repeat setupIter() with another client
      * @param socket the disconnected client
      */
@@ -202,7 +205,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * accepts a client, creates a ClientHandler object and a ClientListener object.
+     * Accepts a client, creates a ClientHandler object and a ClientListener object.
      * then it fills some data structures and computers boolean for the cycle.
      * @throws IOException
      */
@@ -240,7 +243,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * creates a loop the listen to incoming connections
+     * Creates a loop the listen to incoming connections
      */
     public void listening()
     {
@@ -255,7 +258,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * asks the first client to choose playerNumber
+     * Asks the first client to choose playerNumber
      * if no client connected it waits
      */
     public synchronized void setupIter()
@@ -273,7 +276,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * given all the data structures filled and a matchHandler instance this method starts the match
+     * Given all the data structures filled and a matchHandler instance this method starts the match
      */
     private void createMatch() {
         int diff = socketList.size() - playersNumber;
@@ -320,7 +323,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * resets the data structures
+     * Resets the data structures
      */
     private synchronized void init() {
         socketList.clear();
@@ -335,7 +338,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * handles the rematch iter
+     * Handles the rematch iter
      */
     private synchronized void playAgain() {
         System.out.println("Rematch setup");
@@ -367,8 +370,8 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * given all the data structures filled, this method creates a matchHandler instance
-     * @return
+     * Given all the data structures filled, this method creates a matchHandler instance
+     * @return an instance of matchHandler
      */
     private synchronized MatchHandler createMatchHandler() {
 
@@ -422,7 +425,7 @@ public class PermaLobby implements Runnable{
     }
 
     /**
-     * fills a map with the client and its choice regarding rematch
+     * Fills a map with the client and its choice regarding rematch
      * @param socket the client who made a choice
      * @param choice client answer regarding if he wants to play again
      */
@@ -440,10 +443,6 @@ public class PermaLobby implements Runnable{
     public boolean isStart()
     {
         return start;
-    }
-
-    public void addLeftOut(ClientHandler client) {
-        leftout.add(client);
     }
 
 }

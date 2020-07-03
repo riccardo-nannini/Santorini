@@ -10,10 +10,10 @@ public class CellCLI {
     private String dome;
 
     /**
-     * initializes a Cell datatype for the CLI
-     * @param cell
-     * @param workerColor
-     * @param highlighted
+     * Initializes a Cell datatype for the CLI
+     * @param cell immutables cell
+     * @param workerColor builder's color
+     * @param highlighted indicates if the cell is highlighted
      */
     public CellCLI(CellVM cell, Color workerColor, boolean highlighted) {
         if (cell.getDome())
@@ -65,8 +65,8 @@ public class CellCLI {
 
 
     /**
-     * stamps on video the line of the cell indicated
-     * @param line
+     * Stamps on video the line of the cell indicated
+     * @param line line number
      */
     public void printCell(int line) {
         if (line < 1 || line > 3) return;
@@ -80,7 +80,7 @@ public class CellCLI {
                     System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, "\u001B[34m" + this.dome + CellLevel.RESET, this.level + CellLevel.RESET);
                 } else {
                     if (builder != null) {
-                        System.out.printf("%s %6s%11s", this.level + CellLevel.RESET, this.builder + CellLevel.RESET, this.level + CellLevel.RESET);
+                        System.out.printf("%s%6s%11s", this.level + CellLevel.RESET, this.builder + CellLevel.RESET, this.level + CellLevel.RESET);
                     } else {
                         System.out.printf("%s%11s%11s", this.level + CellLevel.RESET, this.level + CellLevel.RESET, this.level + CellLevel.RESET);
                     }

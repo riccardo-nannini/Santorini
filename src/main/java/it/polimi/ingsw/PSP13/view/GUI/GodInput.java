@@ -27,7 +27,6 @@ public class GodInput implements GodHandlerInterface {
     private final int offsetIcon5 = 500;
 
 
-
     public GodInput (GodDispatcher godDispatcher) {
         this.godDispatcher = godDispatcher;
     }

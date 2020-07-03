@@ -14,7 +14,7 @@ public class Client {
     private static Input input;
 
     /**
-     * client main thread, starts with GUI by default
+     * Client main thread, starts with GUI by default
      * @param args eventually starts the CLI
      */
     public static void main(String[] args) {

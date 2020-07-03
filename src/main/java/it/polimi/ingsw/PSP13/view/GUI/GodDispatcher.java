@@ -40,7 +40,6 @@ public class GodDispatcher {
     public TextFlow descriptionBox;
     public ImageView godIcon1, godIcon2, godIcon3, godIcon4, godIcon5, godIcon6, godIcon7, godIcon8, godIcon9,
             godIcon10, godIcon11, godIcon12, godIcon13, godIcon14, godIcon15, godIcon16;
-    //TODO generare le icone da codice?
 
     /**
      * The invocation is reflected to the current GodHandler object following a state pattern logic

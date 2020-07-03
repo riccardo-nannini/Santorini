@@ -15,7 +15,6 @@ public class HypnusDebuff extends Decorator {
     }
 
     /**
-     *
      * @param builder1 the first player's builder
      * @param builder2 the second player's builder
      * @param coords1 the coordinates where the first builder will be placed

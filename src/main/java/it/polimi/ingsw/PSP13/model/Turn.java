@@ -43,7 +43,7 @@ public class Turn {
 
 
     /**
-     * Method that manages tasks at the beginning of the turn.
+     * Method that manages tasks at the beginning of the turn
      */
     public void start(String player) throws IOException {}
 
@@ -110,10 +110,10 @@ public class Turn {
     }
 
     /**
-     * Checks if the building position is legal.
+     * Checks if the building position is legal
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
-     * @return true if it is possible to build in the specified position, false otherwise.
+     * @return true if it is possible to build in the specified position, false otherwise
      */
     public boolean checkBuild(Builder builder, Coords buildingPosition)
     {
@@ -129,7 +129,7 @@ public class Turn {
      * @param builder builder that was involved in the current turn
      * @param precedentPosition position occupied by the builder before moving
      * @param currentPosition position currently occupied by the builder
-     * @return true if the player did win in this turn, false otherwise.
+     * @return true if the player did win in this turn, false otherwise
      */
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition)
     {

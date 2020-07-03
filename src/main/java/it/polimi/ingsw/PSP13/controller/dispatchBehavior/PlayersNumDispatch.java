@@ -10,8 +10,8 @@ public class PlayersNumDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the first player choosing the player number
-     * @param messageVC
+     * Behavior related to the first player choosing the player number
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

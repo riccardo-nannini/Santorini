@@ -10,8 +10,8 @@ public class RemoveBlockDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the remove of a building on the map
-     * @param messageVC
+     * Behavior related to the remove of a building on the map
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

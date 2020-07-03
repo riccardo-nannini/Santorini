@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -36,7 +35,6 @@ public class Minotaur extends Turn {
      * direction is unoccupied. Their builder is forced into that space
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
-     *
      */
     @Override
     public void move(Builder builder, Coords coords) throws IOException {
@@ -60,7 +58,7 @@ public class Minotaur extends Turn {
     /**
      * Checks if the moving position is legal considering Minotaur's effect:
      * the builder can move into an opponent builder's cell, if the next space in the same
-     * direction is unoccupied. Their builder is forced into that space.
+     * direction is unoccupied. Their builder is forced into that space
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      * @return true if moving position is legal, else otherwise

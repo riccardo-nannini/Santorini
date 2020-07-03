@@ -20,8 +20,8 @@ public class RematchDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the rematch iter
-     * @param messageVC
+     * Behavior related to the rematch iter
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

@@ -17,7 +17,7 @@ public class BuilderMap {
     }
 
     /**
-     * creates an immutable builder
+     * Creates an immutable builder
      */
     public BuilderMap()
     {
@@ -29,7 +29,7 @@ public class BuilderMap {
     }
 
     /**
-     * updates the position of the builders identified by color
+     * Updates the position of the builders identified by color
      * @param builders the new values
      */
     public void updateBuilder(BuilderVM builders)
@@ -38,9 +38,9 @@ public class BuilderMap {
     }
 
     /**
-     * check if there is a builder on coordinates (x,y)
-     * @param x
-     * @param y
+     * Check if there is a builder on coordinates (x,y)
+     * @param x x coordinate
+     * @param y y coordinate
      * @return the color of the builder that lies on coordinates (x,y), null if there is no builder
      */
     public Color checkBuilder(int x, int y)

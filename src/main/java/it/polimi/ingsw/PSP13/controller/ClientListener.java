@@ -1,13 +1,10 @@
 package it.polimi.ingsw.PSP13.controller;
 
-import it.polimi.ingsw.PSP13.network.MessageID;
 import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MsgMap;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.nio.channels.ClosedByInterruptException;
 
 public class ClientListener implements Runnable {
 
@@ -35,7 +32,7 @@ public class ClientListener implements Runnable {
 
 
     /**
-     * this methods runs the loop that listen to the socket input
+     * This methods runs the loop that listen to the socket input
      * and catches all the exceptions
      */
     @Override
@@ -71,7 +68,7 @@ public class ClientListener implements Runnable {
     }
 
     /**
-     * this method starts a loop that listens to the socket
+     * This method starts a loop that listens to the socket
      * @throws IOException when an error related to the socket is thrown
      */
     private void handleClientConnection() throws IOException {
@@ -87,7 +84,7 @@ public class ClientListener implements Runnable {
     }
 
     /**
-     * decodes the messages received
+     * Decodes the messages received
      * @param message the message to decode
      */
     private void dispatcher(Object message) {

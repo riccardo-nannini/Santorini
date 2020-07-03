@@ -7,8 +7,8 @@ public class Server {
     public static int PORT=7777;
 
     /**
-     * server main thread
-     * @param args contains indications for the CLI usage
+     * Server main thread
+     * @param args
      */
     public static void main(String[] args) {
 

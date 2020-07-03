@@ -22,8 +22,8 @@ public class BuilderVM implements Serializable {
 
     /**
      * Creates an immutable couple of builders of the same color
-     * @param builders
-     * @param color
+     * @param builders coordinates of the builders
+     * @param color player color
      */
     public BuilderVM(Coords[] builders, Color color)
     {

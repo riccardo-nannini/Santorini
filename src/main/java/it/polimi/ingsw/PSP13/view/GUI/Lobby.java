@@ -65,7 +65,7 @@ public class Lobby implements Initializable{
 
 
     /**
-     * the lobby is full and an error is printed
+     * The lobby is full and an error is printed
      */
     public void FullLobbyWaitMsg() {
         nicknameError.setText("Players limit has been reached for this match,\nyou can wait in queue or disconnect.\nyour priority is hold.");
@@ -79,7 +79,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * the nickname chosen isn't suitable and error is printed
+     * The nickname chosen isn't suitable and error is printed
      */
     public void nicknameError(){
         nicknameError.setText("The nickname you have chosen\nis not available for this match,\nplease insert another nickname");
@@ -89,7 +89,7 @@ public class Lobby implements Initializable{
 
 
     /**
-     * initializes the spinner element
+     * Initializes the spinner element
      * @param url
      * @param resourceBundle
      */
@@ -102,7 +102,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * utility function that swap back the scene to the nickname scene
+     * Utility function that swap back the scene to the nickname scene
      */
     public void goBacktoNicknameSceneChange() {
 
@@ -132,10 +132,10 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * sets the scene to the god selection scene
-     * @param godsList
-     * @param godsNumber
-     * @param isChallenger
+     * Sets the scene to the god selection scene
+     * @param godsList list of the gods
+     * @param godsNumber number of selectable gods
+     * @param isChallenger true if the player is the challenger, false otherwise
      * @throws IOException
      */
     public void sceneChangeGodSelection(List<String> godsList, int godsNumber, boolean isChallenger) throws IOException {
@@ -169,12 +169,11 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * sends the nickname to the server and eventually makes the user decide the player number
-     * @param event
+     * Sends the nickname to the server and eventually makes the user decide the player number
      * @throws Exception
      */
     @FXML
-    public void gameStart(ActionEvent event) throws Exception
+    public void gameStart() throws Exception
     {
         okSlide.setDisable(true);
         if(nicknameSent)
@@ -196,7 +195,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * disables a button and style it properly
+     * Disables a button and style it properly
      * @param button the button to be disabled
      */
     private void clearButton(Button button) {
@@ -206,7 +205,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * enavles a button and styles it properly
+     * Enables a button and styles it properly
      * @param button the button to be enabled
      */
     private void highlightButton(Button button) {
@@ -216,7 +215,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * this method checks if the textfield is empty and
+     * This method checks if the textfield is empty and
      * style a button in accordance with its status
      * @param textField to check the emptiness
      * @param button the button to style
@@ -229,7 +228,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * checks if the nickname textbox is empty
+     * Checks if the nickname textbox is empty
      * @param event event related to the user writing on the textbox
      */
     @FXML
@@ -239,7 +238,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * checks if the nickname textbox is empty
+     * Checks if the nickname textbox is empty
      * @param event event related to the user writing on the textbox
      */
     @FXML
@@ -252,7 +251,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * utiltiy function that sends the user choice of players number to the server
+     * Utility function that sends the user choice of players number to the server
      */
     @FXML
     public void sendPlayerNum()
@@ -263,7 +262,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * scene change to choose player number section
+     * Scene change to choose player number section
      * @throws Exception
      */
     public void choosePlayerNum() throws Exception{
@@ -286,7 +285,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * rematch iter
+     * Handles rematch
      * @throws IOException
      */
     public void rematch() throws IOException {
@@ -314,7 +313,7 @@ public class Lobby implements Initializable{
     }
 
     /**
-     * connects the client to the server
+     * Connects the client to the server
      * @param event
      * @throws IOException
      */

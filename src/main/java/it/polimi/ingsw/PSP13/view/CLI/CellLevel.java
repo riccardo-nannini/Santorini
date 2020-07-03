@@ -7,15 +7,14 @@ public enum CellLevel {
     FloorHighlighted("\u001B[33m\u24c4"), BaseHighlighted("\u001B[33m\u2460"),
     MediumHighlighted("\u001B[33m\u2461"), TopHighlighted("\u001B[33m\u2462");
 
-
     String color;
 
     static final String RESET = "\u001b[0m";
 
     /**
-     * creates an Enum that represents Unicode strings for the cell
+     * Creates an Enum that represents Unicode strings for the cell
      * in various colors depending on the level
-     * @param color
+     * @param color cell's color
      */
     CellLevel(String color) {
         this.color = color;

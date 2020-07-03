@@ -9,8 +9,8 @@ public enum BuilderColor {
     private final String reset = "\u001b[0m";
 
     /**
-     * creates an Enum that represents Unicode strings for the builder in various colors
-     * @param color
+     * Creates an Enum that represents Unicode strings for the builder in various colors
+     * @param color builders' color
      */
     BuilderColor(String color)
     {

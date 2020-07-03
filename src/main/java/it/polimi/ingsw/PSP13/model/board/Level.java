@@ -18,8 +18,7 @@ public enum Level {
     }
 
     /**
-     *
-     * @param height
+     * @param height cell's height
      * @return the level value related to the height as param
      * @throws IllegalArgumentException if height is not a valid height
      */

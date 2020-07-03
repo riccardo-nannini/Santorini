@@ -10,7 +10,7 @@ public class StarterDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     *
+     * Behavior related the choice of the starting player
      * @param messageVC the message to perform the dispatch. the specific behavior will be executed
      */
     @Override

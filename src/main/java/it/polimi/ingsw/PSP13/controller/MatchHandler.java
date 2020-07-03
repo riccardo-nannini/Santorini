@@ -8,7 +8,6 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -72,7 +71,6 @@ public class MatchHandler {
     /**
      * The method handles the selection of the gods by the players
      * @param virtualView
-
      * @throws IOException
      */
     public synchronized void godSelection(VirtualView virtualView) throws IOException {
@@ -122,7 +120,6 @@ public class MatchHandler {
     }
 
     /**
-     *
      * @param virtualView
      * @param challenger the challenger player
      * @param chosenGods list of gods chosen for this game

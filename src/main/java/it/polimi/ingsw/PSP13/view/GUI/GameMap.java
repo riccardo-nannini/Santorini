@@ -22,6 +22,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,14 +46,11 @@ public class GameMap implements Initializable {
     @FXML
     private ImageView imageInfo3;
 
-
     @FXML
     private GridPane grid;
 
-
     @FXML
     private Label textInfo;
-
 
     @FXML
     private TextFlow godName1;
@@ -68,8 +66,6 @@ public class GameMap implements Initializable {
 
     @FXML
     private Label textGodName;
-
-
 
     @FXML
     private ImageView enableIf2;
@@ -91,7 +87,6 @@ public class GameMap implements Initializable {
 
     private final int BUILDERS_IMAGES_OFFSET = 27;
 
-
     /**
      * Initialize map status and save grid's panes
      * @param url
@@ -99,13 +94,11 @@ public class GameMap implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         savePane();
         TurnStatus.setMap(this);
         textInfo.setText("Please wait your turn...");
 
     }
-
 
     /**
      * Handles a cell click based on the map controller "status"
@@ -301,6 +294,10 @@ public class GameMap implements Initializable {
     }
 
 
+    /**
+     * Sets the login scene
+     * @throws IOException
+     */
     public void setSceneLogin() throws IOException {
         AnchorPane root = mapPane;
         FXMLLoader loader = new FXMLLoader();
@@ -323,6 +320,10 @@ public class GameMap implements Initializable {
         stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
     }
 
+    /**
+     * Sets the endgame scene
+     * @throws IOException
+     */
     public void endgameSceneChange() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(GameMap.class.getResource("/endgame.fxml"));
@@ -363,9 +364,11 @@ public class GameMap implements Initializable {
         scene.getStylesheets().add("effectInput.css");
 
         stage.setTitle("Effect");
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.show();
+
     }
 
 
@@ -374,11 +377,8 @@ public class GameMap implements Initializable {
      * @param removableBlocks list of the cells that the player can choose to remove a block
      */
     public void removeBlock(List<Coords> removableBlocks) {
-
         textInfo.setText("You can remove a block only from the highlighted cells");
-
         highlightCells(removableBlocks);
-
         grid.setDisable(false);
     }
 
@@ -432,11 +432,8 @@ public class GameMap implements Initializable {
      * @param checkBuildCells cells among which the player can choose to build
      */
     public void build(List<Coords> checkBuildCells) {
-
         textInfo.setText("Now you have to build a block\nChoose a cell from the highlighted ones");
-
         highlightCells(checkBuildCells);
-
         grid.setDisable(false);
     }
 
@@ -446,11 +443,8 @@ public class GameMap implements Initializable {
      * @param checkMoveCells cells among which the player can choose to move
      */
     public void move(List<Coords> checkMoveCells) {
-
         textInfo.setText("It's time to move your worker\nChoose a cell from the highlighted ones");
-
         highlightCells(checkMoveCells);
-
         grid.setDisable(false);
     }
 
@@ -459,11 +453,8 @@ public class GameMap implements Initializable {
      * disables the not selectable cells
      */
     public void chooseBuilder() {
-
         textInfo.setText("It's your turn!\nPlease select a worker");
-
         disableCells(Arrays.asList(clientBuildersPositions));
-
         grid.setDisable(false);
     }
 
@@ -480,15 +471,13 @@ public class GameMap implements Initializable {
             textInfo.setText("It's your turn! Choose the position of your first builder");
             clear();
         }
-
         setupHighlight();
-
         grid.setDisable(false);
     }
 
 
     /**
-     * Cycles all the grid panes and check if any pane has an ImageView as child. If it does checks its url.
+     * Cycles all the grid panes and check if any pane has an ImageView as child. If it does checks its url
      * If the pane doesn't have an image or it's url is clear, a new Coords is created and added to checkSetupList
      */
     private void setupHighlight() {
@@ -535,6 +524,9 @@ public class GameMap implements Initializable {
         textInfo.setText("Please wait your turn...");
     }
 
+    /**
+     * Prints the spectate message
+     */
     public void printSpectateMessage() {
         textInfo.setText("You lost\n\nWait while the match is ending");
     }

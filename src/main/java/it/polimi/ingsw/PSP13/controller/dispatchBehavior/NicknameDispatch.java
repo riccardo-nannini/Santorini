@@ -20,8 +20,8 @@ public class NicknameDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * behavior related to the nickname choice
-     * @param messageVC
+     * Behavior related to the nickname choice
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

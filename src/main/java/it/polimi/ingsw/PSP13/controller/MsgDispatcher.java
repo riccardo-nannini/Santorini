@@ -3,8 +3,6 @@ package it.polimi.ingsw.PSP13.controller;
 import it.polimi.ingsw.PSP13.controller.dispatchBehavior.*;
 import it.polimi.ingsw.PSP13.network.MessageID;
 import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController;
-import it.polimi.ingsw.PSP13.controller.PermaLobby;
-import it.polimi.ingsw.PSP13.network.client_dispatching.behavior.*;
 
 import java.net.Socket;
 import java.util.EnumMap;
@@ -13,7 +11,7 @@ import static it.polimi.ingsw.PSP13.network.MessageID.*;
 
 public class MsgDispatcher {
 
-    private EnumMap<MessageID, ServerDispatchBehavior> map;
+    private EnumMap<MessageID, ServerDispatchBehavior> behaviourMap;
     private PermaLobby lobby;
     private ViewObserver viewObserver;
     private Socket socket;
@@ -27,33 +25,31 @@ public class MsgDispatcher {
     }
 
     /**
-     * initializes the dispatcher map
-     * with all the dispatchBehavior classes
+     * Initializes the dispatcher map with all the dispatchBehavior classes
      */
     private void init() {
-        map = new EnumMap<>(MessageID.class);
-        map.put(move,new MoveDispatch(lobby,viewObserver));
-        map.put(build,new BuildDispatch(lobby, viewObserver));
-        map.put(processNickname,new NicknameDispatch(lobby, viewObserver, socket));
-        map.put(processGodChoice,new GodChoiceDispatch(lobby, viewObserver));
-        map.put(builderSetupPhase,new BuilderSetupDispatch(lobby, viewObserver));
-        map.put(processGodsSelection,new GodsSelectionDispatch(lobby, viewObserver));
-        map.put(useEffect,new EffectDispatch(lobby, viewObserver));
-        map.put(selectBuilder,new SelectBuilderDispatch(lobby, viewObserver));
-        map.put(removeBlock,new RemoveBlockDispatch(lobby, viewObserver));
-        map.put(processPlayersNumber,new PlayersNumDispatch(lobby,viewObserver));
-        map.put(updateStarter,new StarterDispatch(lobby, viewObserver));
-        map.put(rematch, new RematchDispatch(lobby, viewObserver, socket));
-        map.put(gameOver, new HearthbeatDispatch(lobby, viewObserver));
+        behaviourMap = new EnumMap<>(MessageID.class);
+        behaviourMap.put(move,new MoveDispatch(lobby,viewObserver));
+        behaviourMap.put(build,new BuildDispatch(lobby, viewObserver));
+        behaviourMap.put(processNickname,new NicknameDispatch(lobby, viewObserver, socket));
+        behaviourMap.put(processGodChoice,new GodChoiceDispatch(lobby, viewObserver));
+        behaviourMap.put(builderSetupPhase,new BuilderSetupDispatch(lobby, viewObserver));
+        behaviourMap.put(processGodsSelection,new GodsSelectionDispatch(lobby, viewObserver));
+        behaviourMap.put(useEffect,new EffectDispatch(lobby, viewObserver));
+        behaviourMap.put(selectBuilder,new SelectBuilderDispatch(lobby, viewObserver));
+        behaviourMap.put(removeBlock,new RemoveBlockDispatch(lobby, viewObserver));
+        behaviourMap.put(processPlayersNumber,new PlayersNumDispatch(lobby,viewObserver));
+        behaviourMap.put(updateStarter,new StarterDispatch(lobby, viewObserver));
+        behaviourMap.put(rematch, new RematchDispatch(lobby, viewObserver, socket));
+        behaviourMap.put(gameOver, new HearthbeatDispatch(lobby, viewObserver));
     }
 
     /**
-     * this methods finds the behavior related to the message protocol
-     * and starts its execution
+     * This methods finds the behavior related to the message protocol and starts its execution
      * @param msg the message to decode
      */
     public void dispatch(MessageFromViewToController msg) {
-        ServerDispatchBehavior dispatcher = map.get(msg.getMessageID());
+        ServerDispatchBehavior dispatcher = behaviourMap.get(msg.getMessageID());
         dispatcher.behavior(msg);
     }
 

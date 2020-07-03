@@ -22,6 +22,9 @@ public class Error {
         if (message.length() < longStringSize) errorTextFlow.setLayoutY(shortStringLayout);
     }
 
+    /**
+     * Close the window
+     */
     public void close() {
         Stage stage = (Stage) (errorPane.getScene().getWindow());
         stage.close();

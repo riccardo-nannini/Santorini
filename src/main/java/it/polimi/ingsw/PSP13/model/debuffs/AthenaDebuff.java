@@ -17,7 +17,6 @@ public class AthenaDebuff extends Decorator{
     Player player;
 
     /**
-     *
      * @param builder1 the first player's builder
      * @param builder2 the second player's builder
      * @param coords1 the coordinates where the first builder will be placed
@@ -95,7 +94,7 @@ public class AthenaDebuff extends Decorator{
      * The AthenaDebuff decorator uses the player's god checkBuild method
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
-     * @return
+     * @return true if it is possible to build in the specified position, false otherwise
      */
     @Override
     public boolean checkBuild(Builder builder, Coords buildingPosition) {
@@ -107,7 +106,7 @@ public class AthenaDebuff extends Decorator{
      * @param builder builder that was involved in the current turn
      * @param precedentPosition position occupied by the builder before moving
      * @param currentPosition position currently occupied by the builder
-     * @return
+     * @return true if the player did win in this turn, false otherwise
      */
     @Override
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition) {
@@ -116,8 +115,8 @@ public class AthenaDebuff extends Decorator{
 
     /**
      * The AthenaDebuff decorator uses the player's god getPossibleMoves method
-     * @param builder
-     * @return
+     * @param builder the current builder
+     * @return list of possible moves
      */
     @Override
     public List<Coords> getPossibleMoves(Builder builder) {
@@ -134,8 +133,8 @@ public class AthenaDebuff extends Decorator{
 
     /**
      * The AthenaDebuff decorator uses the player's god getBuildableCells method
-     * @param builder
-     * @return
+     * @param builder the current builder
+     * @return list of the buildable cells
      */
     @Override
     public List<Coords> getBuildableCells(Builder builder) {

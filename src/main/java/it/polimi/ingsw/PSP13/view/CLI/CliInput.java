@@ -23,7 +23,6 @@ public class CliInput extends Input {
         mapPrinter = new MapPrinter();
     }
 
-
     @Override
     public void setup()
     {
@@ -68,7 +67,6 @@ public class CliInput extends Input {
     public void godSelectionInput(List<String> godsList, int godsNumber, boolean error)
     {
         String input;
-        String pattern = "([a-zA-Z]{3,} *, *){"+(godsNumber-1)+"}([a-zA-Z]{3,})";
 
         if(error)
             System.out.println("\u001B[31mThere was and error with you last selection, please repeat\u001b[0m");
@@ -146,7 +144,7 @@ public class CliInput extends Input {
     }
 
     /**
-     * reads an input from console that is in a certain format
+     * Reads an input from console that is in a certain format
      * @return a Coords class based on user input
      */
     private Coords readCoords()
@@ -167,7 +165,7 @@ public class CliInput extends Input {
     }
 
     /**
-     * asks the player to choose a build
+     * Asks the player to choose a build
      * @return a Coords class based on user input
      */
     public void chooseBuilder(String player)
@@ -236,10 +234,6 @@ public class CliInput extends Input {
     public void setEffectDescription(String effect, List<String> godEffects) {
         MapPrinter.setGodEffect(effect);
     }
-
-
-
-
 
     @Override
     public void updateMap(MapVM mapVM) { mapPrinter.updateMapCLI(mapVM); }
@@ -336,6 +330,9 @@ public class CliInput extends Input {
         System.out.println("Please wait, "+ challenger +" is choosing the starter player... ... ...");
     }
 
+    /**
+     * Asks the client if he wants to play again
+     */
     public void playAgain()
     {
         String yes = "yes";
@@ -377,9 +374,5 @@ public class CliInput extends Input {
         MapPrinter.setWaitOtherClients(true);
 
     }
-
-
-
-
 
 }

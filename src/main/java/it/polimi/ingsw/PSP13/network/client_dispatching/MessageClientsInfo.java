@@ -77,7 +77,6 @@ public class MessageClientsInfo implements Serializable {
         this.clientColor = clientColor;
     }
 
-
     public List<String> getOpponentsEffects() {
         return opponentsEffects;
     }

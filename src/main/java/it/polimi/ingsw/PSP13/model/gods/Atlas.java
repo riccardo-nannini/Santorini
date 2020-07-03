@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP13.model.gods;
 
-import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.model.Turn;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -18,8 +17,7 @@ public class Atlas extends Turn {
     }
 
     /**
-     * Adds to the standard build Atlas' effect:
-     * the builder can build a dome at any level
+     * Adds to the standard build Atlas' effect: the builder can build a dome at any level
      * @param builder builder that is currently building
      * @param buildingPosition coordinates of the cell where the builder wants to build
      */

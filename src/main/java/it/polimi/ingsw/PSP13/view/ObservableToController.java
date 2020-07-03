@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController
 public class ObservableToController {
 
     /**
-     * this is the observer from the controller who needs to be notified
+     * This is the observer from the controller who needs to be notified
      */
     private ControllerCallback callback;
 
@@ -18,8 +18,8 @@ public class ObservableToController {
     }
 
     /**
-     * the name chosen by the user is sent to controller
-     * @param nickname
+     * The name chosen by the user is sent to controller
+     * @param nickname player's username
      */
     public void notifyNickname(String nickname)
     {
@@ -28,8 +28,8 @@ public class ObservableToController {
     }
 
     /**
-     * the selection of gods selected by the challenger is sent to controller
-     * @param gods
+     * The selection of gods selected by the challenger is sent to controller
+     * @param gods the selected gods
      */
     public void notifyGodSelection(String gods)
     {
@@ -38,8 +38,8 @@ public class ObservableToController {
     }
 
     /**
-     * the god chosen by the user is sent to the controller
-     * @param god
+     * The god chosen by the user is sent to the controller
+     * @param god the selected god
      */
     public void notifyGod(String god)
     {
@@ -48,8 +48,8 @@ public class ObservableToController {
     }
 
     /**
-     * the initial position of the users'builder is sent to controller
-     * @param builder
+     * The initial position of the users' builder is sent to controller
+     * @param builder the builder setup position
      */
     public void notifySetupBuilder(Coords builder)
     {
@@ -59,8 +59,8 @@ public class ObservableToController {
     }
 
     /**
-     * the builder chosen by the user is sent to controller
-     * @param builder
+     * The builder chosen by the user is sent to controller
+     * @param builder the chosen builder
      */
     public void notifyBuilderChoice(Coords builder)
     {
@@ -69,8 +69,8 @@ public class ObservableToController {
     }
 
     /**
-     * the new position of the chosen builder is sent to controller
-     * @param cellToMoveOn
+     * The new position of the chosen builder is sent to controller
+     * @param cellToMoveOn the move position
      */
     public void notifyMoveInput(Coords cellToMoveOn)
     {
@@ -79,8 +79,8 @@ public class ObservableToController {
     }
 
     /**
-     * the cell to build on chosen by the user is sent to controller
-     * @param cellToBuildOn
+     * The cell to build on chosen by the user is sent to controller
+     * @param cellToBuildOn the build position
      */
     public void notifyBuildInput(Coords cellToBuildOn)
     {
@@ -89,7 +89,7 @@ public class ObservableToController {
     }
 
     /**
-     * the answer of the player is sent to controller
+     * The answer of the player is sent to controller
      * @param effect the answer (yes or no)
      */
     public void notifyEffect(String effect)
@@ -99,7 +99,7 @@ public class ObservableToController {
     }
 
     /**
-     * the information of the cell to remove a block from is sent to controller
+     * The information of the cell to remove a block from is sent to controller
      * @param cellToRemoveBlock the coordinates of the cell
      */
     public void notifyRemoveInput(Coords cellToRemoveBlock)
@@ -108,6 +108,10 @@ public class ObservableToController {
         callback.send(msg);
     }
 
+    /**
+     * Notifies the server the players number
+     * @param number number of the players
+     */
     public void notifyPlayersNumber(int number)
     {
         MessageFromViewToController msg = new MessageFromViewToController(MessageID.processPlayersNumber,null,null, number);
@@ -115,7 +119,7 @@ public class ObservableToController {
     }
 
     /**
-     * the selection of the starter player is sent to the controller
+     * The selection of the starter player is sent to the controller
      * @param starter username of the selected starter player
      */
     public void notifyStarterSelection(String starter) {
@@ -124,9 +128,12 @@ public class ObservableToController {
     }
 
 
+    /**
+     * Notifies the server if the client wants to play again
+     * @param playAgain true if the client wants to play again, false otherwise
+     */
     public void notifyPlayAgain(String playAgain)
     {
-        System.out.println(playAgain);
         MessageFromViewToController msg = null;
         if(playAgain.equals("yes") || playAgain.equals("y")){
             msg = new MessageFromViewToController(MessageID.rematch,"yes",null,0);

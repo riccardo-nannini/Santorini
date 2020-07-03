@@ -10,8 +10,8 @@ public class BuildDispatch extends ServerDispatchBehavior {
     }
 
     /**
-     * performs the build iter. a user chose to build a building
-     * @param messageVC
+     * Performs the build iter. A user chose to build a building
+     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
      */
     @Override
     public void behavior(MessageFromViewToController messageVC) {

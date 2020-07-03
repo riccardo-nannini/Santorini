@@ -27,7 +27,6 @@ public class UpdateListener implements Runnable{
             this.callback = callback;
             inputStream = socket.getInputStream();
             objInput = new ObjectInputStream(inputStream);
-
             this.input = input;
             dispatcher = new MsgMap(input, this);
         } catch (IOException e) {
@@ -37,7 +36,7 @@ public class UpdateListener implements Runnable{
     }
 
     /**
-     * this thread listens to the server updates.
+     * This thread listens to the server updates.
      * it starts another thread to execute the hearthbeat side process.
      * this methods also catches all the network related exceptions
      */
@@ -69,7 +68,7 @@ public class UpdateListener implements Runnable{
     }
 
     /**
-     * the object is dispatched and message is decoded
+     * The object is dispatched and message is decoded
      * @param obj the object received from the socket
      */
     private void dispatch(Object obj)

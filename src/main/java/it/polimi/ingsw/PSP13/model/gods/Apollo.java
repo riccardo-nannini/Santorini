@@ -17,7 +17,7 @@ public class Apollo extends Turn {
     }
 
     /**
-     * @param coords
+     * @param coords evaluated coords
      * @return true if coords' cell is occupied by a player instead of a dome or it's not occupied
      */
     private boolean apolloCheck(Coords coords)

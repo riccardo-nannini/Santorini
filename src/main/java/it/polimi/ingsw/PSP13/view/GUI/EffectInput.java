@@ -27,8 +27,8 @@ public class EffectInput {
     }
 
     /**
-     * The methos is invoked if the player choosed to use the effect of his god.
-     * Closes the popup and communicates the choice to the server
+     * The method is invoked if the player chosen to use the effect of his god
+     * closes the popup and communicates the choice to the server
      * @param event the event that caused the method invocation
      */
     public void clickedYes(MouseEvent event) {
@@ -40,8 +40,8 @@ public class EffectInput {
     }
 
     /**
-     * The methos is invoked if the player choosed not to use the effect of his god.
-     * Closes the popup and communicates the choice to the server
+     * The method is invoked if the player chosen not to use the effect of his god
+     * closes the popup and communicates the choice to the server
      * @param event the event that caused the method invocation
      */
     public void clickedNo(MouseEvent event) {

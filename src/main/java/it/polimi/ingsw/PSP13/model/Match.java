@@ -28,6 +28,11 @@ public class Match {
         players = new ArrayList<>();
     }
 
+    /**
+     * Initialize the view observable
+     * @param virtualView
+     * @throws IOException
+     */
     public void start(VirtualView virtualView) throws IOException {
         observable = new ViewObservable(this, virtualView);
     }
@@ -38,7 +43,7 @@ public class Match {
 
 
     /**
-     * @param player
+     * @param player added player
      * adds a new player to this match player list
      */
     public void addPlayer(Player player)
@@ -46,13 +51,9 @@ public class Match {
         players.add(player);
     }
 
-    public void end()
-    {
-
-    }
 
     /**
-     * @param coords
+     * @param coords evaluated coords
      * @return true if the cell related to the coordinates has a dome on it or
      * at least a player has got a worker which coordinates are equal to coords, false otherwise
      */
@@ -74,7 +75,7 @@ public class Match {
     }
 
     /**
-     * @param coords
+     * @param coords evaluated coords
      * @return the call to map.getAdjacent
      */
     public List<Coords> getAdjacent(Coords coords)
@@ -84,8 +85,8 @@ public class Match {
 
     /**
      *
-     * @param coords
-     * @param level
+     * @param coords cell's coords
+     * @param level cell's level
      * call to map.setCell
      */
     public void setCellLevel(Coords coords, Level level)
@@ -105,7 +106,7 @@ public class Match {
     }
 
     /**
-     * @param coords
+     * @param coords builder's coords
      * @return the builder which coordinates are param
      * @throws IllegalArgumentException if there is not builder is coords
      */
@@ -124,7 +125,7 @@ public class Match {
 
     /**
      *
-     * @param builder
+     * @param builder player's builder
      * @return the player owning builder by param
      * @throws IllegalArgumentException if param is not a valid builder
      */
@@ -140,7 +141,7 @@ public class Match {
     }
 
     /**
-     * @param builder
+     * @param builder builder of the player
      * @return the other builder of builder's player
      */
     public Builder getOtherBuilder(Builder builder) {
@@ -151,14 +152,29 @@ public class Match {
         }
     }
 
+    /**
+     * Notifies a change in the map to the view observable
+     * @throws IOException
+     */
     public void notifyMap() throws IOException {
         observable.notifyMap();
     };
 
+    /**
+     * Notifies a change in the builders positions
+     * @param builder1 first builder
+     * @param builder2 second builder
+     * @throws IOException
+     */
     public void notifyBuilder(Builder builder1, Builder builder2) throws IOException {
         observable.notifyBuilder(builder1,builder2);
     }
 
+    /**
+     * Notifies the remotion a player's builders to the view observable
+     * @param player the eliminated player
+     * @throws IOException
+     */
     public void removeBuilder(Player player) throws IOException {
         observable.removeBuilder(player);
     }

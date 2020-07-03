@@ -8,6 +8,7 @@ import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -35,14 +36,9 @@ public class MatchHandler {
     /**
      * The method is responsible for the initialization of the game, in particular the selection of the gods for each
      * player, the selection of the starter and the placement of the builders
-     * @throws InvocationTargetException
-     * @throws NoSuchMethodException
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
      * @throws IOException
      */
-    public void init() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+    public void init() throws IOException {
         disconnectedPlayers.clear();
         numPlayers = match.getPlayers().size();
         turnHandler = new TurnHandler(virtualView);
@@ -76,14 +72,10 @@ public class MatchHandler {
     /**
      * The method handles the selection of the gods by the players
      * @param virtualView
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws InstantiationException
-     * @throws ClassNotFoundException
+
      * @throws IOException
      */
-    public synchronized void godSelection(VirtualView virtualView) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, IOException {
+    public synchronized void godSelection(VirtualView virtualView) throws IOException {
         Random r = new Random();
         challenger = match.getPlayers().get(r.nextInt(numPlayers));
         List<String> godsList = godNames();
@@ -134,14 +126,9 @@ public class MatchHandler {
      * @param virtualView
      * @param challenger the challenger player
      * @param chosenGods list of gods chosen for this game
-     * @throws ClassNotFoundException
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws InstantiationException
      * @throws IOException
      */
-    public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+    public synchronized void godAssignment(VirtualView virtualView, Player challenger, List<String> chosenGods) throws IOException {
         boolean error;
         String receivedGod;
         List<Player> playerList = match.getPlayers();
@@ -187,10 +174,16 @@ public class MatchHandler {
                 receivedGod = chosenGods.get(0);
             }
             chosenGods.remove(receivedGod);
-            Class<?> clazz = Class.forName("it.polimi.ingsw.PSP13.model.gods." + receivedGod);
-            Class[] c = new Class[0];
-            Object[] ob = new Object[0];
-            Object god = clazz.getDeclaredConstructor(c).newInstance(ob);
+            Object god = null;
+            try {
+                Class<?> clazz = Class.forName("it.polimi.ingsw.PSP13.model.gods." + receivedGod);
+                Class[] c = new Class[0];
+                Object[] ob = new Object[0];
+                god = clazz.getDeclaredConstructor(c).newInstance(ob);
+            } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
+
+            }
+
             Player currentPlayer = match.getPlayers().get(i);
             currentPlayer.setGod((Turn) god);
             virtualView.setGod(player,receivedGod);
@@ -463,6 +456,10 @@ public class MatchHandler {
         gods.add(Hera.class);
      }
 
+    /**
+     * Retrives all the gods names from their classes
+     * @return the list of the gods names
+     */
      private List<String> godNames() {
         List<String> names = new ArrayList<>();
         for (Class god : gods) {
@@ -473,13 +470,22 @@ public class MatchHandler {
         return names;
      }
 
-     private List<String> godEffects() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    /**
+     * Retrives all the gods effects from their classes
+     * @return the list of their effects
+     */
+     private List<String> godEffects() {
          List<String> names = new ArrayList<>();
          for (Class god : gods) {
-             Turn currentGod = (Turn) god.getDeclaredConstructor().newInstance();
+             Turn currentGod = null;
+             try {
+                 currentGod = (Turn) god.getDeclaredConstructor().newInstance();
+             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
+
+             }
              String[] splitted = god.toString().split("\\s* \\s*");
              String name = splitted[1].replace("it.polimi.ingsw.PSP13.model.gods.", "");
-             names.add(name + ";" + currentGod.getEffect());
+             if (currentGod != null) names.add(name + ";" + currentGod.getEffect());
          }
          return names;
      }

@@ -257,15 +257,8 @@ public class GuiInput extends Input {
 
     @Override
     public void choosePlayerNum(boolean error) {
-        System.out.println("rpova");
         synchronized (this)
         {
-            System.out.println("scegli il numero di giocatori");
-
-            /*Platform.runLater(()->{
-                Event.fireEvent(loginController.getSlide1(),new UpdateEvent(Javafx.etype));
-            });*/
-
             if(loginController.isNicknameSent())
             {
                 System.out.println("rematch");

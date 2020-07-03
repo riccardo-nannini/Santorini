@@ -72,8 +72,6 @@ public class EndGame {
             System.exit(0);
         }
 
-
-
         backToLobbySceneChange();
     }
 

@@ -98,11 +98,9 @@ public class PermaLobby implements Runnable{
     {
         if(lobbySetupDone && socketList.size()>=playersNumber) {
             Runnable runnable = () -> {
-                try {
+
                     createMatch();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
             };
             Thread t = new Thread(runnable);
             t.start();
@@ -266,8 +264,8 @@ public class PermaLobby implements Runnable{
         {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
+
             }
         }
 
@@ -276,13 +274,8 @@ public class PermaLobby implements Runnable{
 
     /**
      * given all the data structures filled and a matchHandler instance this method starts the match
-     * @throws NoSuchMethodException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws ClassNotFoundException
      */
-    private void createMatch() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private void createMatch() {
         int diff = socketList.size() - playersNumber;
         if(diff > 0)
         {
@@ -292,12 +285,10 @@ public class PermaLobby implements Runnable{
             }
         }
 
-        MatchHandler matchHandler = null;
-        try {
-            matchHandler = createMatchHandler();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        MatchHandler matchHandler;
+
+        matchHandler = createMatchHandler();
+
 
         if(matchHandler == null)
             return;
@@ -378,9 +369,8 @@ public class PermaLobby implements Runnable{
     /**
      * given all the data structures filled, this method creates a matchHandler instance
      * @return
-     * @throws IOException
      */
-    private synchronized MatchHandler createMatchHandler() throws IOException {
+    private synchronized MatchHandler createMatchHandler() {
 
         MatchHandler matchHandler = new MatchHandler();
 
@@ -389,8 +379,8 @@ public class PermaLobby implements Runnable{
                 wait();
                 if(socketList.size()<playersNumber)
                     return null;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
+
             }
         }
 

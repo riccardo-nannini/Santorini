@@ -1,12 +1,9 @@
 package it.polimi.ingsw.PSP13.network.client_callback;
 
-import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.model.player.Player;
 import it.polimi.ingsw.PSP13.network.MessageID;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class MessageFromViewToController implements Serializable {
 

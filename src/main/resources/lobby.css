@@ -29,6 +29,13 @@ Label{
     -fx-font-weight: Bold;
 }
 
+.resizedLabel {
+    -fx-font-family: "RobotoCondensed";
+    -fx-font-weight: Bold;
+    -fx-font-size: 14px;
+
+}
+
 .error{
     -fx-text-fill: #D13639;
 }

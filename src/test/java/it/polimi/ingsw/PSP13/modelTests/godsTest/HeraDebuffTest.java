@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
 import it.polimi.ingsw.PSP13.model.debuffs.HeraDebuff;
 import it.polimi.ingsw.PSP13.model.player.Builder;
@@ -30,6 +29,9 @@ public class HeraDebuffTest {
     public static TurnHandler handler;
     public static VirtualView view;
 
+    /**
+     * Apply HeraDebuff on the player
+     */
     @BeforeClass
     public static void setup() {
         MatchHandler matchHandler = new MatchHandler();
@@ -86,6 +88,10 @@ public class HeraDebuffTest {
         assertFalse(result);
     }
 
+    /**
+     * According to Hera's effect the player cannot win
+     * by moving on to a perimetric space
+     */
     @Test
     public void checkWin_PerimetricWinningMovement_ExpectedFalse() {
         boolean result = player.win(player.getBuilders()[0],
@@ -97,7 +103,7 @@ public class HeraDebuffTest {
     }
 
     @Test
-    public void checkWin_NotPerimetralWinningMovement_ExpectedTrue() {
+    public void checkWin_NotPerimetricWinningMovement_ExpectedTrue() {
         boolean result = player.win(player.getBuilders()[0],
                 new Coords(2,3), new Coords(2,2));
         assertTrue(result);
@@ -106,6 +112,9 @@ public class HeraDebuffTest {
         assertTrue(result);
     }
 
+    /**
+     * Tests a complete turn
+     */
     @Test
     public void completeTurn_CorrectInput_CorrectBehaviour() {
         Coords moveCoords = new Coords(2,4);

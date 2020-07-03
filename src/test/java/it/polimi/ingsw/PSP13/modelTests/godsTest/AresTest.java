@@ -20,7 +20,6 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
 public class AresTest {
 
@@ -96,7 +95,7 @@ public class AresTest {
 
 
     @Test
-    public void RemoveBlock_CorrectInput_CorrectBehaviour() {
+    public void RemoveBlock_CorrectInput_CorrectBlockRemove() {
         Coords removeCoords = new Coords(1,3);
 
         handler.setUseEffect("yes");
@@ -114,7 +113,7 @@ public class AresTest {
     }
 
     @Test
-    public void RemoveBlock2_CorrectInput_CorrectBehaviour() {
+    public void RemoveBlock2_CorrectInput_CorrectBlockRemove() {
         Coords removeCoords = new Coords(2,2);
 
         handler.setUseEffect("yes");
@@ -131,7 +130,7 @@ public class AresTest {
     }
 
     @Test
-    public void RemoveBlock3_CorrectInput_CorrectBehaviour() {
+    public void RemoveBlock3_CorrectInput_CorrectBlockRemove() {
         Coords removeCoords = new Coords(1,2);
 
         handler.setUseEffect("yes");

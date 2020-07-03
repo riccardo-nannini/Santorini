@@ -102,7 +102,7 @@ public class AtlasTest {
     }
 
     @Test
-    public void BuildWithEffect_CorrectInput_CorrectBuilding() {
+    public void BuildWithEffect_CorrectInput_CorrectDomeBuild() {
         handler.setUseEffect("yes");
         try {
             player.build(builder1,new Coords(3,2));

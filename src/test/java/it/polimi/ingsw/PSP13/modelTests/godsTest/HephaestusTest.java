@@ -91,7 +91,7 @@ public class HephaestusTest {
 
 
     @Test
-    public void BuildNoEffect_CorrectInput_CorrectBuilding() {
+    public void BuildNoEffect_CorrectInput_CorrectSingleBuild() {
 
         handler.setUseEffect("no");
         Coords buildTo = new Coords(3,2);
@@ -104,8 +104,11 @@ public class HephaestusTest {
         assertSame(match.getHeight(buildTo),1);
     }
 
+    /**
+     * Tests Hephaestus' build using his effect
+     */
     @Test
-    public void BuildWithEffect_CorrectInput_CorrectBuildingOnTheFirstBlock() {
+    public void BuildWithEffect_CorrectInput_CorrectBuildOnTheFirstBlock() {
 
         handler.setUseEffect("yes");
         Coords buildTo = new Coords(3,2);

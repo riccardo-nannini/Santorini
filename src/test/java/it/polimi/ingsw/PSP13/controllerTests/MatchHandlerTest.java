@@ -11,11 +11,9 @@ import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.model.player.Player;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -39,16 +37,12 @@ public class MatchHandlerTest {
         match = matchHandler.getMatch();
 
         player1 = new Player(Color.Red, "Antonio");
-        //player2 = new Player(Color.Yellow, "Riccardo");
-        //player3 = new Player(Color.Blue, "Simone");
 
         outputMap = new HashMap<>();
 
         try {
             stream = new ObjectOutputStream(System.out);
             outputMap.put(player1.getUsername(),stream);
-            //outputMap.put(player2.getUsername(),stream);
-            //outputMap.put(player3.getUsername(),stream);
             view = new VirtualView(outputMap);
             matchHandler.setVirtualView(view);
             handler = new TurnHandler(view);
@@ -62,8 +56,6 @@ public class MatchHandlerTest {
         new Turn(match, handler);
 
         match.addPlayer(player1);
-        //match.addPlayer(player2);
-        //match.addPlayer(player3);
 
         Builder builder1 = new Builder();
         Builder builder2 = new Builder();
@@ -75,7 +67,7 @@ public class MatchHandlerTest {
 
 
     @Test
-    public void init_CorrectInput_CorrectBehaviour(){
+    public void init_CorrectInput_CorrectInitBehaviour(){
 
         player2 = new Player(Color.Yellow,"Riccardo");
         matchHandler.addPlayer(player2);

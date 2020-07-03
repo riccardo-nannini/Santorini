@@ -31,6 +31,9 @@ public class HypnusDebuffTest {
     public static TurnHandler handler;
     public static VirtualView view;
 
+    /**
+     * Apply HypnusDebuff on the player
+     */
     @BeforeClass
     public static void setup() {
         MatchHandler matchHandler = new MatchHandler();
@@ -103,12 +106,18 @@ public class HypnusDebuffTest {
         assertTrue(player.builderSelection(player.getBuilders()[0]));
     }
 
+    /**
+     * According to Hypnus effect the player cannot choose the higher builder
+     */
     @Test
     public void ChoosingHigherBuilder_CorrectInput_ExpectedFalse() {
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 4)));
         assertFalse(player.builderSelection(player.getBuilders()[0]));
     }
 
+    /**
+     * Tests a complete turn
+     */
     @Test
     public void completeTurn_CorrectInput_CorrectBehaviour() {
         Coords moveCoords = new Coords(3,3);

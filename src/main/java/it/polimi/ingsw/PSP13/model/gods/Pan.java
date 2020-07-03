@@ -21,7 +21,6 @@ public class Pan extends Turn {
      * @param currentPosition position currently occupied by the builder
      * @return true if the player did win in this turn, false otherwise
      */
-
     @Override
     public boolean checkWin(Builder builder, Coords precedentPosition, Coords currentPosition)
     {

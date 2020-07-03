@@ -72,6 +72,10 @@ public class HeraTest {
         opponentPlayer.setGod(new Turn());
     }
 
+    /**
+     * Tests if HeraDebuff is correctly applied on the opponent
+     * during the setup phase
+     */
     @Test
     public void applyDebuffOnTheOpponent_CorrectInput_DebuffAppliedCorrectly() {
         try {
@@ -83,6 +87,10 @@ public class HeraTest {
         assertTrue(opponentPlayer.getGod() instanceof HeraDebuff);
     }
 
+    /**
+     * Tests if HeraDebuff is correctly NOT applied on Hera's player
+     * during the setup phase
+     */
     @Test
     public void notAppliedDebuffOnHeraPlayer_CorrectInput_DebuffNotAppliedCorrectly() {
         try {

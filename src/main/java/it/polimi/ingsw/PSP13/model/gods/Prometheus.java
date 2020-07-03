@@ -52,8 +52,7 @@ public class Prometheus extends Turn {
 
 
     /**
-     * Unlike turn's checkmove, if the player uses Prometheus effect he cannot
-     * move up
+     * Unlike turn's checkmove, if the player uses Prometheus effect he cannot move up
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      * @return true if builder can move into coords' cell, else return false

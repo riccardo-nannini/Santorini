@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP13.controller.TurnHandler;
 import it.polimi.ingsw.PSP13.controller.VirtualView;
 import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.Turn;
-import it.polimi.ingsw.PSP13.model.gods.Ares;
 import it.polimi.ingsw.PSP13.model.gods.Artemis;
 import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
@@ -75,8 +74,9 @@ public class ArtemisTest {
         player.setGod(new Artemis());
     }
 
+
     @Test
-    public void NoAdditionalMove_CorrectInput_CorrectBehaviour() {
+    public void NoAdditionalMove_CorrectInput_CorrectSingleMove() {
 
         handler.setUseEffect("no");
         Coords movedTo = new Coords(2, 4);
@@ -90,8 +90,9 @@ public class ArtemisTest {
         assertEquals(builder2.getCoords(),new Coords(2,4));
     }
 
+
     @Test
-    public void AdditionalMove_CorrectInput_CorrectBehaviour() {
+    public void AdditionalMove_CorrectInput_CorrectDoubleMove() {
         Coords effectCoords = new Coords(1,4);
         handler.setUseEffect("yes");
         handler.setMoveCoords(effectCoords);

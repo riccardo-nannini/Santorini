@@ -67,6 +67,9 @@ public class AthenaDebuffTest {
 
     }
 
+    /**
+     * Apply AthenaDebuff to the player
+     */
     @Before
     public void setUp() {
         player.getBuilders()[0].setCell(match.getCell(new Coords(2, 3)));
@@ -81,6 +84,7 @@ public class AthenaDebuffTest {
         player.setGod(debuff);
     }
 
+
     @Test
     public void SameLevelMove_CorrectInput_ExpectedTrue(){
         assertTrue(player.checkMove(player.getBuilders()[0], new Coords(3,3)));
@@ -91,11 +95,17 @@ public class AthenaDebuffTest {
         assertTrue(player.checkMove(player.getBuilders()[0], new Coords(3,4)));
     }
 
+    /**
+     * According to Athena's effect the player cannot move up
+     */
     @Test
     public void MovingUp_CorrectInput_ExpectedFalse(){
         assertFalse(player.checkMove(player.getBuilders()[0], new Coords(2,4)));
     }
 
+    /**
+     * Tests if, at the end of the turn, the AthenaDebuff decorator is correctly removed
+     */
     @Test
     public void endOfTurn_CorrectInput_DecoretorRemovedExpected(){
         player.checkMove(player.getBuilders()[0], new Coords(3,3));
@@ -107,6 +117,9 @@ public class AthenaDebuffTest {
         assertFalse(player.getGod() instanceof AthenaDebuff);
     }
 
+    /**
+     * Tests a complete turn
+     */
     @Test
     public void completeTurn_CorrectInput_CorrectBehaviour() {
         Coords moveCoords = new Coords(3,3);

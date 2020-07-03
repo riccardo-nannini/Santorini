@@ -5,15 +5,11 @@ import it.polimi.ingsw.PSP13.immutables.CellVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.board.Cell;
 import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.player.Builder;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

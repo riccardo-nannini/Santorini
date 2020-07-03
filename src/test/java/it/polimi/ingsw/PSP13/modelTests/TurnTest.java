@@ -88,7 +88,7 @@ public class TurnTest {
     }
 
     @Test
-    public void setup_CorrectInput_CorrectBehaviour()
+    public void setup_CorrectInput_CorrectSetup()
     {
         try {
             turn.setup(builders[0], builders[1],new Coords(1,1),new Coords(4,3));
@@ -100,7 +100,7 @@ public class TurnTest {
     }
 
     @Test
-    public void move_CorrectInput_CorrectBehaviour()
+    public void move_CorrectInput_CorrectMove()
     {
         try {
             turn.move(builders[0],new Coords(2,3));
@@ -110,14 +110,14 @@ public class TurnTest {
         assertEquals(builders[0].getCoords(),new Coords(2,3));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void checkMove_IllegalCoords_ShouldThrowException()
+    @Test
+    public void checkMove_IllegalCoords_ShouldReturnFalse()
     {
-        turn.checkMove(builders[0],new Coords(-1,-1));
+        assertFalse(turn.checkMove(builders[0],new Coords(-1,-1)));
     }
 
     @Test
-    public void checkMove_CorrectInput_CorrectBehaviour()
+    public void checkMove_CorrectInput_ShouldReturnTrue()
     {
         boolean result;
         result = turn.checkMove(builders[0],new Coords(2,3));
@@ -125,7 +125,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkMove_WrongInput_CorrectBehaviour()
+    public void checkMove_WrongInput_ShouldReturnFalse()
     {
         boolean result;
         result = turn.checkMove(builders[0],new Coords(4,4));
@@ -133,7 +133,7 @@ public class TurnTest {
     }
 
     @Test
-    public void build_CorrectInput_CorrectBehaviour()
+    public void build_CorrectInput_CorrectBuild()
     {
         try {
             turn.build(builders[0],new Coords(2,1));
@@ -144,7 +144,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkBuild_CorrectInput_CorrectBehaviour()
+    public void checkBuild_CorrectInput_ShouldReturnTrue()
     {
         boolean result;
         result = turn.checkBuild(builders[0],new Coords(2,1));
@@ -152,7 +152,7 @@ public class TurnTest {
     }
 
     @Test
-    public void checkBuild_WrongInput_CorrectBehaviour()
+    public void checkBuild_WrongInput_ShouldReturnFalse()
     {
         boolean result;
         result = turn.checkBuild(builders[0],new Coords(4,4));

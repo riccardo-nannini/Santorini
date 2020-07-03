@@ -79,7 +79,7 @@ public class MapTest {
     }
 
     @Test
-    public void getAdjacents_LegalCoords_CorrectBehaviour()
+    public void getAdjacents_LegalCoords_CorrectOutput()
     {
         List<Coords> list;
 

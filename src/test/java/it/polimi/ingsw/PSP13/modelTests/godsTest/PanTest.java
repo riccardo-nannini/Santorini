@@ -89,7 +89,7 @@ public class PanTest {
 
 
     @Test
-    public void WinWithEffect_CorrectInput_PlayerWin() {
+    public void WinWithEffect_PanWinningMove_PlayerWin() {
         Coords movedTo = new Coords(3,2);
         Coords movedFrom = builder1.getCoords();
         if (player.getGod().checkMove(builder1,movedTo)) {
@@ -103,7 +103,7 @@ public class PanTest {
     }
 
     @Test
-    public void Win_CorrectInput_PlayerNotWin() {
+    public void Win_NotWinningMove_PlayerNotWin() {
         Coords movedTo = new Coords(1,2);
         Coords movedFrom = builder1.getCoords();
         if (player.getGod().checkMove(builder1,movedTo)) {
@@ -117,7 +117,7 @@ public class PanTest {
     }
 
     @Test
-    public void WinWithoutEffect_CorrectInput_PlayerWin() {
+    public void WinWithoutEffect_StandardWinningMove_PlayerWin() {
         Coords movedTo = new Coords(1,3);
         Coords movedFrom = builder1.getCoords();
         if (player.getGod().checkMove(builder1,movedTo)) {

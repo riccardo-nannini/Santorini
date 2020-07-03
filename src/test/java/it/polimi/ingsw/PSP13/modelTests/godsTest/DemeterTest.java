@@ -95,7 +95,7 @@ public class DemeterTest {
 
 
     @Test
-    public void DoubleBuildWithEffect_CorrectInput_CorrectBehaviour() {
+    public void DoubleBuildWithEffect_CorrectInput_CorrectDoubleBuild() {
 
         handler.setUseEffect("yes");
         handler.setBuildCoords(new Coords(3,3));
@@ -112,7 +112,7 @@ public class DemeterTest {
     }
 
     @Test
-    public void BuildWithoutEffect_CorrectInput_CorrectBehaviour() {
+    public void BuildWithoutEffect_CorrectInput_CorrectSingleBuild() {
 
         handler.setUseEffect("no");
         if (player.getGod().checkBuild(player.getBuilders()[0],new Coords(1,2))) {

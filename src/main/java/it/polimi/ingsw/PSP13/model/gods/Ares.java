@@ -21,8 +21,7 @@ public class Ares extends Turn {
 
     }
     /**
-     * In addiction to turn's move
-     * sets the unmovedBuilder
+     * In addiction to turn's move sets the unmovedBuilder
      */
     @Override
     public void move(Builder builder, Coords coords) throws IOException {
@@ -55,7 +54,7 @@ public class Ares extends Turn {
     }
 
     /**
-     * @param builder
+     * @param builder unmoved builder
      * @return a list of unoccupied cells with a level > 0 neighbouring builder
      */
     public List<Coords> getRemovableCells(Builder builder) {

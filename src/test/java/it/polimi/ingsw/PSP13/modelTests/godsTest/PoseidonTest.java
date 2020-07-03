@@ -77,7 +77,7 @@ public class PoseidonTest {
     }
 
     @Test
-    public void moveWithoutEffect_CorrectInput_CorrectMove()
+    public void move_CorrectInput_CorrectMove()
     {
         Coords toMove = new Coords(1,2);
         handler.setUseEffect("no");

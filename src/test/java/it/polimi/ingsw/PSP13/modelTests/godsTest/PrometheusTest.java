@@ -93,7 +93,7 @@ public class PrometheusTest {
     }
 
     @Test
-    public void MoveWithoutEffect_CorrectInput_CorrectOutput() {
+    public void MoveWithoutEffect_CorrectInput_CorrectMove() {
 
         handler.setUseEffect("no");
         handler.setBuildCoords(new Coords(1,2));

@@ -85,8 +85,9 @@ public class AthenaTest {
         opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
     }
 
+
     @Test
-    public void move_CorrectInput_CorrectBehaviour() {
+    public void move_CorrectInput_CorrectMove() {
         opponentPlayer.getBuilders()[0].setCell(match.getCell(new Coords(0, 0)));
         opponentPlayer.getBuilders()[1].setCell(match.getCell(new Coords(0, 1)));
 
@@ -103,6 +104,10 @@ public class AthenaTest {
 
     }
 
+    /**
+     * Tests if AthenaDebuff is correctly applied on the opponent
+     * when she moves up
+     */
     @Test
     public void applyDebuffOnTheOpponent_AthenaMoveUp_DebuffAppliedCorrectly() {
         match.setCellLevel(new Coords(1,0), Level.Base);
@@ -118,6 +123,10 @@ public class AthenaTest {
         assertFalse(player.getGod() instanceof AthenaDebuff);
     }
 
+    /**
+     * Tests if AthenaDebuff is correctly NOT applied on the opponent
+     * when she DOESN'T move up
+     */
     @Test
     public void notAppliedDebuffOnTheOpponent_AthenaNotMoveUp_DebuffNotAppliedCorrectly() {
         match.setCellLevel(new Coords(1,0), Level.Floor);

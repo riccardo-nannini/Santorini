@@ -74,6 +74,10 @@ public class HypnusTest {
         opponentPlayer.setGod(new Turn());
     }
 
+    /**
+     * Tests if HypnusDebuff is correctly applied on the opponent
+     * during the setup phase
+     */
     @Test
     public void applyDebuffOnTheOpponent_CorrectInput_DebuffAppliedCorrectly() {
         try {
@@ -85,6 +89,10 @@ public class HypnusTest {
         assertTrue(opponentPlayer.getGod() instanceof HypnusDebuff);
     }
 
+    /**
+     * Tests if HypnusDebuff is correctly NOT applied on Hypnus's player
+     * during the setup phase
+     */
     @Test
     public void notAppliedDebuffOnHypnusPlayer_CorrectInput_DebuffNotAppliedCorrectly() {
         try {

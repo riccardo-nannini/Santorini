@@ -18,8 +18,8 @@ public class Minotaur extends Turn {
     }
 
     /**
-     * @param builder
-     * @param coords
+     * @param builder builder that is going to be forced
+     * @param coords coordinates of the builder
      * @return coordinate of the cell in the next space
      * in the same direction of builder's coords
      */

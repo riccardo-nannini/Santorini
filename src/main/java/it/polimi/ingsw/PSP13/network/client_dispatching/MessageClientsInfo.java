@@ -1,14 +1,12 @@
 package it.polimi.ingsw.PSP13.network.client_dispatching;
 
-
-
 import it.polimi.ingsw.PSP13.model.player.Color;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageClientsInfoCV implements Serializable {
+public class MessageClientsInfo implements Serializable {
 
     private static final long serialVersionUID = 424L;
 
@@ -21,7 +19,7 @@ public class MessageClientsInfoCV implements Serializable {
     private List<String> opponentsGod;
     private List<String> opponentsEffects;
 
-    public MessageClientsInfoCV() {
+    public MessageClientsInfo() {
         opponentsUsernames = new ArrayList<>();
         opponentsColors = new ArrayList<>();
         opponentsGod = new ArrayList<>();

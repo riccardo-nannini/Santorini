@@ -4,7 +4,7 @@ import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.Client;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 import it.polimi.ingsw.PSP13.view.Input;
 
 import java.io.IOException;
@@ -258,8 +258,8 @@ public class CliInput extends Input {
         System.out.println("You can continue to spectate the match!"); }
 
     @Override
-    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
-        MapPrinter.setClientsInfo(messageClientsInfoCV);
+    public void setupClientsInfo(MessageClientsInfo messageClientsInfo) {
+        MapPrinter.setClientsInfo(messageClientsInfo);
     }
 
     @Override

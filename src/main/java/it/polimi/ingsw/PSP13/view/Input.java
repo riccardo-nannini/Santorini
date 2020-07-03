@@ -4,7 +4,7 @@ import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
 
 import java.io.IOException;
@@ -125,9 +125,9 @@ public abstract class Input {
 
     /**
      * Updates cliet's CLI setting clients information (usernames, builders colors and gods)
-     * @param messageClientsInfoCV contains clients information
+     * @param messageClientsInfo contains clients information
      */
-    public abstract void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV);
+    public abstract void setupClientsInfo(MessageClientsInfo messageClientsInfo);
 
     /**
      * Informs clients that the challenger is choosing gods

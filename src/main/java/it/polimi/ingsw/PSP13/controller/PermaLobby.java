@@ -17,13 +17,14 @@ public class PermaLobby implements Runnable{
     private ServerSocket serverSocket;
     private static ViewObserver viewObserver;
     private BlockingQueue<ClientHandler> socketList = new LinkedBlockingDeque<>();
+    private BlockingQueue<ClientHandler> leftout = new LinkedBlockingDeque<>();
     private Map<String, Socket> usernameMap = new HashMap<>();
     private Map<Socket, ClientHandler> handlermap = new HashMap<>();
     private Map<Socket, ClientListener> listenerList = new HashMap<>();
     private Map<Socket, ObjectOutputStream> fillByClient = new HashMap<>();
     private Map<Socket,Boolean> rematchMap = new HashMap<>();
     private List<Thread> listenerThreads = new ArrayList<>();
-    private int playersNumber = 2;
+    private int playersNumber = 3;
     private boolean lobbySetupDone = false;
     private boolean start = false;
 
@@ -37,7 +38,8 @@ public class PermaLobby implements Runnable{
             serverSocket = new ServerSocket(Server.PORT);
         } catch (IOException e) {
             System.out.println("Cannot open server socket");
-            System.exit(0);
+            System.exit(1);
+            return;
         }
     }
 
@@ -148,6 +150,23 @@ public class PermaLobby implements Runnable{
      * @param username the player tat needs to be excluded
      */
     public synchronized void listenerThreadsShutdown(String username) {
+
+        if(username == null)
+            return;
+
+        Socket socket = usernameMap.get(username);
+        ClientHandler handler = handlermap.get(socket);
+        ClientHandler[] clients = socketList.toArray(new ClientHandler[0]);
+        for(int i=playersNumber;i<clients.length;i++) {
+            if(clients[i] == handler) {
+                socketList.remove(handlermap.get(socket));
+                usernameMap.remove(username);
+                handlermap.remove(socket);
+                fillByClient.remove(socket);
+                return;
+            }
+        }
+
         for (Thread thread : listenerThreads) {
             if (thread.isAlive()) thread.interrupt();
         }
@@ -192,17 +211,12 @@ public class PermaLobby implements Runnable{
     private void socketAccept() throws IOException {
 
         Socket socket = serverSocket.accept();
-        System.out.println("Connected to: " + socket.getInetAddress());
+        System.out.println("connected to: " + socket.getInetAddress());
         socket.setSoTimeout(20000);
 
         ObjectOutputStream obj = new ObjectOutputStream(socket.getOutputStream());
-        ClientHandler client = new ClientHandler(obj);
-        if(socketList.size() >= playersNumber)
-        {
-            client.playersLimitReached();
-            return;
-        }
         fillByClient.put(socket,obj);
+        ClientHandler client = new ClientHandler(obj);
         socketList.add(client);
         handlermap.put(socket,client);
 
@@ -236,8 +250,8 @@ public class PermaLobby implements Runnable{
         {
             try {
                 socketAccept();
-            } catch (IOException ignored) {
-
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -436,6 +450,10 @@ public class PermaLobby implements Runnable{
     public boolean isStart()
     {
         return start;
+    }
+
+    public void addLeftOut(ClientHandler client) {
+        leftout.add(client);
     }
 
 }

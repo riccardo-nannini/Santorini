@@ -79,7 +79,7 @@
 <i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
 <i>6</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
 <i>7</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
-<i>8</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 <i>9</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.UpdateListener;
 <i>10</i>&nbsp;import it.polimi.ingsw.PSP13.view.GUI.GuiInput;
 <i>11</i>&nbsp;import it.polimi.ingsw.PSP13.view.Input;
@@ -325,8 +325,8 @@
 <b class="nc"><i>251</i>&nbsp;    public void notifyLose() { mapPrinter.notifyLose(); }</b>
 <i>252</i>&nbsp;
 <i>253</i>&nbsp;    @Override
-<i>254</i>&nbsp;    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
-<b class="nc"><i>255</i>&nbsp;        MapPrinter.setClientsInfo(messageClientsInfoCV);</b>
+<i>254</i>&nbsp;    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfo) {
+<b class="nc"><i>255</i>&nbsp;        MapPrinter.setClientsInfo(messageClientsInfo);</b>
 <i>256</i>&nbsp;    }
 <i>257</i>&nbsp;
 <i>258</i>&nbsp;    @Override

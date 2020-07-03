@@ -2,12 +2,11 @@ package it.polimi.ingsw.PSP13.controller;
 
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
-import it.polimi.ingsw.PSP13.model.Match;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
 import it.polimi.ingsw.PSP13.network.MessageID;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 import it.polimi.ingsw.PSP13.network.client_dispatching.MessageFromControllerToView;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
 
 
 import java.io.IOException;
@@ -250,6 +249,11 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Notifies the client that he won the game
+     * @param username the winner
+     * @throws IOException
+     */
     public void notifyWin(String username) throws IOException {
         MessageFromControllerToView message =
                 new MessageFromControllerToView(MessageID.gameOver,false,"Win",null,null,false,-1);
@@ -261,6 +265,12 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Notifies the client that he lost the game
+     * @param username the loser
+     * @param ended indicates if the match ended or is still going on
+     * @throws IOException
+     */
     public void notifyLose(String username, boolean ended) throws IOException {
         this.removePlayer(username);
         MessageFromControllerToView message;
@@ -293,7 +303,7 @@ public class VirtualView {
      */
     public void notifyClientsInfo(HashMap<String,String> effectsMap) throws IOException {
         for (String username : colorsMap.keySet()) {
-            MessageClientsInfoCV message = generateMessageClientsInfoCV(username, effectsMap);
+            MessageClientsInfo message = generateMessageClientsInfoCV(username, effectsMap);
             try {
                 outputMap.get(username).writeObject(message);
             } catch (IOException e) {
@@ -306,8 +316,8 @@ public class VirtualView {
      * @param username username of the player the message will be sent to
      * @return a MessageClientsInfoCV containing clients information
      */
-    public MessageClientsInfoCV generateMessageClientsInfoCV(String username, HashMap<String,String> effectsMap) {
-        MessageClientsInfoCV message = new MessageClientsInfoCV();
+    public MessageClientsInfo generateMessageClientsInfoCV(String username, HashMap<String,String> effectsMap) {
+        MessageClientsInfo message = new MessageClientsInfo();
         message.setClientUsername(username);
         message.setClientColor(colorsMap.get(username));
         message.setClientGod(godsMap.get(username));

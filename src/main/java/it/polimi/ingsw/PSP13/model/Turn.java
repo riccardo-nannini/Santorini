@@ -71,11 +71,10 @@ public class Turn {
      * @param builder builder that is currently moving
      * @param coords coordinates of the cell where the builder wants to move
      * @return true if builder can move into coords' cell, else return false
-     * @throws IllegalArgumentException if params aren't legal
      */
     public boolean checkMove(Builder builder, Coords coords) {
         if (!Map.isLegal(coords) || builder == null) {
-            throw new IllegalArgumentException();
+            return false;
         } else {
             int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
             if (match.getAdjacent(builder.getCoords()).contains(coords) && !match.isOccupied(coords) && diff <= 1) {

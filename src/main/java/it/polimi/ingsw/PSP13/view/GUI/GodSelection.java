@@ -140,6 +140,8 @@ public class GodSelection implements GodHandlerInterface {
         godDispatcher.setSceneHelperPopup(event, message);
     }
 
+    public void clear() {selectedGods.clear();}
+
     public void setGodsList(List<String> godsList) {
         this.godsList = godsList;
     }

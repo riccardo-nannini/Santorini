@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP13.view.GUI;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -128,7 +128,7 @@ public class GameMap implements Initializable {
      * Sets the players information (name, god, god effect, images..) in the map view
      * @param clientsInfo  message containing players information
      */
-    public void setUpClientsInfo(MessageClientsInfoCV clientsInfo) {
+    public void setUpClientsInfo(MessageClientsInfo clientsInfo) {
 
         Text name1 = new Text(clientsInfo.getClientUsername());
         name1.setStyle("-fx-fill: WHITE;");

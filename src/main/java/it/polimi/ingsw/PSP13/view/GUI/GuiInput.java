@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP13.view.GUI;
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 import it.polimi.ingsw.PSP13.view.GUI.status.*;
 import it.polimi.ingsw.PSP13.view.Input;
 import it.polimi.ingsw.PSP13.view.ObservableToController;
@@ -65,7 +65,7 @@ public class GuiInput extends Input {
     }
 
     @Override
-    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
+    public void setupClientsInfo(MessageClientsInfo messageClientsInfo) {
         Platform.runLater(() -> {
             if (mapInitialization) {
                 try {
@@ -76,7 +76,7 @@ public class GuiInput extends Input {
                 }
             }
             try {
-                map.setUpClientsInfo(messageClientsInfoCV);
+                map.setUpClientsInfo(messageClientsInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }

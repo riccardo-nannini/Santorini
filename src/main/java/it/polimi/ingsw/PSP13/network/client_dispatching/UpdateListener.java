@@ -2,12 +2,10 @@ package it.polimi.ingsw.PSP13.network.client_dispatching;
 
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
-import it.polimi.ingsw.PSP13.network.Client;
 import it.polimi.ingsw.PSP13.network.client_callback.ControllerCallback;
 import it.polimi.ingsw.PSP13.network.client_callback.HearthBeat;
 import it.polimi.ingsw.PSP13.view.CLI.CliInput;
 import it.polimi.ingsw.PSP13.view.Input;
-import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,8 +65,6 @@ public class UpdateListener implements Runnable{
         if (input instanceof CliInput) {
             input = new CliInput();
             input.setup();
-        } else {
-            //TODO GUI
         }
     }
 
@@ -86,8 +82,8 @@ public class UpdateListener implements Runnable{
                 input.updateBuilders((BuilderVM)obj);
             if(obj instanceof MapVM)
                 input.updateMap((MapVM)obj);
-            if(obj instanceof MessageClientsInfoCV)
-                input.setupClientsInfo((MessageClientsInfoCV)obj);
+            if(obj instanceof MessageClientsInfo)
+                input.setupClientsInfo((MessageClientsInfo)obj);
         }
     }
 

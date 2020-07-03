@@ -2,11 +2,9 @@ package it.polimi.ingsw.PSP13.view.CLI;
 
 import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 import it.polimi.ingsw.PSP13.immutables.MapVM;
-import it.polimi.ingsw.PSP13.model.board.Level;
-import it.polimi.ingsw.PSP13.model.board.Map;
 import it.polimi.ingsw.PSP13.model.player.Color;
 import it.polimi.ingsw.PSP13.model.player.Coords;
-import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ public class MapPrinter {
      * using a MessageClientInfoCV
      * @param clientsInfo is the MessageClientInfoCV
      */
-    public static void setClientsInfo(MessageClientsInfoCV clientsInfo) {
+    public static void setClientsInfo(MessageClientsInfo clientsInfo) {
         builder.clear();
         MapPrinter.clientUsername = clientsInfo.getClientUsername();
         MapPrinter.clientBuilderColor = builderColorFromColor(clientsInfo.getClientColor());

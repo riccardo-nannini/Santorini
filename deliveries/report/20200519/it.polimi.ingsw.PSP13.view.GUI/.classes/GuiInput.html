@@ -77,7 +77,7 @@
 <i>3</i>&nbsp;import it.polimi.ingsw.PSP13.immutables.BuilderVM;
 <i>4</i>&nbsp;import it.polimi.ingsw.PSP13.immutables.MapVM;
 <i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
-<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfoCV;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_dispatching.MessageClientsInfo;
 <i>7</i>&nbsp;import it.polimi.ingsw.PSP13.view.GUI.status.*;
 <i>8</i>&nbsp;import it.polimi.ingsw.PSP13.view.Input;
 <i>9</i>&nbsp;import it.polimi.ingsw.PSP13.view.ObservableToController;
@@ -127,10 +127,10 @@
 <i>53</i>&nbsp;    }
 <i>54</i>&nbsp;
 <i>55</i>&nbsp;    @Override
-<i>56</i>&nbsp;    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfoCV) {
+<i>56</i>&nbsp;    public void setupClientsInfo(MessageClientsInfoCV messageClientsInfo) {
 <b class="nc"><i>57</i>&nbsp;        Platform.runLater(() -&gt; {</b>
 <i>58</i>&nbsp;            try {
-<b class="nc"><i>59</i>&nbsp;                map.setUpClientsInfo(messageClientsInfoCV);</b>
+<b class="nc"><i>59</i>&nbsp;                map.setUpClientsInfo(messageClientsInfo);</b>
 <b class="nc"><i>60</i>&nbsp;            } catch (Exception e) {</b>
 <b class="nc"><i>61</i>&nbsp;                e.printStackTrace();</b>
 <b class="nc"><i>62</i>&nbsp;            }</b>
@@ -169,7 +169,7 @@
 <i>95</i>&nbsp;
 <i>96</i>&nbsp;    @Override
 <i>97</i>&nbsp;    public void godInput(List&lt;String&gt; chosenGods, boolean error) {
-<b class="nc"><i>98</i>&nbsp;        Platform.runLater(()-&gt;{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection</b>
+<b class="nc"><i>98</i>&nbsp;        Platform.runLater(()-&gt;{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella giï¿½ esistente attraverso attributo godSelection</b>
 <i>99</i>&nbsp;            try {
 <b class="nc"><i>100</i>&nbsp;                godDispatcher.setSceneGodInput(chosenGods, true);</b>
 <b class="nc"><i>101</i>&nbsp;            } catch (Exception e) {</b>
@@ -190,7 +190,7 @@
 <i>116</i>&nbsp;
 <i>117</i>&nbsp;    @Override
 <i>118</i>&nbsp;    public void godSelectionInput(List&lt;String&gt; godsList, int godsNumber, boolean error) {
-<b class="nc"><i>119</i>&nbsp;        Platform.runLater(()-&gt;{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection</b>
+<b class="nc"><i>119</i>&nbsp;        Platform.runLater(()-&gt;{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella giï¿½ esistente attraverso attributo godSelection</b>
 <i>120</i>&nbsp;            try {
 <b class="nc"><i>121</i>&nbsp;                loginController.sceneChangeGodSelection(godsList, godsNumber, true);</b>
 <b class="nc"><i>122</i>&nbsp;            } catch (Exception e) {</b>
@@ -277,7 +277,7 @@
 <i>203</i>&nbsp;    @Override
 <i>204</i>&nbsp;    public void printWaitGodsSelection(String challenger, List&lt;String&gt; godsList) {
 <i>205</i>&nbsp;
-<b class="nc"><i>206</i>&nbsp;        Platform.runLater(()-&gt;{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella già esistente attraverso attributo godSelection</b>
+<b class="nc"><i>206</i>&nbsp;        Platform.runLater(()-&gt;{ //TODO se error == true non devo cambiare scena ma solo aggiornare quella giï¿½ esistente attraverso attributo godSelection</b>
 <i>207</i>&nbsp;            try {
 <b class="nc"><i>208</i>&nbsp;                loginController.sceneChangeGodSelection(godsList,0, false );</b>
 <b class="nc"><i>209</i>&nbsp;            } catch (Exception e) {</b>

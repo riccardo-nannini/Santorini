@@ -11,7 +11,7 @@ public class HearthBeat implements Runnable {
     }
 
     /**
-     * starts the hearthbeat side thread. this makes sure the server knows this client is still alive
+     * Starts the hearthbeat thread. This makes sure the server knows this client is still alive
      */
     @Override
     public void run() {

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP13.controller;
 
-import it.polimi.ingsw.PSP13.network.Client;
-
 import java.util.Scanner;
 
 public class Server {

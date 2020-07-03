@@ -152,6 +152,7 @@ public class Lobby implements Initializable{
         godSelection.setGodsList(godsList);
         godSelection.setGodsNumber(godsNumber);
         godSelection.setIsChallenger(isChallenger);
+        godSelection.clear();
         godDispatcher.upload();
         godDispatcher.setGuiInput(guiInput);
         guiInput.setGodDispatcher(godDispatcher);

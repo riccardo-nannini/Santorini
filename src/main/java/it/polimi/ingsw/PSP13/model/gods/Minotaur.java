@@ -69,19 +69,24 @@ public class Minotaur extends Turn {
         if (!Map.isLegal(coords) || builder == null) {
             return false;
         } else {
-            if(match.getCell(coords).getDome())
+            int diff = match.getCell(coords).getLevel().getHeight() - match.getHeight(builder.getCoords());
+            if (!(match.getAdjacent(builder.getCoords()).contains(coords) && diff <= 1)) {
                 return false;
-            if(match.isOccupied(coords) && !match.getCell(coords).getDome())
-            {
-                if(!Map.isLegal(minotaurForce(builder,coords)))
-                    return false;
-                if (match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))
-                    return false;
-                if(match.isOccupied(minotaurForce(builder,coords)))
-                    return false;
             }
-
-            return match.getAdjacent(builder.getCoords()).contains(coords);
         }
+        if(match.getCell(coords).getDome())
+            return false;
+        if(match.isOccupied(coords) && !match.getCell(coords).getDome()) {
+            if (!Map.isLegal(minotaurForce(builder, coords)))
+                return false;
+            if (match.getPlayerByBuilder(match.getBuilderByCoords(coords)) == match.getPlayerByBuilder(builder))
+                return false;
+            if (match.isOccupied(minotaurForce(builder, coords)))
+                return false;
+        }
+        return true;
     }
+
+
+
 }

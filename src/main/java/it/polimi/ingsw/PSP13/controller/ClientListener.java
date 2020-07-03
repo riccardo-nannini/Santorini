@@ -18,12 +18,14 @@ public class ClientListener implements Runnable {
     private PermaLobby lobby;
     private MsgDispatcher msgDispatcher;
     private boolean alive = true;
+    private String ipAddress;
 
     public ClientListener (Socket socket, PermaLobby lobby) throws IOException {
         this.socket = socket;
         this.input = new ObjectInputStream(socket.getInputStream());
         this.lobby = lobby;
-        this.username = socket.getInetAddress().toString();
+        this.username = null;
+        this.ipAddress = socket.getInetAddress().toString();
         this.msgDispatcher = new MsgDispatcher(lobby,viewObserver, socket);
     }
 
@@ -54,7 +56,10 @@ public class ClientListener implements Runnable {
                 return;
             }
 
-            System.out.println("Connection dropped from " + username);
+            if(username != null)
+                System.out.println("Connection dropped from " + username);
+            else
+                System.out.println("Connection dropped from" + ipAddress);
 
             if(lobby.isStart()) {
                 lobby.listenerThreadsShutdown(username);

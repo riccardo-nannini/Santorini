@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MessageClientsInfo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.network.client_dispatching</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MessageClientsInfo (it.polimi.ingsw.PSP13.network.client_dispatching)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MessageClientsInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.network.client_dispatching;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Color;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.Serializable;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class MessageClientsInfo implements Serializable {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    private static final long serialVersionUID = 424L;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private String clientUsername;
+<i>14</i>&nbsp;    private Color clientColor;
+<i>15</i>&nbsp;    private String clientGod;
+<i>16</i>&nbsp;    private String clientEffect;
+<i>17</i>&nbsp;    private List&lt;String&gt; opponentsUsernames;
+<i>18</i>&nbsp;    private List&lt;Color&gt; opponentsColors;
+<i>19</i>&nbsp;    private List&lt;String&gt; opponentsGod;
+<i>20</i>&nbsp;    private List&lt;String&gt; opponentsEffects;
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;    public MessageClientsInfo() {</b>
+<b class="nc"><i>23</i>&nbsp;        opponentsUsernames = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>24</i>&nbsp;        opponentsColors = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>25</i>&nbsp;        opponentsGod = new ArrayList&lt;&gt;();</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public static long getSerialVersionUID() {
+<b class="nc"><i>29</i>&nbsp;        return serialVersionUID;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public String getClientUsername() {
+<b class="nc"><i>33</i>&nbsp;        return clientUsername;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void setClientUsername(String clientUsername) {
+<b class="nc"><i>37</i>&nbsp;        this.clientUsername = clientUsername;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    public String getClientGod() {
+<b class="nc"><i>41</i>&nbsp;        return clientGod;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public void setClientGod(String clientGod) {
+<b class="nc"><i>45</i>&nbsp;        this.clientGod = clientGod;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public List&lt;String&gt; getOpponentsUsernames() {
+<b class="nc"><i>49</i>&nbsp;        return opponentsUsernames;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setOpponentsUsernames(List&lt;String&gt; opponentsUsernames) {
+<b class="nc"><i>53</i>&nbsp;        this.opponentsUsernames = opponentsUsernames;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public List&lt;Color&gt; getOpponentsColors() {
+<b class="nc"><i>57</i>&nbsp;        return opponentsColors;</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public void setOpponentsColors(List&lt;Color&gt; opponentsColors) {
+<b class="nc"><i>61</i>&nbsp;        this.opponentsColors = opponentsColors;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public List&lt;String&gt; getOpponentsGod() {
+<b class="nc"><i>65</i>&nbsp;        return opponentsGod;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public void setOpponentsGod(List&lt;String&gt; opponentsGod) {
+<b class="nc"><i>69</i>&nbsp;        this.opponentsGod = opponentsGod;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public Color getClientColor() {
+<b class="nc"><i>73</i>&nbsp;        return clientColor;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public void setClientColor(Color clientColor) {
+<b class="nc"><i>77</i>&nbsp;        this.clientColor = clientColor;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public List&lt;String&gt; getOpponentsEffects() {
+<b class="nc"><i>81</i>&nbsp;        return opponentsEffects;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    public void setOpponentsEffects(List&lt;String&gt; opponentsEffects) {
+<b class="nc"><i>85</i>&nbsp;        this.opponentsEffects = opponentsEffects;</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    public String getClientEffect() {
+<b class="nc"><i>89</i>&nbsp;        return clientEffect;</b>
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public void setClientEffect(String clientEffect) {
+<b class="nc"><i>93</i>&nbsp;        this.clientEffect = clientEffect;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,575 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MatchHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MatchHandler (it.polimi.ingsw.PSP13.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MatchHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73,1%
+  </span>
+  <span class="absValue">
+    (19/ 26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68,3%
+  </span>
+  <span class="absValue">
+    (192/ 281)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Match;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.gods.*;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Player;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.io.IOException;
+<i>11</i>&nbsp;import java.lang.reflect.InvocationTargetException;
+<i>12</i>&nbsp;import java.util.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class MatchHandler {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private Match match;
+<i>17</i>&nbsp;    private TurnHandler turnHandler;
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;    private List&lt;String&gt; disconnectedPlayers = new ArrayList&lt;String&gt;();</b>
+<i>20</i>&nbsp;    private int numPlayers;
+<i>21</i>&nbsp;    boolean endGame;
+<i>22</i>&nbsp;    private VirtualView virtualView;
+<b class="fc"><i>23</i>&nbsp;    private String godsReceived = null;</b>
+<b class="fc"><i>24</i>&nbsp;    private String selectedGod = null;</b>
+<b class="fc"><i>25</i>&nbsp;    private Coords coords = null;</b>
+<b class="fc"><i>26</i>&nbsp;    private Player challenger = null;</b>
+<b class="fc"><i>27</i>&nbsp;    private String selectedStarter = null;</b>
+<i>28</i>&nbsp;    private static List&lt;Class&gt; gods;
+<i>29</i>&nbsp;    private List&lt;Player&gt; originalsPlayers;
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;    public MatchHandler () {</b>
+<b class="fc"><i>32</i>&nbsp;        match = new Match();</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * The method is responsible for the initialization of the game, in particular the selection of the gods for each
+<i>37</i>&nbsp;     * player, the selection of the starter and the placement of the builders
+<i>38</i>&nbsp;     * @throws IOException
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public void init() throws IOException {
+<b class="fc"><i>41</i>&nbsp;        disconnectedPlayers.clear();</b>
+<b class="fc"><i>42</i>&nbsp;        numPlayers = match.getPlayers().size();</b>
+<b class="fc"><i>43</i>&nbsp;        turnHandler = new TurnHandler(virtualView);</b>
+<b class="fc"><i>44</i>&nbsp;        turnHandler.setMatchHandler(this);</b>
+<b class="fc"><i>45</i>&nbsp;        initializeGods();</b>
+<b class="fc"><i>46</i>&nbsp;        Turn.setMatch(match);</b>
+<b class="fc"><i>47</i>&nbsp;        Turn.setTurnHandler(turnHandler);</b>
+<b class="fc"><i>48</i>&nbsp;        match.start(virtualView);</b>
+<b class="fc"><i>49</i>&nbsp;        godSelection(virtualView);</b>
+<b class="fc"><i>50</i>&nbsp;        notifyClientsInfo();</b>
+<b class="fc"><i>51</i>&nbsp;        starterSelection(virtualView);</b>
+<b class="fc"><i>52</i>&nbsp;        builderSetUp(virtualView);</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Notifies the clients with the explanation of the chosen gods effects
+<i>57</i>&nbsp;     * @throws IOException
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public void notifyClientsInfo() throws IOException {
+<b class="fc"><i>60</i>&nbsp;        HashMap&lt;String,String&gt; effectsMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>61</i>&nbsp;        for (Player player : match.getPlayers()) {</b>
+<b class="fc"><i>62</i>&nbsp;            effectsMap.put(player.getUsername(),player.getGod().getEffect());</b>
+<b class="fc"><i>63</i>&nbsp;        }</b>
+<b class="fc"><i>64</i>&nbsp;        virtualView.notifyClientsInfo(effectsMap);</b>
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public void addPlayer(Player player) {
+<b class="fc"><i>68</i>&nbsp;        match.addPlayer(player);</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * The method handles the selection of the gods by the players
+<i>73</i>&nbsp;     * @param virtualView
+<i>74</i>&nbsp;     * @throws IOException
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public synchronized void godSelection(VirtualView virtualView) throws IOException {
+<b class="fc"><i>77</i>&nbsp;        Random r = new Random();</b>
+<b class="fc"><i>78</i>&nbsp;        challenger = match.getPlayers().get(r.nextInt(numPlayers));</b>
+<b class="fc"><i>79</i>&nbsp;        List&lt;String&gt; godsList = godNames();</b>
+<b class="fc"><i>80</i>&nbsp;        originalsPlayers = Collections.unmodifiableList(new ArrayList&lt;&gt;(match.getPlayers()));</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        boolean error = false;</b>
+<i>83</i>&nbsp;        List&lt;String&gt; godsInput;
+<i>84</i>&nbsp;        do {
+<b class="fc"><i>85</i>&nbsp;            virtualView.godSelectionInput(challenger.getUsername(), godsList, numPlayers, error);</b>
+<b class="fc"><i>86</i>&nbsp;            virtualView.sendGodEffectDescription(godEffects());</b>
+<b class="fc"><i>87</i>&nbsp;            error = false;</b>
+<b class="fc"><i>88</i>&nbsp;            while (godsReceived == null &amp;&amp; disconnectedPlayers.isEmpty()) {</b>
+<i>89</i>&nbsp;                try {
+<b class="nc"><i>90</i>&nbsp;                    wait();</b>
+<b class="nc"><i>91</i>&nbsp;                } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>92</i>&nbsp;                }</b>
+<i>93</i>&nbsp;            }
+<b class="fc"><i>94</i>&nbsp;            if (!disconnectedPlayers.isEmpty()) {</b>
+<b class="nc"><i>95</i>&nbsp;                if (!disconnectedPlayers.contains(challenger.getUsername())) {</b>
+<b class="nc"><i>96</i>&nbsp;                    while (godsReceived == null &amp;&amp; !disconnectedPlayers.contains(challenger.getUsername())) {</b>
+<i>97</i>&nbsp;                        try {
+<b class="nc"><i>98</i>&nbsp;                            wait();</b>
+<b class="nc"><i>99</i>&nbsp;                        } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>100</i>&nbsp;                        }</b>
+<i>101</i>&nbsp;                    }
+<i>102</i>&nbsp;                }
+<b class="nc"><i>103</i>&nbsp;                virtualView.notifyDisconnection();</b>
+<i>104</i>&nbsp;            }
+<b class="fc"><i>105</i>&nbsp;            godsInput = new ArrayList&lt;&gt;(Arrays.asList(godsReceived.split(&quot;\\s*,\\s*&quot;)));</b>
+<b class="fc"><i>106</i>&nbsp;            godsReceived = null;</b>
+<b class="fc"><i>107</i>&nbsp;            if (!godsList.containsAll(godsInput)) error = true;</b>
+<b class="fc"><i>108</i>&nbsp;            if (godsInput.size() != numPlayers) error = true;</b>
+<b class="fc"><i>109</i>&nbsp;            for (String currentGod : godsInput) {</b>
+<b class="fc"><i>110</i>&nbsp;                for (String otherGod : godsInput) {</b>
+<b class="fc"><i>111</i>&nbsp;                    if (currentGod != otherGod &amp;&amp; currentGod.equals(otherGod)) {</b>
+<b class="nc"><i>112</i>&nbsp;                        error = true;</b>
+<b class="nc"><i>113</i>&nbsp;                        break;</b>
+<i>114</i>&nbsp;                    }
+<b class="fc"><i>115</i>&nbsp;                }</b>
+<b class="fc"><i>116</i>&nbsp;            }</b>
+<b class="fc"><i>117</i>&nbsp;        } while(error);</b>
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;        godAssignment(virtualView, challenger, godsInput);</b>
+<b class="fc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /**
+<i>123</i>&nbsp;     * @param virtualView
+<i>124</i>&nbsp;     * @param challenger the challenger player
+<i>125</i>&nbsp;     * @param chosenGods list of gods chosen for this game
+<i>126</i>&nbsp;     * @throws IOException
+<i>127</i>&nbsp;     */
+<i>128</i>&nbsp;    public synchronized void godAssignment(VirtualView virtualView, Player challenger, List&lt;String&gt; chosenGods) throws IOException {
+<i>129</i>&nbsp;        boolean error;
+<i>130</i>&nbsp;        String receivedGod;
+<b class="fc"><i>131</i>&nbsp;        List&lt;Player&gt; playerList = match.getPlayers();</b>
+<b class="fc"><i>132</i>&nbsp;        int challengerPos = playerList.indexOf(challenger);</b>
+<i>133</i>&nbsp;        //sort match.getPlayers() putting challenger in the last position
+<b class="fc"><i>134</i>&nbsp;        if (challengerPos != (numPlayers-1)) {</b>
+<b class="fc"><i>135</i>&nbsp;            Player last = playerList.get(numPlayers-1);</b>
+<b class="fc"><i>136</i>&nbsp;            playerList.set(numPlayers-1,playerList.get(challengerPos));</b>
+<b class="fc"><i>137</i>&nbsp;            playerList.set(challengerPos,last);</b>
+<i>138</i>&nbsp;        }
+<i>139</i>&nbsp;
+<b class="fc"><i>140</i>&nbsp;        for (int i = 0; i &lt; numPlayers; i++) {</b>
+<b class="fc"><i>141</i>&nbsp;            error = false;</b>
+<b class="fc"><i>142</i>&nbsp;            String player = match.getPlayers().get(i).getUsername();</b>
+<b class="fc"><i>143</i>&nbsp;            if (chosenGods.size() &gt; 1) {</b>
+<i>144</i>&nbsp;                do {
+<b class="fc"><i>145</i>&nbsp;                    virtualView.godInput(player, chosenGods, error);</b>
+<b class="fc"><i>146</i>&nbsp;                    virtualView.sendGodEffectDescription(godEffects());</b>
+<b class="fc"><i>147</i>&nbsp;                    while (selectedGod == null &amp;&amp; disconnectedPlayers.isEmpty()) {</b>
+<i>148</i>&nbsp;                        try {
+<b class="nc"><i>149</i>&nbsp;                            wait();</b>
+<b class="nc"><i>150</i>&nbsp;                        } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>151</i>&nbsp;                        }</b>
+<i>152</i>&nbsp;                    }
+<b class="fc"><i>153</i>&nbsp;                    if (!disconnectedPlayers.isEmpty()) {</b>
+<b class="nc"><i>154</i>&nbsp;                        if (!disconnectedPlayers.contains(player)) {</b>
+<b class="nc"><i>155</i>&nbsp;                            while (selectedGod == null &amp;&amp; !disconnectedPlayers.contains(player)) {</b>
+<i>156</i>&nbsp;                                try {
+<b class="nc"><i>157</i>&nbsp;                                    wait();</b>
+<b class="nc"><i>158</i>&nbsp;                                } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>159</i>&nbsp;                                }</b>
+<i>160</i>&nbsp;                            }
+<i>161</i>&nbsp;                        }
+<b class="nc"><i>162</i>&nbsp;                        virtualView.notifyDisconnection();</b>
+<i>163</i>&nbsp;                    }
+<b class="fc"><i>164</i>&nbsp;                    error = false;</b>
+<b class="fc"><i>165</i>&nbsp;                    if (!chosenGods.contains(selectedGod)) error = true;</b>
+<b class="fc"><i>166</i>&nbsp;                    receivedGod = selectedGod;</b>
+<b class="fc"><i>167</i>&nbsp;                    selectedGod = null;</b>
+<b class="fc"><i>168</i>&nbsp;                } while (error);</b>
+<i>169</i>&nbsp;            } else {
+<b class="fc"><i>170</i>&nbsp;                virtualView.godInput(player, chosenGods, error);</b>
+<b class="fc"><i>171</i>&nbsp;                receivedGod = chosenGods.get(0);</b>
+<i>172</i>&nbsp;            }
+<b class="fc"><i>173</i>&nbsp;            chosenGods.remove(receivedGod);</b>
+<b class="fc"><i>174</i>&nbsp;            Object god = null;</b>
+<i>175</i>&nbsp;            try {
+<b class="fc"><i>176</i>&nbsp;                Class&lt;?&gt; clazz = Class.forName(&quot;it.polimi.ingsw.PSP13.model.gods.&quot; + receivedGod);</b>
+<b class="fc"><i>177</i>&nbsp;                Class[] c = new Class[0];</b>
+<b class="fc"><i>178</i>&nbsp;                Object[] ob = new Object[0];</b>
+<b class="fc"><i>179</i>&nbsp;                god = clazz.getDeclaredConstructor(c).newInstance(ob);</b>
+<b class="nc"><i>180</i>&nbsp;            } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) {</b>
+<i>181</i>&nbsp;
+<b class="fc"><i>182</i>&nbsp;            }</b>
+<i>183</i>&nbsp;
+<b class="fc"><i>184</i>&nbsp;            Player currentPlayer = match.getPlayers().get(i);</b>
+<b class="fc"><i>185</i>&nbsp;            currentPlayer.setGod((Turn) god);</b>
+<b class="fc"><i>186</i>&nbsp;            virtualView.setGod(player,receivedGod);</b>
+<i>187</i>&nbsp;        }
+<b class="fc"><i>188</i>&nbsp;    }</b>
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;    /**
+<i>191</i>&nbsp;     * Handles the selection of the starter player
+<i>192</i>&nbsp;     * by the challenger
+<i>193</i>&nbsp;     * @param virtualView
+<i>194</i>&nbsp;     * @throws IOException
+<i>195</i>&nbsp;     */
+<i>196</i>&nbsp;    public synchronized void starterSelection(VirtualView virtualView) throws IOException {
+<b class="fc"><i>197</i>&nbsp;        boolean error = false;</b>
+<i>198</i>&nbsp;        do {
+<b class="fc"><i>199</i>&nbsp;            virtualView.starterInput(challenger.getUsername(), error);</b>
+<b class="fc"><i>200</i>&nbsp;            while (selectedStarter == null &amp;&amp; disconnectedPlayers.isEmpty()) {</b>
+<i>201</i>&nbsp;                try {
+<b class="nc"><i>202</i>&nbsp;                    wait();</b>
+<b class="nc"><i>203</i>&nbsp;                } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>204</i>&nbsp;                }</b>
+<i>205</i>&nbsp;            }
+<b class="fc"><i>206</i>&nbsp;            if (!disconnectedPlayers.isEmpty()) {</b>
+<b class="nc"><i>207</i>&nbsp;                if (!disconnectedPlayers.contains(challenger)) {</b>
+<b class="nc"><i>208</i>&nbsp;                    while (selectedStarter == null) {</b>
+<i>209</i>&nbsp;                        try {
+<b class="nc"><i>210</i>&nbsp;                            wait();</b>
+<b class="nc"><i>211</i>&nbsp;                        } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>212</i>&nbsp;                        }</b>
+<i>213</i>&nbsp;                    }
+<i>214</i>&nbsp;                }
+<b class="nc"><i>215</i>&nbsp;                virtualView.notifyDisconnection();</b>
+<i>216</i>&nbsp;            }
+<b class="fc"><i>217</i>&nbsp;            error = true;</b>
+<b class="fc"><i>218</i>&nbsp;            for (Player player : match.getPlayers()) {</b>
+<b class="fc"><i>219</i>&nbsp;                if (player.getUsername().equals(selectedStarter)) {</b>
+<b class="fc"><i>220</i>&nbsp;                    error = false;</b>
+<b class="fc"><i>221</i>&nbsp;                    break;</b>
+<i>222</i>&nbsp;                }
+<b class="fc"><i>223</i>&nbsp;            }</b>
+<b class="fc"><i>224</i>&nbsp;            if (error) selectedStarter = null;</b>
+<b class="fc"><i>225</i>&nbsp;        } while(error);</b>
+<i>226</i>&nbsp;
+<b class="fc"><i>227</i>&nbsp;        sortPlayers();</b>
+<i>228</i>&nbsp;
+<b class="fc"><i>229</i>&nbsp;    }</b>
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    /**
+<i>233</i>&nbsp;     * Sorts player&#39;s list shifting starterPlayer in first position,
+<i>234</i>&nbsp;     * keeping the shift order used up to this point
+<i>235</i>&nbsp;     */
+<i>236</i>&nbsp;    public void sortPlayers() {
+<b class="fc"><i>237</i>&nbsp;        int starterIndex = match.getPlayers().indexOf(match.getPlayerByUsername(selectedStarter));</b>
+<b class="fc"><i>238</i>&nbsp;        if (starterIndex != 0) {</b>
+<b class="fc"><i>239</i>&nbsp;            if (numPlayers == 2) {</b>
+<b class="fc"><i>240</i>&nbsp;                Player app = match.getPlayers().get(0);</b>
+<b class="fc"><i>241</i>&nbsp;                match.getPlayers().set(0, match.getPlayerByUsername(selectedStarter));</b>
+<b class="fc"><i>242</i>&nbsp;                match.getPlayers().set(1, app);</b>
+<b class="fc"><i>243</i>&nbsp;            } else {  //if numPlayers = 3</b>
+<b class="fc"><i>244</i>&nbsp;                List&lt;Player&gt; appList = new ArrayList&lt;&gt;(match.getPlayers());</b>
+<b class="fc"><i>245</i>&nbsp;                match.getPlayers().set(0, appList.get(starterIndex));</b>
+<b class="fc"><i>246</i>&nbsp;                if (starterIndex == 1) {</b>
+<b class="fc"><i>247</i>&nbsp;                    match.getPlayers().set(1, appList.get(2));</b>
+<b class="fc"><i>248</i>&nbsp;                    match.getPlayers().set(2, appList.get(0));</b>
+<i>249</i>&nbsp;                } else {
+<b class="fc"><i>250</i>&nbsp;                    match.getPlayers().set(1, appList.get(0));</b>
+<b class="fc"><i>251</i>&nbsp;                    match.getPlayers().set(2, appList.get(1));</b>
+<i>252</i>&nbsp;                }
+<i>253</i>&nbsp;            }
+<i>254</i>&nbsp;        }
+<b class="fc"><i>255</i>&nbsp;    }</b>
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    /**
+<i>258</i>&nbsp;     * Handles the set up of the builders for each players
+<i>259</i>&nbsp;     * @param virtualView
+<i>260</i>&nbsp;     * @throws IOException
+<i>261</i>&nbsp;     */
+<i>262</i>&nbsp;    public synchronized void builderSetUp(VirtualView virtualView) throws IOException {
+<i>263</i>&nbsp;        Player currentPlayer;
+<i>264</i>&nbsp;        Coords pos1;
+<b class="fc"><i>265</i>&nbsp;        Coords pos2 = null;</b>
+<i>266</i>&nbsp;        Coords receivedCoords;
+<b class="fc"><i>267</i>&nbsp;        Builder[] builders = new Builder[2];</b>
+<i>268</i>&nbsp;        boolean firstCall, error;
+<b class="fc"><i>269</i>&nbsp;        match.notifyMap();</b>
+<b class="fc"><i>270</i>&nbsp;        for (int i=0; i &lt; numPlayers; i++) {</b>
+<b class="fc"><i>271</i>&nbsp;            firstCall = true;</b>
+<b class="fc"><i>272</i>&nbsp;            error = false;</b>
+<b class="fc"><i>273</i>&nbsp;            pos1 = null;</b>
+<b class="fc"><i>274</i>&nbsp;            currentPlayer = match.getPlayers().get(i);</b>
+<b class="fc"><i>275</i>&nbsp;            for (int numBuilder = 0; numBuilder &lt; 2; numBuilder++) {</b>
+<i>276</i>&nbsp;                do {
+<b class="fc"><i>277</i>&nbsp;                    virtualView.builderSetUpInput(currentPlayer.getUsername(), firstCall, error);</b>
+<b class="fc"><i>278</i>&nbsp;                    while (coords == null &amp;&amp; disconnectedPlayers.isEmpty()) {</b>
+<i>279</i>&nbsp;                        try {
+<b class="fc"><i>280</i>&nbsp;                            wait();</b>
+<b class="nc"><i>281</i>&nbsp;                        } catch (InterruptedException ignored) {</b>
+<b class="fc"><i>282</i>&nbsp;                        }</b>
+<i>283</i>&nbsp;                    }
+<b class="fc"><i>284</i>&nbsp;                    if (!disconnectedPlayers.isEmpty()) {</b>
+<b class="nc"><i>285</i>&nbsp;                        if (!disconnectedPlayers.contains(currentPlayer.getUsername())) {</b>
+<b class="nc"><i>286</i>&nbsp;                            while (coords == null &amp;&amp; !disconnectedPlayers.contains(currentPlayer.getUsername())) {</b>
+<i>287</i>&nbsp;                                try {
+<b class="nc"><i>288</i>&nbsp;                                    wait();</b>
+<b class="nc"><i>289</i>&nbsp;                                } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>290</i>&nbsp;                                }</b>
+<i>291</i>&nbsp;                            }
+<i>292</i>&nbsp;                        }
+<b class="nc"><i>293</i>&nbsp;                        virtualView.notifyDisconnection();</b>
+<i>294</i>&nbsp;                    }
+<b class="fc"><i>295</i>&nbsp;                    error = false;</b>
+<b class="fc"><i>296</i>&nbsp;                    if (match.isOccupied(coords)) error = true;</b>
+<b class="fc"><i>297</i>&nbsp;                    if (pos1 != null &amp;&amp; pos1.equals(coords)) error = true;</b>
+<b class="fc"><i>298</i>&nbsp;                    receivedCoords = coords;</b>
+<b class="fc"><i>299</i>&nbsp;                    coords = null;</b>
+<b class="fc"><i>300</i>&nbsp;                } while (error);</b>
+<b class="fc"><i>301</i>&nbsp;                if (pos1 == null) {</b>
+<b class="fc"><i>302</i>&nbsp;                    pos1 = receivedCoords;</b>
+<i>303</i>&nbsp;                } else {
+<b class="fc"><i>304</i>&nbsp;                    pos2 = receivedCoords;</b>
+<i>305</i>&nbsp;                }
+<b class="fc"><i>306</i>&nbsp;                builders[numBuilder] = new Builder();</b>
+<b class="fc"><i>307</i>&nbsp;                firstCall = false;</b>
+<i>308</i>&nbsp;            }
+<b class="fc"><i>309</i>&nbsp;            currentPlayer.setBuilders(builders);</b>
+<b class="fc"><i>310</i>&nbsp;            currentPlayer.setup(builders[0], builders[1], pos1, pos2);</b>
+<i>311</i>&nbsp;        }
+<b class="fc"><i>312</i>&nbsp;    }</b>
+<i>313</i>&nbsp;
+<i>314</i>&nbsp;    /**
+<i>315</i>&nbsp;     * Controller&#39;s method that handles the progress of the game
+<i>316</i>&nbsp;     * @throws IOException
+<i>317</i>&nbsp;     */
+<i>318</i>&nbsp;    public synchronized void play() throws IOException {
+<i>319</i>&nbsp;        List&lt;Player&gt; players;
+<i>320</i>&nbsp;        List&lt;Coords&gt; possibleMoves, possibleBuilds;
+<i>321</i>&nbsp;        Builder currentBuilder;
+<i>322</i>&nbsp;        Coords builderPos;
+<b class="nc"><i>323</i>&nbsp;        Player winner = null;</b>
+<b class="nc"><i>324</i>&nbsp;        endGame = false;</b>
+<i>325</i>&nbsp;        Player currentPlayer;
+<b class="nc"><i>326</i>&nbsp;        while (!endGame) {</b>
+<b class="nc"><i>327</i>&nbsp;            players = Collections.unmodifiableList(new ArrayList&lt;&gt;(match.getPlayers()));</b>
+<b class="nc"><i>328</i>&nbsp;            for (int i = 0; i &lt; match.getPlayers().size(); i++) {</b>
+<b class="nc"><i>329</i>&nbsp;                currentPlayer = players.get(i);</b>
+<b class="nc"><i>330</i>&nbsp;                if (players.size() &lt; 2) {</b>
+<b class="nc"><i>331</i>&nbsp;                    this.notifyWinners(currentPlayer.getUsername());</b>
+<b class="nc"><i>332</i>&nbsp;                    break;</b>
+<i>333</i>&nbsp;                }
+<b class="nc"><i>334</i>&nbsp;                builderPos = turnHandler.getInputBuilder(currentPlayer);</b>
+<b class="nc"><i>335</i>&nbsp;                currentBuilder = match.getBuilderByCoords(builderPos);</b>
+<b class="nc"><i>336</i>&nbsp;                currentPlayer.start();</b>
+<b class="nc"><i>337</i>&nbsp;                possibleMoves = currentPlayer.getPossibleMoves(currentBuilder);</b>
+<b class="nc"><i>338</i>&nbsp;                if (possibleMoves.isEmpty()) {</b>
+<b class="nc"><i>339</i>&nbsp;                    this.notifyLoser(currentPlayer);</b>
+<b class="nc"><i>340</i>&nbsp;                    currentPlayer.eliminated();</b>
+<b class="nc"><i>341</i>&nbsp;                    continue;</b>
+<i>342</i>&nbsp;                }
+<b class="nc"><i>343</i>&nbsp;                coords = turnHandler.getInputMove(currentBuilder, possibleMoves);</b>
+<b class="nc"><i>344</i>&nbsp;                currentPlayer.move(currentBuilder, coords);</b>
+<b class="nc"><i>345</i>&nbsp;                if (endGame) {</b>
+<b class="nc"><i>346</i>&nbsp;                    winner = currentPlayer;</b>
+<b class="nc"><i>347</i>&nbsp;                    break;</b>
+<i>348</i>&nbsp;                }
+<b class="nc"><i>349</i>&nbsp;                possibleBuilds = currentPlayer.getBuildableCells(currentBuilder);</b>
+<b class="nc"><i>350</i>&nbsp;                if (possibleBuilds.isEmpty()) {</b>
+<b class="nc"><i>351</i>&nbsp;                    this.notifyLoser(currentPlayer);</b>
+<b class="nc"><i>352</i>&nbsp;                    currentPlayer.eliminated();</b>
+<b class="nc"><i>353</i>&nbsp;                    continue;</b>
+<i>354</i>&nbsp;                }
+<b class="nc"><i>355</i>&nbsp;                coords = turnHandler.getInputBuild(currentBuilder, possibleBuilds);</b>
+<b class="nc"><i>356</i>&nbsp;                currentPlayer.build(currentBuilder, coords);</b>
+<b class="nc"><i>357</i>&nbsp;                currentPlayer.end();</b>
+<b class="nc"><i>358</i>&nbsp;                virtualView.notifyTurnEnded(currentPlayer.getUsername());</b>
+<i>359</i>&nbsp;            }
+<i>360</i>&nbsp;        }
+<b class="nc"><i>361</i>&nbsp;        this.notifyWinners(winner.getUsername());</b>
+<b class="nc"><i>362</i>&nbsp;    }</b>
+<i>363</i>&nbsp;
+<i>364</i>&nbsp;
+<i>365</i>&nbsp;    /**
+<i>366</i>&nbsp;     * Notifies the winner that he won the game
+<i>367</i>&nbsp;     * @param winner username of the winner
+<i>368</i>&nbsp;     * @throws IOException
+<i>369</i>&nbsp;     */
+<i>370</i>&nbsp;    public void notifyWinners(String winner) throws IOException {
+<b class="nc"><i>371</i>&nbsp;        endGame = true;</b>
+<b class="nc"><i>372</i>&nbsp;        virtualView.notifyWin(winner);</b>
+<b class="nc"><i>373</i>&nbsp;        for (Player player : originalsPlayers) {</b>
+<b class="nc"><i>374</i>&nbsp;            if (!player.getUsername().equals(winner)) virtualView.notifyLose(player.getUsername(), true);</b>
+<b class="nc"><i>375</i>&nbsp;        }</b>
+<b class="nc"><i>376</i>&nbsp;    }</b>
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;    /**
+<i>379</i>&nbsp;     * Notifies the loser that he lost the game
+<i>380</i>&nbsp;     * @param loser username of the loser
+<i>381</i>&nbsp;     * @throws IOException
+<i>382</i>&nbsp;     */
+<i>383</i>&nbsp;    public void notifyLoser(Player loser) throws IOException {
+<b class="nc"><i>384</i>&nbsp;        virtualView.notifyLose(loser.getUsername(), false);</b>
+<b class="nc"><i>385</i>&nbsp;        match.removeBuilder(loser);</b>
+<b class="nc"><i>386</i>&nbsp;        match.getPlayers().remove(loser);</b>
+<b class="nc"><i>387</i>&nbsp;    }</b>
+<i>388</i>&nbsp;
+<i>389</i>&nbsp;    public synchronized void setNumPlayers(int numPlayers) {
+<b class="fc"><i>390</i>&nbsp;        this.numPlayers = numPlayers;</b>
+<b class="fc"><i>391</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>392</i>&nbsp;    }</b>
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    public void setVirtualView(VirtualView virtualView) {
+<b class="fc"><i>395</i>&nbsp;        this.virtualView = virtualView;</b>
+<b class="fc"><i>396</i>&nbsp;    }</b>
+<i>397</i>&nbsp;
+<i>398</i>&nbsp;    public synchronized void setGodsReceived(String godsReceived) {
+<b class="fc"><i>399</i>&nbsp;        this.godsReceived = godsReceived;</b>
+<b class="fc"><i>400</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>401</i>&nbsp;    }</b>
+<i>402</i>&nbsp;
+<i>403</i>&nbsp;    public synchronized void setSelectedGod(String selectedGod) {
+<b class="fc"><i>404</i>&nbsp;        this.selectedGod = selectedGod;</b>
+<b class="fc"><i>405</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>406</i>&nbsp;    }</b>
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;    public synchronized void setCoords(Coords coords) {
+<b class="fc"><i>409</i>&nbsp;        this.coords = coords;</b>
+<b class="fc"><i>410</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>411</i>&nbsp;    }</b>
+<i>412</i>&nbsp;
+<i>413</i>&nbsp;    public synchronized void setEndGame(boolean endGame) {
+<b class="nc"><i>414</i>&nbsp;        this.endGame = endGame;</b>
+<b class="nc"><i>415</i>&nbsp;        notifyAll();</b>
+<b class="nc"><i>416</i>&nbsp;    }</b>
+<i>417</i>&nbsp;
+<i>418</i>&nbsp;    public synchronized void addDisconnectedPlayer(String player) {
+<b class="nc"><i>419</i>&nbsp;        disconnectedPlayers.add(player);</b>
+<b class="nc"><i>420</i>&nbsp;        notifyAll();</b>
+<b class="nc"><i>421</i>&nbsp;    }</b>
+<i>422</i>&nbsp;
+<i>423</i>&nbsp;    public Match getMatch() {
+<b class="fc"><i>424</i>&nbsp;        return match;</b>
+<i>425</i>&nbsp;    }
+<i>426</i>&nbsp;
+<i>427</i>&nbsp;    public TurnHandler getTurnHandler() {
+<b class="nc"><i>428</i>&nbsp;        return turnHandler;</b>
+<i>429</i>&nbsp;    }
+<i>430</i>&nbsp;
+<i>431</i>&nbsp;    public Coords getCoords() {
+<b class="nc"><i>432</i>&nbsp;        return coords;</b>
+<i>433</i>&nbsp;    }
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;    public synchronized void setSelectedStarter(String starter) {
+<b class="fc"><i>436</i>&nbsp;        this.selectedStarter = starter;</b>
+<b class="fc"><i>437</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i>438</i>&nbsp;    }</b>
+<i>439</i>&nbsp;
+<i>440</i>&nbsp;    private void initializeGods() {
+<b class="fc"><i>441</i>&nbsp;        gods = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>442</i>&nbsp;        gods.add(Apollo.class);</b>
+<b class="fc"><i>443</i>&nbsp;        gods.add(Zeus.class);</b>
+<b class="fc"><i>444</i>&nbsp;        gods.add(Artemis.class);</b>
+<b class="fc"><i>445</i>&nbsp;        gods.add(Athena.class);</b>
+<b class="fc"><i>446</i>&nbsp;        gods.add(Atlas.class);</b>
+<b class="fc"><i>447</i>&nbsp;        gods.add(Minotaur.class);</b>
+<b class="fc"><i>448</i>&nbsp;        gods.add(Hephaestus.class);</b>
+<b class="fc"><i>449</i>&nbsp;        gods.add(Ares.class);</b>
+<b class="fc"><i>450</i>&nbsp;        gods.add(Hypnus.class);</b>
+<b class="fc"><i>451</i>&nbsp;        gods.add(Demeter.class);</b>
+<b class="fc"><i>452</i>&nbsp;        gods.add(Pan.class);</b>
+<b class="fc"><i>453</i>&nbsp;        gods.add(Poseidon.class);</b>
+<b class="fc"><i>454</i>&nbsp;        gods.add(Prometheus.class);</b>
+<b class="fc"><i>455</i>&nbsp;        gods.add(Hera.class);</b>
+<b class="fc"><i>456</i>&nbsp;     }</b>
+<i>457</i>&nbsp;
+<i>458</i>&nbsp;    /**
+<i>459</i>&nbsp;     * Retrives all the gods names from their classes
+<i>460</i>&nbsp;     * @return the list of the gods names
+<i>461</i>&nbsp;     */
+<i>462</i>&nbsp;     private List&lt;String&gt; godNames() {
+<b class="fc"><i>463</i>&nbsp;        List&lt;String&gt; names = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>464</i>&nbsp;        for (Class god : gods) {</b>
+<b class="fc"><i>465</i>&nbsp;            String[] splitted = god.toString().split(&quot;\\s* \\s*&quot;);</b>
+<b class="fc"><i>466</i>&nbsp;            String name = splitted[1].replace(&quot;it.polimi.ingsw.PSP13.model.gods.&quot;, &quot;&quot;);</b>
+<b class="fc"><i>467</i>&nbsp;            names.add(name);</b>
+<b class="fc"><i>468</i>&nbsp;        }</b>
+<b class="fc"><i>469</i>&nbsp;        return names;</b>
+<i>470</i>&nbsp;     }
+<i>471</i>&nbsp;
+<i>472</i>&nbsp;    /**
+<i>473</i>&nbsp;     * Retrives all the gods effects from their classes
+<i>474</i>&nbsp;     * @return the list of their effects
+<i>475</i>&nbsp;     */
+<i>476</i>&nbsp;     private List&lt;String&gt; godEffects() {
+<b class="fc"><i>477</i>&nbsp;         List&lt;String&gt; names = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>478</i>&nbsp;         for (Class god : gods) {</b>
+<b class="fc"><i>479</i>&nbsp;             Turn currentGod = null;</b>
+<i>480</i>&nbsp;             try {
+<b class="fc"><i>481</i>&nbsp;                 currentGod = (Turn) god.getDeclaredConstructor().newInstance();</b>
+<b class="nc"><i>482</i>&nbsp;             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored) {</b>
+<i>483</i>&nbsp;
+<b class="fc"><i>484</i>&nbsp;             }</b>
+<b class="fc"><i>485</i>&nbsp;             String[] splitted = god.toString().split(&quot;\\s* \\s*&quot;);</b>
+<b class="fc"><i>486</i>&nbsp;             String name = splitted[1].replace(&quot;it.polimi.ingsw.PSP13.model.gods.&quot;, &quot;&quot;);</b>
+<b class="fc"><i>487</i>&nbsp;             if (currentGod != null) names.add(name + &quot;;&quot; + currentGod.getEffect());</b>
+<b class="fc"><i>488</i>&nbsp;         }</b>
+<b class="fc"><i>489</i>&nbsp;         return names;</b>
+<i>490</i>&nbsp;     }
+<i>491</i>&nbsp;
+<i>492</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

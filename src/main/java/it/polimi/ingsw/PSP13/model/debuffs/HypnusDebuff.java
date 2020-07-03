@@ -150,6 +150,9 @@ public class HypnusDebuff extends Decorator {
         god.end();
     }
 
+    /**
+     * If the player with Hypnus is eliminated removes the decorator
+     */
     @Override
     public void eliminated() {
         if (eliminated) {

@@ -61,7 +61,6 @@ public abstract class Input {
     /**
      * Asks the player to insert a nickname for this match
      * @param error true if the previous input generated an error
-     * @return the player's nickname
      */
     public abstract void nicknameInput(boolean error);
 

@@ -5,7 +5,7 @@ import it.polimi.ingsw.PSP13.view.Input;
 
 import java.util.List;
 
-public class ClientGodSelBehavior extends ClientBuildBehavior {
+public class ClientGodSelBehavior extends ClientDispatcherBehavior {
 
     @Override
     public void behavior(MessageFromControllerToView messageCV) {

@@ -75,7 +75,7 @@ public class Prometheus extends Turn {
 
     /**
      * @param builder moving builder
-     * @return true if there's a free cell near the builder with a height <= the height of builder's cell
+     * @return true if there's a free cell near the builder with a height less than the height of builder's cell
      */
     public boolean checkUseEffect(Builder builder) {
         for (Coords adjacentCoords : match.getAdjacent(builder.getCoords())) {

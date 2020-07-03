@@ -166,7 +166,6 @@ public class CliInput extends Input {
 
     /**
      * Asks the player to choose a build
-     * @return a Coords class based on user input
      */
     public void chooseBuilder(String player)
     {

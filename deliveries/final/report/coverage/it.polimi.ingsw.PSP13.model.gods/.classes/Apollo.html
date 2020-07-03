@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Apollo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Apollo (it.polimi.ingsw.PSP13.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Apollo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/ 19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.model.Turn;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.model.board.Map;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Builder;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP13.model.player.Coords;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class Apollo extends Turn {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * Sets the effect description
+<i>14</i>&nbsp;     */
+<b class="fc"><i>15</i>&nbsp;    public Apollo() {</b>
+<b class="fc"><i>16</i>&nbsp;        effect = &quot;Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated&quot;;</b>
+<b class="fc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * @param coords evaluated coords
+<i>21</i>&nbsp;     * @return true if coords&#39; cell is occupied by a player instead of a dome or it&#39;s not occupied
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    private boolean apolloCheck(Coords coords)
+<i>24</i>&nbsp;    {
+<b class="fc"><i>25</i>&nbsp;        if(!match.isOccupied(coords))</b>
+<b class="fc"><i>26</i>&nbsp;            return true;</b>
+<i>27</i>&nbsp;        else
+<i>28</i>&nbsp;        {
+<b class="fc"><i>29</i>&nbsp;            return !match.getCell(coords).getDome();</b>
+<i>30</i>&nbsp;        }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Apollo can move even if a cell is already occupied by another player&#39;s builder
+<i>36</i>&nbsp;     * @param builder builder that is currently moving
+<i>37</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>38</i>&nbsp;     * @return true if the movement is legal, false otherwise
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public boolean checkMove(Builder builder, Coords coords)
+<i>42</i>&nbsp;    {
+<b class="fc"><i>43</i>&nbsp;        if (!Map.isLegal(coords) || builder == null) {</b>
+<b class="fc"><i>44</i>&nbsp;            return false;</b>
+<i>45</i>&nbsp;        } else {
+<b class="fc"><i>46</i>&nbsp;            int diff = match.getCell(coords).getLevel().getHeight() - builder.getHeight();</b>
+<i>47</i>&nbsp;            Builder otherBuilder;
+<b class="fc"><i>48</i>&nbsp;            if (match.getPlayerByBuilder(builder).getBuilders()[0] == builder) {</b>
+<b class="fc"><i>49</i>&nbsp;                otherBuilder = match.getPlayerByBuilder(builder).getBuilders()[1];</b>
+<i>50</i>&nbsp;            } else {
+<b class="fc"><i>51</i>&nbsp;                otherBuilder = match.getPlayerByBuilder(builder).getBuilders()[0];</b>
+<i>52</i>&nbsp;            }
+<b class="fc"><i>53</i>&nbsp;            return Turn.match.getAdjacent(builder.getCoords()).contains(coords) &amp;&amp; diff &lt;= 1 &amp;&amp; apolloCheck(coords) &amp;&amp; !otherBuilder.getCoords().equals(coords);</b>
+<i>54</i>&nbsp;        }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * The opponent builder is forced to swap position if needed
+<i>60</i>&nbsp;     * @param builder builder that is currently moving
+<i>61</i>&nbsp;     * @param coords coordinates of the cell where the builder wants to move
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    @Override
+<i>64</i>&nbsp;    public void move(Builder builder, Coords coords) throws IOException {
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        if (match.isOccupied(coords) &amp;&amp; !match.getCell(coords).getDome())</b>
+<i>67</i>&nbsp;            {
+<i>68</i>&nbsp;                Builder opponent;
+<b class="fc"><i>69</i>&nbsp;                opponent = match.getBuilderByCoords(coords);</b>
+<b class="fc"><i>70</i>&nbsp;                Coords old = builder.getCoords();</b>
+<b class="fc"><i>71</i>&nbsp;                match.getPlayerByBuilder(opponent).getGod().force(opponent, old);</b>
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;
+<b class="fc"><i>74</i>&nbsp;            super.move(builder, coords);</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

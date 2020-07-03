@@ -1,0 +1,118 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Helper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Helper (it.polimi.ingsw.PSP13.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Helper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>4</i>&nbsp;import javafx.scene.text.Text;
+<i>5</i>&nbsp;import javafx.scene.text.TextFlow;
+<i>6</i>&nbsp;import javafx.stage.Stage;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<b class="nc"><i>10</i>&nbsp;public class Helper {</b>
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    public TextFlow helperText;
+<i>13</i>&nbsp;    public AnchorPane helperPane;
+<b class="nc"><i>14</i>&nbsp;    private double layoutSingleMessage = 20;</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Initializes the helper popup scene with a message
+<i>18</i>&nbsp;     * @param message the message to be displayed
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;    public void setText(List&lt;String&gt; message){
+<b class="nc"><i>21</i>&nbsp;        for (String text : message) {</b>
+<b class="nc"><i>22</i>&nbsp;            Text row = new Text(text);</b>
+<b class="nc"><i>23</i>&nbsp;            helperText.getChildren().add(row);</b>
+<b class="nc"><i>24</i>&nbsp;        }</b>
+<b class="nc"><i>25</i>&nbsp;        if (message.size() == 1) helperText.setLayoutY(layoutSingleMessage);</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * Close the helper window
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public void close() {
+<b class="nc"><i>32</i>&nbsp;        Stage stage = (Stage) (helperPane.getScene().getWindow());</b>
+<b class="nc"><i>33</i>&nbsp;        stage.close();</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

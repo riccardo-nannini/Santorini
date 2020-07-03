@@ -53,7 +53,7 @@ public class Ares extends Turn {
 
     /**
      * @param builder unmoved builder
-     * @return a list of unoccupied cells with a level > 0 neighbouring builder
+     * @return a list of unoccupied cells with a level greater than 0 neighbouring builder
      */
     public List<Coords> getRemovableCells(Builder builder) {
 

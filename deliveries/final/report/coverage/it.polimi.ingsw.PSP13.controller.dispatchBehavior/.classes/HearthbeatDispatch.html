@@ -1,0 +1,104 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HearthbeatDispatch</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.controller.dispatchBehavior</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HearthbeatDispatch (it.polimi.ingsw.PSP13.controller.dispatchBehavior)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HearthbeatDispatch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.controller.dispatchBehavior;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.controller.PermaLobby;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP13.controller.ViewObserver;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class HearthbeatDispatch extends ServerDispatchBehavior {
+<i>8</i>&nbsp;    public HearthbeatDispatch(PermaLobby lobby, ViewObserver viewObserver) {
+<b class="nc"><i>9</i>&nbsp;        super(lobby, viewObserver);</b>
+<i>10</i>&nbsp;    }
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * Hearthbeat behavior. The server needs to know if the client is alive, if it is this message
+<i>14</i>&nbsp;     * is received and a timer is reset
+<i>15</i>&nbsp;     * @param messageVC the message to perform the dispatch. The specific behavior will be executed
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public void behavior(MessageFromViewToController messageVC) {
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    }
+<i>21</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

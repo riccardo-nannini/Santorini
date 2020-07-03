@@ -25,7 +25,7 @@ public class VirtualView {
     /**
      * Creates an hashMap where the keys are the usernames and the values
      * are the corresponding client's ObjectOutputStream
-     * @param hashMap hash table <username,socket>
+     * @param hashMap hash table (username,socket)
      */
     public VirtualView(HashMap<String,ObjectOutputStream> hashMap) {
         outputMap = hashMap;

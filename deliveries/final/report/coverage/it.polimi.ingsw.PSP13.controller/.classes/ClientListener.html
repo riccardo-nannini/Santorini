@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientListener</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientListener (it.polimi.ingsw.PSP13.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP13.network.client_callback.MessageFromViewToController;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;import java.io.ObjectInputStream;
+<i>7</i>&nbsp;import java.io.StreamCorruptedException;
+<i>8</i>&nbsp;import java.net.Socket;
+<i>9</i>&nbsp;import java.util.stream.Stream;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class ClientListener implements Runnable {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private Socket socket;
+<i>14</i>&nbsp;    private String username;
+<i>15</i>&nbsp;    private ObjectInputStream input;
+<i>16</i>&nbsp;    private static ViewObserver viewObserver;
+<i>17</i>&nbsp;    private PermaLobby lobby;
+<i>18</i>&nbsp;    private MsgDispatcher msgDispatcher;
+<b class="nc"><i>19</i>&nbsp;    private boolean alive = true;</b>
+<i>20</i>&nbsp;    private String ipAddress;
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;    public ClientListener (Socket socket, PermaLobby lobby) throws IOException {</b>
+<b class="nc"><i>23</i>&nbsp;        this.socket = socket;</b>
+<i>24</i>&nbsp;        try {
+<b class="nc"><i>25</i>&nbsp;            this.input = new ObjectInputStream(socket.getInputStream());</b>
+<b class="nc"><i>26</i>&nbsp;        } catch (StreamCorruptedException ignored) {</b>
+<b class="nc"><i>27</i>&nbsp;        }</b>
+<b class="nc"><i>28</i>&nbsp;        this.lobby = lobby;</b>
+<b class="nc"><i>29</i>&nbsp;        this.username = null;</b>
+<b class="nc"><i>30</i>&nbsp;        this.ipAddress = socket.getInetAddress().toString();</b>
+<b class="nc"><i>31</i>&nbsp;        this.msgDispatcher = new MsgDispatcher(lobby,viewObserver, socket);</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public void setMsgDispatcher() {
+<b class="nc"><i>35</i>&nbsp;        this.msgDispatcher = new MsgDispatcher(lobby,viewObserver, socket);</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * This methods runs the loop that listen to the socket input
+<i>41</i>&nbsp;     * and catches all the exceptions
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    @Override
+<i>44</i>&nbsp;    public void run()
+<i>45</i>&nbsp;    {
+<i>46</i>&nbsp;        try {
+<b class="nc"><i>47</i>&nbsp;            handleClientConnection();</b>
+<b class="nc"><i>48</i>&nbsp;        } catch (IOException e) {</b>
+<i>49</i>&nbsp;            try {
+<b class="nc"><i>50</i>&nbsp;                input.close();</b>
+<b class="nc"><i>51</i>&nbsp;            } catch (IOException ioException) {</b>
+<b class="nc"><i>52</i>&nbsp;                System.out.println(&quot;Unable to close the stream&quot;);</b>
+<b class="nc"><i>53</i>&nbsp;            }</b>
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;            if (Thread.currentThread().isInterrupted()) {</b>
+<b class="nc"><i>56</i>&nbsp;                System.out.println(&quot;Closing ClientListener for disconnected client&quot;);</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;                return;
+<i>59</i>&nbsp;            }
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;            if(username != null)</b>
+<b class="nc"><i>62</i>&nbsp;                System.out.println(&quot;Connection dropped from &quot; + username);</b>
+<i>63</i>&nbsp;            else
+<b class="nc"><i>64</i>&nbsp;                System.out.println(&quot;Connection dropped from&quot; + ipAddress);</b>
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;            if(lobby.isStart()) {</b>
+<b class="nc"><i>67</i>&nbsp;                lobby.listenerThreadsShutdown(username);</b>
+<i>68</i>&nbsp;            } else {
+<b class="nc"><i>69</i>&nbsp;                lobby.takeSetupDisconnection(socket);</b>
+<i>70</i>&nbsp;            }
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;        }</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * This method starts a loop that listens to the socket
+<i>77</i>&nbsp;     * @throws IOException when an error related to the socket is thrown
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    private void handleClientConnection() throws IOException {
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;        try {
+<b class="nc"><i>82</i>&nbsp;            while (alive) {</b>
+<b class="nc"><i>83</i>&nbsp;                Object next = input.readObject();</b>
+<b class="nc"><i>84</i>&nbsp;                dispatcher(next);</b>
+<b class="nc"><i>85</i>&nbsp;            }</b>
+<b class="nc"><i>86</i>&nbsp;        } catch (ClassNotFoundException | ClassCastException e) {</b>
+<b class="nc"><i>87</i>&nbsp;            System.out.println(&quot;Invalid stream from client &quot; + username);</b>
+<b class="nc"><i>88</i>&nbsp;        }</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Decodes the messages received
+<i>93</i>&nbsp;     * @param message the message to decode
+<i>94</i>&nbsp;     */
+<i>95</i>&nbsp;    private void dispatcher(Object message) {
+<b class="nc"><i>96</i>&nbsp;        if (! (message instanceof MessageFromViewToController)) return;</b>
+<b class="nc"><i>97</i>&nbsp;        MessageFromViewToController messageVC = (MessageFromViewToController) message;</b>
+<b class="nc"><i>98</i>&nbsp;        msgDispatcher.dispatch(messageVC);</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    public static void setViewObserver(ViewObserver viewObserver) {
+<b class="nc"><i>103</i>&nbsp;        ClientListener.viewObserver = viewObserver;</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    public void setUsername(String username) {
+<b class="nc"><i>107</i>&nbsp;        this.username = username;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    public void setAlive(boolean alive) {
+<b class="nc"><i>111</i>&nbsp;        this.alive = alive;</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

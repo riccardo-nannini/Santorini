@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: EndGame</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: EndGame (it.polimi.ingsw.PSP13.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EndGame</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.event.ActionEvent;
+<i>4</i>&nbsp;import javafx.fxml.FXML;
+<i>5</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>6</i>&nbsp;import javafx.geometry.Pos;
+<i>7</i>&nbsp;import javafx.scene.Scene;
+<i>8</i>&nbsp;import javafx.scene.control.Button;
+<i>9</i>&nbsp;import javafx.scene.control.Label;
+<i>10</i>&nbsp;import javafx.scene.image.Image;
+<i>11</i>&nbsp;import javafx.scene.image.ImageView;
+<i>12</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>13</i>&nbsp;import javafx.scene.text.TextAlignment;
+<i>14</i>&nbsp;import javafx.stage.Stage;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.io.IOException;
+<i>17</i>&nbsp;
+<b class="nc"><i>18</i>&nbsp;public class EndGame {</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @FXML
+<i>21</i>&nbsp;    private ImageView trumpet1, trumpet2;
+<i>22</i>&nbsp;    @FXML
+<i>23</i>&nbsp;    private Button yesButton;
+<i>24</i>&nbsp;    @FXML
+<i>25</i>&nbsp;    private Label label, label1;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    private ImageView gif;
+<i>28</i>&nbsp;
+<b class="nc"><i>29</i>&nbsp;    private boolean choice = false;</b>
+<i>30</i>&nbsp;    private GuiInput guiInput;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Initializes all the messages and images with the lost status
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    public void initialize() {
+<b class="nc"><i>36</i>&nbsp;        label1.setText(&quot;DEFEAT\nYOU LOST..&quot;);</b>
+<b class="nc"><i>37</i>&nbsp;        label1.setTextAlignment(TextAlignment.CENTER);</b>
+<b class="nc"><i>38</i>&nbsp;        label1.setMaxWidth(Double.MAX_VALUE);</b>
+<b class="nc"><i>39</i>&nbsp;        label1.setAlignment(Pos.CENTER);</b>
+<b class="nc"><i>40</i>&nbsp;        label.setTextAlignment(TextAlignment.CENTER);</b>
+<b class="nc"><i>41</i>&nbsp;        label.setMaxWidth(Double.MAX_VALUE);</b>
+<b class="nc"><i>42</i>&nbsp;        label.setAlignment(Pos.CENTER);</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Initializes the message and images with the win status
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public void win() {
+<b class="nc"><i>49</i>&nbsp;        label1.setText(&quot;CONGRATULATIONS\n   YOU WON!&quot;);</b>
+<b class="nc"><i>50</i>&nbsp;        Image trumpets = new Image(&quot;EndGame/endgame_victorytrumpets.png&quot;);</b>
+<b class="nc"><i>51</i>&nbsp;        trumpet1.setImage(trumpets);</b>
+<b class="nc"><i>52</i>&nbsp;        trumpet1.setScaleX(-1);</b>
+<b class="nc"><i>53</i>&nbsp;        trumpet2.setImage(trumpets);</b>
+<b class="nc"><i>54</i>&nbsp;        Image confetti = new Image(&quot;EndGame/confetti.gif&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;        gif.setImage(confetti);</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * The user selects if he wants to have a rematch
+<i>60</i>&nbsp;     * @param e the event related to the user clicking to &quot;yes&quot; or &quot;no&quot; button
+<i>61</i>&nbsp;     * @throws IOException if the communication with server fails
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    @FXML
+<i>64</i>&nbsp;    public void playAgain(ActionEvent e) throws IOException {
+<b class="nc"><i>65</i>&nbsp;        if(e.getSource() == yesButton) {</b>
+<b class="nc"><i>66</i>&nbsp;            choice = true;</b>
+<b class="nc"><i>67</i>&nbsp;            guiInput.getController().notifyPlayAgain(&quot;yes&quot;);</b>
+<i>68</i>&nbsp;        }
+<i>69</i>&nbsp;        else
+<i>70</i>&nbsp;        {
+<b class="nc"><i>71</i>&nbsp;            guiInput.getController().notifyPlayAgain(&quot;no&quot;);</b>
+<b class="nc"><i>72</i>&nbsp;            System.exit(0);</b>
+<i>73</i>&nbsp;        }
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        backToLobbySceneChange();</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Once the user choose what to do he will be put back to the lobby scene
+<i>80</i>&nbsp;     * @throws IOException
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public void backToLobbySceneChange() throws IOException {
+<b class="nc"><i>83</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>84</i>&nbsp;        loader.setLocation(EndGame.class.getResource(&quot;/lobby.fxml&quot;));</b>
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;        AnchorPane pane = loader.&lt;AnchorPane&gt;load();</b>
+<b class="nc"><i>87</i>&nbsp;        Scene lobby = new Scene(pane);</b>
+<b class="nc"><i>88</i>&nbsp;        lobby.getStylesheets().add(&quot;lobby.css&quot;);</b>
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;        Stage stage = (Stage) (trumpet1.getScene().getWindow());</b>
+<b class="nc"><i>91</i>&nbsp;        stage.setScene(lobby);</b>
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        Lobby lobby1 = loader.&lt;Lobby&gt;getController();</b>
+<i>94</i>&nbsp;
+<b class="nc"><i>95</i>&nbsp;        guiInput.setGodDispatcher(null);</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        lobby1.setGuiInput(guiInput);</b>
+<b class="nc"><i>98</i>&nbsp;        guiInput.setLoginController(lobby1);</b>
+<b class="nc"><i>99</i>&nbsp;        guiInput.setMap(null);</b>
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;        if(choice) {</b>
+<b class="nc"><i>102</i>&nbsp;            lobby1.rematch();</b>
+<i>103</i>&nbsp;        }
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public GuiInput getGuiInput() {
+<b class="nc"><i>109</i>&nbsp;        return guiInput;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public void setGuiInput(GuiInput guiInput) {
+<b class="nc"><i>113</i>&nbsp;        this.guiInput = guiInput;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

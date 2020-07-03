@@ -169,6 +169,9 @@ public class HeraDebuff extends Decorator {
         god.end();
     }
 
+    /**
+     * If the player with Hera is eliminated removes the decorator
+     */
     @Override
     public void eliminated() {
         if (eliminated) {

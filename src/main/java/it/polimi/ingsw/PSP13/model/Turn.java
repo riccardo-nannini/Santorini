@@ -163,6 +163,11 @@ public class Turn {
     }
 
     /**
+     * This method handles the elimination of the player
+     */
+    public void eliminated() {}
+
+    /**
      * @param builder current builder
      * @return a list of adjacent cells where the builder can build on
      */
@@ -180,8 +185,6 @@ public class Turn {
         }
         return possibleBuildingSite;
     }
-
-    public void eliminated() {}
 
     public static void setMatch(Match match) {
         Turn.match = match;

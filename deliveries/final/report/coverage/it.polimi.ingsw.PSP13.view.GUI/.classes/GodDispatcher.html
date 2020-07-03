@@ -1,0 +1,369 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodDispatcher</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP13.view.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodDispatcher (it.polimi.ingsw.PSP13.view.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodDispatcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 117)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP13.view.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.event.Event;
+<i>4</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>5</i>&nbsp;import javafx.geometry.Rectangle2D;
+<i>6</i>&nbsp;import javafx.scene.Node;
+<i>7</i>&nbsp;import javafx.scene.Scene;
+<i>8</i>&nbsp;import javafx.scene.effect.BlendMode;
+<i>9</i>&nbsp;import javafx.scene.image.Image;
+<i>10</i>&nbsp;import javafx.scene.image.ImageView;
+<i>11</i>&nbsp;import javafx.scene.input.MouseButton;
+<i>12</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>13</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>14</i>&nbsp;import javafx.scene.text.Font;
+<i>15</i>&nbsp;import javafx.scene.text.Text;
+<i>16</i>&nbsp;import javafx.scene.text.TextFlow;
+<i>17</i>&nbsp;import javafx.stage.Modality;
+<i>18</i>&nbsp;import javafx.stage.Screen;
+<i>19</i>&nbsp;import javafx.stage.Stage;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import java.io.IOException;
+<i>22</i>&nbsp;import java.util.HashMap;
+<i>23</i>&nbsp;import java.util.List;
+<i>24</i>&nbsp;import java.util.Map;
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;public class GodDispatcher {</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private GodHandlerInterface godHandler;
+<b class="nc"><i>29</i>&nbsp;    private Map&lt;String,String&gt; godEffects = null;</b>
+<i>30</i>&nbsp;    private GuiInput guiInput;
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;    private Stage stage = null;</b>
+<i>33</i>&nbsp;    public AnchorPane anchorPane1;
+<i>34</i>&nbsp;    public ImageView card;
+<i>35</i>&nbsp;    public ImageView godFrame;
+<i>36</i>&nbsp;    public ImageView godBanner;
+<i>37</i>&nbsp;    public ImageView confirm;
+<i>38</i>&nbsp;    public TextFlow godName;
+<i>39</i>&nbsp;    public TextFlow infoBox;
+<i>40</i>&nbsp;    public TextFlow descriptionBox;
+<i>41</i>&nbsp;    public ImageView godIcon1, godIcon2, godIcon3, godIcon4, godIcon5, godIcon6, godIcon7, godIcon8, godIcon9,
+<i>42</i>&nbsp;            godIcon10, godIcon11, godIcon12, godIcon13, godIcon14, godIcon15, godIcon16;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * The invocation is reflected to the current GodHandler object following a state pattern logic
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    public void upload() {
+<b class="nc"><i>48</i>&nbsp;        godHandler.upload();</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * If the event is a mouse right click, a window showing the god&#39;s card and the description of this effect
+<i>53</i>&nbsp;     * is showed. If the event is a mouse left click the invocation is reflected to the current GodHandler object
+<i>54</i>&nbsp;     * that handles the event following a state pattern logic
+<i>55</i>&nbsp;     * @param event the event that caused the method invocation
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public void godClicked(Event event) {
+<b class="nc"><i>58</i>&nbsp;        if (((MouseEvent) event).getButton() == MouseButton.SECONDARY) {</b>
+<b class="nc"><i>59</i>&nbsp;            godBanner.setImage(new Image(&quot;nameBanner.png&quot;));</b>
+<b class="nc"><i>60</i>&nbsp;            godFrame.setImage(new Image(&quot;godCardFrame.png&quot;));</b>
+<b class="nc"><i>61</i>&nbsp;            String id = ((MouseEvent) event).getPickResult().getIntersectedNode().getId();</b>
+<b class="nc"><i>62</i>&nbsp;            Image cardImage = new Image(&quot;Cards/&quot; + id + &quot;.png&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;            card.setImage(cardImage);</b>
+<b class="nc"><i>64</i>&nbsp;            godName.getChildren().clear();</b>
+<b class="nc"><i>65</i>&nbsp;            Text name = new Text(id);</b>
+<b class="nc"><i>66</i>&nbsp;            name.setStyle(&quot;-fx-fill: WHITE;&quot;);</b>
+<b class="nc"><i>67</i>&nbsp;            godName.getChildren().add(name);</b>
+<b class="nc"><i>68</i>&nbsp;            if (godEffects != null) {</b>
+<b class="nc"><i>69</i>&nbsp;                Text text = new Text(godEffects.get(id));</b>
+<b class="nc"><i>70</i>&nbsp;                descriptionBox.getChildren().clear();</b>
+<b class="nc"><i>71</i>&nbsp;                descriptionBox.getChildren().add(text);</b>
+<i>72</i>&nbsp;            }
+<b class="nc"><i>73</i>&nbsp;        } else godHandler.godClicked(event);</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    /**
+<i>77</i>&nbsp;     * Changes the current scene with the Login one
+<i>78</i>&nbsp;     * @throws IOException
+<i>79</i>&nbsp;     */
+<i>80</i>&nbsp;    public void setSceneLogin() throws IOException {
+<b class="nc"><i>81</i>&nbsp;        AnchorPane root = anchorPane1;</b>
+<b class="nc"><i>82</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>83</i>&nbsp;        loader.setLocation(GodDispatcher.class.getResource(&quot;/lobby.fxml&quot;));</b>
+<b class="nc"><i>84</i>&nbsp;        AnchorPane pane = loader.&lt;AnchorPane&gt;load();</b>
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;        Scene scene = new Scene(pane);</b>
+<b class="nc"><i>87</i>&nbsp;        scene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;        if (stage == null) stage = (Stage) (root.getScene().getWindow());</b>
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;        stage.setTitle(&quot;Santorini&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;        stage.getIcons().add(new Image(&quot;island.png&quot;));</b>
+<b class="nc"><i>93</i>&nbsp;        stage.setResizable(false);</b>
+<b class="nc"><i>94</i>&nbsp;        stage.setScene(scene);</b>
+<b class="nc"><i>95</i>&nbsp;        stage.show();</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();</b>
+<b class="nc"><i>98</i>&nbsp;        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);</b>
+<b class="nc"><i>99</i>&nbsp;        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * The invocation is reflected to the current GodHandler object following a state pattern logic
+<i>104</i>&nbsp;     * @param event the event that caused the method invocation
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;    public void confirmClicked(Event event) throws IOException {
+<b class="nc"><i>107</i>&nbsp;        godHandler.confirmClicked(event);</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    /**
+<i>111</i>&nbsp;     * The invocation is reflected to the current GodHandler object following a state pattern logic
+<i>112</i>&nbsp;     * @param event the event that caused the method invocation
+<i>113</i>&nbsp;     * @throws IOException
+<i>114</i>&nbsp;     */
+<i>115</i>&nbsp;    public void helperClicked(Event event) throws IOException {
+<b class="nc"><i>116</i>&nbsp;        godHandler.helperClicked(event);</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    /**
+<i>120</i>&nbsp;     * The icon being pressed is colored with a black shadow in order to add a more responsive look
+<i>121</i>&nbsp;     * @param event the event that caused the method invocation
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    public void buttonPressed(MouseEvent event) {
+<b class="nc"><i>124</i>&nbsp;        if (event.getButton() == MouseButton.PRIMARY) {</b>
+<b class="nc"><i>125</i>&nbsp;            Node selectedImage = event.getPickResult().getIntersectedNode();</b>
+<b class="nc"><i>126</i>&nbsp;            selectedImage.setBlendMode(BlendMode.MULTIPLY);</b>
+<i>127</i>&nbsp;        }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**
+<i>132</i>&nbsp;     * Changes the current scene and updates the GodHandler attribute with a GodInput
+<i>133</i>&nbsp;     * object following a state pattern logic
+<i>134</i>&nbsp;     * @param chosenGods the gods chosen for this match
+<i>135</i>&nbsp;     * @param isChoosing true is the player is chosing is god, false if he is spectating
+<i>136</i>&nbsp;     * @throws IOException
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;    public void setSceneGodInput(List&lt;String&gt; chosenGods, boolean isChoosing) throws IOException {
+<b class="nc"><i>139</i>&nbsp;        AnchorPane root = anchorPane1;</b>
+<b class="nc"><i>140</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>141</i>&nbsp;        loader.setLocation(GodDispatcher.class.getResource(&quot;/godSelection.fxml&quot;));</b>
+<b class="nc"><i>142</i>&nbsp;        AnchorPane pane = loader.&lt;AnchorPane&gt;load();</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;        GodDispatcher godDispatcher = loader.&lt;GodDispatcher&gt;getController();</b>
+<b class="nc"><i>145</i>&nbsp;        GodInput godInput = new GodInput(godDispatcher);</b>
+<b class="nc"><i>146</i>&nbsp;        godDispatcher.setGodHandler(godInput);</b>
+<b class="nc"><i>147</i>&nbsp;        godInput.setGodsList(chosenGods);</b>
+<b class="nc"><i>148</i>&nbsp;        godInput.setIsChoosing(isChoosing);</b>
+<b class="nc"><i>149</i>&nbsp;        godDispatcher.upload();</b>
+<b class="nc"><i>150</i>&nbsp;        godDispatcher.setGuiInput(guiInput);</b>
+<b class="nc"><i>151</i>&nbsp;        guiInput.setGodDispatcher(godDispatcher);</b>
+<i>152</i>&nbsp;
+<b class="nc"><i>153</i>&nbsp;        Scene selectionScene = new Scene(pane);</b>
+<b class="nc"><i>154</i>&nbsp;        selectionScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<i>155</i>&nbsp;
+<b class="nc"><i>156</i>&nbsp;        if (stage == null) stage = (Stage) (root.getScene().getWindow());</b>
+<b class="nc"><i>157</i>&nbsp;        stage.setScene(selectionScene);</b>
+<b class="nc"><i>158</i>&nbsp;        stage.show();</b>
+<i>159</i>&nbsp;    }
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * Opens a popup where the player is asked to choose the starting player for the match
+<i>163</i>&nbsp;     * @param players list of players for this match
+<i>164</i>&nbsp;     * @throws IOException
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    public void setSceneStarterSelection(List&lt;String&gt; players) throws IOException {
+<b class="nc"><i>167</i>&nbsp;        Stage popup = new Stage();</b>
+<i>168</i>&nbsp;
+<b class="nc"><i>169</i>&nbsp;        Font.loadFont(GodDispatcher.class.getResource(&quot;/fonts/RobotoCondensed-Regular.ttf&quot;).toExternalForm(), 18);</b>
+<b class="nc"><i>170</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>171</i>&nbsp;        loader.setLocation(GodDispatcher.class.getResource(&quot;/starterPopup.fxml&quot;));</b>
+<b class="nc"><i>172</i>&nbsp;        AnchorPane popupPane = loader.&lt;AnchorPane&gt;load();</b>
+<i>173</i>&nbsp;
+<b class="nc"><i>174</i>&nbsp;        Starter starter = loader.&lt;Starter&gt;getController();</b>
+<b class="nc"><i>175</i>&nbsp;        starter.upload(players);</b>
+<b class="nc"><i>176</i>&nbsp;        starter.setGuiInput(guiInput);</b>
+<i>177</i>&nbsp;
+<b class="nc"><i>178</i>&nbsp;        Scene starterScene = new Scene(popupPane);</b>
+<b class="nc"><i>179</i>&nbsp;        starterScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<b class="nc"><i>180</i>&nbsp;        popup.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>181</i>&nbsp;        popup.setTitle(&quot;Starting player&quot;);</b>
+<b class="nc"><i>182</i>&nbsp;        popup.setScene(starterScene);</b>
+<b class="nc"><i>183</i>&nbsp;        popup.show();</b>
+<i>184</i>&nbsp;    }
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    /**
+<i>187</i>&nbsp;     * Opens a popup that shows some tips on how to use the GUI
+<i>188</i>&nbsp;     * @param event the event that caused the method invocation
+<i>189</i>&nbsp;     * @param message the messages that are going to be written in the popup
+<i>190</i>&nbsp;     * @throws IOException
+<i>191</i>&nbsp;     */
+<i>192</i>&nbsp;    public void setSceneHelperPopup (Event event, List&lt;String&gt; message) throws IOException {
+<b class="nc"><i>193</i>&nbsp;        Node selectedImage = ((MouseEvent) event).getPickResult().getIntersectedNode();</b>
+<b class="nc"><i>194</i>&nbsp;        selectedImage.setBlendMode(BlendMode.SRC_OVER);</b>
+<b class="nc"><i>195</i>&nbsp;        Stage helper = new Stage();</b>
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        Font.loadFont(GodDispatcher.class.getResource(&quot;/fonts/RobotoCondensed-Regular.ttf&quot;).toExternalForm(), 18);</b>
+<b class="nc"><i>198</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>199</i>&nbsp;        loader.setLocation(GodDispatcher.class.getResource(&quot;/helper.fxml&quot;));</b>
+<b class="nc"><i>200</i>&nbsp;        AnchorPane helperPane = loader.&lt;AnchorPane&gt;load();</b>
+<i>201</i>&nbsp;
+<b class="nc"><i>202</i>&nbsp;        Helper helperGUI = loader.&lt;Helper&gt;getController();</b>
+<b class="nc"><i>203</i>&nbsp;        helperGUI.setText(message);</b>
+<i>204</i>&nbsp;
+<b class="nc"><i>205</i>&nbsp;        Scene starterScene = new Scene(helperPane);</b>
+<b class="nc"><i>206</i>&nbsp;        starterScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<b class="nc"><i>207</i>&nbsp;        helper.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>208</i>&nbsp;        helper.setTitle(&quot;Helper&quot;);</b>
+<b class="nc"><i>209</i>&nbsp;        helper.setScene(starterScene);</b>
+<i>210</i>&nbsp;
+<b class="nc"><i>211</i>&nbsp;        helper.show();</b>
+<i>212</i>&nbsp;    }
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;    /**
+<i>215</i>&nbsp;     * Opens a popup showing an error message
+<i>216</i>&nbsp;     * @param message string being printed in the popup
+<i>217</i>&nbsp;     * @throws IOException
+<i>218</i>&nbsp;     */
+<i>219</i>&nbsp;    public void setSceneErrorPopup(String message) throws IOException {
+<b class="nc"><i>220</i>&nbsp;        Stage error = new Stage();</b>
+<i>221</i>&nbsp;
+<b class="nc"><i>222</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>223</i>&nbsp;        loader.setLocation(GodDispatcher.class.getResource(&quot;/error.fxml&quot;));</b>
+<b class="nc"><i>224</i>&nbsp;        AnchorPane errorPane = loader.&lt;AnchorPane&gt;load();</b>
+<i>225</i>&nbsp;
+<b class="nc"><i>226</i>&nbsp;        Error errorGUI = loader.&lt;Error&gt;getController();</b>
+<b class="nc"><i>227</i>&nbsp;        errorGUI.setText(message);</b>
+<i>228</i>&nbsp;
+<b class="nc"><i>229</i>&nbsp;        Scene starterScene = new Scene(errorPane);</b>
+<b class="nc"><i>230</i>&nbsp;        starterScene.getStylesheets().add(&quot;god_selection.css&quot;);</b>
+<b class="nc"><i>231</i>&nbsp;        error.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>232</i>&nbsp;        error.setTitle(&quot;Error&quot;);</b>
+<b class="nc"><i>233</i>&nbsp;        error.setScene(starterScene);</b>
+<i>234</i>&nbsp;
+<b class="nc"><i>235</i>&nbsp;        error.show();</b>
+<i>236</i>&nbsp;    }
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;    /**
+<i>239</i>&nbsp;     * Changes the scene to the game board
+<i>240</i>&nbsp;     * @throws IOException
+<i>241</i>&nbsp;     */
+<i>242</i>&nbsp;    public void setSceneGameBoard() throws IOException {
+<b class="nc"><i>243</i>&nbsp;        FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>244</i>&nbsp;        loader.setLocation(GodDispatcher.class.getResource(&quot;/mappa.fxml&quot;));</b>
+<i>245</i>&nbsp;
+<b class="nc"><i>246</i>&nbsp;        AnchorPane pane = loader.&lt;AnchorPane&gt;load();</b>
+<b class="nc"><i>247</i>&nbsp;        Scene lobby = new Scene(pane);</b>
+<b class="nc"><i>248</i>&nbsp;        lobby.getStylesheets().add(&quot;mappa.css&quot;);</b>
+<i>249</i>&nbsp;
+<b class="nc"><i>250</i>&nbsp;        if (stage == null) stage = (Stage) (anchorPane1.getScene().getWindow());</b>
+<b class="nc"><i>251</i>&nbsp;        stage.setScene(lobby);</b>
+<i>252</i>&nbsp;
+<b class="nc"><i>253</i>&nbsp;        GameMap map = loader.&lt;GameMap&gt;getController();</b>
+<b class="nc"><i>254</i>&nbsp;        map.setGuiInput(guiInput);</b>
+<b class="nc"><i>255</i>&nbsp;        guiInput.setMap(map);</b>
+<i>256</i>&nbsp;    }
+<i>257</i>&nbsp;
+<i>258</i>&nbsp;
+<i>259</i>&nbsp;    public void setGuiInput(GuiInput guiInput) {
+<b class="nc"><i>260</i>&nbsp;        this.guiInput = guiInput;</b>
+<i>261</i>&nbsp;    }
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;    public void setGodHandler(GodHandlerInterface godHandler) {
+<b class="nc"><i>264</i>&nbsp;        this.godHandler = godHandler;</b>
+<i>265</i>&nbsp;    }
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;    public GuiInput getGuiInput() {
+<b class="nc"><i>268</i>&nbsp;        return guiInput;</b>
+<i>269</i>&nbsp;    }
+<i>270</i>&nbsp;
+<i>271</i>&nbsp;    /**
+<i>272</i>&nbsp;     * Converts a List of Strings in the format &quot;GodName;godeffect&quot; in Map where GodName is the key and the
+<i>273</i>&nbsp;     * effect is the object
+<i>274</i>&nbsp;     * @param godEffects the list to be converted
+<i>275</i>&nbsp;     */
+<i>276</i>&nbsp;    public void setGodEffects(List&lt;String&gt; godEffects) {
+<b class="nc"><i>277</i>&nbsp;        if (this.godEffects != null) return;</b>
+<b class="nc"><i>278</i>&nbsp;        Map&lt;String, String&gt; effects = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>279</i>&nbsp;        for (String effect : godEffects) {</b>
+<b class="nc"><i>280</i>&nbsp;            String[] splitted = effect.split(&quot;\\s*;\\s*&quot;);</b>
+<b class="nc"><i>281</i>&nbsp;            effects.put(splitted[0], splitted[1]);</b>
+<b class="nc"><i>282</i>&nbsp;        }</b>
+<b class="nc"><i>283</i>&nbsp;        this.godEffects = effects;</b>
+<i>284</i>&nbsp;    }
+<i>285</i>&nbsp;
+<i>286</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:29</div>
+</div>
+</body>
+</html>

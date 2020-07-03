@@ -1,0 +1,17 @@
+module:it.polimi.ingsw.PSP13
+it.polimi.ingsw.PSP13.controller
+it.polimi.ingsw.PSP13.controller.dispatchBehavior
+it.polimi.ingsw.PSP13.immutables
+it.polimi.ingsw.PSP13.model
+it.polimi.ingsw.PSP13.model.board
+it.polimi.ingsw.PSP13.model.debuffs
+it.polimi.ingsw.PSP13.model.gods
+it.polimi.ingsw.PSP13.model.player
+it.polimi.ingsw.PSP13.network
+it.polimi.ingsw.PSP13.network.client_callback
+it.polimi.ingsw.PSP13.network.client_dispatching
+it.polimi.ingsw.PSP13.network.client_dispatching.behavior
+it.polimi.ingsw.PSP13.view
+it.polimi.ingsw.PSP13.view.CLI
+it.polimi.ingsw.PSP13.view.GUI
+it.polimi.ingsw.PSP13.view.GUI.status

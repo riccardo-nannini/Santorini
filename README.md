@@ -2,7 +2,7 @@
 
 
 
-Antonio Ercolani<br/>
+[Antonio Ercolani](https://github.com/antonio-ercolani/Reti_Logiche_Tesi)<br/>
 Simone Gheller<br/>
 Riccardo Nannini<br/><br/>
 [Project description](https://github.com/riccardo-nannini/ing-sw-2020-ercolani-gheller-nannini/blob/master/Requirements.pdf)<br/>

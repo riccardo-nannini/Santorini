@@ -16,3 +16,5 @@ Advanced functionality: Advanced gods (Zeus, Ares, Hypnus, Poseidon, Hera)
 -Client(CLI): java -jar ./client.jar --cli<br/>
 
 NB: The CLI might not visualize properly in some terminals due to unicode.
+
+Grade: 28/30

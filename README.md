@@ -5,7 +5,7 @@
 Antonio Ercolani<br/>
 Simone Gheller<br/>
 Riccardo Nannini<br/><br/>
-[Project description](https://github.com/antonio-ercolani/Software_Engineering_Project/blob/master/Prerequisites.pdf)<br/>
+[Project description](https://github.com/riccardo-nannini/ing-sw-2020-ercolani-gheller-nannini/blob/master/Requirements.pdf)<br/>
 
 ## Regole Complete + CLI + GUI + Socket + 1 FA
 Advanced functionality: Advanced gods (Zeus, Ares, Hypnus, Poseidon, Hera)
